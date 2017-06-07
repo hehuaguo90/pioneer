@@ -1,0 +1,112 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+		<script src="${ contextPath }/res/lib/echarts3/echarts.min.js"
+			type="text/javascript">
+			
+		</script>
+		<script src="${ contextPath }/res/lib/plugin/jsMap/jsMap.js"
+			type="text/javascript">
+			
+		</script>
+		<script src="tendAnalyze.js" type="text/javascript">
+			
+		</script>
+		<script type="text/javascript">
+			function save() {
+				var params = "";
+				if (getDa.array) {
+					params = JSON.stringify(getDa.array);
+				}
+
+				if (params && params != "[]") {
+					sessionStorage.setItem("saveDissertationParams", params);
+					page.newDataGrid({
+						title : "保存分析配置",
+						width : 600,
+						height : 500,
+						url : contextPath + url
+								+ "/tendAnalyze/saveDissertation.jsp"
+					});
+				} else {
+					alert("请添加指标！");
+					return;
+				}
+
+			}
+			$(document).ready(function() {
+				$("input[name='toLog']").click(function() {
+					getDa.array[getDa.array.length - 1].toLog = $(this).val();
+					showChart(getDa.array);
+				});
+				stretchFlex("${ contextPath }");
+				showChart(null);
+			});
+
+			
+		</script>
+		<style type="text/css">
+.buttonA {
+	height: 21px;
+	line-height: 21px;
+	padding: 0 4px;
+	background: #02bafa;
+	border: 1px #26bbdb solid;
+	border-radius: 3px;
+	color: #fff;
+	display: inline-block;
+	text-decoration: none;
+	font-size: 12px;
+	outline: none;
+	margin: 0px 9px 0px 0px;
+}
+</style>
+	</jsp:attribute>
+	<jsp:body>
+		<div id="divIndex" class="easyui-layout" fit="true">
+		<div  data-options="region:'north',border:false" style="height:100px" >
+			<div id="searchbar">
+				指标名称:
+		        <input id="indexName" name="indexName"  type="text"
+		               style="width: 146px;"   class= "easyui-combobox"  data-options="" >
+		       
+		               样式:
+		        <input id="indexName" name="indexName"  type="text"
+		               style="width: 146px;"   class= "easyui-combobox"  data-options="" >
+		               开始日期：<input id="startDate" type="text" class="easyui-datebox"
+										editable=false />
+		               结束日期：<input id="endDate" type="text" class="easyui-datebox"
+										editable=false />
+			<input name="toLog" type="hidden" value="0" checked />
+		 <a href="javascript:void add();" class="easyui-linkbutton"
+								iconCls="icon-add" plain="true">
+							</a>
+				<span><a href='javascript:void(0)' onclick='showOrHide(this,0)' class='buttonA'>隐藏</a></span><span><a class='buttonA' href='javascript:void(0)' onclick='editChart(this)'>编辑</a></span><span><a class='buttonA' href='javascript:void(0)' onclick='remove(this)'>移除</a></span>
+			<span><a class='buttonA' href='javascript:void(0)' onclick='moveIndex(this,-1)'>左移</a></span>
+			<span><a class='buttonA' href='javascript:void(0)' onclick='moveIndex(this,1)'>右移</a></span>								
+		<a href="javascript:void save();" class="easyui-linkbutton"
+								iconCls="icon-save" plain="true">
+								保存分析配置
+							</a>
+			</div>
+
+    </div>
+					<div id="centerbox" region="center"   border="true"
+						style="border-top:solid 1px;border-color:grey;position:relative;">
+					<span id="left_form_turn"></span>
+						<!-- 图表start -->
+						<div style="height: 100%;">
+							<div _echarts_instance_="1471246893132" id="xxly"
+								style="height: 100%;  background-color: transparent;">
+							</div>
+						</div>
+					</div>
+		</div>
+	</jsp:body>
+</t:page>

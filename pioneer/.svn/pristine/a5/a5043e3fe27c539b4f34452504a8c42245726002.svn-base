@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 默认扫描的包路径 -->
+    <context:component-scan base-package="com.wellsys"/>
+
+
+    <import resource="mybatis_spring.xml"/>
+
+    <import resource= "mysql_source.xml"/>
+<bean id="SpringContextUtil" class="com.wellsys.common.utils.SpringContextUtil" scope="singleton"></bean>
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!-- 国际化信息所在的文件名 -->
+        <property name="basename" value="messages"/>
+        <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称 -->
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+    <bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor" lazy-init="true"/>
+	   <bean id="viewResolverCommon" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>  
+        <property name="suffix" value=".jsp"/><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.InternalResourceView</value>
+        </property>
+        <property name="order" value="1"/>
+    </bean>
+	
+	<!-- 
+	<bean id="lobHandler" lazy-init="true" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+	 	<property name="nativeJdbcExtractor">
+			<ref bean="nativeJdbcExtractor"/>
+		</property>
+	 </bean>
+ -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 文件上传 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- set the max upload size10MB -->
+        <property name="maxUploadSize">
+            <value>10485760</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+
+    <bean
+            class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="com.wellsys.common.utils.time.MyDataBinding"/>
+        </property>
+        <property name="messageConverters">
+            <list>
+                <bean
+                        class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean
+                        class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="writeAcceptCharset" value="false"/>
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                            <value>*/*;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean
+                        class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean
+                        class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter"/>
+                <bean
+                        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+            </list>
+        </property>
+    </bean>
+
+<!--    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors" ref="localeChangeInterceptor"/>
+        <property name="useDefaultSuffixPattern" value="false" />
+    </bean>-->
+
+    <!-- 添加注解驱动 -->
+    <mvc:annotation-driven/>
+
+    <mvc:resources location="/res/" mapping="/res/**"/>
+    <mvc:resources location="/pages/" mapping="/pages/**"/>
+    <mvc:resources location="/res1/" mapping="/res1/**"/>
+    <!--*************************************************************-->
+    
+    <!-- 初始化变量 -->
+	<bean name="staticVal" class="com.wellsys.common.utils.StaticVal"
+		init-method="init">
+	</bean>
+</beans>

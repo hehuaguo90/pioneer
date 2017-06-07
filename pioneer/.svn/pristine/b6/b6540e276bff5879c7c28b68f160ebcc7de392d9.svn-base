@@ -1,0 +1,43 @@
+[
+    {
+        "id": "0",
+        "text": "功能",
+        "href": null,
+        "parentId": null,
+        "sort": null,
+        "children": [
+            {
+                "id": "1",
+                "text": "用户管理",
+                "href": "pages/module/tSysUser/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "2",
+                "text": "角色管理",
+                "href": "pages/module/tSysRole/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "3",
+                "text": "机构管理",
+                "href": "pages/module/tSysOrg/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "4",
+                "text": "权限管理",
+                "href": "pages/module/tSysRight/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            }
+        ]
+    }
+]

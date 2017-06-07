@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<link href="style/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+
+<script type="text/javascript" src="plugins/bootstrap-daterangepicker/moment.js"></script>
+<script type="text/javascript" src="plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
+
+
+
+              
+</head>
+
+<body class="iframe_bg">
+<div class="iframe_body"><!--此DIV为必要的body以下最外层页面容器-->
+
+
+    <div id="paper_box_bg" class="paper_box_bg">
+    	<div class="paper_box">
+        <!--此DIV为内容区的最外层容器，所有内容均应放置于本DIV以内-->
+        <div class="dropdown_list "><!--如不要复选，样式后追加notcheckbox-->
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th valign="top">产业类别1</th>
+    <td valign="top">
+    	<span>经作</span><span>粮油</span><span>经作</span><span>粮油</span><span class="active">经作</span><span>经作</span><span>粮油</span><span>经作</span><span>粮油</span>
+    </td>
+  </tr>
+  <tr>
+    <th valign="top">产业类别2</th>
+    <td valign="top"><span>经作</span><span>粮油</span><span>经作</span><span>粮油油油</span><span class="active">经作</span><span>粮油</span><span>经作</span><span>粮油</span><span>经作</span><span>粮油</span></td>
+  </tr>
+  
+</table>
+<div class="dropdown_list_btn">
+	 <button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal1">确定</button> <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal1">取消</button>
+</div>
+        </div>
+       <div class="location_box">
+       		<span class="ico icon-home"></span><span class="location_level"><a href="#fdf">平台首页</a>&gt;<a href="#fdf">数据分析</a>&gt;</span> <span class="active"><a href="#fdf">智能查询</a></span>
+       	
+       </div>
+       <div class="paper_head">
+       		            <div class="searchbar">
+                        
+                        
+                        <div class="row qxlist underline">
+        <div class="col-md-1" >
+        	<small>认证类别:</small>
+        </div>
+        <div class="col-md-11">
+          <ul class="gnq">
+            <li><a href="#fsdf" class="active">无公害农产品</a></li>
+            <li><a href="#fsdf">绿色食品</a></li>
+            <li><a href="#fsdf">有机食品</a></li>
+            <li><a href="#fsdf">农产品地理标志</a></li>
+            <li><a href="#fsdf">名牌农产品</a></li>
+            <div class="clear"></div>
+          </ul>
+        </div>
+      </div>
+      
+      
+      			 <div class="row form_line">
+                 	<div class="col-md-1">
+                  	<small>认证批次</small>
+                    </div>
+                 	
+                     <div class="col-md-3">
+					<div class="dropdown" style="width:80%;">
+                  	
+                    <button class="btn btn-default dropdown-toggle"  type="button" id="menu1" data-toggle="dropdown">2017年1月12日第二批
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">全部类型</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">周报</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">月报</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">季报</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">年报</a></li>
+                    </ul>
+                  </div>
+             	     </div>
+                     
+                     <div class="col-md-1">
+                  	<small>行政区域</small>
+                    </div>
+                 	
+                     <div class="col-md-3">
+						<input name="" id="" class="form-control"/>
+             	     </div>
+                     
+                     
+                     <div class="col-md-1">
+                  	<small>产品类别</small>
+                    </div>
+                 	
+                     <div class="col-md-3">
+					<div class="dropdown">
+                  	
+                    <button class="btn btn-default dropdown-toggle"  type="button" id="menu1" data-toggle="dropdown">全部类型
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">全部类型</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">周报</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">月报</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">季报</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">年报</a></li>
+                    </ul>
+                  </div>
+             	     </div>
+                     
+                     
+                     
+                 </div>
+            <div class="row form_line">
+                 	<div class="col-md-1">
+                  	<small>产品形态</small>
+                    </div>
+                 	
+                     <div class="col-md-5 checklist">
+						<input style="" id="check1" name="" type="checkbox" value="" checked >&nbsp;<label for="check1" style="margin-right:15px;">初级产品</label>
+                        <input style="" id="check2" name="" type="checkbox" value="" checked >&nbsp;<label for="check2" style="margin-right:15px;">初级加工产品</label>
+                        <input style="" id="check3" name="" type="checkbox" value="" checked >&nbsp;<label for="check3" style="margin-right:15px;">深加工产品</label>
+             	     </div>
+                     
+                     
+                 </div>
+                   
+                
+                
+
+                
+                <div class="col-md-12 " style="text-align:center;margin-top:5px;margin-bottom:5px;">
+                
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1"><span class="icon-search"></span>&nbsp;&nbsp;查询</button>
+                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal1"><span class="glyphicon glyphicon-export"></span>&nbsp;&nbsp;导出</button>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+       </div>
+        
+       <div class="paper_content_box_table">
+       <h4><span class="icon-table"></span>&#160;填报记录列表</h4>
+      
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>名称<span class="glyphicon glyphicon-sort-by-attributes" style="font-size:10px;margin-left:3px;"></span></th>
+                    <th>城市<span class="glyphicon glyphicon-sort-by-attributes-alt" style="font-size:10px;margin-left:3px;"></span></th>
+                    <th>邮编</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tanmay</td>
+                    <td>Bangalore</td>
+                    <td>560001</td>
+                </tr>
+                <tr class="gray_row">
+                    <td>Sachin</td>
+                    <td>Mumbai</td>
+                    <td>400003</td>
+                </tr>
+                <tr>
+                    <td>Uma</td>
+                    <td>Pune</td>
+                    <td>411027</td>
+                </tr>
+                <tr>
+                    <td>Tanmay</td>
+                    <td>Bangalore</td>
+                    <td>560001</td>
+                </tr>
+                <tr>
+                    <td>Sachin</td>
+                    <td>Mumbai</td>
+                    <td>400003</td>
+                </tr>
+                <tr>
+                    <td>Uma</td>
+                    <td>Pune</td>
+                    <td><a href="form_1.html">411027</a></td>
+                </tr>
+            </tbody>
+        </table>
+         <div class="page_bar row">
+            	<div class="col-md-7">每页<strong>10</strong>条&nbsp;&nbsp;共有<strong>2015</strong>条&nbsp;&nbsp;<strong>200</strong>页&nbsp;&nbsp;前往第<input type="text" class="form-control pageinput" >页</div>
+                <div class=" col-md-5">
+                  <ul class="pagination pull-right">
+                        <li><a href="#">&laquo;</a></li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+          
+         
+		</div>
+
+
+
+        </div>
+    </div>
+    
+    
+</div>
+
+
+
+<!--弹出框开始-->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="loading_box row">
+    <div class="col-md-2">
+    <i class="icon-spinner icon-spin" style="font-size:36px;"></i>
+    </div>
+    <div class="col-md-10 loading_box_txt">
+    正在加载中，请稍候...
+    </div>
+    
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					模态框（Modal）标题
+				</h4>
+			</div>
+			<div class="modal-body">
+				按下 ESC 按钮退出。
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--弹出框结束-->
+
+</body>
+</html>

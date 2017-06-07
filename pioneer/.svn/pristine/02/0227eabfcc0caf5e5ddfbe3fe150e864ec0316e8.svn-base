@@ -1,0 +1,670 @@
+@charset "utf-8";
+* {
+	font-family: "微软雅黑", "Microsoft YaHei ";
+}
+body, html, div, p {
+	padding: 0;
+	margin: 0;
+}
+ul, li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.paper_content_box_form select{border:none;width:100%;height:100%;}
+.paper_content_box_form p{color:#267bba!important}
+a {
+	/*初始化A的样式，不要下划线*/
+	text-decoration: none!important;
+	
+}
+.clear{clear:both;}
+.bodybg {
+	/*主框架页面上方的背景白云图片*/
+	background-color: #ecf0f5;
+	background-image: url(images/pagebg_top.png);
+	background-repeat: repeat-x;
+	background-position: right top;
+	margin: 0;
+	padding: 0;
+}
+/*页面高度100%*/
+
+.container-banner {
+	margin: auto;
+	height: 53px;
+}
+.pagetop {
+	/*顶部拉通菜单条*/
+	background-color: #33495c!important;
+	padding-top: 8px;
+}
+.system-name {
+	color: #FFF;
+	background-image: url(images/pagetopbg.png);
+	background-repeat: no-repeat;
+	background-position: 60px center;
+}
+.system-name p {
+	padding: 0;
+	margin: 0;
+}
+.system-name h4 {
+	padding: 2px;
+	margin: 0;
+}
+.system-name h6 {
+	padding: 2px;
+	margin: 0;
+}
+.leftbar {
+	/*左侧边栏*/
+	background-color: #33495c;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 140px;
+	overflow: hidden;
+}
+.userandlogo {
+	/*左侧边栏上方的标志及系统名称，用户信息等相关内容框*/
+	background-color: #3c6b94;
+}
+.turn_off .userbox {
+	display: none;
+}
+.turn_off .leftbar_systemname {
+	display: none;
+}
+/*左侧边条样式*/
+.bodybg_box {
+	/*整个页面框架的外壳，包含了页面下方的背景，和BODY上的背景一起形成可自适应高度的背景*/
+	
+	background-image: url(images/pagebg_bottom.png);
+	background-repeat: repeat-x;
+	background-position: right bottom;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.chart_bodybg_box {
+	/*包含了页面下方的背景，和BODY上的背景一起形成背景*/
+	background-image: url(images/pagebg_bottom.png);
+	background-repeat: repeat-x;
+	background-position: right bottom;
+	width: 100%;
+	padding-bottom:16px;
+}
+.logo {
+	/*标志框*/  
+	text-align: center;
+}
+#iframe1 {
+	/*主页面上的iframe尺寸及背景透明*/
+	height: 100%;
+	width: 100%;
+	background-color: transparent;
+}
+.iframe_bg {
+	/*iframe包含的页面内背景透明*/
+	background-color: transparent;
+	overflow:hidden;
+}
+.leftbar_turnbox {
+	/*左侧边条收起和展开的开关按钮*/
+	width: 34px;
+	height: 34px;
+	position: absolute;
+	top: 9px;
+	left: 9px;
+	cursor: pointer;
+}
+.body_box {
+	/*右侧框的内容区域，内含IFRAME*/
+	height: 100%;
+	position: absolute;
+	left: 140px;
+	top: 0px;
+	right: 0px;
+	bottom: 0;
+	overflow: hidden;
+}
+/*左侧边栏收起和展开的相关样式---开始*/
+.turn_off .leftbar {
+	width: 62px!important;
+}
+.turn_off .body_box {
+	left: 62px!important;
+}
+.turn_on .leftbar {
+	width: 140px;
+}
+.turn_on .body_box {
+	left: 140px;
+}
+/*左侧边栏收起和展开的相关样式---结束*/
+.iframe_body {
+	/*iframe页面上的内容区块*/
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	width:100%;
+	padding: 0 40px;
+	overflow:auto;
+}
+.leftbar_systemname {
+	/*左栏系统名称栏*/
+	color: #95ceff;
+	font-size: 14px;
+	line-height: 16px;
+}
+.userbox {
+	/*用户名及角色栏*/
+	text-align: center;
+	color: #e6e6e6;
+	font-size: 14px;
+	line-height: 16px;
+	padding: 10px 10px;
+}
+.leftmenu {
+	margin-top: 70px;
+}
+.leftmenu li, .leftmenu li a {
+	display: block;
+	height: 55px;
+	line-height: 55px;
+	color: #7792b1;
+	vertical-align: middle;
+}
+.leftmenu li .ico_box {
+	font-size: 24px;
+	margin: 0 10px 0 15px;
+	vertical-align: middle;
+}
+.leftmenu li.active a {
+	/*左栏菜单选中状态*/
+	display: block;
+	height: 55px;
+	line-height: 55px;
+	color: #fff;
+	vertical-align: middle;
+	background-color: #4e93cf;
+}
+.leftmenu li a:hover {
+	color: #fff!important;
+}
+.leftmenu li .ico_box {
+	font-size: 24px;
+	margin: 0 10px 0 15px;
+	vertical-align: middle;
+}
+.leftmenu li img {
+	vertical-align: middle;
+}
+.turn_on .leftmenu_txt {
+}
+.turn_off .leftmenu_txt {
+	display: none;
+}
+.turn_off .ico_box {
+	margin: auto;
+}
+.turn_off .leftmenu li a {
+	text-align: center;
+}
+.paper_box {
+	/*内容区，模仿纸张效果*/
+	background-color: #fff;
+	position: relative;
+	left: -8px;
+	top: -8px;
+	border: 1px solid #ececec;
+	min-height: 500px;/*
+	
+	border-radius: 5px;
+	*/
+}
+.paper_box_bg {
+	/*纸面阴影框*/
+	max-width: 1600px;
+	margin: 80px auto;
+	background-image: url(images/paper_shadow.png);/*border-radius: 5px;*/
+}
+.paper_head {
+	/*内容区页头的图标和搜索条，标题等组件区域*/
+	border-bottom: 1px solid #ececec;
+	height: 115px;
+	background-color: #fefefe;
+	padding: 30px;
+}
+.paperico {
+	/*内容区（纸张）图标*/
+	font-size: 50px;
+	color: #46bc5f;
+}
+.lanmu_name {
+	/*内容区（纸张）图标右侧的栏目名称*/
+	font-size: 24px;
+	color: #2f9f47;
+	height: 20px;
+	line-height: 24px;
+}
+.lanmu_memo {
+	/*内容区（纸张）图标右侧的栏目名称下方的栏目说明文字*/
+	font-size: 14px;
+	color: #a7a7a7;
+	line-height: 14px;
+}
+.papertitle {
+	/*填报界面，填报标题*/
+	height: 58px;
+	line-height: 58px;
+	font-size: 24px;
+	color: #393939;
+}
+.papertitle h3 small{
+	color: #CC3300;
+	font-weight: bold;
+}
+.searchbar {
+	/*列表页面查询条件框*/
+	text-align: left;
+	padding-top: 10px;
+}
+
+/*下方内容区及表单相关样式开始*/
+.paper_content_box_form {
+	padding: 30px;
+}
+.paper_content_box_form tr {
+	border: 1px solid #dadcdd;
+	border-width: 0 1px 1px 0;
+	margin: 2px 0 2px 0;
+}
+.paper_content_box_form td {
+	font-family: "微软雅黑";
+	font-size: 14px!important;
+	font-weight: normal!important;
+	background-color: #fff!important;
+	border: 0 1px 1px 0;
+	border-style: solid;
+	border-color: #d9ddde!important;
+	color: #000!important;
+	height: 35px;
+}
+.paper_content_box_form .gray_1 {
+	color: #787878!important;
+	margin: 0 10px 0 5px;
+}
+.paper_content_box_form table {
+	border-color: #d9ddde!important;
+}
+.paper_content_box_form input {
+	color: #267bba!important;
+	font-family: "微软雅黑";
+	width: 100%;
+	margin: 0;
+	height: 35px;
+	border: none;
+	background-image: url(images/input_shibie_ico.png);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+.paper_content_box_form input.error {
+	border: 1px solid #ff5d5d;
+	color: #F00!important;
+}
+.form_check_box {
+	border-top: 1px solid #e8e8e8;
+	background-color: #f8f8f8;
+}
+.form_check_tools {
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+}
+.form_check_msg {
+	border-top: 1px solid #e8e8e8;
+	padding: 20px;
+	max-height: 248px;
+	overflow: auto;
+}
+.form_check_msg .text-warning,.form_check_msg .text-danger{cursor:pointer;}
+.data_span{/*表单查看界面中的值样式*/
+	color: #267bba!important;
+}
+.errorinput{
+	background-color: #FFEEEE!important;
+}
+
+/*下方内容区及表单相关样式结束*/
+
+
+/*下方内容区及列表相关样式开始*/
+.paper_content_box_table {
+	padding: 10px 30px;
+}
+.paper_content_box_table h4{font-size:16px;}
+.page_bar {
+	height: 72px;
+	line-height: 72px;
+	color: #666;
+}
+.page_bar strong {
+	color: #000;
+	margin: 0 8px;
+	font-weight: normal;
+}
+.pageinput {
+	width: 50px!important;
+	display: inline-block!important;
+	margin: 0 8px;
+}
+.searchbar small {
+	color: #999;
+}
+/*下方内容区及列表相关样式结束*/
+
+
+
+/*数据展现界面样式区开始*/
+.foot {
+	/*页脚样式*/
+	height: 70px;
+	text-align: center;
+	line-height: 70px;
+	color: #919aa2;
+	background-color: #33495c;
+}
+.pagetop .btn-success {
+	/*页头用户下拉菜单按钮样式*/
+	color: #fff;
+	background-color: #72b660;
+	border-color: #5AA049;
+}
+.pagetop .btn-success:hover, .pagetop .btn-success:focus {
+	background-color: #65AF52;
+	border-color: #5AA049;
+}
+.floatmenu {
+	/*左侧浮动菜单样式*/
+	width: 70px;
+	position: absolute;
+	top: 80px;
+	left: -70px;
+}
+.floatmenu li a {
+	display: block;
+	width: 66px;
+	height: 66px;
+	color: #fff;
+	border-radius: 33px;
+	background-color: #4a86b8;
+	text-align: center;
+	padding-top: 8px;
+	margin-top: 8px;
+}
+.floatmenu li span {
+	font-size: 30px!important;
+}
+.floatmenu li a {
+	font-size: 12px;
+	color: #fff;
+}
+/*展示网站左侧圆形浮动菜单*/
+.menubg_1 a {
+	background-color: #4a86b8!important;
+}
+.menubg_2 a {
+	background-color: #70c35a!important;
+}
+.menubg_3 a {
+	background-color: #19bd91!important;
+}
+.menubg_4 a {
+	background-color: #d7b83c!important;
+}
+.show_container {
+	margin: auto;
+	width: 1200px;
+	position: relative;/*内容区新式*/
+}
+.simple_box {
+	/*标准白块样式*/
+	background-color: #fff;
+	min-height: 80px;
+/*	width: 1200px!important;
+*/	margin: 16px 0 0 0!important;
+	padding:15px 15px 35px 15px;
+	
+}
+.data_res_list {
+	/*展现首页数据资源图标组，外框相关样式*/
+	text-align: center;
+	padding-bottom:35px;
+}
+.data_res_list button {
+	border: none;
+	background-color: #1eb69f;
+	border-radius: 6px;
+	cursor: default;
+	padding:5px;
+}
+.data_res_list button img{width:100%;height:100%;}
+.data_res_list h4{height:35px;line-height:35px;}
+.data_res_list p {
+	text-align: left;
+	color:#7b7b7b;
+	font-size:14px;
+	line-height:19px;
+	margin-bottom:30px;
+}
+.data_ico_1{/*border-right:1px solid #f0f0f0;height:209px;*/}
+.data_ico_2{/*border-right:1px solid #f0f0f0;height:209px;*/}
+.data_ico_3{/*border-right:1px solid #f0f0f0;height:209px;*/}
+.data_ico_4{/*height:209px;*/}
+
+.data_ico_1 h4{color:#1eb69f;}
+.data_ico_2 h4{color:#60be5b;}
+.data_ico_3 h4{color:#dda12b;}
+.data_ico_4 h4{color:#679cde;}
+
+.data_ico_1 button{background-color:#1eb69f;}
+.data_ico_2 button{background-color:#60be5b;}
+.data_ico_3 button{background-color:#dda12b;}
+.data_ico_4 button{background-color:#679cde;}
+
+.simple_box_title{text-align:left;height:47px;line-height:47px;border-bottom:1px solid #dadada;margin-bottom:5px;clear:both;}
+.simple_box_title a{color:#093;}
+.simple_box_title a:hover{
+	color: #C60;
+}
+.simple_box_title_name{font-size:24px;color:#333333;height:47px;line-height:47px;border-bottom:2px solid #4aa831;width:120px;float:left;text-align:center;white-space:nowrap;}
+.simple_box_title_txt{color:#b4b4b4;font-size:14px;height:47px;line-height:47px;overflow:hidden;padding-left:15px;}
+
+.scgk_list_box{clear:both;margin:10px;}
+.scgk_list_box li{
+	/*border:1px solid #f0f0f0;*/
+	width:48%;
+	float:left;
+	margin-left:5px;
+	margin-top:5px;
+	padding-top:15px;
+	
+	}
+.scgk_list_ico{width:87px;float:left;padding:5px 10px;}
+.scgk_list_txt{overflow:hidden;padding-left:15px;}
+.scgk_list_txt .title{font-size:14px;color:#cd3d3d;}
+.scgk_list_txt .nametxt{font-size:12px;color:#888888;margin-right:30px;}
+.scgk_list_txt .valuetxt{font-size:12px;color:#000000;}
+/*数据展现界面样式区结束*/
+.form_add_box{padding:20px;text-align:center;}
+.form_closebox{position:relative;}
+.form_closebox .closebtn{
+    display: none;
+    width: 20px;
+    height: 37px;
+    font-size: 20px;
+    position: absolute;
+    top: 4px;
+    right: -12px;
+    cursor: pointer;
+    color: rgb(209, 114, 114);
+}
+.form_closebox:hover .closebtn{display: block;}
+.tkform table{width:90%;margin:auto;}
+.tkform th,.tkform td{font-weight:normal;padding:3px;}
+.loading_box{
+	width: 305px;
+	color: #09c424;
+	vertical-align: middle;
+	text-align: left;
+	padding:20px;
+	background-image: url(images/loadginbox_bg.png);
+	position:absolute;
+	top:45%;
+	left:45%;
+	margin-top:-40px;
+	font-size:14px;
+	margin-left:-250px;
+}
+.loading_box i{margin-right:35px;vertical-align: middle;}
+.loading_box_txt{padding:10px;}
+.dtbd {margin:0 70px;}
+.dtbd li{border:1px solid #d9ddde!important;padding:0;margin:0;float:left;line-height:35px;height:37px;margin-top:-1px;margin-left:-1px;}
+.dtbd li>div{padding:0;}
+.dtbd label{font-weight:normal;}
+.dtbd li .form-control{border-radius:0;}
+
+.form_input{
+padding-left:4px;
+padding-right:4px;
+	
+}
+.form_input:focus{
+	border:1px solid #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(102, 175, 233, .6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(102, 175, 233, .6)
+	
+}
+
+
+.dtbd input{padding-left:10px;}
+.dtbd label{border-right:1px solid #d9ddde;}
+.dtbd p{color:#06C;padding-left:10px;}
+.checkmsg_2{max-height:187px;overflow:auto;}
+.qanda{max-height:187px;overflow:auto;padding-right:20px;}
+.qanda li{color:#777777;font-size:12px;margin-bottom:10px;border:1px solid #d9ddde;padding:8px;background-color:#fff;}
+.xuhao{width:48px;height:40px;line-height:40px;font-size:24px;color:#ff9900;float:left;font-family:"微软雅黑";text-align:center;margin-right:8px;}
+.question strong{color:#ff4400;font-weight:bold;font-size:14px;}
+.answer strong{color:green;font-weight:bold;font-size:14px;}
+.qanda .right{overflow:hidden;}
+.question{}
+.answer{}
+
+
+.form_check_msg > div{padding:0 10px;}
+.form_check_box h4{font-weight:bold;}
+
+
+.body_bottom_tuonoff .body_main{position:absolute;top:0px;left:0px;right:0px;bottom:53px;overflow:auto;padding:0 80px;}
+.body_bottom_tuonoff .body_bottom{position:absolute;left:0px;right:0px;bottom:0px;height:53px;background-color: #f8f8f8;}
+
+.body_bottom_tuonon .body_main{position:absolute;top:0px;left:0px;right:0px;bottom:300px;overflow:auto;}
+.body_bottom_tuonon .body_bottom{position:absolute;left:0px;right:0px;bottom:0px;height:300px;background-color: #f8f8f8;}
+
+.body_bottom_tuonon .form_check_msg{display:block;}
+.body_bottom_tuonoff .form_check_msg{display:none;}
+.buttonA {
+    height: 21px;
+    line-height: 21px;
+    padding: 0 4px;
+    background: #02bafa;
+    border: 1px #26bbdb solid;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 12px;
+    outline: none;
+    margin: 0px 1px 0px 0px!important;
+}
+
+.nomsg{font-size:30px;text-align:center;color:#CCC;line-height:170px;}
+.nomsg .ico{font-size:45px!important;margin-right:10px;vertical-align:middle;}
+
+.has-warning {
+	color: #CC7129;
+}
+
+.has-error {
+	background-color: #FFEEEE!important;
+}
+
+.input-has-warn{
+    background-color: #FFEEEE !important;
+}
+
+.tree-node {
+    height: 24px;
+	line-height: 24px;
+	font-family:"微软雅黑";
+	font-size:14px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.tree-title {
+    font-size: 14px;
+    display: inline-block;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 0 2px;
+    height: 24px;
+    line-height: 24px;
+}
+.tree-icon{vertical-align:middle;}
+.tree-expanded, .tree-collapsed, .tree-folder, .tree-file, .tree-checkbox, .tree-indent {
+    display: inline-block;
+    width: 16px;
+    height: 18px;
+	margin-top:4px;
+    vertical-align: top;
+    overflow: hidden;
+}
+.tree-node-selected {
+	color: #000000;
+	background-color: #A6DBFF;
+	border-radius:3px;
+}
+.form_checkbox{width:14px!important;height:14px!important;}
+
+
+.searchbar_2 table{width:100%;}
+.searchbar_2 td{padding:3px;}
+.searchbar_2 .form-control{width:88px;background-color:#fff!important;}
+.searchbar_2 button{width:100px;overflow:hidden;text-align:left;}
+.searchbar_2 button span{}
+
+.divoverflow{height:100%!important;overflow:auto;padding-left:20px!important;}
+.divoverflow table th , .divoverflow table td {white-space:nowrap!important;}
+.divoverflow h4 b{color:#259625;margin-right:5px;}
+.select_list_box li{height:30px;line-height:30px;display:inline-block;float:left;min-width:160px;white-space: nowrap;margin-left:10px;background-color: #F1FAFF;margin-bottom:10px;padding:0 20px 0 4px;font-weight:normal;border:1px solid #71E3FF;}
+.select_list_box li input{margin:3px;margin-right:8px;vertical-align:middle;margin-top:1px;}
+.select_list_box label{cursor:pointer;font-size:14px;font-weight:normal;}
+
+
+.lefttreebox{height:100%!important;overflow:auto;background-color:#F9F9F9;border:1px solid #efefef;}
+.gray_row{
+	color: #AAA!important;
+}

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tFormRight.dao.TFormRightDao" >
+    <resultMap id="tFormRightModelMap" type="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+        <id column="right_id" property="rightId" />
+        <result column="form_id" property="formId" />
+        <result column="role_id" property="roleId" />
+        <result column="right_type" property="rightType" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tFormRightModelMap" parameterType="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+        SELECT
+            right_id
+            ,form_id
+            ,role_id
+            ,right_type
+
+        FROM
+            t_form_right
+        WHERE
+            1=1
+            AND right_id=#{rightId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+        SELECT
+                t.right_id as "rightId"
+                ,t.form_id as "formId"
+                ,t.role_id as "roleId"
+                ,t.right_type as "rightType"
+
+        FROM
+                t_form_right t
+        WHERE
+                1=1
+                AND right_id=#{rightId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+            DELETE FROM
+                t_form_right
+            WHERE
+                1=1
+                AND right_id=#{rightId}
+    </delete>
+
+    <delete id="deleteByRoleid" parameterType="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+            DELETE FROM
+                t_form_right
+            WHERE
+                1=1
+                AND role_id=#{roleId}
+               <if test="rightType != null ">  AND right_type=#{rightType} </if>
+    </delete>
+    
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+        INSERT INTO  t_form_right (
+             right_id
+             ,form_id
+             ,role_id
+             ,right_type
+
+        )
+        VALUES (
+            #{rightId,jdbcType=VARCHAR }
+            ,#{formId,jdbcType=VARCHAR }
+            ,#{roleId,jdbcType=VARCHAR }
+            ,#{rightType,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tFormRight.model.TFormRightModel" >
+        UPDATE
+                 t_form_right
+        SET
+                form_id=#{formId}
+                ,role_id=#{roleId}
+                ,right_type=#{rightType}
+
+        WHERE
+                1=1
+                AND right_id=#{rightId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.right_id as "rightId"
+                ,t.form_id as "formId"
+                ,t.role_id as "roleId"
+                ,t.right_type as "rightType"
+
+        FROM
+                t_form_right t
+        WHERE
+                1=1
+            <if test="rightId != null "> AND right_id=#{rightId} </if>
+            <if test="formId != null "> AND form_id=#{formId} </if>
+            <if test="roleId != null "> AND role_id=#{roleId} </if>
+            <if test="rightType != null "> AND right_type=#{rightType} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="tFormRightModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                right_id
+                ,form_id
+                ,role_id
+                ,right_type
+
+        FROM
+                t_form_right
+        WHERE
+                 1=1
+                <if test="rightId != null "> AND right_id=#{rightId} </if>
+                <if test="formId != null "> AND form_id=#{formId} </if>
+                <if test="roleId != null "> AND role_id=#{roleId} </if>
+                <if test="rightType != null "> AND right_type=#{rightType} </if>
+    </select>
+
+
+</mapper> 

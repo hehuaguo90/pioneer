@@ -1,0 +1,1353 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+	<script src="${contextPath }/res/chart/chart.js"></script>
+	
+		<script type="text/javascript">
+		var gmyzc;
+		var spybArray;
+		
+		function getSczlData(){
+			$.ajax({
+			    url : contextPath+"/chartPig/getSczl.action?_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : "json",
+			    success : function(datas){
+			    	var chartData = datas['mzzz'][0];
+			    	$("#zcls").html(format_number(chartData["cls"]));
+			    	$("#cls2").html(format_number(chartData["cls2"]));
+			    	$("#cll").html(format_number(chartData["cll"])+"%");
+			    	gmyzc = datas["gmyzc"];
+			    	
+			    	$("#yzcs").html(format_number(gmyzc["gm1"]));
+			    	$("#zsyl").html(format_number(datas["zsyl"][0]["zsyl"]));
+			    	
+			    	showNfmcclsChart(chartData);
+			    	showZzclsChart(chartData);
+			    	showRzcpgsChart(datas['rzcp'][0]);
+			    	showCzzjxmsChart(datas['zjfl'],datas['zjly']);
+			    }
+			})
+		}
+		
+		var iCount = setInterval("autoClick()",2000);
+		var lineNum = 1;
+		function autoClick(){
+			if(lineNum>4){
+				lineNum = 1;
+			}
+			$(".line_step_box td").removeClass("active");
+			$("#yzcs").html(format_number(gmyzc["gm"+lineNum]));
+			$("#line_"+lineNum).addClass("active");
+			lineNum++;
+		}
+		
+		function showGmyzc(obj,typeID){
+			clearInterval(iCount);
+			$(".line_step_box td").removeClass("active");
+			$("#yzcs").html(format_number(gmyzc["gm"+typeID]));
+			$(obj).addClass("active");
+		}
+		
+		function buildRate(data1,data2){
+			var rate=data1*100/(data1+data2); 
+			return rate.toFixed(2);
+		}
+		
+		function showNfmcclsChart(datas) {
+			var mapChart = echarts.init(document.getElementById('nfmccls'));
+			option = {
+					title: {
+		  		        text: format_number(datas["nfzmcs"]),
+		  		        subtext:buildRate(datas["nfzmcs"],datas["nfzqt"])+"%",
+		  		        x: 'center',
+		  		        y: 'center',
+		  		        textStyle : {
+		  		            color : '#5ab1ef',
+		  		            fontFamily : 'impact',
+		  		            fontSize : 26
+		  		        },
+		  		       subtextStyle : {
+		  		            color : '#5ab1ef',
+		  		            fontFamily : 'impact',
+		  		            fontSize : 23
+		  		        },
+		  		    },
+				    tooltip: {
+				        trigger: 'item',
+				        formatter: "{b}: {c} ({d}%)"
+				    },
+				    color:['#d8d8d8','#5ab1ef'],
+				    series: [
+				        {
+				            type:'pie',
+				            radius: ['70%', '90%'],
+				            avoidLabelOverlap: false,
+				            label: {
+				                normal: {
+				                    show: false,
+				                    position: 'center'
+				                },
+				                emphasis: {
+				                    show: false,
+				                    textStyle: {
+				                        fontSize: '30',
+				                        fontWeight: 'bold'
+				                    }
+				                }
+				            },
+				            labelLine: {
+				                normal: {
+				                    show: false
+				                }
+				            },
+				            data:[
+				                {value:datas["nfzqt"], name:'其他'},
+				                {value:datas["nfzmcs"], name:'能繁母畜存栏数'}
+				            ]
+				        }
+				    ]
+				};
+			mapChart.setOption(option);
+		}
+		
+		function showZzclsChart(datas){
+			var mapChart = echarts.init(document.getElementById('zzcls'));
+			option = {
+					title: {
+						text: format_number(datas["zzcls"]),
+		  		        subtext:buildRate(datas["zzcls"],datas["zzqt"])+"%",
+		  		        x: 'center',
+		  		        y: 'center',
+		  		        textStyle : {
+		  		            color : '#97b552',
+		  		            fontFamily : 'impact',
+		  		            fontSize : 26
+		  		        },
+		  		       subtextStyle : {
+		  		            color : '#97b552',
+		  		            fontFamily : 'impact',
+		  		            fontSize : 23
+		  		        },
+		  		    },
+				    tooltip: {
+				        trigger: 'item',
+				        formatter: "{b}: {c} ({d}%)"
+				    },
+				    color:['#d8d8d8','#97b552'],
+				    series: [
+				        {
+				            type:'pie',
+				            radius: ['70%', '90%'],
+				            avoidLabelOverlap: false,
+				            label: {
+				                normal: {
+				                    show: false,
+				                    position: 'center'
+				                },
+				                emphasis: {
+				                    show: false,
+				                    textStyle: {
+				                        fontSize: '30',
+				                        fontWeight: 'bold'
+				                    }
+				                }
+				            },
+				            labelLine: {
+				                normal: {
+				                    show: false
+				                }
+				            },
+				            data:[
+				                {value:datas["zzqt"], name:'其他'},
+				                {value:datas["zzcls"], name:'仔猪存栏数'}
+				            ]
+				        }
+				    ]
+				};
+			mapChart.setOption(option);
+		}
+		
+		function showRzcpgsChart(datas){
+			var mapChart = echarts.init(document.getElementById('rzcpgs'));
+			$("#xkzgs").html(datas["wghrzsl"]+datas["lsrzsl"]+datas["yjrzsl"]+datas["dlbzrzsl"]+datas["mprzsl"]);
+			option = {
+				    tooltip : {
+				        trigger: 'axis',
+				        formatter: "{b}：{c}",
+				        axisPointer : {            
+				            type : 'shadow'        
+				        }
+				    },
+				    grid: {
+				        left: '0',
+				        right: '0',
+				        bottom: '30',
+				        containLabel: true
+				    },
+				    xAxis : [
+				        {
+				            type : 'category',
+				            axisLabel: {
+				                interval: 0,
+				                rotate: 30
+				            },
+				            data : ['无公害农产品', '绿色产品', '有机产品', '地理标志产品', '名牌农产品']
+				        }
+				    ],
+				    yAxis : [
+				        {
+				            type : 'value'
+				        }
+				    ],
+				    series : [
+				        {
+				            type:'bar',
+				            barWidth: '60%',
+				            itemStyle: {
+				                normal: {
+				                    color: function(params) {
+				                        var colorList = ['#ff6347','#ffb980','#2ec7c9','#97b552','#e5cf0d'];
+				                        return colorList[params.dataIndex]
+				                    }
+				                }
+				            },
+				            data:[datas["wghrzsl"], datas["lsrzsl"], datas["yjrzsl"], datas["dlbzrzsl"], datas["mprzsl"]]
+				        }
+				    ]
+				};
+
+			mapChart.setOption(option);
+		}
+		
+		/***
+		构建财政资金echart图表
+		***/
+		function showCzzjxmsChart(zjfl,zkly){
+			var title_ly = findSeriesDataByKey(zjfl,['name']);
+			var title_fl = findSeriesDataByKey(zkly,['name']);
+			
+			var mapChart = echarts.init(document.getElementById('czzjxms'));
+			option = {
+				    tooltip: {
+				        trigger: 'item',
+				        formatter: "{b}: {c} ({d}%)"
+				    },
+				    grid: {
+				        left: '0',
+				        right: '0',
+				        bottom: '0',
+				        containLabel: true
+				    },
+				    color: ['#e5cf0d','#97b552','#2ec7c9','#ffb980','#ffff00','#5ab1ef','#b6a2de'],
+				    series: [
+				        {
+				            type:'pie',
+				            radius: ['62%', '92%'],
+				            label: {
+				                normal: {
+				                	position: 'inner',
+				                    textStyle:{fontSize:11,color :'#000'} 
+				                }
+				            },
+				            data:zkly
+				        },
+				        {
+				            type:'pie',
+				            selectedMode: 'single',
+				            radius: [0, '45%'],
+				            label: {
+				                normal: {
+				                    position: 'inner',
+				                    textStyle:{fontSize:11,color :'#000'} 
+				                }
+				            },
+				            labelLine: {
+				                normal: {
+				                    show: false
+				                }
+				            },
+				            data:zjfl
+				        }
+				    ]
+				};
+
+			mapChart.setOption(option);
+		}
+		
+		/***
+		获取监测数据
+		***/
+		function getJcsjData(){
+			$.ajax({
+			    url : contextPath+"/chartPig/getJcsj.action?_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showJcsjChart(datas['jcsj']);
+			    	showJsdbChart(datas['jcsj'],datas['jcsj_lyb'],datas['zlb']);
+			    }
+			})
+		}
+		
+		/***
+		构建监测数据echart图表
+		***/
+		function showJcsjChart(datas){
+			var data_yzhs = findSeriesDataByKeyDesc(datas,['jchs']);
+			var data_cls = findSeriesDataByKeyDesc(datas,['cls']);
+			var data_cls2 = findSeriesDataByKeyDesc(datas,['cls2']);
+			var data_month = findSeriesDataByKeyDesc(datas,['sj']);
+			
+			var mapChart = echarts.init(document.getElementById('jcsj'));
+			option = {
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    legend: {
+				        data:[
+								{name: '养猪户数(重庆)',icon: 'roundRect'},
+								{name: '存栏数(重庆)',icon: 'roundRect'},
+								{name: '出栏数(重庆)',icon: 'roundRect'}
+				              ],
+				        itemHeight :3, 
+						itemWidth :22
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: data_month[0]
+				    },
+				    yAxis: {
+				        type: 'value'
+				    },
+				    color: ['#e5cf0d','#2ec7c9','#b6a2de'],
+				    series: [
+				        {
+				            name:'养猪户数(重庆)',
+				            type:'line',
+				            data:data_yzhs[0]
+				        },
+				        {
+				            name:'存栏数(重庆)',
+				            type:'line',
+				            data:data_cls[0]
+				        },
+				        {
+				            name:'出栏数(重庆)',
+				            type:'line',
+				            data:data_cls2[0]
+				        }
+				    ]
+				};
+
+			mapChart.setOption(option);
+		}
+		
+		function showJsdbChart(cq,lyb,zlb){
+			var data_cq = findSeriesDataByKeyDesc(cq,['cls']);
+			var data_lyb = findSeriesDataByKeyDesc(lyb,['cls']);
+			var data_zlb = findSeriesDataByKeyDesc(zlb,['pzjg']);
+			var data_month = findSeriesDataByKeyDesc(cq,['sj']);
+			
+			var mapChart = echarts.init(document.getElementById('sjdb'));
+			option = {
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    legend: {
+				        data:[
+								{name: '农业部',icon: 'roundRect'},
+								{name: '重庆',icon: 'roundRect'},
+								{name: '全市平均猪粮比'}
+				              ]
+				    },
+				    grid: {
+				        left: '2%',
+				        containLabel: true
+				    },
+				    xAxis: [
+				        {
+				            type: 'category',
+				            data: data_month[0],
+				            axisLabel: {
+				                interval: 0,
+				                rotate: 30
+				            }
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            type: 'value',
+				            name: '存栏数',
+				            splitLine : {show:false},
+				            axisLabel: {
+				                formatter: '{value} 头'
+				            }
+				        },
+				        {
+				            type: 'value',
+				            name: '猪粮比',
+				            splitLine : {show:false},
+				            axisLabel: {
+				                formatter: '{value} '
+				            }
+				        }
+				    ],
+				    color: ['#2ec7c9','#b6a2de'],
+				    series: [
+				        {
+				            name:'重庆',
+				            type:'bar',
+				            stack: '总量',
+				            data:data_cq[0]
+				        },
+				        {
+				            name:'农业部',
+				            type:'bar',
+				            stack: '总量',
+				            data:data_lyb[0]
+				        },
+				        {
+				            name:'全市平均猪粮比',
+				            type:'line',
+				            yAxisIndex: 1,
+				            data:data_zlb[0]
+				        }
+				    ]
+				};
+			mapChart.setOption(option);
+		}
+		
+		function getSzmxsj(params){
+			$.ajax({
+			    url : contextPath+"/chartPig/getSzmxsj.action?_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showSzmxsj(datas);
+			    }
+			})
+		}
+		
+		function showSzmxsj(datas){
+			var rclTb = datas.zrcl[0].rcltb;
+			if(rclTb>0){
+				$("#rcltb").addClass("glyphicon glyphicon-arrow-up");
+			}else{
+				$("#rcltb").addClass("glyphicon glyphicon-arrow-down");
+			}
+			
+			$("#zrcl").html(format_number(datas.zrcl[0].rcl));
+			$("#xkzsl").html(format_number(datas.xkzsl.xkzsl));
+			$("#zsqys").html(format_number(datas.zsqys.zsqys));
+		}
+        
+		var tabDatas;
+		function getSzfbData(params){
+			$.ajax({
+			    url : contextPath+"/chartPig/getSzcdFb.action?TypeId="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showSzfbChart(datas['map']);
+			    	tabDatas = datas['map'];
+			    }
+			})
+		}
+		
+		function tableSort(spanId,name){
+			if($("#"+spanId).hasClass("icon-caret-down")){
+				$("#"+spanId).attr("class","icon-caret-up sort_list_ico");
+				tabDatas.sort(getSortFun("asc",name));
+			}else if($("#"+spanId).hasClass("icon-caret-up")){
+				$("#"+spanId).attr("class","icon-caret-down sort_list_ico");
+				tabDatas.sort(getSortFun("desc",name));
+			}else{
+				$("#"+spanId).attr("class","icon-caret-down sort_list_ico");
+				tabDatas.sort(getSortFun("desc",name));
+			}
+			showMapTab(tabDatas);
+		}
+		
+		var btn_map=3;
+		function jcsjFb(obj,typeId){
+			var selectBtn = $("div#div_map button.btn-success");
+			if(typeId==1||typeId==2){
+				if(selectBtn.length==2){
+					$("#btn_map"+typeId).attr("class", "btn btn-default"); 
+					$("#btn_span"+typeId).attr("class", "glyphicon glyphicon-unchecked"); 
+					getSzfbData($("div#div_map button.btn-success")[0].name);
+					return;
+				}
+			}
+			
+			if(typeId==1&&btn_map==2){
+				$("#btn_map"+typeId).attr("class", "btn btn-success"); 
+				$("#btn_span"+typeId).attr("class", "glyphicon glyphicon-check"); 
+				getSzfbData("");
+			}else if(typeId==2&&btn_map==1){
+				$("#btn_map2").attr("class", "btn btn-success");
+				$("#btn_span"+typeId).attr("class", "glyphicon glyphicon-check");
+				getSzfbData("");
+			}else{
+				$("div#div_map button.btn-success").attr("class", "btn btn-default"); 
+				$("div#div_map span.glyphicon-check").attr("class", "glyphicon glyphicon-unchecked"); 
+				$(obj).attr("class", "btn btn-success"); 
+				$("#btn_span"+typeId).attr("class", "glyphicon glyphicon-check");
+				getSzfbData(typeId);
+			}
+			btn_map = typeId;
+		}
+		
+		function showSzfbChart(datas){
+
+			showMapTab(datas);
+			$.getJSON('${contextPath}/res/chart/chongqing.json', function (data) {
+			    echarts.registerMap('chongqing', data);
+				var mapChart = echarts.init(document.getElementById('szfb'));
+				option = {
+					tooltip: {
+				        trigger: 'item',
+				        show:false
+				    },
+				    visualMap: {
+				        min: getMinData(datas),
+				        max: getMaxData(datas),
+				        color:['#fc4300','#ffa400','#fbfd08','#c5e87a','#a7d8f0'],
+				        left: 'left',
+				        itemHeight : 110,
+				        calculable : true,
+				        hoverLink :false,
+				        text:['存栏数'],
+				        top: '50'
+				    },
+		            series: [{
+		            	name: '',
+		                type: 'map',
+		                map: 'chongqing',
+		                roam : true,
+		                left : 20,
+		                right : 0,
+		                top : 0,
+		                bottom : 0,
+		                data:datas
+		            }]
+		        }
+				mapChart.setOption(option);
+				
+				mapChart.on('click', function (params) {
+					showDiv(params,params.event);
+					selectArea(params.name);
+					$("#qx_cc").html("");
+					$("#qx_cc").html("");
+					$("#qx_cc").html(params.name);
+					$("#qx_spyb").html(params.name);
+					getCcmxData(params.data.qxid);
+					getSpybData(params.data.qxid);
+				});
+				 
+		    	}
+			);
+		}
+		
+		function selectArea(qxmc){
+			var container = $("#menu1");
+			var scrollTo = $("#" + qxmc);
+			
+			$("#menu1 tr").removeClass("tractive");
+			if(scrollTo.length>0){
+				container.animate({
+					scrollTop:scrollTo[0].offsetTop-(scrollTo[0].rowIndex*9)
+				}, 1000);
+				scrollTo.addClass("tractive");
+			}
+		}
+        
+		function showYzcmx(qxid,name){
+			$("#yzcQx").html(name);
+			$.ajax({
+			    url : contextPath+"/chartPig/getYzcmx.action?qxid="+qxid+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showYzcTab(datas["yzc"]);
+			    	$("#yzcLb").hide();
+			    	$("#yzcMx").show();
+			    }
+			})
+		}
+		
+		function showYzcLb(){
+			$("#yzcLb").show();
+	    	$("#yzcMx").hide();
+		}
+		
+		//构建地区行情的table
+		function showYzcTab(jsonArray){
+			$("#mapTable2").html("");
+			var tabStr = '';
+			var num = 1;
+			for ( var obj in jsonArray) {
+				tabStr = tabStr + "<tr ><td class='hidden-xs' style='width:45px;'>"+num+"</td><td style='width:160px;'>"+jsonArray[obj]["name"]+"</td><td align='center' style='width:110px;'>"+format_number(jsonArray[obj]["gmcs"])+"</td><td align='center' style='width:100px;'>"+format_number(jsonArray[obj]["value"])+"</td></tr>";
+				num++;
+			}
+			$("#mapTable2").html(tabStr);
+		}
+		
+		//构建地区行情的table
+		function showMapTab(jsonArray){
+			var tabStr = '';
+			var num = 1;
+			for ( var obj in jsonArray) {
+				tabStr = tabStr + "<tr id='"+jsonArray[obj]["name"]+"'><td class='hidden-xs' style='width:45px;'>"+num+"</td><td style='width:75px;'>"+jsonArray[obj]["name"]+"</td><td align='center' style='width:119px;'><a href='javascript:showYzcmx("+jsonArray[obj]["qxid"]+",\""+jsonArray[obj]["name"]+"\")'>"+format_number(jsonArray[obj]["gmcs"])+"</a></td><td align='center' style='width:110px;'>"+format_number(jsonArray[obj]["value"])+"</td><td align='center'>"+format_number(jsonArray[obj]["cls2"])+"</td></tr>";
+				num++;
+			}
+			$("#mapTable").html(tabStr);
+		}
+		
+		function showDiv(params,event){
+			$("#qx_span").html(params.name);
+			$("#qx_span1").html("");
+			$("#qx_span2").html("");
+			$("#qx_span3").html("");
+			
+			if(!isNaN(params.data.gmcs)){
+				$("#qx_span1").html(format_number(params.data.gmcs));
+        	} 
+			
+			if(!isNaN(params.data.value)){
+				$("#qx_span2").html(format_number(params.data.value));
+        	} 
+			
+			if(!isNaN(params.data.cls2)){
+				$("#qx_span3").html(format_number(params.data.cls2));
+        	} 
+			
+			var x = event.offsetX+20;
+			var y = event.offsetY+10;
+			$("#mapDiv").css({'left':x,'top':y});
+			$("#mapDiv").show();
+		}
+		
+		
+		function getJcsjmx(params){
+			$.ajax({
+			    url : contextPath+"/chartPig/getJcsjmx.action?_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showJcsjmxInfo(datas);
+			    }
+			})
+		}
+		
+		//检测数据显示
+		function showJcsjmxInfo(datas){
+			var sjzxqc = datas.sjzxqc;
+			$("#qszzcs").html(format_number(sjzxqc.cs));
+			$("#nfmxcls").html(format_number(sjzxqc.nfmxcls));
+			$("#nmcls").html(format_number(sjzxqc.nmcls));
+			$("#dnccs").html(format_number(sjzxqc.ccs));
+			
+			var sjzrzsl = datas.sjzrzsl;
+			$("#qszrcl").html(format_number(sjzrzsl.szcl));
+			$("#slcl").html(format_number(sjzrzsl.slcl));
+			$("#zrjg").html(format_number(sjzrzsl.szjg));
+			$("#sljg").html(format_number(sjzrzsl.sljg));
+		}
+		
+		function getCcmxData(params){
+			$.ajax({
+			    url : contextPath+"/chartPig/getCcmx.action?qxid="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showCcmxInfo(datas);
+			    }
+			})
+		}
+		
+		function getSpybData(params){
+			$.ajax({
+			    url : contextPath+"/chartPig/getSpyb.action?qxid="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showSpybInfo(datas["spyb"],params);
+			    }
+			})
+		}
+		
+		function getSpybmxData(params){
+			$.ajax({
+			    url : contextPath+"/chartPig/getSpybmx.action?qxid="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	spybArray = datas["spybmx"];
+			    	showSpybListInfo();
+			    	showSpyb(2);
+			    }
+			})
+		}
+		
+		function showSpybInfo(datas,qxid){
+			if(datas["wgh"]){
+				$("#spyb_td2").html("<a href='javascript:getSpybmxData("+qxid+");' >"+format_number(datas["wgh"])+"</a>");
+			}else{
+				$("#spyb_td2").html(format_number(datas["wgh"]));
+			}
+			$("#spyb_td3").html(format_number(datas["ls"]));
+			$("#spyb_td4").html(format_number(datas["yj"]));
+			$("#spyb_td5").html(format_number(datas["dlbz"]));
+			$("#spyb_td6").html(format_number(datas["ppcp"]));
+		}
+		
+		function showSpybListInfo(){
+			var tabStr = '';
+			var num=1;
+			for ( var obj in spybArray) {
+				tabStr = tabStr + "<tr ><td align='center'>"+num+"</td><td>"+spybArray[obj]["cpmc"]+"</td><td ><a href='javascript:showSpybMxInfo("+obj+");'>"+spybArray[obj]["scdw"]+"</a></td><td >"+spybArray[obj]["cdgm"]+"</td><td >"+spybArray[obj]["zsbh"]+"</td><td >"+spybArray[obj]["zsyxq"]+"</td></tr>";
+				num++;
+			}
+			$("#spybTab").html(tabStr);
+		}
+		
+		function showSpybMxInfo(obj){
+			$("#spyb_cpmc").html(spybArray[obj]["cpmc"]);
+			$("#spyb_cdgm").html(spybArray[obj]["cdgm"]);
+			$("#spyb_bzrq").html(spybArray[obj]["bzrq"]);
+			$("#spyb_zsyxq").html(spybArray[obj]["zsyxq"]);
+			$("#spyb_lxr").html(spybArray[obj]["lxr"]);
+			$("#spyb_dh").html(spybArray[obj]["dh"]);
+			$("#spyb_yb").html(spybArray[obj]["yb"]);
+			$("#spyb_zsbh").html(spybArray[obj]["zsbh"]);
+			$("#spyb_qx").html(spybArray[obj]["qxname"]);
+			$("#spyb_bzdw").html(spybArray[obj]["bzdw"]);
+			$("#spyb_scdw").html(spybArray[obj]["scdw"]);
+			$("#spyb_rdcdmc").html(spybArray[obj]["rdcdmc"]);
+			$("#spyb_cddz").html(spybArray[obj]["cddz"]);
+			$("#spyb_txdz").html(spybArray[obj]["txdz"]);
+          
+			showSpyb('3');
+		}
+		
+		function showCcmxInfo(datas){
+			$("#cc_td1").html(format_number(datas["rcl"]));
+			$("#cc_td2").html(format_number(datas["cls"]));
+			$("#cc_td3").html(format_number(datas["gmcs"]));
+			$("#cc_td4").html(format_number(datas["cls2"]));
+			$("#cc_td5").html(format_number(datas["nrzss"]));
+			$("#cc_td6").html(format_number(datas["jchs"]));
+			$("#cc_td7").html(format_number(datas["rzcps"]));
+			$("#cc_td8").html(format_number(datas["czbz"]));
+		}
+		
+		$(document).ready(function() {
+			//生产总览
+			getSczlData();
+			//生猪生产明细数据
+			getSzmxsj();
+			//检测数据（图）
+			getJcsjData();
+			//检测数据明细
+			getJcsjmx();
+			//生猪分布
+			getSzfbData("3");
+			
+			$("#yzcMx").hide();
+			
+			$("#showDiv").mouseleave(function(){
+				$("#mapDiv").hide();
+			});
+		});
+		
+		function showSpybDiv(){
+			 showSpyb("1");
+			 $('#myModal2').modal('show');
+		}
+		
+		function showSpyb(id){
+			$("div#myModal2 div.modal-dialog").css("display","none"); 
+			$("#spyb_div"+id).show();
+		}
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+    <!--页面实际内容区开始-->
+    <div>
+  <div class="container" style="position:relative;">
+    <div class="simple_box row" style="padding-bottom:10px;">
+      <div class="simple_box_title col-md-12" style="margin-bottom:-8px;">
+        <h3 class="simple_box_title_name_withico"> <span class="icon-bar-chart"></span>生猪专题 <small class="simple_box_title_txt hidden-xs"> 分析全市生猪生产情况 </small> </h3>
+      </div>
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:0px;">
+          <h3 class="simple_box_title_name" >生产总览 <small class="simple_box_title_txt hidden-xs">全市生猪生产情况总览 </small> </h3>
+        </div>
+        <div class="row" style="padding:10px;">
+          <div class="col-md-3 valuebox" style="height:264px;">
+            <div class="valuebox_body" >
+              <h4>规模养殖场<small>(户)</small><span class="numvalue" id="yzcs">${null }</span></h4>
+              <div class="line_step_box" > 
+                <table width="100%" border="0" cellspacing="2" cellpadding="2" class="step_line">
+				  <tr>
+				    <td class="line_1 active" id="line_1" onclick="javascript:showGmyzc(this,'1');">
+				    <div>
+				    <div class="floatlabel">
+				    	<span class="text">1-49头</span><br/>
+				        <span class="arrow"><img src="${ contextPath }/res/front/style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+				    </div>
+				    </div>
+				    </td>
+				    <td class="line_2" id="line_2" onclick="javascript:showGmyzc(this,'2');">
+				     <div>
+				    <div class="floatlabel">
+				    	<span class="text">50-499头</span><br/>
+				        <span class="arrow"><img src="${ contextPath }/res/front/style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+				    </div>
+				    </div>
+				    </td>
+				    <td class="line_3" id="line_3"  onclick="javascript:showGmyzc(this,'3');">
+				     <div>
+				    <div class="floatlabel">
+				    	<span class="text">500-4999头</span><br/>
+				        <span class="arrow"><img src="${ contextPath }/res/front/style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+				    </div>
+				    </div>
+				    </td>
+				    <td class="line_4"  id="line_4" onclick="javascript:showGmyzc(this,'4');">
+				     <div>
+				    <div class="floatlabel">
+				    	<span class="text">5000头以上</span><br/>
+				        <span class="arrow"><img src="${ contextPath }/res/front/style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+				    </div>
+				    </div>
+				    </td>
+				  </tr>
+				 <tr>
+				    <th class="line_txt" ><div class="setp_line_num" style="left:-5px;">0</div></th>
+				    <th class="line_txt" ><div class="setp_line_num" style="left:-10px;">50</div></th>
+				    <th class="line_txt" ><div class="setp_line_num" style="left:-10px;">500</div></th>
+				    <th class="line_txt" ><div class="setp_line_num" style="left:-13px;">5000</div></th>
+				  </tr>
+				</table>
+
+              </div>
+              <h4>总饲养量<small>(头)</small><span class="numvalue" id="zsyl">${null }</span></h4>
+            </div>
+          </div>
+          <div class="col-md-6 valuebox" style="height:264px;">
+            <div class="valuebox_body">
+              <div class=" row">
+                <div class="col-md-4" style="border-right:1px solid #d1d1d1;height:216px;">
+                  <h4>平均出栏率</h4>
+                  <p class="numvalue_imp" id="cll">${null }</p>
+                  <br>
+                  <h4 style="margin-top:11px;padding:8px 0;">总出栏数<small>(头)</small></h4>
+                  <span class="numvalue" id="cls2">${null }</span> </div>
+                <div class="col-md-8">
+                  <h4>总存栏数<small>(头)</small><span class="numvalue"id="zcls">${null }</span></h4>
+                  <div style="height: 25px; width: 50%; float:left;text-align:center;vertical-align: bottom;">能繁母畜存栏数 </div>
+                  <div style="height: 25px; width: 50%; float:left;text-align:center;vertical-align: bottom;">仔猪存栏数</div>
+                  <div id="nfmccls" style="height: 173px; width: 50%; float:left;">${null }</div>
+                  <div id="zzcls" style="height: 173px; width: 50%; float:left;">${null }</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 valuebox">
+            <div class="valuebox_body" style="height:116px;margin-bottom:16px;">
+              <div class=" row">
+                <div class="col-md-3"> <img src="${ contextPath }/res/front/style/images/jgjc_ico_1_gray.png" width="48" style="margin-top:-10px;"> </div>
+                <div class="col-md-9">
+                  <h4 >总屠宰量<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;">${null }</p>
+                </div>
+              </div>
+            </div>
+            <div class="valuebox_body" style="height:116px;">
+              <div class=" row">
+                <div class="col-md-3"> <img src="${ contextPath }/res/front/style/images/jgjc_ico_6_gray.png" width="42" style="margin-top:-10px;"> </div>
+                <div class="col-md-9">
+                  <h4 >总肉产量<small>(吨)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="rcltb">${null }</span><span id="zrcl" class="numvalue">${null }</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 valuebox" style="height:264px;">
+            <div class="valuebox_body" >
+              <h4>认证产品数量<small>(个)</small><span class="numvalue" id="xkzgs">${null }</span></h4>
+              <div id="rzcpgs" style="height: 215px; width: 100%; float:left;">${null }</div>
+            </div>
+          </div>
+          <div class="col-md-3 valuebox" style="height:264px;">
+            <div class="valuebox_body">
+              <h4 style="text-align:center;">全市猪相关财政资金项目数</h4>
+              <div id="czzjxms" style="height: 183px; width: 100%; float:left;">${null }</div>
+            </div>
+          </div>
+          <div class="col-md-3 valuebox" style="height:264px;">
+            <div class="valuebox_body" style="height:116px;margin-bottom:16px;">
+              <div class=" row">
+                <div class="col-md-3"> <span class="icon-copy" style="font-size:33px;color:#676767;margin-left:8px;"></span> </div>
+                <div class="col-md-9">
+                  <h4 >许可证数量<small>(个)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="xkzsl" class="numvalue">${null }</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="valuebox_body" style="height:116px;">
+              <div class=" row">
+                <div class="col-md-3"> <span class="icon-qrcode" style="font-size:36px;color:#676767;margin-left:8px;"></span> </div>
+                <div class="col-md-9">
+                  <h4 ><small>加入追溯平台的</small><br/>
+                    企业/养殖场数量</h4>
+                  <p class="numvalue" style="padding-top:10px;"><span id="zsqys" class="numvalue">${null }</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="simple_box row" style="padding-bottom:10px;">
+      
+        <div class="simple_box_title row" style="margin-bottom:0px;">
+          <h3 class="simple_box_title_name">监测数据 <small class="simple_box_title_txt hidden-xs"> 全市生猪生产情况监测（农业部和重庆市） </small> </h3>
+        </div>
+        <div class="row" style="padding:10px;">
+          <div class="col-md-6 valuebox" style="height:292px;">
+            <div id="jcsj" style="height: 290px; width: 100%; float:left;">${null }</div>
+          </div>
+          <div class="col-md-6 valuebox" style="height:292px;">
+            <div class="valuebox_body">
+              <div id="sjdb" style="height: 290px; width: 100%; float:left;">${null }</div>
+            </div>
+          </div>
+          
+            
+            <div class="col-md-2 valuebox">
+            	<div class="valuebox_body" style="padding:0;">
+               	 <img src="${ contextPath }/res/front/style/images/lm_1.png" height="290"> 
+                </div>
+                
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:136px;margin-bottom:16px;">
+                	<div class="optionbox">${null }</div>
+                  <h4 >全市种猪场数<small>(户)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="qszzcs" class="numvalue">${null }</span></p>
+	            </div>
+                <div class="valuebox_body" style="height:136px;">
+                <div class="optionbox"> ${null }</div>
+                  <h4 >能繁母畜存栏数<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="nfmxcls" class="numvalue">${null }</span></p>
+	            </div>
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:136px;margin-bottom:16px;">
+                <div class="optionbox"> ${null }</div>
+                  <h4 >年末存栏数<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="nmcls" class="numvalue">${null }</span></p>
+	            </div>
+                <div class="valuebox_body" style="height:136px;">
+                <div class="optionbox"> ${null }</div>
+                  <h4 >当年出场数<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="dnccs" class="numvalue">${null }</span></p>
+	            </div>
+            </div>
+            
+            
+            
+            	<div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="padding:0;">
+               	 <img src="${ contextPath }/res/front/style/images/lm_2.png"  height="290"> 
+                </div>
+                
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:135px;margin-bottom:16px;">
+                <div class="optionbox"><a href="${ contextPath }/pages/chart/pig/zrzb.jsp" target= "_blank"><button type="button" class="btn btn-success">占比</button></a></div>
+                  <h4 >全市猪肉产量<small>(吨)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="qszrcl" class="numvalue">${null }</span></p>
+	            </div>
+                <div class="valuebox_body" style="height:135px;">
+                <div class="optionbox"> ${null }</div>
+                  <h4 >饲料产量<small>(吨)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="slcl" class="numvalue">${null }</span></p>
+	            </div>
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:135px;margin-bottom:16px;">
+                <div class="optionbox">${null }</div>
+                  <h4 >猪肉价格<small>(元/公斤)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="zrjg" class="numvalue">${null }</span></p>
+	            </div>
+                <div class="valuebox_body" style="height:135px;">
+                
+                <div class="optionbox"> 
+                <div class="btn-group btn-group-xs">
+${null }
+</div>
+                
+                
+               </div>
+                  <h4 >饲料价格<small>(元/公斤)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span id="sljg" class="numvalue">${null }</span></p>
+	            </div>
+            </div>
+        </div>
+      
+    </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:10px;">
+          <h3 class="simple_box_title_name">分布情况 <small class="simple_box_title_txt hidden-xs"> 全市生猪生产地区分布 </small> </h3>
+        </div>
+        <div class="row"  style="padding:10px;">
+        <div id="showDiv" class="col-md-7 col-xs-12" style="min-height:520px;">
+        
+        <!--浮动按钮块开始-->
+           	<div id="div_map" class="mapoption_1">
+                	<button type="button" class="btn btn-success" id="btn_map3" name="3" onclick="javascript:jcsjFb(this,'3');"><span id="btn_span3" class="glyphicon glyphicon-check"></span>农业部年报</button>
+                	<div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn_map1" name="1" onclick="javascript:jcsjFb(this,'1');"><span id="btn_span1" class="glyphicon glyphicon-unchecked"></span>农业部监测</button>
+                        <button type="button" class="btn btn-default" id="btn_map2"  name="2" onclick="javascript:jcsjFb(this,'2');"><span id="btn_span2" class="glyphicon glyphicon-unchecked"></span>重庆市监测</button>
+                    </div>
+                </div>
+                
+        <!--浮动按钮块结束-->
+        <!--地图浮动信息及操作块开始-->
+                <div class="mapoption_2" id="mapDiv" style="display: none;">
+                    <div class="map_float_msg">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <th colspan="2"><h4><span id="qx_span">${null }</span></h4></th>
+                          </tr>
+                          <tr>
+                            <th>规模场数(户):</th>
+                            <td><span id="qx_span1">${null }</span></td>
+                          </tr>
+                          <tr>
+                            <th>存栏数(头):</th>
+                            <td><span id="qx_span2">${null }</span></td>
+                          </tr>
+                          <tr>
+                            <th>出栏数(头):</th>
+                            <td><span id="qx_span3">${null }</span></td>
+                          </tr>
+                        </table>
+        
+                    </div>
+                    <div class="optionbar">
+                    <h4>相关信息</h4>
+                        <a href="#fdsf" data-toggle="modal" data-target="#myModal1"><em>●</em>草原草场</a>
+                        <a href="javascript:showSpybDiv();"><em>●</em>三品一标</a><br>
+                        <a href="#fdsf"><em>●</em>产品许可证</a>
+                        <a href="#fdsf"><em>●</em>财政补助</a>
+                        
+                    </div>
+                </div>
+        
+        <!--地图浮动信息及操作块结束-->
+            <div id="szfb" style="height: 513px; width: 100%; float:left;">${null }</div>
+            
+            </div>
+            <div class="col-md-5 col-xs-12" id="yzcLb"  style="padding:10px;">
+            	<div  class="colortable">
+                        <table class="table table-bordered table-striped" style="margin-bottom:0px;">
+                            <caption>
+                      生猪规模养殖情况
+                      </caption>
+                            <thead>
+                              <tr>
+                                <th class="hidden-xs" style="width:40px;">序号</th>
+                                <th style="width:75px;">区县</th>
+                                <th style="width:120px;cursor:pointer;" onclick="javascript:tableSort('sortSpan2','gmcs');">规模场数<small>（户）</small><span id="sortSpan2" class="icon-caret-down sort_list_ico">${null }</span></th>
+                                <th style="width:110px;cursor:pointer;" onclick="javascript:tableSort('sortSpan','value');">存栏数<small>（头）</small><span id="sortSpan" class="icon-caret-down sort_list_ico">${null }</span></th>
+                                <th style="width:90px;">出栏数<small>（头）</small></th>
+                              </tr>
+                            </thead>
+                    
+                          </table>
+                     </div>
+                     <div id="menu1" class="colortable" style="height:480px;overflow:auto;">
+                        <table id="tab_div" class="table table-bordered table-striped" style="margin-bottom:0px;">
+                            <tbody id="mapTable">
+                              ${null }
+                            </tbody>
+                          </table>
+                     </div>
+          </div>
+          <div class="col-md-5 col-xs-12" id="yzcMx">
+            	<div  class="colortable">
+                        <table class="table table-bordered table-striped" style="margin-bottom:0px;">
+                            <caption>
+                      <span id="yzcQx">${null }</span>生猪规模养殖情况<small class="pull-right"><a href="javascript:showYzcLb();">返回&gt;</a></small>
+                      </caption>
+                            <thead>
+                              <tr>
+                                <th class="hidden-xs" style="width:45px;">序号</th>
+                                <th style="width:160px;">规模分类</th>
+                                <th style="width:110px;">规模场数<small>（户）</small></th>
+                                <th style="width:100px;">存栏数<small>（头）</small></th>
+                              </tr>
+                            </thead>
+                    
+                          </table>
+                     </div>
+                     <div id="menu1" class="colortable" style="height:480px;overflow:auto;">
+                        <table id="tab_div" class="table table-bordered table-striped" style="margin-bottom:0px;">
+                            <tbody id="mapTable2">
+                              ${null }
+                            </tbody>
+                          </table>
+                     </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+       
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:20%;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>
+					<span id="qx_cc">${null }</span>草原草场
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                              <tr>
+                                <th>产量<small>(吨)</small></th>
+                                <th>可利用面积<small>(万亩)</small></th>
+                                <th>承包面积<small>(万亩)</small></th>
+                                <th>草原总面积<small>(万亩)</small></th>
+                              </tr>
+                              <tr>
+                               
+                                <td align="center" id="cc_td1">${null }</td>
+                                <td align="center" id="cc_td2">${null }</td>
+                                <td align="center" id="cc_td3">${null }</td>
+                                <td align="center" id="cc_td4">${null }</td>
+                              </tr>
+                              <tr>
+                                
+                                <th>保护面积<small>(万亩)</small></th>
+                                <th>鼠害面积<small>(户)</small></th>
+                                <th>虫害面积<small>(个)</small></th>
+                                <th>投资金额<small>(万元)</small></th>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <td align="center" id="cc_td5">${null }</td>
+                                <td align="center" id="cc_td6">${null }</td>
+                                <td align="center" id="cc_td7">${null }</td>
+                                <td align="center" id="cc_td8">${null }</td>
+                              </tr>
+                             
+                          </table>
+                     </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--三品一标弹窗开始1-->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:20%;">
+	<div class="modal-dialog" style="width:800px;" id="spyb_div1">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span><span id="qx_spyb">${null }</span>三品一标产品情况
+				</h4>
+			</div>
+			<div class="modal-body">
+            <h4 class="subtitle_p">三品一标产品概况</h4>
+				<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                              <tr>
+                                <th>无公害农产品<small>(种)</small></th>
+                                <th>绿色产品<small>(种)</small></th>
+                                <th>有机产品<small>(种)</small></th>
+                                <th>地理标志产品<small>(种)</small></th>
+                                <th>名牌农产品<small>(种)</small></th>
+                              </tr>
+                            
+                              <tr>
+                                <td align="center" id="spyb_td2">${null }</td>
+                                <td align="center" id="spyb_td3">${null }</td>
+                                <td align="center" id="spyb_td4">${null }</td>
+                                <td align="center" id="spyb_td5">${null }</td>
+                                <td align="center" id="spyb_td6">${null }</td>
+                              </tr>
+                          </table>
+                     </div>
+			</div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal-dialog" style="width:800px;display: none;" id="spyb_div2">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>巴南区三品一标产品情况
+				</h4>
+			</div>
+			<div class="modal-body">
+                     <h4 class="subtitle_p">无公害农产品列表</h4>
+                     <div id="menu1" class="colortable" style="height:380px;overflow:auto;">
+                        <table class="table table-bordered table-striped">
+                        	<thead>
+                              <tr>
+                                <th>序号</th>
+                                <th style="width:100px;">产品名称</th>
+                                <th>生产单位</th>
+                                <th>产地规模（亩）</th>
+                                <th>证书编号</th>
+                                <th>证书有效期</th>
+                              </tr>
+                            </thead>
+                            <tbody id="spybTab">
+                              ${null }
+                            </tbody>
+                          </table>
+                     </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="javascript:showSpyb('1');">返回
+				</button>
+                <button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal-dialog" style="width:800px;display:none;" id="spyb_div3">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>巴南区三品一标产品情况
+				</h4>
+			</div>
+			<div class="modal-body">
+                      <h4 class="subtitle_p">肉鸡产品详情</h4>
+				<div id="menu1" class="colortable1"  style="max-height:400px;overflow:auto;">
+                        <table class="table table-bordered table-striped">
+                              <tr>
+                                <th>产品名称</small></th>
+                                <td id="spyb_cpmc">${null }</td>
+                                <th >产地规模（亩）</th>
+                                <td id="spyb_cdgm">${null }</td>
+                              </tr>
+                             <tr>
+                               
+                                <th >颁证日期</th>
+                                <td id="spyb_bzrq">${null }</td>
+                                <th >证书有效期</th>
+                                <td id="spyb_zsyxq">${null }</td>
+                              </tr>
+                          
+                              <tr>
+                               
+                                <th >联系人</th>
+                                <td id="spyb_lxr">${null }</td>
+                                <th >电话</th>
+                                <td id="spyb_dh">${null }</td>
+                              </tr>
+                              <tr>
+                               
+                                <th >邮编</th>
+                                <td id="spyb_yb">${null }</td>
+                                 <th >证书编号</th>
+                                <td id="spyb_zsbh">${null }</td>
+                              </tr>
+                              <tr>
+                               
+                                <th >区县</th>
+                                <td id="spyb_qx">${null }</td>
+                                <th >颁证单位</th>
+                                <td id="spyb_bzdw">${null }</td>
+                              </tr>
+                              <tr>
+                                
+                                <th>生产单位</th>
+                                <td colspan="3" id="spyb_scdw">${null }</td>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <th >认定产地名称</th>
+                                <td colspan="3" id="spyb_rdcdmc">${null }</td>
+                              </tr>
+                              <tr>
+                                <th >产地地址</th>
+                                <td colspan="3" id="spyb_cddz">${null }</td>
+                              </tr>
+                              <tr>
+                                <th >通讯地址</th>
+                                <td colspan="3" id="spyb_txdz">${null }</td>
+                              </tr>
+                            
+                          </table>
+                     </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+						onclick="javascript:showSpyb('2');">返回
+				</button>
+                <button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div>
+</div>
+<!--三品一标弹窗结束-->
+
+	</jsp:body>
+</t:chart>

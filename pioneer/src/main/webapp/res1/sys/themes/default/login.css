@@ -1,0 +1,136 @@
+@charset "utf-8";
+
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #fff;
+	/*background-image: url(images/login_bg.png);
+	background-repeat: repeat-x;
+	background-position: left top;*/
+}
+img{margin:0;}
+div, td, th, span {
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";
+}
+form{margin:0;padding:0;}
+.error {
+	margin: 0;
+	color: #DF2020;
+	font-size: 12px;
+	min-height: 20px;
+	text-align:center;
+}
+
+.loginbox {
+	
+	height: 607px;
+	background-image: url(images/loginbg.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	position:relative;
+}
+.logininputbody{
+	height:282px;
+	background-image: url(images/login_box_body.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	
+	}
+
+.logininputbox {
+	width: 310px;
+	height:325px;
+	position: absolute;
+	top:205px;
+	left:50%;
+	margin-left:160px;
+}
+
+.inputbox {
+	height:38px;
+}
+
+.inputbox td {
+	padding: 0px;
+	margin: 0px;
+	color: #9b9b9b;
+}
+
+.inputbox table {
+	height: 27px;
+	width: 100%;
+	
+	
+}
+
+.inputico {
+	height: 27px;
+	width: 25px;
+}
+
+.inputtxt {
+	height: 27px;
+	width: 93px;
+	font-size: 12px;
+	text-align:right;
+	padding-right:5px;
+}
+
+.inputwrite {
+	height: 27px;
+}
+
+.inputstyle {
+	width: 174px;
+	height: 27px;
+	line-height: 27px;
+	border: 1px solid #b0b4c4;;
+	background-color: #fff;
+}
+
+label {
+	cursor: pointer;
+	margin-left: 4px;
+}
+
+.loginbtn {
+	width: 62px;
+	height: 28px;
+	color: #fff;
+	text-align: center;
+	
+	border: none;
+	cursor: pointer;
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";
+	background: url('images/loginbtn.png') repeat-x center center;
+}
+
+.loginbtn:hover {
+	width: 62px;	
+	color: #fff;
+	text-align: center;	
+	background: url('images/loginbtn_over.png') repeat-x center center;
+}
+
+.resetbtn {
+	padding: 0px;
+	width: 62px;
+	height: 28px;
+	color: #fff;
+	text-align: center;
+	
+	border: none;
+	cursor: pointer;
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";	
+	background: url('images/loginresetbtn.png') repeat-x center center;
+}
+
+.resetbtn:hover {
+	width: 62px;	
+	color: #fff;
+	text-align: center;	
+	background: url('images/loginresetbtn_over.png') repeat-x center center;
+}
+.loginmsg{font-size:12px;color:#8f8f91;font-family:"宋体";margin:10px;line-height:24px;margin-top:30px;}
+.loginfoot{text-align:center;line-height:90px;background-color:#fff;color:#8f8f91;font-size:12px;font-family:  "宋体";height:100px;	}
+.loginfoot img{vertical-align:middle;margin-left:40px;}

@@ -1,0 +1,198 @@
+package com.wellsys.common.utils;
+
+import java.io.File;
+
+import org.apache.log4j.Logger;
+
+import com.wellsys.common.utils.file.FileDeleter;
+
+
+
+public class StaticVal {
+
+	/**
+	 * excel每个SHEET的数据条数
+	 */
+	public static int EXCEL_SHEET_DATA;
+	/**
+	 * 文件处理缓存地址
+	 */
+	public static String CACHE_PATH;
+	/**
+	 * 项目名称
+	 */
+	public static String PROJCE_NAME;
+	/**
+	 * 短信发送方号码
+	 */
+	public static String SENDER_TEL;
+	/**
+	 * 趋势分析导出word目录
+	 */
+	public static String TENDANALYZEWORD_DOC_DIR;
+
+	/**
+	 * 微信appid
+	 */
+	public static String APPID;
+	/**
+	 * 微信密匙
+	 */
+	public static String APPSECRET;
+	/**
+	 * 微信任务执行频率
+	 */
+	public static String WX_TASK_TIME;
+	
+	/**
+	 * 图表图片上传文件目录,world保存目录，报表exel模板保存目录
+	 */
+	public static String UPLOAD_FOLDER;
+	
+	/**
+	 * 富文本编辑器上传目录 
+	 */
+	public static String RECH_TEXT_IMG;
+	
+	/**
+	 * 数据库备份地址
+	 */
+	public static String DBSQL_BACKUP;
+	
+	/**
+	 * 图表上传图片，图表world导出 读取地址
+	 */
+	public static String UPLOAD_PREFIX_URL;
+	
+	/**
+	 * 富文本文件读取url
+	 */
+	public static String RECH_TEXT_IMG_PREFIX_URL;
+	
+	/**
+	 * 数据库备份文件读取url
+	 */
+	public static String DBSQL_BACKUP_PREFIX_URL;
+	
+	/**
+	 * 全部固定报表单都有的5个默认字段
+	 */
+	public static String DEFAULT_FIELD;
+	
+	/**
+	 * 种公猪站登记、种公猪站仪器设备表
+	 * 种公猪情况 多行插入所需的7个固定字段
+	 * 
+	 */
+	public static String ZGZQK_FIELD;
+	
+	/**
+	 * 种公猪站登记、种公猪站仪器设备表
+	 * 仪器设备 多行插入所需的4个固定字段
+	 */
+	public static String ZGZZYQSB_FIELD;
+	
+	/**
+	 * 可上传的图片类型
+	 */
+	public static String PIC_TYPE;
+	
+	/**
+	 * 远程数据库访问地址以及用户名、密码
+	 */
+	public static String REMOTE_HOST;
+	
+	/**
+	 * 数据库备份命令存放地址(目前只支持bat命令)
+	 * 命令存放位置 pages\module\tSysDbRecord\bat
+	 */
+	public static String ROOT_PATH;
+	
+	/**
+	 * 数据资源URL地址
+	 */
+	public static String DATA_RESOURCE_URL;
+	
+	public static String EXCEL_TEMPLATE_PATH;
+	
+	private static Logger log4j = Logger.getLogger(StaticVal.class);
+	public void init(){
+		System.out.println("静态变量初始化");
+		log4j.info("静态变量初始化");
+		//SOLR_URL = System_ConfigUtil.getProperty("SOLR_URL");
+		String excelSheetData = System_ConfigUtil.getProperty("EXCEL_SHEET_DATA");
+		EXCEL_SHEET_DATA = Integer.parseInt(excelSheetData);
+		if(EXCEL_SHEET_DATA > 65536){
+			EXCEL_SHEET_DATA = 65536;
+		}
+		
+		CACHE_PATH = System_ConfigUtil.getProperty("CACHE_PATH");
+		PROJCE_NAME = System_ConfigUtil.getProperty("PROJCE_NAME");
+		SENDER_TEL = System_ConfigUtil.getProperty("SENDER_TEL");
+		//TENDANALYZEWORD_DOC_DIR = System_ConfigUtil.getProperty("TENDANALYZEWORD_DOC_DIR");
+		UPLOAD_FOLDER = System_ConfigUtil.getProperty("UPLOAD_FOLDER");
+		RECH_TEXT_IMG = System_ConfigUtil.getProperty("RECH_TEXT_IMG");
+		
+		UPLOAD_PREFIX_URL = System_ConfigUtil.getProperty("UPLOAD_PREFIX_URL");
+		RECH_TEXT_IMG_PREFIX_URL = System_ConfigUtil.getProperty("RECH_TEXT_IMG_PREFIX_URL");
+		DBSQL_BACKUP_PREFIX_URL = System_ConfigUtil.getProperty("DBSQL_BACKUP_PREFIX_URL");		
+	    DATA_RESOURCE_URL = System_ConfigUtil.getProperty("DATA_RESOURCE_URL");
+        File cachePath = new File(CACHE_PATH);
+        if(!cachePath.exists()){
+        	cachePath.mkdirs();
+        }
+        
+        APPID = System_ConfigUtil.getProperty("APPID");
+		APPSECRET = System_ConfigUtil.getProperty("APPSECRET");
+		WX_TASK_TIME = System_ConfigUtil.getProperty("WX_TASK_TIME");
+		
+		DEFAULT_FIELD = System_ConfigUtil.getProperty("DEFAULT_FIELD");
+		ZGZQK_FIELD = System_ConfigUtil.getProperty("ZGZQK_FILED");
+		ZGZZYQSB_FIELD = System_ConfigUtil.getProperty("ZGZZYQSB_FIELD");
+		
+		PIC_TYPE = System_ConfigUtil.getProperty("PIC_TYPE");
+		
+		DBSQL_BACKUP = System_ConfigUtil.getProperty("DBSQL_BACKUP");
+		//System.out.println("WX_TASK_TIME:" + WX_TASK_TIME);
+		//System.out.println("APPID:" + APPID);
+		//System.out.println("APPSECRET:" + APPSECRET);
+		
+		REMOTE_HOST = System_ConfigUtil.getProperty("REMOTE_HOST");
+		ROOT_PATH = System_ConfigUtil.getProperty("ROOT_PATH");
+		initDefaultImg();
+		log4j.info("WX_TASK_TIME:" + WX_TASK_TIME);
+		log4j.info("APPID:" + APPID);
+		log4j.info("APPSECRET:" + APPSECRET);
+		
+		try {
+			EXCEL_TEMPLATE_PATH = UPLOAD_FOLDER + "excelTemplate" + File.separator;
+			File f = new File(EXCEL_TEMPLATE_PATH);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+		} catch (Exception e) {
+			log4j.error("初始化excelTemplate 模板路径失败:" + EXCEL_TEMPLATE_PATH);
+			e.printStackTrace();
+		}
+		
+		System.out.println("静态变量初始化结束");
+		
+	}
+	/**
+	 * 初始化 默认图片
+	 * @Author hehg
+	 * @Date 2017-3-24 下午3:11:30
+	 */
+	private void initDefaultImg(){
+		String destFileName = StaticVal.UPLOAD_FOLDER + "transientImg.png";
+		try{
+			File file = new File(destFileName);
+			if(! file.exists()){
+				String srcFileName =  StaticVal.ROOT_PATH+ "res/front/style/images/transientImg.png";
+				Util.copyFile(srcFileName, destFileName, false);
+			}
+		}catch(Exception e){
+			log4j.error("初始化默认图片失败："+e);
+		}
+	}
+}

@@ -1,0 +1,707 @@
+	var url = "/pages/module/tSourceQuery";
+	function getData(){
+		var array=new Array();
+		array.beforeMove=[];
+		array.afterMove=[];
+		return function calcuData(data){
+			var nameSuffix= 0;
+			var index=0;
+			if(array.length){
+				index=array.length;
+				for(var i = 0; i< index; i++){
+					if(data.indexName == array[i].indexName){
+						if(nameSuffix > 0){
+							data.indexName = data.indexName.substring(0,data.indexName.length-1);
+						}
+						data.indexName += nameSuffix;
+						nameSuffix++;
+					}
+				}
+			}
+			if((!data.chartData.xvalue || !data.chartData.yvalue) && array.length){ //返回的xy坐标为空设为默认值0
+				if(!data.chartData.xvalue){
+					data.chartData.xvalue = [];
+					for(var i =0 ; i < array[0].chartData.length; i++){
+						data.chartData.xvalue[i]=array[0].chartData.xvalue[i];
+					}
+				}
+				if(!data.chartData.yvalue){
+					data.chartData.yvalue = [];
+					for(var i =0 ; i < array[0].chartData.length; i++){
+						data.chartData.yvalue[i]=0;
+					}
+				}
+				
+			}
+			array[index]=data;
+			var uuid=Math.uuid(8, 16); //创建唯一标识，方便移动
+			data.cindexUUID = uuid;
+			if(!data.isShow && data.isShow != 0){
+				data.isShow = 1; // 默认1显示
+			}
+			array.beforeMove.push(uuid);
+			calcuData.array=array;
+		};
+	}
+	/**
+	 * 在ol列表中刷新li
+	 * @param data
+	 */
+	function appendLi(data){
+	var titlePic={bar:"fa-bar-chart",line:"fa-line-chart",pie:"fa-pie-chart",gauge:"fa-dashboard",area:"fa-area-chart"};
+	var html="";
+	for(var i =0 ; i< data.length;i++){
+		var indexName_=data[i].indexName;
+		if(data[i].indexAlias){
+			indexName_=data[i].indexAlias;
+		}
+		switch(data[i].style){
+		case "bar":
+			html+=getLi(titlePic.bar,indexName_,false,data[i].cindexId,data[i].color);
+			break;
+		case "line":
+			html+=getLi(titlePic.line,indexName_,false,data[i].cindexId,data[i].color);
+			break;
+		case "pie":
+			html+=getLi(titlePic.pie,indexName_,true,data[i].cindexId,data[i].color);
+			break;
+		case "gauge":
+			html+=getLi(titlePic.gauge,indexName_,true,data[i].cindexId,data[i].color);
+			break;
+		case "area":
+			html+=getLi(titlePic.area,indexName_,true,data[i].cindexId,data[i].color);
+			break;
+		}
+	}
+	$("#indexTable").html(html);
+	$.parser.parse('#indexTable');
+	if(data && data.length > 0){
+		$("#indexTable").prev().show();
+	}else{
+		$("#indexTable").prev().hide();
+	}
+	$(".indexSlider").slider({
+		onChange:function(nv,ov){
+			moveIndex(this,nv,ov);
+		}
+	});
+		function getLi(titlePic,indexName,boo,cindexId,color){
+			return "<li><span class='fa "+titlePic+"' style='color:"+color+"'></span><p>"+indexName+"</p><div class='operation'><div class='btnbox'>" +
+			"<a href='javascript:void(0)'class='buttonA' onclick='showOrHide(this,0)'>隐藏</a>" +
+			"<a href='javascript:void(0)'class='buttonA' cindexId='"+cindexId+"' onclick='editChart(this)'>编辑</a>" +
+			"<a href='javascript:void(0)'class='buttonA' onclick='remove(this)'>删除</a></div>" +
+			"<div class='sliderbox'><input class='easyui-slider indexSlider' value='0' data-options=" +
+			"'showTip:true,min:-10,max:10,step:1,disabled:"+boo+"'style='width:220px;'></div></div></li>";
+		}
+	}
+	var getDa=getData();
+	var alertFlag=false;
+	function moveIndex(obj,nv,ov){
+		var num=$(obj.parentNode.parentNode.parentNode).index();
+		var thisArr=getDa.array[num];
+		var cindexUUID = thisArr.cindexUUID;
+		if(getDa.array.beforeMove && getDa.array.beforeMove.length > 1 || getDa.array.afterMove.isContain(cindexUUID)){
+			getDa.array.beforeMove.remove(cindexUUID);
+			if(!getDa.array.afterMove.isContain(cindexUUID)){
+				getDa.array.afterMove.push(cindexUUID);
+			}
+		}else{
+			if(!alertFlag){
+				alert("请确保至少有一个指标作为参照物！");
+				alertFlag=true;
+				setTimeout(function(){alertFlag=false;},2000);
+			}
+			return;
+		}
+		if(nv <= ov){
+			for(var j =0 ; j< Math.abs(nv-ov);j++){
+				changeArray(getDa.array,num,"plus");
+			}
+			
+		}else if (nv > ov) {
+			for(var j =0 ; j< Math.abs(nv-ov);j++){
+				changeArray(getDa.array,num,"minus");
+			}
+		}
+		getDa.array[num]=thisArr;
+		showChart(getDa.array);
+		$("#params").val(JSON.stringify(getDa.array));
+		function changeArray(array,num,pOrm){
+			if(pOrm == "plus"){
+				for(var i = 0; i< array.length; i++){
+					if(i != num){
+						array[i].chartData.xvalue.unshift("");
+						array[i].chartData.yvalue.unshift("");
+					}else{
+						array[i].chartData.yvalue.push("");
+						array[i].chartData.xvalue.unshift("");
+					}
+				}
+				
+				
+			}else if(pOrm == "minus"){
+				for(var i = 0; i< array.length; i++){
+					if(i != num){
+						array[i].chartData.xvalue.push("");
+						array[i].chartData.yvalue.push("");
+					}else{
+						array[i].chartData.yvalue.unshift("");
+						array[i].chartData.xvalue.push("");
+					}
+				}
+			}
+			for(var m =0 ;m < array[0].chartData.xvalue.length ; m++){
+				var flag1=true;
+				var flag2=true;
+				for(var k=0; k< array.length; k ++){
+					if(array[k].chartData.xvalue[array[k].chartData.xvalue.length-1] || array[k].chartData.yvalue[array[k].chartData.xvalue.length-1]){
+						flag1=false;
+					}
+					if(array[k].chartData.xvalue[0] || array[k].chartData.yvalue[0]){
+						flag2=false;
+					}
+				}
+				if(flag1 &&  !array[m].chartData.yvalue[array[m].chartData.yvalue.length-1] ){
+					for(var n=0; n< array.length; n ++){
+						array[n].chartData.xvalue.pop(); //delete last element
+						array[n].chartData.yvalue.pop();
+					}
+				}
+				if(flag2 &&  !array[m].chartData.yvalue[0] ){
+					for(var n=0; n< array.length; n ++){
+						array[n].chartData.xvalue.shift(); //delete first element
+						array[n].chartData.yvalue.shift();
+					}
+				}
+			}
+			return array;
+		}
+	}
+	function editChart(obj){
+		var parentObj=obj.parentNode.parentNode.parentNode;
+		var num=$(parentObj).index();
+		var cindexId = $(obj).attr("cindexId");
+		var thisArr=getDa.array[num];
+		thisArr.rowNum=num;
+		thisArr.cindexId = cindexId ;
+		thisArr.modifyType="edit";
+		var params=JSON.stringify(thisArr);
+		sessionStorage.setItem("editDissertationParams",params);
+		var chartIndex=parseInt(thisArr.chartType);
+		var part="";
+		if(chartIndex > 0 && chartIndex<4){
+			part="Pie";
+		}else if(chartIndex>3){
+			part="Gauge";
+		}
+		
+	}
+	function remove(obj){
+		var num=$(obj.parentNode.parentNode.parentNode).index();
+		var indexNum= getDa.array[getDa.array.length-1].indexNum;
+		getDa.array.beforeMove.remove(getDa.array[num].cindexUUID);
+		getDa.array.remove(num);
+		if(getDa.array.length<=0){
+			$("#searchIndex").hide();
+		}
+		appendLi(getDa.array);
+		$("#params").val(JSON.stringify(getDa.array));
+		if(getDa.array.length-1 > 0){
+			getDa.array[getDa.array.length-1].indexNum = indexNum-1;
+		}
+		showChart(getDa.array);
+	}
+	Array.prototype.remove=function(num){
+		if(!isNaN(num)){
+			this.splice(num,1);
+		}else{
+			var arr = this;
+			for(var i = 0; i < arr.length; i++){
+				if(num == arr[i]){
+					this.splice(i,1);
+					i = 0; //循环删除所有相同的值
+				}
+			}
+		}
+	};
+	Array.prototype.isContain=function(value){
+			var arr = this;
+			for(var i = 0; i < arr.length; i++){
+				if(value == arr[i]){
+					return true;
+				}
+			}
+			return false;
+	};
+	function addIndex(){
+		chartType = parseInt(chartType);
+		var startDate=$("#startDate").datebox('getValue');
+	    var endDate=$("#endDate").datebox('getValue');
+		var url_="";
+		var indexNum=0;
+		   var statFreq="";
+		   if(getDa.array && getDa.array.length>0){
+			   if(getDa.array[0].style != "bar" && getDa.array[0].style != "line"){
+				   alert("该图表类型仅能展示一个指标！");
+				   return;
+			   }
+			   indexNum = getDa.array[getDa.array.length-1].indexNum;
+			   statFreq = getDa.array[getDa.array.length-1].indexConfig.statFreqCode;
+			   startDate = getDa.array[0].chartDataParams.startDate;
+			   endDate = getDa.array[0].chartDataParams.endDate;
+		   }
+		   var addedColors=[];
+		   if(getDa.array){
+			   for(var i =0 ;i < getDa.array.length; i ++){
+				   addedColors[i]=getDa.array[i].color;
+			   }
+		   }
+	   if(chartType == 0){
+		   
+		   url_=contextPath + url + "/tendAnalyze/add.jsp?indexNum="+indexNum
+			+"&statFreq="+statFreq+"&addedColors="+JSON.stringify(addedColors).replace(/#/g,"").replace(/"/g,"\\\"")
+			+"&startDate="+startDate+"&endDate="+endDate+"&chartType="+chartType;
+	   }else if(chartType < 4){
+		   url_=contextPath + url + "/tendAnalyze/addPie.jsp?indexNum="+indexNum
+			+"&startDate="+startDate+"&endDate="+endDate+"&chartType="+chartType;
+	   }else{
+		   url_=contextPath + url + "/tendAnalyze/addGauge.jsp?indexNum="+indexNum
+			+"&startDate="+startDate+"&endDate="+endDate+"&chartType="+chartType;
+	   }
+	}
+	var map=new HashMap();
+	var chartArray=new Array();
+	function showOrHide(obj,status){
+		var num  = 0;
+		if(!isNaN(obj) ){
+			num = obj;
+		}else{
+			num = $(obj.parentNode.parentNode.parentNode).index();
+		}
+		if((chartArray.length==0 && map.size()==0 )|| getDa.array.length != (chartArray.length+ map.size())){
+			chartArray=getDa.array.concat();//返回数组的拷贝数组，注意是一个新的数组，不是指向
+		}
+		if(status == 1){
+			chartArray.splice(num ,0 ,map.get(num));
+			map.remove(num);
+			showChart(chartArray);
+			getDa.array[num].isShow = status;
+			$("#indexTable li").eq(num).find("a").first().html("隐藏");
+			$("#indexTable li").eq(num).find("a").first().attr("onclick","showOrHide(this,0)");
+		}else if(status == 0){
+			map.put(num,getDa.array[num]);
+			chartArray.remove(getDa.array[num]);
+			showChart(chartArray);
+			getDa.array[num].isShow = status;
+			$("#indexTable li").eq(num).find("a").first().html("显示");
+			$("#indexTable li").eq(num).find("a").first().attr("onclick","showOrHide(this,1)");
+		}
+		$("#params").val(JSON.stringify(getDa.array));
+	}
+function showChart(data,typeIndex){
+	typeIndex = parseInt(typeIndex) ||0;
+	var chartTypes=["line","pie","gauge"];
+	var myChart = echarts.init(document.getElementById('xxly'));
+	var option={};
+	if(data && data.length== 1){
+		typeIndex=parseInt(data[0].chartType);
+	}
+	data = data || [];
+	switch(typeIndex){
+	case 0://折线、柱状图
+		 option= {
+		    title : {
+		        text: ''
+		    },
+		    tooltip : {
+		        trigger: 'axis',
+		        formatter: function(params,ticket,callback){
+	  		      	var res = params[0].name+" <br/>";
+	  				for(var i=0;i<data.length;i++){
+	  					res = res+params[i].seriesName+"："+params[i].data+data[i].indexConfig.indexUnit+"<br/>";
+	  				}
+		            return res;  
+		        }
+		    },
+		    legend: {
+		        data:[]
+		    },
+		    grid:{
+		    	show:true,
+		    	left:'6%',
+		    	right:'6%',
+		    	borderWidth:0
+		    },
+		    toolbox: {
+		    	top:0,
+		    	right:60,
+		        show : true,
+		        feature : {
+		        	dataZoom: {
+	                    yAxisIndex: false
+	                },
+	                myTool : {
+		                   show:true,
+		                   title:'切换为指数图', 
+		                   icon : 'image:///bdas/res/front/style/images/index_default.png',
+		                   onclick:  indexSwitch  
+		             		} ,
+		            mark : {show: true},
+		            dataView : {/*optionToContent:function(opt){
+		            	console.log(opt);
+		            	 var axisData = opt.xAxis[0].data;
+		            	    var series = opt.series;
+		            	    var table = '<table style="width:100%;text-align:center"><tbody><tr>'
+		            	                 + '<td>时间</td>'
+		            	                 + '<td>' + series[0].name + '</td>'
+		            	                 + '<td>' + series[1].name + '</td>'
+		            	                 + '</tr>';
+		            	    for (var i = 0, l = axisData.length; i < l; i++) {
+		            	        table += '<tr>'
+		            	                 + '<td>' + axisData[i] + '</td>'
+		            	                 + '<td>' + series[0].data[i] + '</td>'
+		            	                 + '<td>' + series[1].data[i] + '</td>'
+		            	                 + '</tr>';
+		            	    }
+		            	    table += '</tbody></table>';
+		            	    return table;
+		            },*/show: true, readOnly: false},
+		            magicType : {show: true, type: ['line', 'bar']},
+		            restore : {show: true},
+		            saveAsImage : {show: true}
+		             
+		        }
+		    },
+		    dataZoom : [{
+		        type: 'inside',
+		        start: 0,
+		        end: 100
+		    }, {
+		        start: 0,
+		        end: 100,
+		        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+		        handleSize: '80%',
+		        handleStyle: {
+		            color: '#fff',
+		            shadowBlur: 3,
+		            shadowColor: 'rgba(0, 0, 0, 0.6)',
+		            shadowOffsetX: 2,
+		            shadowOffsetY: 2
+		        }
+		    }],
+		    xAxis : [
+		    ],
+		    yAxis : [
+		    ],
+		    series : [
+		    ],
+		    color:[]
+		};
+			if(data && data.length > 0){
+				option.yAxis[0]={
+			            type : 'value',
+			            scale: true,
+			            name : '' ,//'预购量'
+			            boundaryGap: false,
+			            splitLine:{show: true,
+			            	interval: 'auto',
+			            	lineStyle: {
+			            		color: ['#e9e9e9'],
+			            		width: 1,
+			            		type: 'dashed',
+			            		opacity: 0.8
+			            	}
+			            }
+			        };
+				for(var i=0;i<data.length;i++){
+					option.series[i]={
+				            name:data[i].indexName,
+				            type:data[i].style,
+				            //xAxisIndex: 1,
+				           // yAxisIndex: 1,
+				            data:data[i].chartData.yvalue
+				        };
+					if(data[i].style == "line" || data[i].style == "bar"){
+						var pieces=[];
+						var markLineData=[];
+						if(!data[i].warnMaxValue && data[i].warnMinValue){
+							pieces=[{
+								lt: Number(data[i].warnMinValue),
+								color: data[i].warnColor
+							}];
+							markLineData=[{
+			                    yAxis: data[i].warnMinValue
+			                }];
+						}else if(!data[i].warnMinValue && data[i].warnMaxValue){
+							pieces=[{
+								gt: Number(data[i].warnMaxValue),
+								color: data[i].warnColor
+							}];
+							markLineData=[{
+			                    yAxis: data[i].warnMaxValue
+			                }];
+						}else{
+							pieces=[{
+								gt: 0,
+								lte: Number(data[i].warnMinValue),
+								color: data[i].warnColor
+							}, {
+								gt: Number(data[i].warnMinValue),
+								lte: Number(data[i].warnMaxValue),
+								color: data[i].color
+							}, {
+								gt: Number(data[i].warnMaxValue),
+								color: data[i].warnColor
+							}];
+							markLineData=[{
+			                    yAxis: data[i].warnMinValue
+			                }, {
+			                    yAxis: data[i].warnMaxValue
+			                }];
+						}
+						option.series[i]={
+					            name:data[i].indexName,
+					            type:data[i].style,
+					            data:data[i].chartData.yvalue
+					        };
+						if(data[i].warnMinValue || data[i].warnMaxValue){
+							option.visualMap = {
+									show:false,
+						            top: 40,
+						            right: 80,
+						            pieces: pieces,
+						            outOfRange: {
+						                color: data[0].color
+						            }
+						     	};
+							option.series[i].markLine={
+					                silent: true,
+					                data: markLineData
+					        };
+						}
+						
+					}
+					option.legend.data[i]=data[i].indexName;
+					option.color[i]=data[i].color;
+					option.xAxis[0]={
+							            type : 'category',
+							            name: '',//改前（不好判断 x轴数据用户自定义）：data[0].indexConfig.statFreq
+							            boundaryGap : ['10%', '10%'],
+							            data : data[i].chartData.xvalue,
+							        };
+					if(data[data.length-1].toLog == 1){
+						option.yAxis[0].type= "log";
+					}
+					if(data[i].indexAlias){
+						option.series[i].name=data[i].indexAlias;
+						option.legend.data[i]=data[i].indexAlias;
+					}
+					
+				}
+			}else{
+				option.yAxis[0]={
+			            type : 'value',
+			            scale: true,
+			            name : '',//'预购量'
+			            boundaryGap: false,
+			            splitLine:{show: true,
+			            	interval: 'auto',
+			            	lineStyle: {
+			            		color: ['#e9e9e9'],
+			            		width: 1,
+			            		type: 'dashed',
+			            		opacity: 0.8
+			            	}
+			            }
+			        };
+				for(var i=0;i<1;i++){
+					option.legend.data[i]='';
+					option.color[i]='';
+					option.xAxis[i]={
+							            type : 'category',
+							            name: '',
+							            boundaryGap : true,
+							            data : ['']
+							        };
+					option.series[i]={
+				            name:'',
+				            type:chartTypes[0],
+				            data:[0]
+				        };
+				}
+				
+			}
+		 break;
+	case 1:
+	case 2:
+	case 3:
+		option={
+			 title : {
+			        text: '',
+			        x:'center'
+			    },
+			    tooltip : {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			    },
+			    legend: {
+			    	left : 200,
+			    	orient: 'vertical',
+			        data:[]
+			    },
+			    toolbox: {
+			    	right:200,
+			        show : true,
+			        feature : {
+			            mark : {show: true},
+			            dataView : {show: true, readOnly: false},
+			            magicType : {
+			                show: true,
+			                type: ['pie', 'funnel']
+			            },
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    series : [
+			        {
+			        	color:['#60C0DD', '#F3A43B', '#FAD860', '#9BCA63', '#FE8463',
+			       			'#27727B', '#E87C25', '#FCCE10', '#B5C334', '#C1232B', '#D7504B',
+			    			'#C6E579', '#F4E001', '#F0805A', '#26C0C0'],
+			            name:'',
+			            type:'pie',
+			            radius : '55%',
+			            center : ['50%', '60%'],
+			            data:[]
+			        }
+			    ]	
+			
+		};
+		
+		if(data.length==1){
+			var xv=data[0].chartData.xvalue;
+			var yv=data[0].chartData.yvalue;
+			option.legend.data=xv;
+			var seriesData=[];
+			for(var i =0;i<xv.length;i++){
+				var son={};
+				son.value=yv[i];
+				son.name=xv[i];
+				seriesData.push(son);
+			}
+			option.series[0].data=seriesData;
+			option.series[0].name=data[0].indexName;
+			if(typeIndex == 2){
+				option.series[0].avoidLabelOverlap=false;
+				option.series[0]. labelLine= {
+			            normal: {
+			                show: false
+			            }
+			        };
+				option.series[0].label={
+	                normal: {
+	                    show: false,
+	                    position: 'center'
+	                },
+	                emphasis: {
+	                    show: true,
+	                    textStyle: {
+	                        fontSize: '30',
+	                        fontWeight: 'bold'
+	                    }
+	                }
+				};
+				option.series[0].radius=['50%', '70%'];
+			}else if(typeIndex == 3){
+				option.series[0].radius = ['20%', '70%'];
+				option.series[0].roseType = 'area';
+			}
+		}
+		break;
+	case 4:
+	case 5:
+		option = {
+		    tooltip : {
+		        formatter: "{a} <br/>{b} : {c}"
+		    },
+		    toolbox: {
+		        feature: {
+		            restore: {},
+		            saveAsImage: {}
+		        }
+		    },
+		    series: [
+		        {
+		            name: '指标',
+		            type: 'gauge',
+		            detail: {formatter:'{value}'},
+		            data: [{value: 50, name: '完成率'}],
+		            axisLine:{
+		                show:true,
+		                lineStyle:{
+		                    color:[[0.2, 'green'],[0.8, 'red'], [1, 'orange']]
+		                }
+		            }
+		        }
+		    ]
+		};
+		if(data.length==1){
+			option.series[0].name=data[0].indexName;
+			option.series[0].data[0].value=data[0].checkPeriod.value;
+			option.series[0].data[0].name=data[0].checkPeriod.name;
+			option.series[0].max=Number(data[0].theoryMaxValue);
+			option.series[0].min=Number(data[0].theoryMinValue);
+			option.series[0].axisLine.lineStyle.color=
+				[[(data[0].warnMinValue-data[0].theoryMinValue)/(data[0].theoryMaxValue-data[0].theoryMinValue), data[0].warnMinColor], [(data[0].warnMaxValue-data[0].theoryMinValue)/(data[0].theoryMaxValue-data[0].theoryMinValue), data[0].color], [1, data[0].warnMaxColor]];
+			if(typeIndex == 5){
+				option.series[0].startAngle=135;
+				option.series[0].endAngle=-130;
+			}
+		}
+		break;
+	}
+	function indexSwitch() {
+		   if(option.visualMap){
+			   alert("预警线图表不支持指数形式切换！");
+			   return;
+		   }
+	 	   if(option.yAxis[0].type == "log"){
+	 		  getDa.array[getDa.array.length-1].toLog=0;
+	 		  option.yAxis[0].type = "value";
+	 		  option.toolbox.feature.myTool.title='切换为指数图';
+	 	   }else{
+	 		  getDa.array[getDa.array.length-1].toLog=1;
+	 		  option.yAxis[0].type = "log";
+	 		  option.toolbox.feature.myTool.title='指数图还原';
+	 	   }
+	 	   try{
+	 			myChart.setOption(option);
+	 	   }catch(e){
+	 			console.log("show chart Exception ："+e);
+	 	   }
+	    } 
+	myChart.setOption(option);
+	try{
+		getDa.echartImg = myChart.getDataURL({
+			type:"png",
+		    pixelRatio: 1
+		});
+	}catch(e){
+		console.log("show chart Exception ："+e);
+	}
+}
+function viewIndexName(value,row){
+	if(row.indexAlias){
+		return row.indexAlias;
+	}else{
+		return value;
+	}
+	
+}
+function viewStyle(value){
+	if(value == "bar"){
+		return "柱状图";
+	}else if(value == "line"){
+		return "折线图";
+	}
+}

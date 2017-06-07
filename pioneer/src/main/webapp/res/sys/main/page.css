@@ -1,0 +1,92 @@
+@CHARSET "UTF-8";
+
+@import url(base.css);
+
+body {
+	margin: 20px;
+}
+
+#location, #searchbar, #datagrid {
+	margin: 10px 0;
+}
+
+textarea{font-family:"微软雅黑";
+	font-size:13px;}
+	
+#location {
+	font-size: 12px;
+	height:18px;
+	line-height:18px;
+}
+
+#searchbar {
+	border: 1px solid gray;
+	padding: 10px;
+	background-color: #f4f4f4;
+}
+
+#operator {
+	text-align: center;
+	padding: 1em 0;
+}
+
+.loadpanel {
+	margin: 1ex;
+}
+
+.loadpanel .loading {
+	
+}
+
+.loadpanel .layout-panel-south {
+	font-size: 12px;
+}
+
+.loadpanel .fileList li {
+	height : 20px;
+	line-height:20px;
+	position: relative;
+	padding-right:15px;
+}
+
+.loadpanel .fileList .imgDel{
+	top: 4px;
+}
+
+.loadpanel .imgList {
+	
+}
+
+.loadpanel .imgList li {
+	float: left;
+	width: 100px;
+	height: 100px;
+	border: 2px solid gray;
+	margin: 10px;
+	position: relative;
+}
+
+.loadpanel .imgList img {
+	width: 100%;
+	height: 100%;
+}
+
+.loadpanel .imgDel {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 12px;
+	height: 12px;
+	background-color: red;
+}
+
+.warning{
+	color: #DF2020;
+}
+.table_subtitle {
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	font-size: 14px;
+	font-weight: bold;
+}

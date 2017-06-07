@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<link href="style/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#leftbar_turnbox").click(function(){
+ 	 $("#bodybg_box").toggleClass("turn_off");
+
+  });
+  
+   $(".leftmenu li").click(function(){
+	 $(".leftmenu li.active").removeClass("active");
+	  $(this).addClass("active");
+  });
+});
+</script>
+
+
+<style type="text/css">
+body, html {
+	height: 100%;
+}
+</style>
+</head>
+
+<body class="bodybg">
+<div id="bodybg_box" class="bodybg_box turn_on"> 
+  <!--页面顶部LOGO及主菜单栏开始--> 
+  
+  <!--<nav class="pagetop" role="navigation">
+  <div class="container-banner container-fluid row" style="margin:auto;">
+        <div class="navbar-header col-lg-4 row">
+           <div class="col-lg-3">
+          	 <img src="style/images/write_banner_logo.png" width="47" height="40">
+           </div>
+           <div class="col-lg-9 system-name">
+           	<p><h4>重庆市畜牧信息系统</h4></p>
+            <p><h6>数据填报</h6></p>
+           </div>
+        </div>
+	<div class=" col-lg-8 row">
+		<ul class="nav nav-pills col-lg-9">
+          <li class="active"><a href="#">当期填报</a></li>
+          <li><a href="#">超时填报</a></li>
+          <li><a href="#">不限时填报</a></li>
+          <li><a href="#">填报记录</a></li>
+        </ul>
+        <div class="col-lg-3 dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    admin <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">用户信息</a></li>
+                    <li><a href="#">密码修改</a></li>
+                    <li><a href="#">退出登录</a></li>
+                </ul>
+        </div>
+	</div>
+  </div>
+</nav>
+--><!--页面顶部LOGO及主菜单栏结束--> 
+  
+  <!--页面左侧菜单栏开始-->
+  <div class="leftbar">
+  
+  	<!--页面左侧菜单栏LOGO及用户信息框开始-->
+    <div class="userandlogo">
+      <div class="logo"> <img src="style/images/write_logo.png" width="62" height="58">
+        <div class="leftbar_systemname">重庆市畜牧信息<br/>系统 - 信息填报</div>
+      </div>
+      <div class="userbox">
+      	<span>系统管理员</span><br/>
+        <span>admin </span>
+      </div>
+    </div>
+  	<!--页面左侧菜单栏LOGO及用户信息框结束-->
+    
+    <!--页面左侧菜单栏开始-->
+    <ul class="leftmenu">
+    	<li class="active">
+            <a href="form_1.html" target="iframe1" title="当期填报">
+            <span class="ico_box icon-edit" ></span>
+            <span class="leftmenu_txt">当期填报</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="超时填报">
+            <span class="ico_box icon-time"></span>
+            <span class="leftmenu_txt">超时填报</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="不限时填报">
+            <span class="ico_box  icon-pencil"></span>
+            <span class="leftmenu_txt">不限时填报</span></a>
+        </li>
+    	<li>
+            <a href="table_1.html" target="iframe1" title="填报记录">
+            <span class="ico_box icon-paste" style="font-size:20px;"></span>
+            <span class="leftmenu_txt">填报记录</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="用户信息">
+            <span class="ico_box icon-user" ></span>
+            <span class="leftmenu_txt">用户信息</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="密码修改">
+            <span class="ico_box  icon-key" ></span>
+            <span class="leftmenu_txt">密码修改</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="退出系统">
+            <span class="ico_box  icon-signout" ></span>
+            <span class="leftmenu_txt">退出系统</span></a>
+        </li>
+
+    </ul>
+    <!--页面左侧菜单栏结束-->
+    
+  </div>
+  <!--页面左侧菜单栏结束--> 
+  
+  <!--内容区开始-->
+  <div class="body_box">
+    <div id="leftbar_turnbox" class="leftbar_turnbox"><img src="style/images/left_bar_turnoff.png" width="34" height="34"></div>
+    <iframe src="form_search_list.html" id="iframe1" name="iframe1" frameborder="0" width="100%" height="100%"></iframe>
+  </div>
+  <!--内容区结束--> 
+  
+</div>
+</body>
+</html>

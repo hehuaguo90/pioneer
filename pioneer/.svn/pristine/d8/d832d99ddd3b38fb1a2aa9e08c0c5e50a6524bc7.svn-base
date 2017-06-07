@@ -1,0 +1,24 @@
+package com.wellsys.pioneer.module.tSysSy.service;
+
+import java.util.Map;
+import java.util.List;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel;
+
+ 
+public interface TSysSyService {
+ 
+ 
+	/****
+	*
+	* @Title: listMap
+	* @Description: 获取列表数据，返回bean格式
+	* @param   page 分页参数
+	* @param  params 查询参数
+	* @throws
+	*/
+	List listMap(Map<String, Object> params);
+
+	List listStateSy(Map<String, Object> params);
+	 
+}

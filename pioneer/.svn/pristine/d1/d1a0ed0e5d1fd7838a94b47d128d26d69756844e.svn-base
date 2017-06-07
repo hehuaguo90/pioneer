@@ -1,0 +1,45 @@
+package com.tfrd.common.utils;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+public class EncodingFilter implements Filter {
+	//
+	private String targetEncoding = "ASCII";
+
+	// GBK UTF-8
+	public void init(FilterConfig config) throws ServletException {
+		//
+		this.targetEncoding = config.getInitParameter("encoding");
+	}
+
+	/**
+	 * doFilter
+	 * 
+	 * @param servletRequest
+	 *            ServletRequest
+	 * @param servletResponse
+	 *            ServletResponse
+	 * @param filterChain
+	 *            FilterChain
+	 * @throws IOException
+	 * @throws ServletException
+	 * @todo Implement this javax.servlet.Filter method
+	 */
+	public void doFilter(ServletRequest servletRequest,
+			ServletResponse servletResponse, FilterChain filterChain)
+			throws IOException, ServletException {
+		//System.out.println("targetEncoding:" + targetEncoding + "\n");
+		servletRequest.setCharacterEncoding(targetEncoding);
+		filterChain.doFilter(servletRequest, servletResponse);
+	}
+
+	/**
+	 * destroy
+	 * 
+	 * @todo Implement this javax.servlet.Filter method
+	 */
+	public void destroy() {
+		targetEncoding = null;
+	}
+}

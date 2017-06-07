@@ -1,0 +1,320 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+			$(document).ready(function() {
+					trids.push("dataRow");
+					initVillage();
+				
+					
+					var formId = '${formId}' || '${param.formId}';
+					var processId = '${processId}' || '${param.processId}';
+					initValidateInfo(formId, processId);//formId, processId
+
+				});
+
+			function initVillage() {
+				var batchId =  "${param.id}";
+				var url = "${ contextPath }/tXxkSzyzgdjccscqk/listVillage?batchId="+batchId;
+				$.post(url, function(data) {
+					var dataJson = eval('(' + data + ')');
+					for ( var i = 0; i < dataJson.length; i++) {
+						var objOption = document.createElement("OPTION");
+						objOption.text = dataJson[i].short_name;
+						objOption.value = dataJson[i].area_id;
+						document.getElementById("village").options.add(objOption);
+					}
+					
+					//查询数据 填充
+					var batchId = "${param.id}";
+					if (batchId) {//如果存在查询条件，加载数据
+						page.send(
+							{
+								url : contextPath+ "/tXxkSzyzgdjccscqk/listForEdit/?batchId="+ batchId
+							}).then(function(data) {
+						enumaKey(data);
+					});
+					}
+				});
+			}
+			
+			page.saveForm = function(formId, processId,fid,callback) {
+				if(!validateUnique("village", "乡镇村名称重复！")){
+					return;
+				}
+
+				var v = false;
+				var flag = 0;
+				// 执行验证
+				validateForm(formId, processId, function(b) {
+					v = b;
+					if (b) {
+						// 插入警告信息
+						if (warnInfo) {
+							for ( var i = 0; i < warnInfo.length; i++) {
+								var info = warnInfo[i];
+								var ruleId = info.ruleId;
+								var warnExplain = $("#" + ruleId);
+
+								if (!$.trim(warnExplain.val())) {
+									// 第一次不显示红色背景
+									if (flag > 0) {
+										warnExplain.addClass("input-has-warn");
+									}
+									v = false;
+								}
+
+								info.warnExplain = warnExplain.val();
+							}
+							$("#formWarnMsg").remove();
+							$(form).append(
+									'<textarea style="display:none;" name="formWarnMsg" id="formWarnMsg" >'
+											+ JSON.stringify(warnInfo)
+											+ '</textarea>')
+						}
+					}
+				});
+				flag++;
+				if (v) {
+					var form = document.forms[0];
+					var params = [];
+					for ( var i = 0; i < trids.length; i++) {
+						var trid = trids[i];
+						if (trid && trid[0]) {
+							var a = "#" + trid + " .form_input";
+							var inputs = $(a);
+							var obj = {};
+							for ( var j = 0; j < inputs.length; j++) {
+								obj[inputs[j].id] = inputs[j].value;
+							}
+							params.push(obj);
+						}
+					}
+					var param = {
+						fromId : document.getElementById("form_id").value,
+						batchId : document.getElementById("id").value,
+						params : params
+					};
+					
+					var url = "${ contextPath }/tXxkSzyzgdjccscqk/edit";
+					$.post(url, {
+						param : JSON.stringify(param), 
+						formWarnMsg : $("#formWarnMsg").val()
+					}, function(data) {
+						if (new RegExp("^(\\{|\\[)").test(data)) {
+							data = kernel.json.parse(data);
+							if (data.status == 1) {
+								if (url) {
+									window.location.href = contextPath+"/pages/form/pc/listCurrent.jsp";
+								}
+							}
+							if (callback) {
+								callback(data);
+							}
+						} else {
+							document.body.innerHTML = data;
+						}
+					});
+				}
+			}
+
+			function del(tdInfo) {
+				if(trids.length == 1){
+					return;
+				}
+				var trId = tdInfo.parent().parent().parent().parent().attr("id");
+				tdInfo.parent().parent().parent().parent().remove();
+				var u = -1;
+				for ( var i = 0; i < trids.length; i++) {
+					if (trids[i] == trId) {
+						u = i;
+						break;
+					}
+				}
+				trids.splice(u, 1);
+			}
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	<t:formEditHead></t:formEditHead>
+	<form method="post" action="${ contextPath }/tXxkSzyzgdjccscqk/edit">
+        <table width="100%"
+				style="border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;">
+    <tr height="22"
+					style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="left" valign="center" width="51" colspan="8" rowspan="1">
+
+                         乡镇：<span id="span_area">${area}</span> 　时间：<span
+						id="span_tbzq">${tbzq}</span> 
+    <input type="hidden" id="id" name="id" value="${param.id}">
+    <input type="hidden" id="form_id" name="form_id"
+						value="${param.formId}">
+        </td>
+    </tr>
+ 
+    <tr height="36"
+					style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="120" colspan="1" rowspan="2">
+
+             乡镇村
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="94" colspan="2" rowspan="1">
+
+             一、全村户数（户）
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="104" colspan="3" rowspan="1">
+
+             二、生猪存栏（头）
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="114" colspan="1" rowspan="2">
+
+             生猪出栏（头）
+        </td>
+    </tr>
+    <tr height="42"
+					style=" border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td
+						style="  border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="94" colspan="1" rowspan="1">
+
+             全村总户数
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="112" colspan="1" rowspan="1">
+
+             其中养猪户数
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="104" colspan="1" rowspan="1">
+
+             总生猪存栏
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="113" colspan="1" rowspan="1">
+
+             ＜20公斤以下
+存栏（头）
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+						align="center" valign="center" width="110" colspan="1" rowspan="1">
+
+             能繁母猪存栏（头）
+        </td>
+    </tr>
+    <tr id="dataRow" height="32"
+					style=" border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td
+						style="  border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="120" colspan="1" rowspan="1">
+            <select id="village" name="village" class="form_input">
+				   
+			</select>
+
+        </td>
+        <td
+						style="  border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="94" colspan="1" rowspan="1">
+
+            <input id="id" name="id" type="hidden" class="form_input">
+            <input id="qczhs" name="qczhs" class="form_input">
+        </td>
+        <td
+						style="  border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="112" colspan="1" rowspan="1">
+
+            <input id="yzhs" name="yzhs" class="form_input">
+        </td>
+        <td
+						style="  border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="104" colspan="1" rowspan="1">
+
+            <input id="zszcl" name="zszcl" class="form_input">
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="113" colspan="1" rowspan="1">
+
+            <input id="esgjyx" name="esgjyx" class="form_input">
+        </td>
+        <td
+						style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="110" colspan="1" rowspan="1">
+
+            <input id="nfzmzcl" name="nfzmzcl" class="form_input">
+        </td>
+        <td  
+						style="  border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+						align="center" valign="bottom" width="114" colspan="1" rowspan="1">
+ 
+<div class="form_closebox">
+            <input id="szchul" name="szchul" class="form_input">
+            
+            <span class="closebtn" id="delOneRow"><span class="glyphicon glyphicon-remove closebtn" onclick="del($(this))" ></span></span>
+   <!--          <input type="button" value="删除" onclick="del($(this))" /> --></div>
+        </td>
+    </tr>
+    
+</table>
+<div class="form_add_box" id = "addOneRow">
+				<button type="button" class="btn btn-primary"
+					onclick="insertOneRow()">
+					<span class="icon-plus"></span>&nbsp;添加一条数据<tton>
+			</div>
+
+	</form>
+<t:formEditFooter></t:formEditFooter>
+	</jsp:body>
+</t:form>

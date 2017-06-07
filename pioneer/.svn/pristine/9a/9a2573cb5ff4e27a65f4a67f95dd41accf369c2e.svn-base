@@ -1,0 +1,62 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<jsp:directive.tag language="java" pageEncoding="UTF-8" />
+	<jsp:directive.attribute name="north" fragment="true" />
+	<jsp:directive.attribute name="east" fragment="true" />
+	<jsp:directive.attribute name="south" fragment="true" />
+	<jsp:directive.attribute name="west" fragment="true" />
+	<jsp:directive.attribute name="center" fragment="true" />
+	<jsp:directive.attribute name="centerHeight" />
+	<jsp:directive.attribute name="northHeight" />
+	<jsp:directive.attribute name="southHeight" />
+	<jsp:directive.attribute name="westHeight" />
+	<jsp:directive.attribute name="eastHeight" />
+	<jsp:directive.attribute name="westWidth" />
+	<jsp:directive.attribute name="eastWidth" />
+	
+	<jsp:directive.attribute name="centerID" />
+	<jsp:directive.attribute name="northID" />
+	<jsp:directive.attribute name="southID" />
+	<jsp:directive.attribute name="westID" />
+	<jsp:directive.attribute name="eastID" />
+
+	<div style="overflow: hidden; height: auto;">
+		<c:if test="${ !empty north }">
+			<div id="${ northID }"
+				style="overflow: hidden; margin-bottom: 10px; height:${ empty northHeight ? 'auto' : northHeight };">
+				<jsp:invoke fragment="north" />
+			</div>
+		</c:if>
+		<c:if test="${ !empty center }">
+
+			<div style="overflow: hidden;">
+				<c:if test="${ !empty  west}">
+					<div id="${ westID }"
+						style="overflow: hidden; height: ${ empty westHeight ? 'auto' : westHeight }; margin-right: 10px; float: left; width:${ empty westWidth ? '50%' : westWidth };">
+						<jsp:invoke fragment="west" />
+					</div>
+				</c:if>
+				<c:if test="${ !empty east }">
+					<div id="${ eastID }"
+						style="overflow: hidden; height: ${ empty eastHeight ? 'auto' : eastHeight }; margin-left: 10px; float: right; width:${ empty eastWidth ? '50%' : eastWidth };">
+						<jsp:invoke fragment="east" />
+					</div>
+				</c:if>
+
+				<div id="${ centerID }"
+					style="overflow: hidden;  height:${ empty centerHeight ? '100%' : centerHeight };">
+					<jsp:invoke fragment="center" />
+				</div>
+			</div>
+		</c:if>
+		<c:if test="${ !empty south }">
+			<div id="${ southID }"
+				style="overflow: hidden; margin-top: 10px; height:${ empty southHeight ? 'auto' : southHeight };">
+				<jsp:invoke fragment="south" />
+			</div>
+		</c:if>
+	</div>
+
+</jsp:root>

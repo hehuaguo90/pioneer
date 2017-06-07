@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+		$(function(){
+			pageInit();	
+		});
+		function pageInit(){
+			$.ajax({
+				url:"${ contextPath }/tAnalyzeTheme/listAll",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					var html="";
+					for(var i =0;i<data.length;i++){
+						html  += newDIV(data[i].themeName,data[i].themeId,data[i].imgUrl.replace(/\"|\[|\]/g,""));
+					}
+					$("#themesView").html(html);
+					function newDIV(name,id,imgUrl){
+						return "<div class='col-xs-6 col-md-3'><div class='thumbnail'><img class='img-responsive' src='/uploads/"+imgUrl+"'alt='通用的占位符缩略图'/><div class='caption'><a href='${contextPath}/pages/chart/theme/themesView.jsp?themeId="+id+"&themeName="+name+"'>"+name+"</a></div></div></div>";
+					}
+				}
+			});
+		} 
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	 <!--页面实际内容区开始-->
+    <div class="simple_box row">
+	  <div id="themesView" class="col-md-12" style="height:640px;">
+      </div>       
+     </div>
+    <!--页面实际内容区结束--> 
+	</jsp:body>
+</t:chart>

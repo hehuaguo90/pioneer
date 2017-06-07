@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysYj.dao.TSysYjDao" >
+    <resultMap id="TSysYjModelMap" type="com.wellsys.pioneer.module.tSysYj.model.TSysYjModel" >
+        <id column="id" property="id" />
+        <result column="xlId" property="xlId" />
+        <result column="byqsl" property="byqsl" />
+        <result column="yhsl" property="yhsl" />
+        <result column="qxry" property="qxry" />
+        <result column="qxcl" property="qxcl" />
+        <result column="jxsId" property="jxsId" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="TSysYjModelMap" parameterType="com.wellsys.pioneer.module.tSysYj.model.TSysYjModel" >
+        SELECT
+            id
+            ,xlId
+            ,byqsl
+            ,yhsl
+            ,qxry
+            ,qxcl
+            ,jxsId
+
+        FROM
+            sys_yj
+        WHERE
+            1=1
+            AND id=#{id}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysYj.model.TSysYjModel" >
+        SELECT
+                id
+            ,xlId
+            ,byqsl
+            ,yhsl
+            ,qxry
+            ,qxcl
+            ,jxsId
+
+        FROM
+                sys_yj t
+        WHERE
+                1=1
+                AND id=#{id}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysYj.model.TSysYjModel" >
+            DELETE FROM
+                sys_yj
+            WHERE
+                1=1
+                AND id=#{id}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysYj.model.TSysYjModel" >
+        INSERT INTO  sys_yj (
+            id
+            ,xlId
+            ,byqsl
+            ,yhsl
+            ,qxry
+            ,qxcl
+            ,jxsId
+
+        )
+        VALUES (
+            #{id,jdbcType=VARCHAR }
+            ,#{xlId,jdbcType=VARCHAR }
+            ,#{byqsl,jdbcType=VARCHAR }
+            ,#{yhsl,jdbcType=VARCHAR }
+            ,#{qxry,jdbcType=VARCHAR }
+            ,#{qxcl,jdbcType=VARCHAR }
+            ,#{jxsId,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysYj.model.TSysYjModel" >
+        UPDATE
+                 sys_yj
+        SET
+                xlId=#{xlId}
+                ,byqsl=#{byqsl}
+                ,yhsl=#{yhsl}
+                ,qxry=#{qxry}
+                ,qxcl=#{qxcl}
+                 ,jxsId=#{jxsId}
+
+        WHERE
+                1=1
+                AND id=#{id}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.id
+            ,t.xlId
+            ,t.byqsl
+            ,t.yhsl
+            ,t.qxry
+            ,t.qxcl
+            ,t.jxsId
+        FROM
+                sys_yj t
+        WHERE
+                1=1
+            <if test="id != null "> AND t.id=#{id} </if>
+            <if test="xlId != null "> AND t.xlId =#{xlId} </if>
+            <if test="byqsl != null "> AND t.byqsl=#{byqsl} </if>
+            <if test="yhsl != null "> AND t.yhsl=#{yhsl} </if>
+            <if test="qxry != null "> AND t.qxry=#{qxry} </if>
+            <if test="qxcl != null "> AND t.qxcl=#{qxcl} </if>
+            <if test="jxsId != null "> AND t.jxsId=#{jxsId} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="TSysYjModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+               id
+            ,xlId
+            ,byqsl
+            ,yhsl
+            ,qxry
+            ,qxcl
+            ,jxsId
+
+        FROM
+                sys_yj
+        WHERE
+                 1=1
+            <if test="id != null "> AND t.id=#{id} </if>
+            <if test="xlId != null "> AND t.xlId =#{xlId} </if>
+            <if test="byqsl != null "> AND t.byqsl=#{byqsl} </if>
+            <if test="yhsl != null "> AND t.yhsl=#{yhsl} </if>
+            <if test="qxry != null "> AND t.qxry=#{qxry} </if>
+            <if test="qxcl != null "> AND t.qxcl=#{qxcl} </if>
+            <if test="jxsId != null "> AND t.jxsId=#{jxsId} </if>
+    </select>
+
+
+</mapper> 

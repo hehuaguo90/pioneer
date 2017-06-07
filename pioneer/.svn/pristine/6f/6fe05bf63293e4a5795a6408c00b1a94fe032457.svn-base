@@ -1,0 +1,168 @@
+package com.tfrd.bdas.module.tSysRole.service.impl;
+
+import javax.annotation.Resource;
+
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.tfrd.common.utils.CreateUUID;
+import com.tfrd.common.utils.TreeModel;
+import com.tfrd.bdas.module.tFormRight.dao.TFormRightDao;
+import com.tfrd.bdas.module.tFormRight.model.TFormRightModel;
+import com.tfrd.bdas.module.tSysRoleRight.dao.TSysRoleRightDao;
+import com.tfrd.bdas.module.tSysRoleRight.model.TSysRoleRightModel;
+import com.tfrd.bdas.module.tSysRole.service.TSysRoleService;
+import com.tfrd.bdas.module.tSysRole.dao.TSysRoleDao;
+import com.tfrd.bdas.module.tSysRole.model.TSysRoleModel;
+import com.tfrd.bdas.module.tSysUser.dao.TSysUserDao;
+import com.tfrd.bdas.module.tSysUser.model.TSysUserModel;
+import com.tfrd.bdas.module.tSysUserRole.dao.TSysUserRoleDao;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* 数据服务层接口实现。
+* TABLE CODE:	t_sys_role;
+* TABLE NAME:	
+* TABLE REMARK:	角色信息
+* code tools version V1.0,created on Fri Dec 02 11:48:35 CST 2016
+*/
+@Service(value="TSysRoleServiceImpl")
+@Scope("prototype")
+public class TSysRoleServiceImpl implements TSysRoleService{
+    @Autowired
+    private TSysRoleDao tSysRoleDao;
+    @Autowired
+    private TSysRoleRightDao tSysRoleRightDao;
+    @Autowired
+    private TSysUserRoleDao tSysUserRoleDao;
+    @Autowired
+    private TFormRightDao tFormRightDao;
+    @Autowired
+    private TSysUserDao tSysUserDao;
+
+    Logger log4j = Logger.getLogger(TSysRoleServiceImpl.class);
+
+    public List listBean(PageBounds page, Map    <String, Object> params)
+    {
+        return tSysRoleDao.listBean(page,params);
+    }
+
+    public List listBean(Map<String, Object> params)
+    {
+        return tSysRoleDao.listBean(params);
+    }
+    public List listMap(PageBounds page, Map<String, Object> params) {
+
+        return tSysRoleDao.listMap(page,params);
+
+    }
+    public List listMap(Map<String, Object> params) {
+
+        return tSysRoleDao.listMap(params);
+
+    }
+
+    public int save(TSysRoleModel o,String rightids) {
+    	o.setRoleId(CreateUUID.createUUID());
+        String[] ids = rightids.split(",");
+        if (!"".equals(rightids) && rightids!=null) {
+        for(int i = 0; i < ids.length; i++){
+        	TSysRoleRightModel sr = new TSysRoleRightModel();
+        	sr.setRoleRightId(CreateUUID.createUUID());
+        	sr.setRightId(ids[i]);
+        	sr.setRoleId(o.getRoleId());
+        	tSysRoleRightDao.save(sr);
+        }
+		
+	}
+        return tSysRoleDao.save(o);
+
+    }
+
+
+    public Map getBeanMapById(TSysRoleModel o)
+    {
+        return tSysRoleDao.getBeanMapById(o);
+    }
+
+    public TSysRoleModel getBeanById(TSysRoleModel o) {
+
+
+        return tSysRoleDao.getBeanById(o);
+
+    }
+
+    public boolean update(TSysRoleModel o,String rightids) {
+    	tSysRoleRightDao.deleteByRoleid(o.getRoleId());
+    	String[] ids = rightids.split(",");
+        for(int i = 0; i < ids.length; i++){
+         	TSysRoleRightModel sr = new TSysRoleRightModel();
+         	sr.setRoleRightId(CreateUUID.createUUID());
+         	sr.setRightId(ids[i]);
+         	sr.setRoleId(o.getRoleId());
+         	tSysRoleRightDao.save(sr);
+         }
+        tSysRoleDao.update(o);
+
+        return true;
+    }
+
+    public String delete(TSysRoleModel[] items) {
+    	for(int i=0;items!=null&&i<items.length;i++){
+        	String roleId = items[i].getRoleId();
+        	Map<String, Object> params = new HashMap<String, Object>();
+        	params.put("roleId", roleId);
+        	List<Map<String, Object>> list =  tSysUserRoleDao.listMap(params);
+        	if (list.size()>0) {
+        		String names = "";
+        		for (int j = 0; j < list.size(); j++) {
+					String userId=(String) list.get(j).get("userId");
+					TSysUserModel user = new  TSysUserModel();
+					user.setUserId(userId);
+					TSysUserModel userModel = tSysUserDao.getBeanById(user);
+					names+=userModel.getUserName();
+					if (j<list.size()-1) {
+						names+=",";
+					}
+				}
+				return  items[i].getRoleName()+"已被用户关联：["+names+"],不允许删除";
+			}
+        }
+    	
+        for(int i=0;items!=null&&i<items.length;i++){
+        	tSysRoleDao.delete(items[i]);
+        	
+        	//删除关联表
+        	tSysRoleRightDao.deleteByRoleid(items[i].getRoleId());
+        	
+        	TFormRightModel roleRight = new TFormRightModel();
+        	roleRight.setRoleId(items[i].getRoleId());
+        	int s= tFormRightDao.deleteByRoleid(roleRight);
+        }    
+        return null;
+    }
+    
+	@Override
+	public String getRightids(String roleid) {
+		List<TSysRoleRightModel> list = tSysRoleRightDao.getListByRoleid(roleid);
+		List<String> ids = new ArrayList<String>();
+		if(list != null && list.size() > 0){
+			for(TSysRoleRightModel r : list){
+				ids.add(r.getRightId());
+			}
+		}
+		
+		return StringUtils.join(ids, ",");
+	}
+	
+}

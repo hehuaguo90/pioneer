@@ -1,0 +1,114 @@
+package com.wellsys.common.utils.file;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by zhyy on 2015/10/28.
+ *
+ */
+public class ExcelReader {
+    Workbook book = null;
+    Sheet sheet;
+    int rows;
+    int row = -1;
+    boolean haveTitle = true;
+    int headRows=0;
+    Map<String, Integer> titlePos;
+
+    public ExcelReader() {
+    }
+
+    public boolean open(File file, boolean haveTitle) {
+        return open(file, 0, haveTitle);
+    }
+
+    public boolean open(File file, int sheetIndex, boolean haveTitle) {
+        try {
+            book = Workbook.getWorkbook(file);
+            sheet = book.getSheet(sheetIndex);
+            rows = sheet.getRows();
+            int columns = sheet.getColumns();
+            this.haveTitle = haveTitle;
+            if (haveTitle) {
+                titlePos = new HashMap<String, Integer>();
+                for (int col = 0; col < columns; col++)
+                    titlePos.put(sheet.getCell(col, 0).getContents().trim(), col);
+                row = 0;
+                headRows=1;
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public void close() {
+        if (book != null)
+            book.close();
+    }
+
+    public boolean moveNext() {
+        return (row++ <( rows-headRows));
+    }
+
+    public String read(int col) {
+        Cell cell = sheet.getCell(col, row);
+
+        return cell.getContents();
+    }
+
+    public String read(String colName) {
+        Integer col = titlePos.get(colName);
+        if (col != null)
+            return read(col);
+        return "";
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T read(int col, Class<T> tClass) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        final SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String value = sheet.getCell(col, row).getContents();
+        try {
+            if (tClass == boolean.class || tClass == short.class || tClass == int.class) {
+                return (T) Integer.valueOf(value);
+            }
+            if (tClass == long.class) {
+                return (T) Long.valueOf(value);
+            }
+            if (tClass == double.class) {
+                return (T) Double.valueOf(value);
+            }
+            if (tClass == float.class) {
+                return (T) Float.valueOf(value);
+            }
+            if (tClass == java.sql.Date.class) {
+                return (T) new java.sql.Date(dateFormat.parse(value).getTime());
+            }
+            if (tClass == java.sql.Time.class) {
+                return (T) new java.sql.Time(timeFormat.parse(value).getTime());
+            }
+            if (tClass == java.sql.Timestamp.class) {
+                return (T) new java.sql.Timestamp(datetimeFormat.parse(value).getTime());
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+}

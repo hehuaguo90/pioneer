@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/webstyle_phone.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="table_box_container">
+	<div class="userheadbox">
+    	<div class="userhead">
+   	    <img src="style/images/user_head_pic.png"> 
+        </div>
+        <div class="usermsg">
+        	<p><span>填报人：</span>邓小明</p>
+            <p>2016年12月17日  星期五</p>
+        </div>
+  </div>
+	<div class="table_title">本期填报任务列表</div>
+    <ul class="table_box_phone">
+        	<li class="row">
+                <a href="form_1_phone.html">
+                    <div class="col-md-11 col-xs-11 col-sm-11">
+                        <h4>重庆市畜产品及饲料集市价格周报表</h4>
+                        <h6>填报时间：2016-02-01</h6>
+                        <span class="label label-danger">未审核</span><span class="form_name">填报类型：周报</span>
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-sm-1 right_ico">
+                        <span class="icon-angle-right"  style="margin-left:8px;font-size:30px;">&nbsp;</span>
+                    </div>
+                </a>
+            </li>
+            <li class="row">
+            	<a href="form_1_phone.html">
+            	<div class="col-md-11 col-xs-11 col-sm-11 right_ico">
+                	<h4>重庆市牲畜季报表</h4>
+                    <h6>填报时间：2016-02-01</h6>
+                    <span class="label label-success">未审核</span><span class="form_name">填报类型：季报</span>
+                </div>
+            	<div class="col-md-1 col-xs-1 col-sm-1">
+                    <span class="icon-angle-right"  style="margin-left:8px;font-size:30px;">&nbsp;</span>
+                </div>
+                </a>
+            </li>
+            <li class="row">
+            	<a href="form_1_phone.html">
+            	<div class="col-md-11 col-xs-11 col-sm-11">
+                	<h4>重庆市生猪养殖固定监测村生产情况月报表</h4>
+                    <h6>填报时间：2016-02-01</h6>
+                    <span class="label label-success">未审核</span><span class="form_name">填报类型：月报</span>
+                </div>
+            	<div class="col-md-1 col-xs-1 col-sm-1 right_ico">
+                <span class="icon-angle-right"  style="margin-left:8px;font-size:30px;">&nbsp;</span>
+                </div>
+                </a>
+            </li>
+            <li class="row">
+            	<a href="form_1_phone.html">
+            	<div class="col-md-11 col-xs-11 col-sm-11">
+                	<h4>肉羊标准化示范场数据采集表</h4>
+                    <h6>填报时间：2016-02-01</h6>
+                    <span class="label label-success">未审核</span><span class="form_name">填报类型：周报</span>
+                </div>
+            	<div class="col-md-1 col-xs-1 col-sm-1 right_ico">
+                <span class="icon-angle-right"  style="margin-left:8px;font-size:30px;">&nbsp;</span>
+                </div>
+                </a>
+            </li>
+			
+    </ul>
+    <div class="refreshbox"><span class="icon-refresh"></span>查看更多</div>
+    <div class="table_btn_tools navbar-fixed-bottom">
+    	<div class="table_btn_tools_shadown">&nbsp;</div>
+    	<a href="#fdsfdsf" class="active">
+            <div class="ico"><span class="icon-edit"  style="margin-left:12px;font-size:30px;">&nbsp;</span></div>
+            <p>当期填报</p>
+        </a>
+    	<a href="#fdsfdsf">
+            <div class="ico"><span class="icon-time"  style="margin-left:8px;font-size:30px;">&nbsp;</span></div>
+            <p>超期填报</p>
+        </a>
+        <a href="table_1_phone.html">
+            <div class="ico"><span class="icon-paste" style="margin-left:8px;font-size:24px;">&nbsp;</span></div>
+            <p>填报历史</p>
+        </a>
+        <em   class="dropup">
+            <div class="ico" data-toggle="dropdown"><span class="icon-cog">&nbsp;</span></div>
+            <p >用户设置</p>
+            
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="margin-left:-6em;">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">用户信息</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">修改密码</a>
+                </li>
+                <li role="presentation">
+                    <a href="login_phone.html" role="menuitem" tabindex="-1" href="#">退出系统</a>
+                </li>
+            </ul>
+        </em>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+
+
+<script type="text/javascript">
+	var codeFields = [];
+	page.onLoad = function() {
+		$('#dimId').combobox({
+			url : '${ contextPath }/tAnalyzeDim/listAll',
+			valueField : 'dimId',
+			textField : 'dimName',
+			method : 'get',
+			required : true,
+			editable : false,
+			panelHeight : 150,
+			onSelect : function(data) {
+				codeFields = data.codeField.split(",");
+				$("#dimCodes").html(data.codeField);
+				$("#dimCodes").parent().show();
+			}
+		});
+
+		//获取维度数据
+		/*  
+		$('#indexField').combobox({
+		       url:contextPath+'/tSourceDataset/listColumn'
+		       
+		   });
+		 */
+		/*   page.send({
+		      url : contextPath + "/tAnalyzeIndex/getBeanById/?${pageContext.request.queryString}"
+		  }).then(function(data) {
+		      //  item = kernel.json.parse(data);
+		      page.loadForm({data:data });
+		  }); */
+
+		//page.loadForm({url : contextPath + "/tAnalyzeIndex/getBeanById/?${pageContext.request.queryString}"});
+	};
+	function save() {
+		var isValid = $("#f1").form('validate');
+		if (!isValid) {
+			return;
+		}
+		var _dimId = $("#dimId").combobox("getValue");
+		var f_dimCode = $("#dimCode").combobox("getValues");
+		var _dimCode = "";
+		for ( var i = 0; i < f_dimCode.length; i++) {
+			if (i == 0) {
+				_dimCode = f_dimCode[i];
+			} else {
+				_dimCode = _dimCode + "," + f_dimCode[i];
+			}
+		}
+		var _dimName = $("#dimName").val();
+		var _name = $("#dimId").combobox("getText");
+
+		var m_obj = {
+			dimId : _dimId,
+			name : _name,
+			dimCode : _dimCode,
+			dimName : _dimName
+		};
+		var jsonStr = JSON.stringify(m_obj); //用Json2.js生成Json字符串
+
+		page.opener.refresh(jsonStr);
+		page.close();
+	}
+	
+	$.extend($.fn.validatebox.defaults.rules, {
+		codeyz : {// 是否选中统计口径字段
+			validator : function(value) {
+				//return /^[+]?[1-9]+\d*$/i.test(value);
+				var vl = $('#dimCode').combobox('getValue');
+
+				if ($("#dimCode").combobox("getValue") == undefined) {
+					return false;
+				} else {
+					return true;
+				}
+			},
+			message : '请先选中统计口径字段'
+		},
+		kjmcgs : {//口径名称字段填入方式是否正确
+			validator : function(value) {
+				var reg = /^[^,]+(,[^,]+)*$/g;// /^[^,]([^,]*|,[^,]+)*$/g
+				return reg.test(value);
+				/* var arr = value.split(",");
+				var arr2 = $("#dimCode").combobox("getValues");
+				if(arr.length!=arr2.length){
+				   return false;
+				}
+				else{
+				   return true;
+				} */
+			},
+			message : '统计口径名称输入有误'
+		},
+		mczdyz : {//口径名称、口径字段个数是否相等
+			validator : function(value) {
+				var arr = value.split(",");
+				//var arr2 = $("#dimCode").combobox("getValues");
+				var arr2 = codeFields;
+				if (arr.length != arr2.length) {
+					return false;
+				} else {
+					return true;
+				}
+			},
+			//message: '统计口径字段、统计口径名称个数不匹配' 
+			message : '统计口径名称和维度代码字段个数不匹配'
+		}
+	});
+</script>
+
+</jsp:attribute>
+	<jsp:body>
+	<form id="f1" method="post"
+			action="${ contextPath }/tAnalyzeIndex/edit">
+        <table>
+            <tr>
+                <th>选择维度:</th>
+                <td>
+                            <input id="dimId" name="dimId"
+						style="width:200px;"><span style="display:none;"> 代码字段：<span id="dimCodes"></span></span>
+                            
+
+                </td>
+            </tr>
+            <tr>
+                <th>统计口径字段:</th>
+                <td>
+                           <input id="dimCode" name="dimCode"
+						class="easyui-combobox"
+						data-options="url:'${ contextPath }/tSourceDataset/listColumn?flglx=0&${pageContext.request.queryString}',valueField:'fieldCode',textField:'fieldName',method:'get',required:true,editable:false,panelHeight:130"
+						style="width:200px;">
+                          
+                </td>
+            </tr>
+            <tr>
+                <th>统计口径名称:</th>
+                <td>
+                        <input id="dimName" name="dimName"
+						type="text" style="width: 200px;"
+						class="easyui-validatebox textbox"
+						data-options="required:true,validType:['length[1,50]', 'mczdyz']" /> 多个用逗号隔开
+
+                </td>
+            </tr>
+            
+
+        </table>
+	</form>
+	<div id="operator">
+		<a href="javascript:void save()" class="easyui-linkbutton">保存</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

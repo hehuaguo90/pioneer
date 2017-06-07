@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+			var datagrid=[];
+			
+			$(document).ready(function(){
+				$("#themeName").html("${param.themeName}");
+				$.ajax({
+				url:contextPath+"/tAnalyzeThemeItem/listAll",
+				data:{
+				themeId:"${param.themeId}"
+				},
+				async:false,
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					datagrid=data;
+					//$("#themeName").html(data);
+					var objIds="";
+					for(var i=0;i<datagrid.length;i++){
+						objIds+=datagrid[i].objId+",";
+					}
+					$.ajax({
+							url:contextPath+"/tAnalyzeTheme/listType",
+							data:{
+							objIds:objIds
+							},
+							async:false,
+							dataType:"json",
+							type:"post",
+							success:function(data){
+								var newGrid=[];
+								for(var i=0;i<datagrid.length;i++){
+									for(var j=0;j<data.length;j++){
+										if(datagrid[i].objId == data[j].objId){
+											var son={};
+											son.chartType=data[j].chartType;
+											son.objId=data[j].objId;
+											newGrid.push(son);
+											break;
+										}	
+									}
+								}
+								var html="";
+								for(var i=0;i<datagrid.length;i++){
+									if(datagrid[i].chartType == 0){
+										html+="<iframe ID='iframe"+i+"'  src='${contextPath}/pages/module/tDissertationConfig/dissertationConfig/viewChart.jsp?chartId="+datagrid[i].objId+"' width='100%' height='630px' frameborder=0>${null}</iframe>"; 
+									}else if(datagrid[i].chartType == 1){
+										html+="<iframe ID='iframe"+i+"' src='${contextPath}/pages/module/tDissertationConfig/dissertationConfig/viewGIS.jsp?gisId="+datagrid[i].objId+"' width='100%' height='630px' frameborder=0 style='overflow-x:hidden;'>${null}</iframe>"; 
+									}
+								}
+								$("#divIndex").html(html);
+							}
+					});
+				}
+			});
+			
+			}
+			);
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	 <!--页面实际内容区开始-->
+    <div class="simple_box row">
+<div class="col-md-12" >
+	<div class="simple_box_title row" style="margin-bottom:3px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-globe"></span><span id="themeName"></span>
+          <small class="simple_box_title_txt hidden-xs"> </small> </h3>
+     </div>
+
+  	<div id="divIndex"   class="easyui-layout" fit="true" ">
+	
+	</div>
+      </div>       
+     </div>
+    <!--页面实际内容区结束--> 
+	</jsp:body>
+</t:chart>

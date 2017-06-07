@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+       <h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+	<div class="container-fluid"> 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+			<span class="sr-only">切换导航</span>
+			<span class="icon-bar" style="color:#fff;"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;"><h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4></a>
+	</div>
+	<div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="home_charts.html">首页</a></li>
+			<li><a href="zt_charts_1.html">生产概况</a></li>
+			<li><a href="#">专题展示</a></li>
+			<li><a href="#">价格监测</a></li>
+			<li><a href="zt_charts_1.html">用户信息</a></li>
+			<li><a href="zt_charts_2.html">修改密码</a></li>
+			<li><a href="zt_charts_3.html">退出系统</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+      <li class="menubg_1"><a href="#"><span class="icon-home"></span><br/>
+        首页</a></li>
+      <li class="menubg_2"><a href="#"><span class="icon-flag"></span><br/>
+        生产概况</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-shopping-cart" style="font-size:28px!important;"></span><br/>
+        价格监测</a></li>
+      <li class="menubg_4"><a href="#"><span class="icon-bar-chart" style="font-size:28px!important;"></span><br/>
+        专题展示</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:10px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-globe"></span>草场分布
+          <small class="simple_box_title_txt hidden-xs"> 展现全市各草场的分布情况  </small> </h3>
+        </div>
+        <p class="charts_txt"> 
+        	           重庆地区的植被覆盖以森林为主，但也有面积广大的草原，尤其以渝东北大巴山区、渝东南武陵山区及市域南部与贵州大娄山区交界处为多，总面积超过三千万亩。不过，与北方地区一望无际的草原不同，重庆的草原大多数分布于丘陵山地，常被称为“草山草坡”，学术上称为“草甸”，重庆人则更喜欢称之为“草场”，具有单块面积不大、相对分散等特点，并常与森林伴生，形成林草相融的别致景观。
+        </p><br>
+
+        
+        	
+                
+                
+        
+		<div class="row">
+           
+        	<div class="col-md-8" style="height:450px;">
+            	此处展现地图弹框样式
+                  <br>
+                  <div class="map_floatbox">
+                  		<div class="title">
+                        	<h4>千野草场<small class="pull-right">面积：304平方公里</small></h4>
+                            <span class="closebtn"><span class="glyphicon glyphicon-remove closebtn"></span></span>
+                        </div>
+                        <div class="map_floatbox_body">
+                        	<div class="map_picbox">
+                                <a href="#fdsf"><img src="style/images/wKgBs1eoYqOABg2hABPJYF5elYI26.jpeg" width="680" height="510"> </a>
+                                <a href="#fdsf"><img src="style/images/U11118P1557DT20140707102112.jpg" width="550" height="340"> </a>
+                            </div>
+                       	  <h5 class="map_floatbox_addr">
+                            	重庆市石柱土家族自治县离长江口岸仅34公里
+                            </h5>
+                          <div class="map_floatbox_jj">
+                            	<p>千野草场景区位于重庆市石柱县方斗山山脉岩口至瓦屋沿线，离长江口岸明清古镇西沱仅34公里，沿318国道线至忠县43公里。草场放养了大量的牲畜，其中包括绵羊、牦牛、川西马等品种
+总计大约20000只...</p>
+                            </div>
+                    </div>
+                        
+                  </div>
+        	</div>
+          <div class="col-md-4" >
+                      <div id="menu1" class="colortable mapcontent">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <th style="font-size:18px;"><span class="icon-bar-chart"></span>重庆市草场 </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                    <div class="row">
+										<div class="col-md-2 list_num">
+                                        	1
+                                        </div>
+                                        <div class="col-md-10">
+                                        	<h4>千野草场<small class="pull-right">304平方公里</small></h4>
+                                            <p>重庆市石柱土家族自治县离长江口岸西沱仅34公里
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                <div class="row">
+										<div class="col-md-2 list_num">
+                                        	2
+                                        </div>
+                                        <div class="col-md-10">
+                                        	<h4>千野草场<small class="pull-right">304平方公里</small></h4>
+                                            <p>重庆市石柱土家族自治县离长江口岸西沱仅34公里
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><div class="row">
+										<div class="col-md-2 list_num">
+                                        	3
+                                        </div>
+                                        <div class="col-md-10">
+                                        	<h4>千野草场<small class="pull-right">304平方公里</small></h4>
+                                            <p>重庆市石柱土家族自治县离长江口岸西沱仅34公里
+                                            </p>
+                                        </div>
+                                    </div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="row">
+										<div class="col-md-2 list_num">
+                                        	4
+                                        </div>
+                                        <div class="col-md-10">
+                                        	<h4>千野草场<small class="pull-right">304平方公里</small></h4>
+                                            <p>重庆市石柱土家族自治县离长江口岸西沱仅34公里
+                                            自治县离长江口岸西沱仅34公里</p>
+                                        </div>
+                                    </div></td>
+                              </tr>
+                              <tr>
+                                <td><div class="row">
+										<div class="col-md-2 list_num">
+                                        	5
+                                        </div>
+                                        <div class="col-md-10">
+                                        	<h4>千野草场<small class="pull-right">304平方公里</small></h4>
+                                            <p>重庆市石柱土家族自治县离长江口岸西沱仅34公里
+                                            </p>
+                                        </div>
+                                    </div></td>
+                              </tr>
+                            </tbody>
+                        </table>
+            </div>
+                        
+                    
+                    
+                    
+                    
+                    
+                    
+          </div>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div class="charts_memo">
+        <h4 class="charts_memo_title"><span class="icon-file-alt "></span>描述信息</h4>
+        <p>重庆境内的草甸主要分布在盆地向周边过渡的中山地区，一般在当地森林上界之上的地段，分布海拔不等（1500-2700米），取决于坡向、湿度等，因此也有部分低于1500米。如城口黄安坝（大巴山区），巫溪红池坝、大官山，巫山葱坪，武隆仙女山，酉阳菖蒲盖，南川金佛山，万盛黑山狮子槽等地都有草甸分布。这些地区往往地处山脊，地貌为台地峰丛洼地（俗称坝、坪、淌、槽等），面积大小不等，大则上万亩，小的百余亩，且常常数个连成一片，如巫溪红池坝、酉阳菖蒲盖等，大部分都是“组团式”的草场草甸，像城口的九重山上，更是有48个青草塘（漏斗形草原），分布在高山草场，青草郁郁葱葱，犹如画家圈点。
+
+      这些位于山脊处的中山草甸，地势平坦开阔而且中间略低，四周略高，其上有不明显的小溪，漏斗较多，地下水位较高，低洼处地下水位更好，有季节性渍水甚至常年渍水。草类丰富茂盛，覆盖度可达80%-90%，株高30-40cm，高的可达100cm，以禾本植物为主，杂以许多双子叶植物。到了冬季牧草枯死，常年如此形成一些草甸堆并逐步发展成草甸。在坡度和背风处有少量灌丛，土壤相对干燥，草被次之。</p>
+        </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 推荐专题
+          <small class="simple_box_title_txt hidden-xs"> 经过精心设计的推荐专题  </small></h3> <a href="#fdsf" class="pull-right">查看更多&gt;</a>
+        </div>
+        <div class="row">
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_1.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                    <a href="#" >
+                        草场分布
+                    </a> 
+                    </div>
+               </div>
+            </div>
+          	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_2.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >生猪存栏量分布</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_3.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >猪肉和玉米价格分析</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_4.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >
+                      生猪出栏数量分布
+                  </a> 
+                  </div>
+               </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+</body>
+</html>

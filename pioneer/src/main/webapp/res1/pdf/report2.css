@@ -1,0 +1,43 @@
+body, html {
+	padding: 0;
+	margin: 0;
+}
+td, th, span, div {
+	font-family: "微软雅黑";
+}
+.mainbg {
+	background-image: url(${imgUrl}/creditManage/res/pdf/bigbg.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 248px;
+}
+.yeartxt {
+	text-align: center;
+	display: block;
+	color: #fff;
+	background-color: #5fc0f3;
+	font-size: 60px;
+	width: 177px;
+	height: 64px;
+	line-height: 64px;
+	transform: rotate(90deg);
+	-ms-transform: rotate(90deg); /* Internet Explorer 9*/
+	-moz-transform: rotate(90deg); /* Firefox */
+	-webkit-transform: rotate(90deg); /* Safari 和 Chrome */
+	-o-transform: rotate(90deg); /* Opera */
+ filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+.mctxt {
+	font-size: 24px;
+	color: #2c2c2c;
+}
+.searchdate {
+	font-size: 12px;
+	color: #808080;
+}
+.smallgraytxt {
+	font-size:9px;
+	color: #a2a2a2;
+	padding-top: 15px;
+	line-height:30px;
+}

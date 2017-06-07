@@ -1,0 +1,227 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+	var indexId;//指标编码
+	var groupField = "";
+	$(document).ready(function() {
+		$('#indexTree').combotree({
+			url : contextPath + "/portAnalyze/getIndexTree?isAll=y", //isAll 存在查询全部指标
+			required : true,
+			onClick : function(node) {
+				indexId = node.id;
+				console.log("node ", node)
+
+				if (node.sort == "0") {//基础指标
+					$("#showGroup").show();
+					loadGroupByField(indexId);
+				} 
+
+				//如果点击的是指标
+				if (node.type == "index") {
+					getIndexConfig(node.id)
+				}
+			}
+		});
+
+		/*
+		//测试
+		//按类型加载字典
+		$('#cc').combobox({    
+		    url:contextPath + "/tSysDict/listDict?type=INDEX_UNIT",    
+		    valueField:'id',    
+		    textField:'text'   
+		});  
+		
+		//加载系统分组
+		$('#ss').combotree({
+			url : contextPath + "/tSysGroup/getGroupTree?groupType=5",
+			required : true,
+			onChange : function(newValue, oldValue){
+				console.log("newValue ", newValue)
+			},
+			onClick: function(node){
+				console.log("node ", node)
+			}
+		});
+		 */
+	});
+
+	var ids = [];
+	//获取指标信息和指标维度信息
+	function getIndexConfig(indexId) {
+		ids = [];
+		var zbxx = "";
+		var url = contextPath + "/portAnalyze/getIndexConfig";
+		$.get(url, {
+			indexId : indexId
+		}, function(arr) {
+			//console.log("arr------  ", arr);
+			var zbwd = "";
+			var length = arr.length;
+			if(length > 1){
+				length = length - 1;//去除复合指标
+				zbxx += JSON.stringify(arr[length].indexCinfg);
+			}
+			
+			for ( var i = 0; i < length; i++) {
+				var data = arr[i];
+
+				zbxx += JSON.stringify(data.indexCinfg);
+
+				if (arr.length > 1) {
+					zbwd += "<p class='indexname-p'>" + data.indexCinfg.indexName + "</p>";//添加指标名称
+				}
+				zbwd += data.dimCinfg.html;
+				//zbwd += "<br/>"
+
+				console.log("html ", data.dimCinfg.html)
+				$("#idlb").html(data.dimCinfg.ids);//所有下拉选框的id，多个用逗号隔开
+				//下拉框的name为维度字段名称，查询指标时 返回字段名和值的名值对
+				ids.push({
+					indexId : data.indexCinfg.indexId,
+					ids : data.dimCinfg.ids
+				});
+			}
+
+			console.log("ids ", ids);
+			$("#zbxx").html(zbxx);//指标信息
+
+			$("#zbwd").html(zbwd);//指标维度,查询条件
+			$.parser.parse($('#zbwd'));
+			/* return;
+			var data = arr[0];
+			console.log("arr ", arr);
+			$("#zbxx").html(JSON.stringify(data.indexCinfg));
+			$("#zbwd").html(data.dimCinfg.html);//指标维度
+			console.log("html ", data.dimCinfg.html)
+			$("#idlb").html(data.dimCinfg.ids);//所有下拉选框的id，多个用逗号隔开
+			//下拉框的name为维度字段名称，查询指标时 返回字段名和值的名值对
+			ids = data.dimCinfg.ids;
+			//重新渲染easyui组件
+			$.parser.parse($('#zbwd')); */
+		})
+	}
+
+	function search() {
+		var params = {};
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+		params.startDate = startDate;
+		params.endDate = endDate;
+		params.indexs = [];
+		params.groupField = groupField;
+		if (ids.length > 0) {
+			for ( var k in ids) {
+				//拼接维度条件
+				var fields = [];
+				var v = ids[k];
+				var _indexId = v.indexId;
+				var _ids = v.ids;
+				if (_ids) {
+					var dimIds = _ids.split(","); //获取到每一个维度 下拉框id
+					//console.log("dimIds:", dimIds)
+					for ( var i = 0; i < dimIds.length; i++) {
+						var id = dimIds[i];
+						console.log("id:", id)
+
+						console.log("111:", $("#" + id))
+
+						var filedName = $("#" + id).attr("comboname");//字段名
+
+						console.log("filedName:", filedName)
+
+						var value = $("#" + id).combo('getValue');
+						//console.log("value:", value)
+
+						var param = {};
+
+						param[filedName] = value;
+						fields.push(param)
+					}
+				}
+
+				params.indexs.push({
+					indexId : _indexId,
+					fields : fields
+				});
+			}
+		}
+
+		console.log("params ", params)
+
+		//$("#datas").html(JSON.stringify(params));
+
+		//查询指标数据
+		var url = contextPath + "/portAnalyze/getIndexData";//该url写在项目配置文件中，专题图展现时使用， params 保存到 query_param字段
+		$.get(url, {
+			indexId : indexId,
+			params : JSON.stringify(params)
+		}, function(data) {
+			console.log("data ", data)
+			$("#datas").html(JSON.stringify(data));
+		});
+	}
+
+	//加载分组字段
+	function loadGroupByField(indexId) {
+		var url = contextPath + "/portAnalyze/getGroupField?indexId=" + indexId;
+		$('#groupByField').combobox({
+			url : url,
+			valueField : 'id',
+			textField : 'text',
+			value : '-1',
+			onSelect : function(node) {
+				groupField = node.id;
+			}
+		});
+	}
+</script>
+
+</jsp:attribute>
+	<jsp:body>
+	<div>指标树：<input id="indexTree" style="width:300px;">
+	</div>
+	
+	<div>
+	指标信息：
+	<div id="zbxx"></div>
+	</div>
+
+	<div>
+	下拉框的id列表：
+	<div id="idlb"></div>
+	指标查询条件(维度)：
+	<div id="zbwd"></div>
+	</div>
+	
+	开始时间（日期组件）<input id="startDate" value="2015-01-12">
+	结束时间（日期组件）<input id="endDate" value="2017-01-30">
+	
+	<br />
+	
+	分组字段：使用基础指标的图形才存在分组字段，从指标关联的数据集中取，如果该字段关联了维度，则分组名称显示维度名称
+	<div id="showGroup" style="display:none;">
+	分组字段：<input id="groupByField" name="groupByField">  
+	</div>
+	<br />
+	<input type="button" value="查询指标数据" onclick="search()" />
+	<br>
+	echarts要使用的数据：<div id="datas"></div>
+	<!-- 
+	<br><br><br><br><br><br>
+	<div>字典表：<input id="cc" name="dept" value="aa">  
+	</div>
+	
+	<div>系统分组：<input id="ss" name="ss">  
+	</div>
+	 -->
+	 <div>
+	 </div>
+	</jsp:body>
+</t:page>

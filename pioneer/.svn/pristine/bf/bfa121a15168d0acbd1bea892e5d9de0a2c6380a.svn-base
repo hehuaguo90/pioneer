@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/webstyle_phone.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="form_box_container">
+	<div class="form_title">用户信息设置</div>
+    <ul class="form_box_phone setbox">
+            <li >
+                <label for="name"  class="form_name">用户姓名：</label>
+                <input type="text" class="form-control" id="name" placeholder="&nbsp;">
+            </li>
+            <li>
+                <label for="name"  class="form_name">所属区域：</label>
+                <input type="text" class="form-control" id="name" placeholder="&nbsp;">
+            </li>
+            <li>
+                <label for="name"  class="form_name">联系方式：</label>
+                <input type="text" class="form-control" id="name" placeholder="&nbsp;">
+            </li>
+             <li>
+                <label for="name"  class="form_name">上次登录时间：</label>
+                <input type="text" class="form-control" id="name" placeholder="&nbsp;">
+            </li>
+    </ul>
+   
+    <div class="form_btn_tools navbar-fixed-bottom">
+    	 <a href="table_1_phone.html" class="cannel" style="width:50%;"><span class="glyphicon glyphicon-share-alt">&nbsp;</span>放弃</a>
+    	
+        <a href="table_1_phone.html" class="submit"  style="width:50%!important;"><span class="glyphicon glyphicon-ok">&nbsp;</span>提交</a>
+    </div>
+    <br>
+<br>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tLoginObj.dao.TLoginObjDao" >
+     <resultMap id="tSysUserModelMap" type="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+        <id column="user_id" property="userId" />
+        <result column="area_id" property="areaId" />
+        <result column="user_name" property="userName" />
+        <result column="sys_account" property="sysAccount" />
+        <result column="sys_password" property="sysPassword" />
+        <result column="user_tel" property="userTel" />
+        <result column="user_mobile" property="userMobile" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="last_log_time" property="lastLogTime" />
+        <result column="log_error_count" property="logErrorCount" />
+        <result column="remark" property="remark" />
+    </resultMap>
+    
+     <resultMap id="tSysRightModelMap" type="com.wellsys.pioneer.module.tSysRight.model.TSysRightModel" >
+        <id column="right_id" property="rightId" />
+        <result column="pid" property="pid" />
+        <result column="right_name" property="rightName" />
+        <result column="show_order" property="showOrder" />
+        <result column="right_url" property="rightUrl" />
+        <result column="remark" property="remark" />
+    </resultMap>
+    
+    <select id="listMap" resultMap="tSysUserModelMap"  parameterType="java.util.HashMap"  >
+               SELECT
+                t.user_id 
+                ,t.user_name 
+                ,t.sys_account 
+                ,t.sys_password 
+                ,t.user_tel 
+                ,t.status 
+                ,t.last_log_time 
+                ,t.log_error_count
+
+        FROM
+                t_sys_user t 
+        WHERE
+      		  t.status != 2 
+            <if test="account != null "> AND sys_account=#{account} </if>
+    </select>
+
+	<update id="updateUserLastLoginTime" parameterType="java.util.HashMap" >
+        UPDATE
+                 t_sys_user
+        SET
+                last_log_time=#{lastLoginTime}
+        WHERE
+                user_id=#{userid}
+    </update>
+    
+     <select id="findRoleName" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+          select  t.role_name as "role_name"
+			  from t_sys_role t
+		   where t.role_id in
+			       (select a.role_id
+			          from t_sys_user_role a
+         where a.user_id =#{userid})
+    </select>
+    
+    <select id="getSysRight" resultMap="tSysRightModelMap"  parameterType="java.util.HashMap"  >
+         select
+                distinct t.right_id
+                ,t.pid
+                ,t.right_name
+                ,t.show_order
+                ,t.right_url
+                ,t.right_type
+                ,t.show_order
+        from
+                t_sys_right t, t_sys_user_role u, t_sys_role_right b 
+        where
+                t.right_id = b.right_id and b.role_id = u.role_id and u.user_id =#{userid}
+        order by t.show_order
+    </select>
+    
+    <select id="findRightUrl"  resultType="java.util.HashMap"   parameterType="java.util.HashMap"  >
+        select
+                distinct  t.right_url
+        from
+                t_sys_right t, t_sys_user_role u, t_sys_role_right b 
+        where
+                t.right_id = b.right_id and b.role_id = u.role_id and u.user_id =#{userid}
+    </select>
+    
+    <select id="getUserMsg"  resultType="java.util.HashMap"   parameterType="java.util.HashMap"  >
+        select areaId, areaName, orgId, orgName, stepseq_id stepseqId, area_level areaLevel from v_user_info where user_id =#{userid}
+    </select>
+</mapper> 

@@ -1,0 +1,114 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>id:</th>
+					<td><span id="id" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>传真:</th>
+					<td><span id="email" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政编码:</th>
+					<td><span id="xzbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>省级名称:</th>
+					<td><span id="sjmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地级名称:</th>
+					<td><span id="djmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>县级名称:</th>
+					<td><span id="xjmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政级别:</th>
+					<td><span id="xzjb" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>单位名称:</th>
+					<td><span id="dwmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地址:</th>
+					<td><span id="dz" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>邮政编码:</th>
+					<td><span id="yzbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>负责人:</th>
+					<td><span id="fzr" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>联系人:</th>
+					<td><span id="lxr" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>联系电话:</th>
+					<td><span id="lxdh" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>传真:</th>
+					<td><span id="cz" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>从事草业工作人数:</th>
+					<td><span id="cscygzrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>高级职称人数:</th>
+					<td><span id="gjzcrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>中级职称人数:</th>
+					<td><span id="zjzcrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>初级职称人数:</th>
+					<td><span id="cjzcrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>博士人数:</th>
+					<td><span id="bsrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>硕士人数:</th>
+					<td><span id="ssrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>本科人数:</th>
+					<td><span id="bkrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>专科人数:</th>
+					<td><span id="zkrs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>备注:</th>
+					<td><span id="bz" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

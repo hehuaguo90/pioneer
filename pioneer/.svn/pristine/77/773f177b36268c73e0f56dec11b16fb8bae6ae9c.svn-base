@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+       <h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+	<div class="container-fluid"> 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+			<span class="sr-only">切换导航</span>
+			<span class="icon-bar" style="color:#fff;"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;"><h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4></a>
+	</div>
+	<div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="home_charts.html">首页</a></li>
+			<li><a href="zt_charts_1.html">生产概况</a></li>
+			<li><a href="#">专题展示</a></li>
+			<li><a href="#">价格监测</a></li>
+			<li><a href="zt_charts_1.html">用户信息</a></li>
+			<li><a href="zt_charts_2.html">修改密码</a></li>
+			<li><a href="zt_charts_3.html">退出系统</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+      <li class="menubg_1"><a href="#"><span class="icon-home"></span><br/>
+        首页</a></li>
+      <li class="menubg_2"><a href="#"><span class="icon-flag"></span><br/>
+        生产概况</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-shopping-cart" style="font-size:28px!important;"></span><br/>
+        价格监测</a></li>
+      <li class="menubg_4"><a href="#"><span class="icon-bar-chart" style="font-size:28px!important;"></span><br/>
+        专题展示</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-globe"></span>出栏量和价格分析
+          <small class="simple_box_title_txt hidden-xs"> 通过叠加指标分析各指标之间的关系 </small> </h3>
+        </div>
+        <p class="charts_txt"> 
+        	每年立冬以后，生猪出栏量都会有所增加。12日，笔者走访各区县农贸市场、超市了解到，自去年冬季以来，一直坚挺的猪肉价格，目前终于下降了一
+成左右。
+        </p><br>
+
+        
+        	
+                
+                
+        
+		<div class="row">
+            <div class="col-md-3" >
+                      <div id="menu1" class="colortable" style="margin:0 30px;overflow:auto;max-height:450px;">
+                        <table class="table table-bordered zbxz">
+                            <thead>
+                              <tr>
+                                <th style="font-size:18px;"><span class="icon-bar-chart"></span>选择叠加指标 </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><span class="icon-check"></span>生猪存栏量</td>
+                              </tr>
+                              <tr>
+                                <td class="active"><span class="icon-check"></span>肉猪出栏量</td>
+                              </tr>
+                              <tr>
+                                <td><span class="icon-check"></span>牛存栏量</td>
+                              </tr>
+                              <tr>
+                                <td><span class="icon-check"></span>肉牛出栏量</td>
+                              </tr>
+                              <tr>
+                                <td><span class="icon-check"></span>羊存栏量</td>
+                              </tr>
+                              <tr>
+                                <td class="active"><span class="icon-check"></span>猪肉价格</td>
+                              </tr>
+                              <tr>
+                                <td><span class="icon-check"></span>肉羊出栏量</td>
+                              </tr>
+                            </tbody>
+                        </table>
+              </div>
+                        
+                    
+                    
+                    
+                    
+                    
+                    
+          </div>
+        	<div class="col-md-9" style="height:450px;">
+            	此处为图表
+            </div>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div class="charts_memo">
+        <h4 class="charts_memo_title"><span class="icon-file-alt "></span>描述信息</h4>
+        <p>        不仅是猪精瘦肉价格下降了，猪其他部位的肉也均有下降，如该市场卖的三线肉为12.5元/斤、腿子肉13.5元/斤、半肥瘦13元/斤、胛子肉12元/斤、保肋肉12元/斤，与一周前相比分别下降了1—2元/斤左右。
+
+　　相对于农贸市场，超市的猪肉价格下降幅度略大一些。县城内的开心超市，当日猪精瘦肉为14.5元/斤、三线肉11.8元/斤、腿子肉12.8元/斤、胛子肉11.5元/斤。“从本月初开始，我们卖的猪肉价格就开始下降了。”该超市相关负责人说，但他认为猪肉下降后，每天的销售量却没有明显变化。</p>
+        </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 推荐专题
+          <small class="simple_box_title_txt hidden-xs"> 经过精心设计的推荐专题  </small></h3> <a href="#fdsf" class="pull-right">查看更多&gt;</a>
+        </div>
+        <div class="row">
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_1.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                    <a href="#" >
+                        草场分布
+                    </a> 
+                    </div>
+               </div>
+            </div>
+          	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_2.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >生猪存栏量分布</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_3.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >猪肉和玉米价格分析</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_4.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >
+                      生猪出栏数量分布
+                  </a> 
+                  </div>
+               </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+</body>
+</html>

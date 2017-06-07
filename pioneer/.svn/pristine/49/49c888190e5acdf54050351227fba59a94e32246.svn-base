@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>id:</th>
+					<td><span id="id" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报编码:</th>
+					<td><span id="tbbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>企业名称:</th>
+					<td><span id="qymc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>产品牧草种类:</th>
+					<td><span id="cpmczl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>生产能力:</th>
+					<td><span id="scnl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>单位面积产量:</th>
+					<td><span id="dwmjcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>实际生产量:</th>
+					<td><span id="sjscl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草捆产量:</th>
+					<td><span id="ckcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草块产量:</th>
+					<td><span id="caokcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草颗粒产量:</th>
+					<td><span id="cklcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草粉产量:</th>
+					<td><span id="cfcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>其他:</th>
+					<td><span id="qt" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>出口量:</th>
+					<td><span id="ckl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>出口地:</th>
+					<td><span id="ckd" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>进口量:</th>
+					<td><span id="jkl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>联系方式:</th>
+					<td><span id="lxfs" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

@@ -1,0 +1,154 @@
+@charset "utf-8";
+/*顶部菜单栏样式开始*/
+
+
+.pagetop .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover,.pagetop .nav-pills > li.active > a:active {
+	background-color: #43bd77;
+	color: #fff;
+}
+.pagetop .nav > li > a {
+	color: #d0d4d7;
+}
+.pagetop .nav > li > a:focus, .nav > li > a:hover {
+	text-decoration: none;
+	background-color: #33495c;
+	color: #fff;
+}
+
+
+
+/*顶部菜单栏样式结束*/
+.text-warning {
+    color: #d48b44;
+}
+.text-danger {
+    color: #f45555;
+}
+.carousel-control.left {
+	display:none;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 1%);
+  background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 1%);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 1%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=0);
+}
+.carousel-control.right {
+	display:none;
+  left: auto;
+  right: 0;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
+}
+.navbar-default .navbar-toggle {
+    border-color: #708eb0;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border:none;
+}
+.pagetop .icon-bar{background-color:#fff!important;}
+.navbar {
+    margin-bottom:0px;
+}
+.chart_bodybg_box .container{padding:4px;}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: #708eb0;
+}
+.thumbnail .caption {
+    padding: 2px;
+	text-align:center;
+	margin:0 10px;
+	
+}
+.thumbnail .caption a{width:98%;display:block;font-size:14px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #337ab7;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+.pagetop .nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #fff;
+	 color: #555555;
+}
+.nav-tabs>li>a {
+    color: #555555;
+    cursor: default;
+    background-color: #fff;
+}
+.colortable .table-bordered tr th {
+    border-bottom-width: 3px;
+	border-color:#63ae4f;
+	text-align: center;
+}
+.btn-default {
+    color: #288f28;
+    background-color: #fff;
+}
+.btn-default:hover,.btn-default:active {
+    color: #288f28;
+    background-color: #d8f6cf;
+    border-color: #4cae4c;
+}
+.charts_box_1 .nav-pills>li.active,.charts_box_1  .nav-pills>li.active:focus,.charts_box_1  .nav-pills>li.active:hover {
+	/*胶囊导航样式设置*/
+    color: #fff;
+    background-color: #5cb85c;
+}
+.charts_box_1  .nav-pills>li {
+    border-radius: 4px;
+}
+.charts_box_1  .nav>li {
+    position: relative;
+    padding: 5px 7px;
+	margin:7px 0;
+	text-align:center;
+	cursor:pointer;
+	background-color: #f3f3f3;
+}
+.modal-title{
+	color: #48A448;
+	font-weight:bold;
+}
+.btn-default.focus,.btn-default:focus{background-color:#fff!important;}
+.btn-default:active{background-color:#fff!important;}
+
+.dropdown-menu{max-height:450px;overflow:auto;}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #48A448;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+	
+}
+.nav-tabs>li>a:hover{cursor:pointer;}
+.nav-tabs .label-info {
+    background-color: #5bc0de!important;
+	margin-left:3px;
+}
+.nav-tabs .label-success {
+    background-color: #5cb85c!important;
+	margin-left:3px;
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #7cc369;
+    border-color: #7cc369;
+}
+.nav-tabs>li>a {
+     border-radius: 0; 
+	 font-weight:bold;
+	 font-size:16px;
+}
+.list-group-item:last-child ,.list-group-item:first-child {
+    border-radius: 0px;
+}
+.map_product_content{}
+.dropdown-menu{max-height:450px;overflow:auto;min-width:130px;}

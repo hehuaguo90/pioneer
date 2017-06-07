@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<link href="style/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#leftbar_turnbox").click(function(){
+ 	 $("#bodybg_box").toggleClass("turn_off");
+
+  });
+  
+  $("#layout_turn").click(function(){
+	  $(window.frames["iframe1"].document).find("#paper_box_bg").toggleClass("paper_layout_full");
+	  
+	  });
+   $(".leftmenu li").click(function(){
+	  
+	  
+	    $("#bodybg_box").removeClass("turn_off");
+	 $(".leftmenu li.active").removeClass("active");
+	  $(this).addClass("active");
+  });
+  $(".leftmenu p").click(function(){
+	  
+	  
+	 $(".leftmenu p.active").removeClass("active");
+	  $(this).addClass("active");
+  });
+});
+</script>
+
+
+<style type="text/css">
+body, html {
+	height: 100%;
+}
+</style>
+</head>
+
+<body class="bodybg">
+
+<div id="bodybg_box" class="bodybg_box turn_off"> 
+  <!--页面顶部LOGO及主菜单栏开始--> 
+  
+  <!--<nav class="pagetop" role="navigation">
+  <div class="container-banner container-fluid row" style="margin:auto;">
+        <div class="navbar-header col-lg-4 row">
+           <div class="col-lg-3">
+          	 <img src="style/images/write_banner_logo.png" width="47" height="40">
+           </div>
+           <div class="col-lg-9 system-name">
+           	<p><h4>重庆市畜牧信息系统</h4></p>
+            <p><h6>数据填报</h6></p>
+           </div>
+        </div>
+	<div class=" col-lg-8 row">
+		<ul class="nav nav-pills col-lg-9">
+          <li class="active"><a href="#">当期填报</a></li>
+          <li><a href="#">超时填报</a></li>
+          <li><a href="#">不限时填报</a></li>
+          <li><a href="#">填报记录</a></li>
+        </ul>
+        <div class="col-lg-3 dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    admin <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">用户信息</a></li>
+                    <li><a href="#">密码修改</a></li>
+                    <li><a href="#">退出登录</a></li>
+                </ul>
+        </div>
+	</div>
+  </div>
+</nav>
+--><!--页面顶部LOGO及主菜单栏结束--> 
+  
+  <!--页面左侧菜单栏开始-->
+  
+  <!--页面左侧菜单栏结束--> 
+  
+  <!--内容区开始-->
+  <div class="body_box" style="left:0px!important;">
+  	<div class="banner-box" ><!--顶条平铺块-->
+    <div class="banner-contentbox row" style="margin:auto;"><!--顶条内容块-->
+    	
+        	<!--页面顶部LOGO及用户信息框开始-->
+   
+      <div class="col-md-8 logobox"><img src="style/images/write_logo.png" >
+        <span class="systemname">重庆市农产品质量安全追溯综合管理信息平台</span>
+      </div>
+      
+      
+      <div class="col-md-4 usertools">
+      	
+      	
+                
+        
+        <div class="dropdown" style="display:inline-block;">
+                  	
+                    <button class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown" ><img src="style/images/user_head.png" ><span>系统管理员</span>
+                    <span class="icon-cog"></span></button>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1" style="z-index:210;">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="ico icon-user"></span>用户信息</a></li>                     
+                      
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="ico icon-signout"></span>退出登录</a></li>
+                    </ul>
+                  </div>
+        
+        
+        
+        
+        
+        
+      </div>
+   
+  	<!--页面顶部LOGO及用户信息框结束-->
+        
+        
+    </div>
+</div>
+  	<div class="iframebox" style="overflow:auto;padding-bottom:30px;">
+   	
+    	<div class="home_content_box">
+        	<div class="row home_row" style="border-bottom:1px solid #e5e5e5;padding:5px 20px; ">
+            
+           	  <div class="col-md-6">
+               	<h4 class="home_simple_title">
+               	  <span class="ico icon-building "></span>
+                        追溯平台当前注册企业数
+                        <small>(当月新增数)</small>
+                  </h4>
+                  <ul class="home_simple_list">
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_1.png" width="57" height="57"></p>
+                          <p class="num_name">种植业</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_2.png" width="57" height="57"></p>
+                          <p class="num_name">渔业</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_3.png" width="57" height="57"></p>
+                          <p class="num_name">畜牧业</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_4.png" width="57" height="57"></p>
+                          <p class="num_name">投入品</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                		<h4 class="home_simple_title">
+               	  <span class="ico  icon-bar-chart "></span>
+                        按季度分行业追溯平台注册企业数
+                  </h4>
+                  
+                  <div>
+                  		 <img src="style/images/chartpic1.png" width="491" height="196">
+                  </div>
+                </div>
+            
+            
+            </div>
+            
+            <div class="row" style="border-bottom:1px solid #e5e5e5;padding:5px 20px;">
+            
+           	  <div class="col-md-6">
+               	<h4 class="home_simple_title">
+               	  <span class="ico icon-trophy " style="font-size:24px;"></span>
+                        各类认证产品当期有效认证数
+                        <small>(当月新增数)</small>
+                  </h4>
+                  <ul class="home_simple_list">
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_5.png" width="57" height="57"></p>
+                          <p class="num_name">绿色食品</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_6.png" width="57" height="57"></p>
+                          <p class="num_name">地理标志农产品</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_7.png" width="57" height="57"></p>
+                          <p class="num_name">有机农产品</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                   	  <li>
+                       	  <p><img src="style/images/home_ico_big_8.png" width="57" height="57"></p>
+                          <p class="num_name">无公害农产品</p>
+                          <p class="num_1">1,704</p>
+                          <p class="num_2">(1,704)</p>
+                      </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                		<h4 class="home_simple_title">
+               	  <span class="ico icon-bar-chart"></span>
+                        各类认证产品数量
+                        
+                  </h4>
+                  
+                  <div>
+           		  <img src="style/images/chartpic2.png" width="491" height="196"> </div>
+                </div>
+            
+            
+            </div>
+            
+            <div class="row" style="border-bottom:0px solid #e5e5e5;padding:5px 20px;">
+            <div  class="col-md-12">
+            	<h4 class="home_simple_title">
+               	  <span class="ico icon-th-large  "></span>
+                        子系统
+                       
+                  </h4>
+                  
+                  <ul class="subsyslist">
+                  	<li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_1">
+                            	<span class="ico icon-qrcode "></span>
+                            </div>
+                            <p>追溯政府监管</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_2">
+                            	<span class="ico  icon-star-empty  "></span>
+                            </div>
+                            <p>“三品一标”监管</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_3">
+                            	<span class="ico icon-tablet "></span>
+                            </div>
+                            <p>移动监管</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_4">
+                            	<span class="ico  icon-bar-chart "></span>
+                            </div>
+                            <p>追溯数据分析</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_1">
+                            	<span class="ico glyphicon glyphicon-hdd "></span>
+                            </div>
+                            <p>数据资源管理</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_2">
+                            	<span class="ico icon-magic  "></span>
+                            </div>
+                            <p>检验检测数据管理</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_3">
+                            	<span class="ico icon-leaf  "></span>
+                            </div>
+                            <p>农业追溯信用</p>
+                        </a>
+                    
+                    </li>
+                    <li>
+                    	<a href="#fdfd">
+                        	<div class="ico ico_4">
+                            	<span class="ico  icon-cogs "></span>
+                            </div>
+                            <p>平台管理</p>
+                        </a>
+                    
+                    </li>
+                  </ul>
+            </div>
+            
+            </div>
+            
+            
+            
+        </div>
+     
+    </div>
+    
+    <div class="footbox">重庆同方融达信息科技有限公司&#160;&#160;&#160;<a href="#fwsdfdsf">[企业管理平台]</a>&#160;<a href="#fdsfff">[公共查询平台]</a></div>
+    
+    
+    
+  </div>
+  <!--内容区结束--> 
+  
+</div>
+
+
+</body>
+
+
+</html>

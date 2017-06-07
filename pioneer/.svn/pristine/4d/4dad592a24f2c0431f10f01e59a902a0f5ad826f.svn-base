@@ -1,0 +1,108 @@
+package com.tfrd.common.utils;
+
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+
+public class Util {
+	private static Logger log=Logger.getLogger(Util.class);
+	/**
+	 * 获取客户端ip
+	 * @date 2016-7-11 下午4:07:24
+	 *
+	 * @param request
+	 * @return
+	 */
+	 public static String getIpAddr(HttpServletRequest request) { 
+	        String ip = request.getHeader("x-forwarded-for"); 
+	        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+	            ip = request.getHeader("Proxy-Client-IP"); 
+	        } 
+	        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+	            ip = request.getHeader("WL-Proxy-Client-IP"); 
+	        } 
+	        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+	            ip = request.getRemoteAddr(); 
+	        } 
+	        return ip; 
+	 }
+	 
+	 public static String clearNull(String str){
+		 if("null".equals(str) || str == null)
+			 return "";
+		 else
+			 return str;
+	 }
+	 /**
+	  * 删除目录下的文件
+	  * @param path
+	  * @Author hehg
+	  * @Date 2016-12-20 下午4:47:55
+	  */
+	 public static void delFile(String path){
+		 try{
+			 File file=new File(path);
+			 if(file.exists()){
+				 file.delete();
+			 } 
+		 }catch(Exception e){
+			 log.error("delFile exception:  "+e);
+		 }
+	 }
+	 
+	 /******
+	  * 数据格式化
+	  * @param object
+	  * @param style
+	  * @return
+	  */
+	 public static String formatString(Object object,String style) {
+		 DecimalFormat df = new DecimalFormat(style); 
+		 return df.format(object);
+	 }
+	 /**
+	  * 当前时间
+	  * @param format
+	  * @return
+	  * @Author hehg
+	  * @Date 2017-1-19 上午10:23:18
+	  */
+	 public static String getCurrentTime(String format){
+		 if(format == null){
+			 format ="yyyy-MM-dd HH:mm:ss";
+		 }
+		return new SimpleDateFormat(format).format(new Date());
+	 }
+	 /**
+	  * 去掉小数点后面无用的零
+	  * @param param
+	  * @return
+	  */
+	 public static String replaceZero(String param) {
+			if(param.indexOf(".") > 0){//参数包含小数点
+				param = param.replaceAll("0+?$", "");//去掉后面无用的零
+
+				param = param.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
+			}
+			return param;
+		}
+	 
+	 public static String decodeSpecialCharsWhenLikeUseBackslash(String content)
+	    {
+	        // 单引号是oracle字符串的边界,oralce中用2个单引号代表1个单引号
+	        String afterDecode = content.replaceAll("'", "''");
+	        // 由于使用了/作为ESCAPE的转义特殊字符,所以需要对该字符进行转义
+	        // 这里的作用是将"a/a"转成"a//a"
+//	        afterDecode = afterDecode.replaceAll("/", "//");
+//	        // 使用转义字符 /,对oracle特殊字符% 进行转义,只作为普通查询字符，不是模糊匹配
+//	        afterDecode = afterDecode.replaceAll("%", "/%");
+//	        // 使用转义字符 /,对oracle特殊字符_ 进行转义,只作为普通查询字符，不是模糊匹配
+//	        afterDecode = afterDecode.replaceAll("_", "/_");
+	        return afterDecode;
+	    } 
+}

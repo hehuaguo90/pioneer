@@ -1,0 +1,148 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+
+
+<script type="text/javascript">
+    page.onLoad = function() {
+                page.send({
+                    url : contextPath + "/tAnalyzeThemeGis/getBeanById/?${pageContext.request.queryString}"
+                }).then(function(data) {
+                    //  item = kernel.json.parse(data);
+                    page.loadForm({data:data });
+                });
+
+                //page.loadForm({url : contextPath + "/tAnalyzeThemeGis/getBeanById/?${pageContext.request.queryString}"});
+
+	};
+</script>
+
+</jsp:attribute>
+	<jsp:body>
+	<form method="post" action="${ contextPath }/tAnalyzeThemeGis/edit">
+        <table>
+            <tr>
+                <th>专题分组id:</th>
+                <td>
+
+                            <input id="groupId" name="groupId"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,32]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>创建人id:</th>
+                <td>
+
+                            <input id="userId" name="userId"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,32]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>专题名称:</th>
+                <td>
+
+                            <input id="gisName" name="gisName"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,100]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>访问地址:</th>
+                <td>
+
+                            <input id="url" name="url"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,200]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>显示顺序:</th>
+                <td>
+
+                            <input id="showOrder" name="showOrder"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,10]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>LOGO图片地址:</th>
+                <td>
+
+                            <input id="imgUrl" name="imgUrl"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,200]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>发布状态:</th>
+                <td>
+
+                            <input id="publicStatus" name="publicStatus"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,2]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>是否在移动端展现:</th>
+                <td>
+
+                            <input id="showMobile" name="showMobile"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,2]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>创建时间:</th>
+                <td>
+
+                        <input id="createTime" name="createTime"  type="text"
+                               style="width: 146px;"   class= "easyui-datetimebox width-5" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>介绍:</th>
+                <td>
+
+                            <input id="introduce" name="introduce"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,500]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>详细描述:</th>
+                <td>
+
+                            <input id="remark" name="remark"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,65,535]'" >
+
+                </td>
+            </tr>
+
+        </table>
+	</form>
+	<div id="operator">
+		<a href="javascript:void page.saveForm()" class="easyui-linkbutton">保存</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

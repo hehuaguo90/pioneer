@@ -1,0 +1,181 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:t="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:directive.tag language="java" pageEncoding="UTF-8" />
+	<jsp:directive.attribute name="head" fragment="true" />
+
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD HTML 4.01 Strict//EN"
+		doctype-system="http://www.w3.org/TR/html4/loose.dtd"
+		omit-xml-declaration="true" />
+	<html>
+<head>
+<t:formCommon />
+<jsp:text>
+	<![CDATA[
+	<script type="text/javascript"
+		src="${ contextPath }/res/lib/easyui/1.4.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+		src="${ contextPath }/res/lib/easyui/1.4.3/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="${ contextPath }/res/lib/kernel/1.3/kernel.js"></script>
+	<script type="text/javascript" src="${ contextPath }/res/front/js/excleForForm.js"></script>
+	<link rel="stylesheet" type="text/css" href="${  contextPath }/res/uploadifive/uploadifive.css">
+    <script type="text/javascript" src="${  contextPath }/res/uploadifive/jquery.uploadifive.min.js"></script>	
+    <script type="text/javascript" src="${ contextPath }/res/front/js/page.js"></script>
+	<script type="text/javascript">
+		function setSubTitle(varSubTitle, titleIds){
+	    	if(!varSubTitle)
+	    		varSubTitle = '';
+	    	else
+	    		varSubTitle = '('+ varSubTitle +')';
+	    		
+	    	if(titleIds && titleIds.length){
+	    		for(var i in titleIds)
+	    			$("#"+ titleIds[i]).html(varSubTitle);
+	    	}else{
+	 			$("strong[name=sub_name]").html(varSubTitle);
+	    	}
+	    }
+    
+	    function closeWindow(){
+	    	try{
+		    	window.close();
+		    }catch(e){}
+	    }
+	    
+	    var closeWindowfw = closeWindow;
+	    
+	   $(document).ready(function(){
+	    		//loadMenu(contextPath + "/pages/menu2.json");
+				var week; 
+				if(new Date().getDay()==0) week="星期日"
+				if(new Date().getDay()==1) week="星期一"
+				if(new Date().getDay()==2) week="星期二" 
+				if(new Date().getDay()==3) week="星期三"
+				if(new Date().getDay()==4) week="星期四"
+				if(new Date().getDay()==5) week="星期五"
+				if(new Date().getDay()==6) week="星期六"
+				 $("#sdate").text(new Date().getFullYear()+"年"+(new Date().getMonth()+1)+"月"+new Date().getDate()+"日 " + week);
+	    })
+	    
+	    function exit() {
+			$.messager.confirm('操作提示', '您确认退出系统？', function(a){
+			if (a) {
+					location.href = contextPath + "/tLoginObjAction/"+"logOut"
+				}
+			});
+	    }
+	    //上传文件
+	    var fileId;
+	    $(document).ready(function(){
+		  $("#file_upload").uploadifive({
+	 			  
+			     'auto': false,  
+			     'buttonText':'导入文件',
+		 		 'fileTypeDesc':'请选择excle', 
+		 		 'fileType' : '.xls',
+			     'height': '30',  
+			     'width': '80',
+			     'removeCompleted': false,  
+			     'queueID': 'uploadfileQueue',  
+			     'multi': false,
+			     'hideButton':false,
+			     //'uploadLimit' : 1,//上传数量限制
+		         'queueSizeLimit'  : 2,//上传队列限制
+	 			 'auto' : false,
+	 			 'uploadScript'     :  contextPath+'/res/uploadifive/upload_json.jsp',
+	 			 onCancel : function(file) {
+				   $("#fileId").val("");
+					/* 注意：取消后应重新设置uploadLimit */
+				//	$data	= $(this).data('uploadifive'),
+				//	settings = $data.settings;
+				//	settings.uploadLimit++;
+				//	alert(file.name + " 已取消上传~!");
+				},
+	 			 'onUploadComplete' : function(file, data) {
+	 				 var msg = JSON.parse(data);
+	 				 if(msg.error == 1){
+	 					 $.messager.alert(msg.sys, msg.message, "warning");
+	 				 }else{
+	 					 $("#fileId").val(msg.fileId);
+	 				 }
+	 			 },
+	 			 'onUploadComplete' : function(file, data) {
+	 			      var msg = JSON.parse(data);
+                      importExcle(msg.fileId);
+                      $('#file_upload').uploadifive('clearQueue');//清空上传队列
+                  },
+                   'onSelect': function (file) {  
+                   //alert($("input[name='fileId']").val());
+                 //  $('#file_upload').uploadifive('cancel',file.id);
+                   //alert(file.count );
+                   },
+                   
+                    'onAddQueueItem': function(file) {//文件加入上传队列时触发
+                    $('#file_upload').uploadifive('clearQueue');//清空上传队列
+			        },
+		    });
+		    
+	    });
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    function cancelFile(id){
+	   		// $("#fileId").val("");
+	   	//	  jQuery('#file_upload').uploadifive('cancel',id);
+		 	  var name = 'fileId' ;
+		  	  document.getElementById(name).value="";
+	    }
+	    
+	   
+	</script>
+	
+	]]>
+</jsp:text>
+<jsp:invoke fragment="head" />
+
+</head>
+<body class="iframe_bg">
+				<!--此DIV为内容区的最外层容器，所有内容均应放置于本DIV以内-->
+				<jsp:doBody />
+				
+	<!--弹出框开始-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">表单导入</h4>
+				</div>
+				 <div id="uploadfileQueue"></div>
+		    		     <input type="hidden" name="imageName" id="imageName"/>
+				 <input type="hidden" name="fileId" id="fileId"/>
+				
+				<div class="modal-body">
+					请导入excle文件：
+					<div id="attachList">${null }</div>
+					<div id="attachIdsDiv" style="display: none">${null}</div>
+					<input id="file_upload" name="file_upload" type="file"
+						multiple="true" style="margin-top:8px;" />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="uploadExcle()">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+	</html>
+</jsp:root>

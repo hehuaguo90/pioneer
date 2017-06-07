@@ -1,0 +1,93 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+var url = "/pages/module/tDissertationConfig";
+$(document).ready(function(){
+	$("#styleType li").bind("click",function(){
+		var chartType= $(this).index();
+		var addr="";
+		var width="";
+		switch(parseInt(chartType)){
+		case 0:
+			width="100%";
+			page.newDataGrid({
+				title : "新增分析",
+				width : '100%',
+				height : '100%',
+				url : contextPath + url + "/chartDissertation/addIndex"+addr+".jsp?chartType="+chartType
+			});
+			break;
+		case 1:
+		case 2:
+		case 3:
+			addr="Pie";
+			page.newDataGrid({
+				title : "新增分析",
+				width : '1000',
+				height : '100%',
+				url : contextPath + url + "/chartDissertation/addIndex"+addr+".jsp?chartType="+chartType
+			});
+			break;
+		case 4:
+		case 5:
+			addr="Gauge";
+			page.newDataGrid({
+				title : "新增分析",
+				width : '1000',
+				height : '100%',
+				url : contextPath + url + "/chartDissertation/addIndex"+addr+".jsp?chartType="+chartType
+			});
+			break;
+		}
+		page.close();
+	});
+});
+</script>
+<style type="text/css">
+</style>
+</jsp:attribute>
+	<jsp:body>
+	<!-- 
+<div id="styleType">
+<input type="radio" name="styleType" value="1">折线/柱状图
+<input type="radio" name="styleType" value="2">饼图
+<input type="radio" name="styleType" value="3">环图
+<input type="radio" name="styleType" value="4">玫瑰图
+<input type="radio" name="styleType" value="5">仪表盘A
+<input type="radio" name="styleType" value="6">仪表盘B
+</div>
+ -->
+<ol id="styleType">
+	<li>
+		<img src="${ contextPath }/res/sys/themes/default/images/chart_type_list_ico1.png" width="194" />
+		<p>线/柱状图</p>
+	</li>
+	<li>
+		<img src="${ contextPath }/res/sys/themes/default/images/chart_type_list_ico2.png" width="194" />
+		<p>饼图</p>
+	</li>
+	<li>
+		<img src="${ contextPath }/res/sys/themes/default/images/chart_type_list_ico3.png" width="194" />
+		<p>环图</p>
+	</li>
+	<li>
+		<img src="${ contextPath }/res/sys/themes/default/images/chart_type_list_ico4.png" width="194" />
+		<p>玫瑰图</p>
+	</li>
+	<li>
+		<img src="${ contextPath }/res/sys/themes/default/images/chart_type_list_ico5.png" width="194" />
+		<p>仪表盘A</p>
+	</li>
+  	<li>
+		<img src="${ contextPath }/res/sys/themes/default/images/chart_type_list_ico6.png" width="194" />
+		<p>仪表盘B</p>
+	</li>
+</ol>
+	</jsp:body>
+</t:page>

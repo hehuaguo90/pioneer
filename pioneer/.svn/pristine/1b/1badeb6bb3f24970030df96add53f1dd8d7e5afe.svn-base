@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<link href="style/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#leftbar_turnbox").click(function(){
+ 	 $("#bodybg_box").toggleClass("turn_off");
+
+  });
+  
+  $("#layout_turn").click(function(){
+	  $(window.frames["iframe1"].document).find("#paper_box_bg").toggleClass("paper_layout_full");
+	  
+	  });
+   $(".leftmenu li").click(function(){
+	  
+	  
+	    $("#bodybg_box").removeClass("turn_off");
+	 $(".leftmenu li.active").removeClass("active");
+	 
+	 
+	  $(this).addClass("active");
+	  
+	  
+  });
+  
+  $(".leftmenu p").click(function(){
+	  
+	  
+	 $(".leftmenu p.active").removeClass("active");
+	  $(this).addClass("active");
+  });
+});
+</script>
+
+
+<style type="text/css">
+body, html {
+	height: 100%;
+}
+</style>
+</head>
+
+<body class="bodybg">
+
+<div id="bodybg_box" class="bodybg_box"> 
+  <!--页面顶部LOGO及主菜单栏开始--> 
+  
+  <!--<nav class="pagetop" role="navigation">
+  <div class="container-banner container-fluid row" style="margin:auto;">
+        <div class="navbar-header col-lg-4 row">
+           <div class="col-lg-3">
+          	 <img src="style/images/write_banner_logo.png" width="47" height="40">
+           </div>
+           <div class="col-lg-9 system-name">
+           	<p><h4>重庆市畜牧信息系统</h4></p>
+            <p><h6>数据填报</h6></p>
+           </div>
+        </div>
+	<div class=" col-lg-8 row">
+		<ul class="nav nav-pills col-lg-9">
+          <li class="active"><a href="#">当期填报</a></li>
+          <li><a href="#">超时填报</a></li>
+          <li><a href="#">不限时填报</a></li>
+          <li><a href="#">填报记录</a></li>
+        </ul>
+        <div class="col-lg-3 dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    admin <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">用户信息</a></li>
+                    <li><a href="#">密码修改</a></li>
+                    <li><a href="#">退出登录</a></li>
+                </ul>
+        </div>
+	</div>
+  </div>
+</nav>
+--><!--页面顶部LOGO及主菜单栏结束--> 
+  
+  <!--页面左侧菜单栏开始-->
+   <div class="leftbar">
+  
+  
+    
+    <!--页面左侧菜单栏开始-->
+    <ul class="leftmenu" style="margin-top:10px;">
+    三品一标监管
+    	<li class="active">
+            <a href="zs2_list_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-star-empty" ></span>
+            <span class="leftmenu_txt">监管首页</span></a>
+        </li>
+    	<li>
+            <a href="zs2_list_2.html" target="iframe1" title="监管员地图">
+            <span class="ico_box glyphicon glyphicon-import"></span>
+            <span class="leftmenu_txt">数据导入</span></a>
+        </li>
+    	<li>
+            <a href="zs2_list_3.html" target="iframe1" title="">
+            <span class="ico_box  glyphicon glyphicon-compressed"></span>
+            <span class="leftmenu_txt">数据管理</span></a>          
+        </li>
+    	<li>
+            <a href="zs2_list_4.html" target="iframe1" title="">
+            <span class="ico_box glyphicon glyphicon-zoom-in" style="font-size:20px;"></span>
+            <span class="leftmenu_txt">认证查询</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box glyphicon glyphicon-bell" ></span>
+            <span class="leftmenu_txt">到期预警</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  glyphicon glyphicon-search" ></span>
+            <span class="leftmenu_txt">智能查询</span></a>
+        </li>
+    	<li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  glyphicon glyphicon-stats" ></span>
+            <span class="leftmenu_txt">统计分析</span></a>
+        </li>
+  移动监管
+  		<li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-tablet" ></span>
+            <span class="leftmenu_txt">监管员管理</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-paste" ></span>
+            <span class="leftmenu_txt">监管日志管理</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-comment " ></span>
+            <span class="leftmenu_txt">通知发送</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box   icon-briefcase " ></span>
+            <span class="leftmenu_txt">监督考核</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-cloud-download " ></span>
+            <span class="leftmenu_txt">版本升级</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-download-alt " ></span>
+            <span class="leftmenu_txt">数据升级</span></a>
+        </li>
+        数据综合分析
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  glyphicon glyphicon-hdd" ></span>
+            <span class="leftmenu_txt">平台概览</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-qrcode " ></span>
+            <span class="leftmenu_txt">追溯数据分析</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-trophy" ></span>
+            <span class="leftmenu_txt">三品一标分析</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-beaker " ></span>
+            <span class="leftmenu_txt">检验检测数据</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-hdd " ></span>
+            <span class="leftmenu_txt">综合数据分析</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box  icon-magnet " ></span>
+            <span class="leftmenu_txt">自定义分析专题</span></a>
+        </li>
+        <li>
+            <a href="form_1.html" target="iframe1" title="">
+            <span class="ico_box   icon-wrench " ></span>
+            <span class="leftmenu_txt">专题配置</span></a>
+        </li>
+        
+    </ul>
+    <!--页面左侧菜单栏结束-->
+    
+  </div>
+  <!--页面左侧菜单栏结束--> 
+  
+  <!--内容区开始-->
+  <div class="body_box">
+  	<div class="banner-box" ><!--顶条平铺块-->
+    <div class="banner-contentbox row" style="margin:auto;"><!--顶条内容块-->
+    	
+        	<!--页面顶部LOGO及用户信息框开始-->
+   
+      <div class="col-md-8 logobox"><img src="style/images/write_logo.png" >
+        <span class="systemname">重庆市农产品质量安全追溯综合管理信息平台 - </span><span class="subsystem">子系统名称</span>
+      </div>
+      
+      
+      <div class="col-md-4 usertools">
+      <!--	<button class="btn"><span class="icon-home ico"></span>平台首页</button>-->
+      	
+        <div class="dropdown" style="display:inline-block;z-index:7200;">
+                  	
+                    <button class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown" ><span class="icon-th-list  ico" style="vertical-align:middle;"></span><span>系统切换</span>
+                   </button>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1" style="z-index:7210;">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                    </ul>
+                  </div>
+                
+        
+        <div class="dropdown" style="display:inline-block;z-index:7200;">
+                  	
+                    <button class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown" ><img src="style/images/user_head.png" ><span>系统管理员</span>
+                    <span class="icon-cog"></span></button>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1" style="z-index:7210;">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-key"></span>修改密码</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-user"></span>用户信息</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-home"></span>平台首页</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" id="layout_turn" href="javascript:void(0);"><span class="ico icon-columns"></span>切换布局</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);"><span class="ico icon-signout"></span>退出登录</a></li>
+                    </ul>
+                  </div>
+        
+        
+        
+        
+        
+        
+      </div>
+   
+  	<!--页面顶部LOGO及用户信息框结束-->
+        
+        
+    </div>
+</div>
+
+    <div id="leftbar_turnbox" class="leftbar_turnbox"><img src="style/images/left_bar_turnoff.png" width="34" height="34"></div>
+    	<div class="iframebox">
+        	<iframe src="zs2_list_1.html" id="iframe1" name="iframe1" frameborder="0" width="100%" height="100%"></iframe>
+    	</div>
+    
+    <div class="footbox">重庆同方融达信息科技有限公司</div>
+    
+    
+    
+  </div>
+  <!--内容区结束--> 
+  
+</div>
+
+
+</body>
+
+
+</html>

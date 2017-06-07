@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysSy.dao.TSysSyDao" >
+ 
+ 
+    
+    <select id="listAreaMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+
+	select id, area, clcode, adcode99, name99, sh2, di2, x2,info,fgsmc from base_sy
+	where adcode99 = #{adcode99}
+
+  
+    </select>
+
+     <select id="listJxxlMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+	     SELECT b.name99,
+	       a.mc,
+	       decode(status, 1, '已恢复', 2, '部分恢复', 3, '未恢复') status
+	  FROM sys_jxxl a, base_yc b
+	 WHERE a.zxsid = b.id
+	   and a.status != 0 and a.areaid=#{areaid} and b.areaid=#{areaid}
+	    <if test="jxsid != null "> AND b.id=#{jxsid} </if>
+   </select>
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+               info
+        FROM
+                sys_sy t
+  
+    </select>
+
+ <select id="listStateSy" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+  SELECT   name99,nvl(gzsl,0) gzsl FROM base_sy b left join  (
+  SELECT  a.areaid,count(1) gzsl FROM sys_jxxl a WHERE a.status!=0 group by areaid ) a on a.areaid = b.adcode99
+  where  name99!='大足区' 
+ 
+  </select>
+	 
+</mapper> 

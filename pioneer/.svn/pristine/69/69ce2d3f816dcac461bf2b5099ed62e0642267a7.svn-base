@@ -1,0 +1,74 @@
+package com.tfrd.common.utils;
+
+import java.util.List;
+
+public class MenuModel {
+	private String rightsId;
+	private String name;
+	private String url;
+	private String parentId;
+	private Short sort;
+	private List<MenuModel> children;
+
+	public MenuModel() {
+	}
+
+	public MenuModel(String rightsId, String name, String url, String parentId,
+			Short sort, List<MenuModel> children) {
+		this.rightsId = rightsId;
+		this.name = name;
+		this.url = url;
+		this.parentId = parentId;
+		this.sort = sort;
+		this.children = children;
+	}
+
+	public String getRightsId() {
+		return rightsId;
+	}
+
+	public void setRightsId(String rightsId) {
+		this.rightsId = rightsId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public Short getSort() {
+		return sort;
+	}
+
+	public void setSort(Short sort) {
+		this.sort = sort;
+	}
+
+	public List<MenuModel> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<MenuModel> children) {
+		this.children = children;
+	}
+
+}

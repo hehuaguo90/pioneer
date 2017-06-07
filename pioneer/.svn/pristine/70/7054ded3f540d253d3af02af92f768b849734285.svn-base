@@ -1,0 +1,19 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:directive.tag language="java" pageEncoding="UTF-8"
+		body-content="empty" />
+	<c:set var="contextPath" value="${ pageContext.request.contextPath }" scope="request" />
+	<c:set var="imagesPath" value="http://127.0.0.1:8080/images/"
+		   scope="request" />
+	<c:set var="version" value="版本：V1.0" scope="request" />	 
+	<c:set var="title" value="重庆市畜牧信息系统" scope="request" /> 
+	<jsp:text>
+	<![CDATA[
+	
+	<script type="text/javascript"
+	src="${ contextPath }/pages/gd/sysKernel.js"></script>
+	
+	
+	]]>
+</jsp:text> 
+</jsp:root>

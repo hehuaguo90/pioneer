@@ -1,0 +1,175 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	 var url = "/pages/module/tFormField/";
+	function add() {
+		var params="";
+        params+="formId=" + $('#formId').val();
+		page.newDataGrid({
+			title : "新增",
+			width : 600,
+			height : 368,
+			url : contextPath + url + "add.jsp?"+params
+		});
+	}
+
+	function edit() {
+	    var row = $('#datagrid').datagrid('getSelected');
+	       page.editDataGrid({
+			title : "编辑",
+			width : 600,
+			height : 368,
+			formatURL : function(obj) {
+				var params="";
+                params+="fieldId=" + obj.fieldId;
+                params+="&formId=" + $('#formId').val();
+                params+="&formType=" + ${formType };
+				return contextPath +url+"edit.jsp?"+params;
+			}
+		});
+	}
+
+
+    function view() {
+        var row = $('#datagrid').datagrid('getSelected');
+
+		page.editDataGrid({
+			title : "详情",
+			width : 600,
+			height : 368,
+			formatURL : function(obj) {
+                var params="";
+                params+="fieldId=" + obj.fieldId;
+                return contextPath + url+"view.jsp?"+params;
+			}
+		});
+    }
+	function del() {
+        page.delDataGrid({
+            formatURL : function(arr) {
+                return contextPath +"/tFormField/"+"delete";
+            },
+            formatPostData : function(arr) {
+            	var a = [];
+            	for(var i in arr){
+            		a.push({
+            			fieldId : arr[i].fieldId,
+            			formId : $("#formId").val(),
+            			fieldName : arr[i].fieldName
+            		});
+            	}
+                return {data:JSON.stringify(a)};
+            }
+        });
+    }
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tFormField/"+"listByPage";
+				opt.method = "get";
+				opt.queryParams.formId = $('#formId').val();
+				
+				
+			}
+		});
+		if(${formType }==1){
+			$(".tool-hide").show();
+		}else{
+			$(".tool-hide").hide();
+		}
+	};
+
+	function search(evt) {
+	    page.loadDataGrid({
+	        setOptions : function(opt) {
+	            		opt.url = contextPath+"/tFormField/"+"listByPage";
+	            		opt.method = "post";
+	            		opt.queryParams.formId = $('#formId').val();
+						opt.queryParams.fieldName = $('#fieldName').val();
+	        }
+	    });
+	}
+	
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+	function checkStatus(value,row){
+        if(value=='0'){
+          return '否';
+        }
+        else{
+          return '是';
+        }
+		
+	}
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:70px;" >
+	<div id="searchbar">
+        <form>
+            <input id="formId" name="formId"  type="hidden" value="${formId }"
+                   style="width: 146px;"   class="easyui-validatebox textbox"/>
+        	    字段名称：
+            <input id="fieldName" name="fieldName"  type="text" 
+                   style="width: 146px;"   class="easyui-validatebox textbox" />
+                   
+             <a href="javascript:void search();" class="easyui-linkbutton"
+				iconCls="icon-search">查询</a>
+    	<a href="javascript:void page.resetForm();" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+    	</form>
+	</div>
+    </div>
+	<div id="toolbar">
+		<a href="javascript:void add();" class="easyui-linkbutton tool-hide"
+				iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:void edit();" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true">编辑</a>	
+		<a href="javascript:void del();" class="easyui-linkbutton tool-hide"
+				iconCls="icon-remove" plain="true">删除</a>
+		<!-- <a href="javascript:void view();" class="easyui-linkbutton"
+				iconCls="icon-ok" plain="true">查看</a> -->
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'fieldCode',width:100,align:'left',halign:'center'">字段编码</th>
+                <th data-options="field:'fieldName',width:150,align:'left',halign:'center'">字段名称</th>
+                <th data-options="field:'fieldType',width:100,align:'left',halign:'center',
+                 formatter:function(value,row){
+									return row.fieldTypeName;
+								}">字段类型</th>
+               <%--  <th data-options="field:'selectId',width:100,align:'center',halign:'center'">选择框类型</th>
+                <th data-options="field:'inputType',width:100,align:'center',halign:'center'">输入框类型</th> --%>
+                <th data-options="field:'unitName',width:100,align:'left',halign:'center'">计量单位</th>
+                <th data-options="field:'ruleName',width:150,align:'left',halign:'center'">规则名称</th>
+                <th data-options="field:'isShow',width:100,align:'left',halign:'center',formatter:checkStatus">是否显示</th>
+				<th data-options="field:'isEnable',width:100,align:'left',halign:'center',formatter:checkStatus">是否可用</th>
+				<%-- <th data-options="field:'isEdit',width:100,align:'center',halign:'center',formatter:checkStatus">是否可编辑</th>
+				<th data-options="field:'isHidden',width:100,align:'center',halign:'center',formatter:checkStatus">是否隐藏域</th>
+				<th data-options="field:'isMultiple',width:100,align:'center',halign:'center',formatter:checkStatus">是否多选</th> 
+				<th data-options="field:'defaultValue',width:100,align:'center',halign:'center'">默认值</th>--%>
+				<th data-options="field:'showOrder',width:100,align:'left',halign:'center'">显示顺序</th>
+				<%-- <th data-options="field:'hintMsg',width:100,align:'left',halign:'center'">输入框提示</th> --%>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

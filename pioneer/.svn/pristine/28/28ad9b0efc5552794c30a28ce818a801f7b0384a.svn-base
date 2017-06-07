@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysOptLog.dao.TSysOptLogDao" >
+    <resultMap id="tSysOptLogModelMap" type="com.wellsys.pioneer.module.tSysOptLog.model.TSysOptLogModel" >
+        <id column="log_id" property="logId" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="sys_name" property="sysName" />
+        <result column="role_name" property="roleName" />
+        <result column="op_time" property="opTime" />
+        <result column="op_type" property="opType" />
+        <result column="content" property="content" />
+        <result column="ip" property="ip" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysOptLogModelMap" parameterType="com.wellsys.pioneer.module.tSysOptLog.model.TSysOptLogModel" >
+        SELECT
+            log_id
+            ,user_id
+            ,user_name
+            ,sys_name
+            ,role_name
+            ,op_time
+            ,op_type
+            ,content
+            ,ip
+
+        FROM
+            t_sys_opt_log
+        WHERE
+            1=1
+            AND log_id=#{logId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysOptLog.model.TSysOptLogModel" >
+        SELECT
+                t.log_id as "logId"
+                ,t.user_id as "userId"
+                ,t.user_name as "userName"
+                ,t.sys_name as "sysName"
+                ,t.role_name as "roleName"
+                ,t.op_time as "opTime"
+                ,t.op_type as "opType"
+                ,t.content as "content"
+                ,t.ip as "ip"
+
+        FROM
+                t_sys_opt_log t
+        WHERE
+                1=1
+                AND log_id=#{logId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysOptLog.model.TSysOptLogModel" >
+            DELETE FROM
+                t_sys_opt_log
+            WHERE
+                1=1
+                AND log_id=#{logId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysOptLog.model.TSysOptLogModel" >
+        INSERT INTO  t_sys_opt_log (
+             log_id
+             ,user_id
+             ,user_name
+             ,sys_name
+             ,role_name
+             ,op_time
+             ,op_type
+             ,content
+             ,ip
+
+        )
+        VALUES (
+            #{logId,jdbcType=VARCHAR }
+            ,#{userId,jdbcType=VARCHAR }
+            ,#{userName,jdbcType=VARCHAR }
+            ,#{sysName,jdbcType=VARCHAR }
+            ,#{roleName,jdbcType=VARCHAR }
+            ,#{opTime,jdbcType=TIMESTAMP }
+            ,#{opType,jdbcType=VARCHAR }
+            ,#{content,jdbcType=VARCHAR }
+            ,#{ip,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysOptLog.model.TSysOptLogModel" >
+        UPDATE
+                 t_sys_opt_log
+        SET
+                user_id=#{userId}
+                ,user_name=#{userName}
+                ,sys_name=#{sysName}
+                ,role_name=#{roleName}
+                ,op_time=#{opTime}
+                ,op_type=#{opType}
+                ,content=#{content}
+                ,ip=#{ip}
+
+        WHERE
+                1=1
+                AND log_id=#{logId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.log_id as "logId"
+                ,t.user_id as "userId"
+                ,t.user_name as "userName"
+                ,t.sys_name as "sysName"
+                ,t.role_name as "roleName"
+                ,t.op_time as "opTime"
+                ,t.op_type as "opType"
+                ,t.content as "content"
+                ,t.ip as "ip"
+                ,d.name as "opTypeName"
+
+        FROM
+                t_sys_opt_log t
+                left join t_sys_dict d on d.code = t.op_type
+                
+        WHERE
+                1=1 and d.type="OP_TYPE"
+            <if test="logId != null "> AND log_id=#{logId} </if>
+            <if test="userId != null "> AND user_id=#{userId} </if>
+            <if test="userName != null "> AND user_name like  '%${userName}%'</if>
+            <if test="sysName != null "> AND sys_name  like  '%${sysName}%'</if>
+            <if test="roleName != null "> AND role_name like  '%${roleName}%'</if>
+            <if test="opTime != null "> AND op_time=#{opTime} </if>
+            <if test="opType != null "> AND op_type=#{opType} </if>
+            <if test="content != null "> AND content=#{content} </if>
+            <if test="ip != null "> AND ip=#{ip} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="tSysOptLogModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                log_id
+                ,user_id
+                ,user_name
+                ,sys_name
+                ,role_name
+                ,op_time
+                ,op_type
+                ,content
+                ,ip
+
+        FROM
+                t_sys_opt_log
+        WHERE
+                 1=1
+                <if test="logId != null "> AND log_id=#{logId} </if>
+                <if test="userId != null "> AND user_id=#{userId} </if>
+                <if test="userName != null "> AND user_name=#{userName} </if>
+                <if test="sysName != null "> AND sys_name=#{sysName} </if>
+                <if test="roleName != null "> AND role_name=#{roleName} </if>
+                <if test="opTime != null "> AND op_time=#{opTime} </if>
+                <if test="opType != null "> AND op_type=#{opType} </if>
+                <if test="content != null "> AND content=#{content} </if>
+                <if test="ip != null "> AND ip=#{ip} </if>
+    </select>
+
+
+</mapper> 

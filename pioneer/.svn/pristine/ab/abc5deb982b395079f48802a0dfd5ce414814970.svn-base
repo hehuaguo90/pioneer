@@ -1,0 +1,58 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tSourceField/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>数据集:</th>
+					<td><span id="datasetId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>字段编码:</th>
+					<td><span id="fieldCode" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>字段名称:</th>
+					<td><span id="fieldName" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>字段类型:</th>
+					<td><span id="fieldType" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否可见:</th>
+					<td><span id="isShow" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>备注:</th>
+					<td><span id="remark" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>创建时间:</th>
+					<td><span id="createTime" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

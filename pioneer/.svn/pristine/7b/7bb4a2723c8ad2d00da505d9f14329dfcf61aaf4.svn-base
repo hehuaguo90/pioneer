@@ -1,0 +1,302 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	var url = "/pages/module/tFormMonitor/";
+ 	$(document).ready(function(){
+ 	   $('#indexTree').combotree({
+ 			url : contextPath + "/tSysGroup/getGroupTree?groupType=1",
+ 			required : false,
+ 			 multiple: true,
+ 			onChange : function(newValue, oldValue){
+ 				
+ 				$("#formIds").val(newValue);
+ 			},
+ 			onClick: function(node){
+ 				//如果点击的是指标
+ 				if(node.iconCls == "icon-add"){
+ 					getIndexConfig(node.id)
+ 				}
+ 			}
+ 		});
+ 	   
+ });
+
+	function sendLog() {
+	   // var row = $('#datagrid').datagrid('getSelected');
+	       page.newDataGrid({
+			title : "催报历史",
+			width : 660,
+			height : 400,
+			url : contextPath + url + "sendLogList.jsp"
+			/* formatURL : function(obj) {
+				var params="";
+                params+="logId=" + obj.logId;
+				return contextPath +url+"sendLogList.jsp?"+params;
+			} */
+		});
+	}
+ 	
+	function sendMsg() {
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.userTel);
+	   	});   
+		var tels = idAry.join(";");
+		var telNums = $("#telNums").val().replace("，",",");
+		tels = checkStatus(tels);
+		
+		if(idAry.length>0){
+		var parmfile = "formids="+getformIds()+"&content="+$("#content").val()+"&tels="+tels+"&reportDates="+getReports()+"&areaIds="+getareaIds()+"&formNames="+getformNames()+"&userIds="+getuserIds()+"&telNums="+telNums;
+		$.ajax({
+	         async : true,  
+	         type : 'post',  
+	         url : "${contextPath}/tForm/sendMsg",
+	         dataType: 'json',
+	         data : parmfile,
+	         success : function(data) {
+	        	 $.messager.alert("提示",data);
+	        	 search();
+	         }  
+	     }); 
+		}else{
+			 $.messager.alert("提示","当前操作需要选择一条记录");
+		}
+    }
+	//得到id数组
+	function getformIds(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.formId);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}
+	//得到report_date数组
+	function getReports(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.reportDate);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}
+	//得到areaId数组
+	function getareaIds(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.areaId);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}
+	//得到userId数组
+	function getuserIds(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.userId);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}
+	//得到formNames数组
+	function getformNames(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.formName);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}	
+
+	
+	
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tForm/"+"listByPageNotFill";
+				opt.method = "get";
+			}
+			
+		});
+
+	};
+
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+function search(evt) {
+    page.loadDataGrid({
+        setOptions : function(opt) {
+            		opt.url = contextPath+"/tForm/"+"listByPageNotFill";
+            		opt.method = "post";
+					opt.queryParams.groupId = $('#formIds').val();
+					opt.queryParams.areaName = $('#areaName').val();
+					opt.queryParams.userName = $('#userName').val();
+					opt.queryParams.userTel = $('#userTel').val();
+					  
+
+        }
+    });
+}
+
+function reset(){
+	page.resetForm();
+	$("#formIds").val("");
+}
+
+
+function onSelect(rowIndex,rowData){
+	var checkedItems = $('#datagrid').datagrid('getChecked');
+	var idAry = [];
+	var ids = [];
+    $.each(checkedItems, function(index, item){
+        idAry.push(item.formName);
+        ids.push(item.formId);
+   	});   
+	var formName = idAry.join(",");
+	var idString = ids.join(",");
+	if(idString.indexOf(rowData.formId)==-1){
+		$("#content").val("报表"+formName+","+rowData.formName+"即将过期，请及时填报！");
+	}else{
+		$("#content").val("报表"+formName+"即将过期，请及时填报！");
+	}
+	
+	
+	
+}
+
+function checkStatus(value){
+	   if (value.indexOf(",,")==-1) {
+			return value;
+		}else{
+			checkStatus(value.replace(",,",""));
+		}
+}
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:100px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="searchbar">
+        <form>
+ 		<input id="formIds" name="formIds" style="width: 146px;" type="hidden">
+		表单名称:
+           <input id="indexTree" type="text"  class="easyui-validatebox textbox" style="width: 146px;">
+     	 行政区名称:
+           <input id="areaName" type="text"  class="easyui-validatebox textbox" style="width: 146px;">
+     	 填报人姓名:
+           <input id="userName" type="text"  class="easyui-validatebox textbox" style="width: 146px;">
+     	 手机号码:
+           <input id="userTel" type="text"  class="easyui-validatebox textbox" style="width: 146px;">
+
+		
+		<a href="javascript:void search();" class="easyui-linkbutton"
+				iconCls="icon-search">查询</a>
+    	<a href="javascript:void reset()" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+
+    </form>
+	</div>
+
+    </div>
+    
+    
+    
+    
+    
+	<div id="toolbar">
+		<a href="javascript:void sendLog();" class="easyui-linkbutton"
+				iconCls="icon-dopdf" plain="true">催报历史</a>
+	</div>
+    <div region="center" border="false">
+	
+	<div id="divIndex" class="easyui-layout" fit="true">
+	<div  region="west" style="width:350px;">
+	
+	
+	 <form style="margin-top: 10px;">
+        <table>
+            <tr>
+           		 <th style="width:80px;">手机号码:</th>
+                <td>
+					<textarea style="width:80%;" rows="3"  id="telNums" name="telNums" placeholder="多个手机号用,(逗号)隔开"></textarea>
+                </td>
+            </tr>
+            <tr>
+           		 <th>短信内容:</th>
+                <td>
+					<textarea style="width:80%;" rows="3"  id="content" name="content">报表{#}即将过期，请及时填报！</textarea>
+					<br><span style="color: red;">备注：{#}代表您选中的表单名称，发送短信时会自动替换成该表单名称</span>
+                </td>
+            </tr>
+    	</table>
+    </form>
+ 	<div id="operator">
+		<a href="javascript:void sendMsg()" class="easyui-linkbutton">发送短信</a> 
+	</div>
+	
+	
+	
+	</div>
+	
+	
+	<div region="center">
+	
+	
+	
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true<%-- ,onSelect: onSelect --%>"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'formName',width:200,align:'left',halign:'center'">表单名称</th> 
+				<th data-options="field:'areaName',width:200,align:'left',halign:'center'">行政区名称</th>  
+                <th data-options="field:'userName',width:200,align:'left',halign:'center',formatter:checkStatus">填报人姓名</th>
+                <th data-options="field:'userTel',width:100,align:'left',halign:'center',formatter:checkStatus">手机号码</th>
+
+			</tr>
+        </thead>	
+    </table>
+    </div>
+    
+    
+    
+    
+    
+    </div>
+ 
+   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</div>
+	</jsp:body>
+</t:page>

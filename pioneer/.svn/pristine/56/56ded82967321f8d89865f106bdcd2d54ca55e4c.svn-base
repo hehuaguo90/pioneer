@@ -1,0 +1,692 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:formPhone>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+$(document).ready(function() {
+	var formId = '${formId}' || '${param.formId}';
+	var processId = '${processId}' || '${param.processId}';
+	initValidateInfo(formId, processId);//formId, processId
+	
+	$('#span_formName').html('${formName}'== '' ?'${param.formName}':'${formName}') ;
+	var param =  "${param.id}";
+	if(param){//如果存在查询条件，加载数据
+		page.send({
+            url : contextPath + "/tXxkMxjbb/getBeanById/?id=" + param
+        }).then(function(data) {
+           // item = kernel.json.parse(data);
+            page.loadForm({data:data });
+        });
+	}
+	page.url = contextPath+"/pages/form/phone/main.jsp?clickType=${param.clickType}";
+});
+  
+</script>
+</jsp:attribute>
+	<jsp:body>
+<div class="form_box_container">
+    <div class="form_title row">
+    重庆市畜牧生产季报
+    </div>
+   <form method="post" action="${ contextPath }/tXxkMxjbb/edit">
+    <ul class="form_box_phone">
+    		 <li class="title row">
+                <div class="col-md-6 col-xs-6 col-sm-6">产品名称</div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <label for="name"  class="form_name">本季度数</label>
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <label for="name"  class="form_name">累计数</label>
+                </div>
+                <input type="hidden" id="id" name="id" value="${param.id}" >
+                <input type="hidden" id="tbzq" name="tbzq" value="${tbzq}" >
+            	<input type="hidden" id="form_id" name="form_id" value="${param.formId}" >
+            </li>
+        	<li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>一、生猪存栏数</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="szcls" name="szcls" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="szclslj" name="szclslj" placeholder="&nbsp;">
+                </div>
+                <input id="szclsdw" name="szclsdw" class="form_input"  type="hidden" value="3" >
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：能繁殖母猪</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nffzmu" name="nffzmu" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nffzmulj" name="nffzmulj" placeholder="&nbsp;">
+                </div>
+                <input id="nffzmudw" name="nffzmudw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>仔猪</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="zz" name="zz" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="zzlj" name="zzlj" placeholder="&nbsp;">
+                </div>
+                <input id="zzdw" name="zzdw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>二、肉猪出栏数</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rzcls" name="rzcls" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control"id="rzclslj" name="rzclslj" placeholder="&nbsp;">
+                </div>
+                <input id="rzclsdw" name="rzclsdw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>三、大牲畜存栏数</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="dcscls" name="dcscls" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="dcsclslj" name="dcsclslj" placeholder="&nbsp;">
+                </div>
+                <input id="dcsclsdw" name="dcsclsdw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>1、牛存栏</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ncl" name="ncl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ncllj" name="ncllj" placeholder="&nbsp;">
+                </div>
+                <input id="ncldw" name="ncldw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：黄牛</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="hn" name="hn" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="hnlj" name="hnlj" placeholder="&nbsp;">
+                </div>
+                <input id="hndw" name="hndw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>水牛</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="sn" name="sn" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="snlj" name="snlj" placeholder="&nbsp;">
+                </div>
+                <input id="sndw" name="sndw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>奶牛</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nn" name="nn" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nnlj" name="nnlj" placeholder="&nbsp;">
+                </div>
+                <input id="nndw" name="nndw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>2、能繁母牛存栏</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nfmncl" name="nfmncl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nfmncllj" name="nfmncllj" placeholder="&nbsp;">
+                </div>
+                <input id="nfmncldw" name="nfmncldw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>四、出售和自宰的肉用牛</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="cshzzdryn" name="cshzzdryn" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="cshzzdrynlj" name="cshzzdrynlj" placeholder="&nbsp;">
+                </div>
+                <input id="cshzzdryndw" name="cshzzdryndw" class="form_input"  type="hidden" value="3">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>五、羊存栏数</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ycl" name="ycl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ycllj" name="ycllj" placeholder="&nbsp;">
+                </div>
+                <input id="ycldw" name="ycldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：山羊存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="sccl" name="sccl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="sccllj" name="sccllj" placeholder="&nbsp;">
+                </div>
+               <input id="sccldw" name="sccldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>绵羊存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mycl" name="mycl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mycllj" name="mycllj" placeholder="&nbsp;">
+                </div>
+                <input id="mycldw" name="mycldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>六、出售和自宰的肉用羊</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="csdzzdryy" name="csdzzdryy" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="csdzzdryylj" name="csdzzdryylj" placeholder="&nbsp;">
+                </div>
+                <input id="csdzzdryydw" name="csdzzdryydw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>七、家禽存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jqcl" name="jqcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jqcllj" name="jqcllj" placeholder="&nbsp;">
+                </div>
+                <input id="jqcldw" name="jqcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>1、鸡存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jcl" name="jcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jcllj" name="jcllj" placeholder="&nbsp;">
+                </div>
+                <input id="jcldw" name="jcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：蛋鸡存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="djcl" name="djcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="djcllj" name="djcllj" placeholder="&nbsp;">
+                </div>
+                <input id="djcldw" name="djcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>肉鸡存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rjcl" name="rjcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rjcllj" name="rjcllj" placeholder="&nbsp;">
+                </div>
+                <input id="rjclljdw" name="rjclljdw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>  兼用型鸡存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jyxjcl" name="jyxjcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jyxjcllj" name="jyxjcllj" placeholder="&nbsp;">
+                </div>
+                <input id="jyxjcldw" name="jyxjcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>2、鸭存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="yacl" name="yacl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="yacllj" name="yacllj" placeholder="&nbsp;">
+                </div>
+                <input id="yacldw" name="yacldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>3、鹅存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ecl" name="ecl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ecllj" name="ecllj" placeholder="&nbsp;">
+                </div>
+                <input id="ecldw" name="ecldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>八、家禽出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jqchl" name="jqchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jqchllj" name="jqchllj" placeholder="&nbsp;">
+                </div>
+                <input id="jqchldw" name="jqchldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>1、鸡出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jchl" name="jchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jchllj" name="jchllj" placeholder="&nbsp;">
+                </div>
+                <input id="jchldw" name="jchldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>  其中：蛋鸡出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="djchl" name="djchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="djchllj" name="djchllj" placeholder="&nbsp;">
+                </div>
+                <input id="djchldw" name="djchldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>  肉鸡出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rjchl" name="rjchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rjchllj" name="rjchllj" placeholder="&nbsp;">
+                </div>
+                <input id="rjchldw" name="rjchldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>  兼用型鸡出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jyxjchl" name="jyxjchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="jyxjchllj" name="jyxjchllj" placeholder="&nbsp;">
+                </div>
+                <input id="jyxjchldw" name="jyxjchldw" class="form_input"  type="hidden" value="4">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>2、鸭出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ychl" name="ychl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="ychllj" name="ychllj" placeholder="&nbsp;">
+                </div>
+                <input id="ychldw" name="ychldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>3、鹅出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="echl" name="echl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="echllj" name="echllj" placeholder="&nbsp;">
+                </div>
+                <input id="echldw" name="echldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>九、兔存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="tcl" name="tcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="tcllj" name="tcllj" placeholder="&nbsp;">
+                </div>
+                <input id="tcldw" name="tcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4> 其中：毛兔存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mtcl" name="mtcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mtcllj" name="mtcllj" placeholder="&nbsp;">
+                </div>
+                <input id="mtcldw" name="mtcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>   肉兔存栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rtcl" name="rtcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rtcllj" name="rtcllj" placeholder="&nbsp;">
+                </div>
+                <input id="rtcldw" name="rtcldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>十、兔出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="tchl" name="tchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="tchllj" name="tchllj" placeholder="&nbsp;">
+                </div>
+                <input id="tchldw" name="tchldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：毛兔出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mtchl" name="mtchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mtchllj" name="mtchllj" placeholder="&nbsp;">
+                </div>
+                <input id="mtchldw" name="mtchldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>肉兔出栏</h4>
+                    <h6>(只)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rtchl" name="rtchl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rtchllj" name="rtchllj" placeholder="&nbsp;">
+                </div>
+                <input id="rtchldw" name="rtchldw" class="form_input"  type="hidden" value="4">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>十一、肉类总产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rlzcl" name="rlzcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="rlzcllj" name="rlzcllj" placeholder="&nbsp;">
+                </div>
+                <input id="rlzcldw" name="rlzcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：猪肉产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="zrcl" name="zrcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="zrcllj" name="zrcllj" placeholder="&nbsp;">
+                </div>
+                <input id="zrcldw" name="zrcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>牛肉产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nrcl" name="nrcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nrcllj" name="nrcllj" placeholder="&nbsp;">
+                </div>
+                <input id="nrcldw" name="nrcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>羊肉产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="yrcl" name="yrcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="yrcllj" name="yrcllj" placeholder="&nbsp;">
+                </div>
+                <input id="yrcldw" name="yrcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>禽肉产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="xrcl" name="xrcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="xrcllj" name="xrcllj" placeholder="&nbsp;">
+                </div>
+                <input id="xrcldw" name="xrcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>兔肉产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="trcl" name="trcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="trcllj" name="trcllj" placeholder="&nbsp;">
+                </div>
+                <input id="trcldw" name="trcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>十二、奶类产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nncl" name="nncl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="nncllj" name="nncllj" placeholder="&nbsp;">
+                </div>
+                <input id="nncldw" name="nncldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：牛奶产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="niuncl" name="niuncl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="niuncllj" name="niuncllj" placeholder="&nbsp;">
+                </div>
+                <input id="niuncldw" name="niuncldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>十三、毛产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mcl" name="mcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mcllj" name="mcllj" placeholder="&nbsp;">
+                </div>
+                <input id="mcldw" name="mcldw" class="form_input"  type="hidden" value="5">
+            </li>
+             <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>其中：绵羊毛</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mymcl" name="mymcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="mymcllj" name="mymcllj" placeholder="&nbsp;">
+                </div>
+                <input id="mymcldw" name="mymcldw" class="form_input"  type="hidden" value="5">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>兔毛（统毛）</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="tmcl" name="tmcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="tmcltl" name="tmcltl" placeholder="&nbsp;">
+                </div>
+                <input id="tmcldw" name="tmcldw" class="form_input"  type="hidden" value="5">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>十四、蚕茧产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="cjcl" name="cjcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="cjcllj" name="cjcllj" placeholder="&nbsp;">
+                </div>
+                <input id="cjcldw" name="cjcldw" class="form_input"  type="hidden" value="5">
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>十五、禽蛋产量</h4>
+                    <h6>(吨)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="qdcl" name="qdcl" placeholder="&nbsp;">
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <input type="text" class="form-control" id="qdcllj" name="qdcllj" placeholder="&nbsp;">
+                </div>
+                <input id="qdcldw" name="qdcldw" class="form_input"  type="hidden" value="5">
+            </li>
+    </ul>
+    <div class="form_title">验证信息</div>
+	<div>
+                	<p class="text-warning">1、专用型鸡蛋价格超出平均价10倍</p>
+                    <p><input type="text" class="form-control" id="name" placeholder="请输入解释信息"></p>
+                	<p class="text-danger">2、有价格未填写，请全部填写后提交</p>
+                    <br>
+
+                </div>
+    <div class="form_btn_tools navbar-fixed-bottom">
+    	 <a href="table_1_phone.html" class="cannel"><span class="glyphicon glyphicon-share-alt">&nbsp;</span>放弃</a>
+    	<a href="#fdsfdsf" class="save"><span class="glyphicon glyphicon-eye-open">&nbsp;</span>审核</a>
+        <a href="#" onclick="page.saveForm('${formId}', '${processId}')" class="submit"><span class="glyphicon glyphicon-ok">&nbsp;</span>提交</a>
+    </div>
+    <br>
+<br>
+</form>
+</div>
+	</jsp:body>
+</t:formPhone>

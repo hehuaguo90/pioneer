@@ -1,0 +1,6 @@
+.tree-checkbox1 {
+    background: url('tree_icons.png') no-repeat -224px -18px;
+}
+.tree-checkbox0 {
+    background: url('tree_icons.png') no-repeat -208px -18px;
+}

@@ -1,0 +1,134 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<link href="${ contextPath }/res/sys/themes/default/main.css" rel="stylesheet" type="text/css" />
+<link href="${ contextPath }/res/sys/themes/default/page.css" rel="stylesheet" type="text/css" />
+<link href="${ contextPath }/res/sys/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="${ contextPath }/res/lib/easyui/1.4.3/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="${ contextPath }/res/lib/easyui/1.4.3/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="${ contextPath }/res/lib/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">	
+<script src="${ contextPath }/res/lib/echarts3/echarts.min.js" type="text/javascript"></script>
+<script src="${ contextPath }/res/lib/plugin/jsMap/jsMap.js" type="text/javascript"></script>
+<script src="${ contextPath }/pages/module/tSourceQuery/tendAnalyze/tendAnalyze.js"  type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#groupId').combotree({
+			url : contextPath + "/tSysGroup/getGroupTree?groupType=5",
+			required : true,
+			onChange : function(newValue, oldValue){
+			},
+			onClick: function(node){
+			}
+		});
+chartType="${param.chartType}";
+
+var groupId="${param.groupId}";
+if(groupId){
+	$('#groupId').combotree("setValue",groupId);
+}
+showChart(null,chartType);
+});
+function save() {
+	var params = "";
+	if (getDa.array) {
+		params = JSON.stringify(getDa.array);
+	}
+
+	if (params && params != "[]") {
+		sessionStorage.setItem("saveDissertationParams", params);
+		page.newDataGrid({
+			title : "保存分析配置",
+			width : 600,
+			height : 500,
+			url : contextPath + url
+					+ "/tendAnalyze/saveDissertation.jsp"
+		});
+	} else {
+		alert("请添加指标！");
+		return;
+	}
+
+}
+   function addAbstract(){
+   	    sessionStorage.setItem("rechText",$("#introduceSpan").html());
+   		page.newDataGrid({
+			title : "添加摘要",
+			width : 800,
+			height :560,
+			url :  contextPath +  "/pages/module/tDissertationConfig/GISDissertation/rechText.jsp?type=abstract"
+		});
+   }
+   function addDescribe(){
+   		sessionStorage.setItem("rechText",$("#remarkSpan").html());
+   		page.newDataGrid({
+			title : "添加描述",
+			width : 800,
+			height : 560,
+			url :  contextPath +  "/pages/module/tDissertationConfig/GISDissertation/rechText.jsp?type=describe"
+		});
+   }
+   function reSearchIndex(){
+   	 for(var i= 0;i<getDa.array.length;i++){
+   	 	var params=getDa.array[i].chartDataParams;
+   	 	params.startDate=$("#startDate").datebox('getValue');
+   	 	params.endDate=$("#endDate").datebox('getValue');
+   	 	$.ajax({
+	   		url:contextPath + "/portAnalyze/getIndexData",
+	   		data:{indexId: getDa.array[i].indexId, params: JSON.stringify(params)},
+	   		async:false,
+	   		dataType:"json",
+	   		type:"get",
+	   		success:function(data){
+	   			if(data && data.xvalue){
+	   				getDa.array[i].chartData=data;
+	   			}else{
+	   				getDa.array[i].chartData={};
+	   			}
+	   		}
+	  	 });
+   	 }
+   	 showChart(getDa.array);
+   }
+</script>
+<style type="text/css">
+html,body{height:100%;margin:0;padding:0;}
+
+</style>
+</jsp:attribute>
+	<jsp:body>
+<div id="chartsArea" class="easyui-layout" fit="true" style="width:100%">
+<div  data-options="region:'north',border:false" style="z-index:1000" class="zbbox" style="height:30px;"> 
+<div  class="easyui-layout" fit="true" style="width:100%">
+<div   data-options="region:'west',border:false"  style="width:230px;padding-top:8px;padding-left:15px;">
+<a  href="javascript:void(0)" class="easyui-linkbutton" onclick="addIndex();" iconCls="icon-add"  plain="true">添加指标</a> 
+<a  href="javascript:void(0)" class="easyui-linkbutton"  onclick="save();" iconCls="icon-save"  plain="true">保存分析配置</a>
+</div>
+
+<div id="searchIndex" data-options="region:'center',border:false"  style="color:#919191;padding-top:8px;">统计时间:
+<input id="startDate" name="startDate" type="text" class="easyui-datebox" editable=false style="width:100px;"/> &nbsp;至 &nbsp;
+<input id="endDate"   name="endDate"   type="text" class="easyui-datebox" editable=false style="width:100px;" />
+<a  href="javascript:void(0)" class="easyui-linkbutton"  onclick="reSearchIndex();" iconCls="icon-search"  plain="true">查询</a>
+</div>
+</div>
+
+
+</div>
+	<div class="chart_list_option_title" style="display:none">指标操作</div>
+<ol id="indexTable" class="chart_ico_list" style="z-index:999;" >
+
+</ol>	
+	<!-- 图表start -->	
+<div data-options="region:'center',border:false" style="margin-left:50px;">
+	<div  id="xxly"	style="height:90%;  background-color: transparent;">
+	</div>
+</div>
+</div>	
+
+	</jsp:body>
+</t:page>

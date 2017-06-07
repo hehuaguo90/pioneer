@@ -1,0 +1,189 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				trids.push("dataRow");
+				initVillage();
+			//	initValidatePane();
+				
+				
+			});
+			
+			
+			function initVillage(){
+				var batchId =  "${param.id}";
+				var url = "${ contextPath }/tXxkSzyzgdjccscqk/listVillage?batchId="+batchId;
+				 $.post(url,function(data){
+				     var dataJson = eval('('+data+')');
+				     for(var i= 0;i<dataJson.length;i++){
+						var objOption = document.createElement("OPTION");
+							objOption.text= dataJson[i].short_name;
+							objOption.value=dataJson[i].area_id;
+							document.getElementById("village").options.add(objOption);
+						}
+						
+						//填充页面数据
+						var param = "${param.id}";
+						if(param){//如果存在查询条件，加载数据
+							page.send({
+				                url : contextPath + "/tXxkSzyzgdjccscqk/listForEdit/?batchId=" + param
+			                }).then(function(data) {
+			             	  enumaKey(data);
+			                });
+						} 
+	 				});
+				}
+			
+		
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	<t:formEditHead></t:formEditHead>
+	<form method="post" action="${ contextPath }/tXxkSzyzgdjccscqk/edit">
+        <table width="100%" style="border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;">
+    <tr height="22" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="left" valign="center" width="51" colspan="8" rowspan="1"  >
+
+             乡镇：${area} &nbsp;时间：${tbzq}
+    <input type="hidden" id="id" name="id" value="${param.id}" >
+    <input type="hidden" id="form_id" name="form_id" value="${param.formId}" >
+        </td>
+    </tr>
+ 
+    <tr height="36" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="120" colspan="1" rowspan="2"  >
+
+             乡镇村
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="94" colspan="2" rowspan="1"  >
+
+             一、全村户数（户）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="104" colspan="3" rowspan="1"  >
+
+             二、生猪存栏（头）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="114" colspan="1" rowspan="2"  >
+
+             生猪出栏（头）
+        </td>
+    </tr>
+    <tr height="42" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="94" colspan="1" rowspan="1"  >
+
+             全村总户数
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="112" colspan="1" rowspan="1"  >
+
+             其中养猪户数
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="104" colspan="1" rowspan="1"  >
+
+             总生猪存栏
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="113" colspan="1" rowspan="1"  >
+
+             ＜20公斤以下
+存栏（头）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="110" colspan="1" rowspan="1"  >
+
+             能繁母猪存栏（头）
+        </td>
+    </tr>
+    <tr id="dataRow" height="32" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="120" colspan="1" rowspan="1"  >
+            <select id="village" name="village"  class="form_input" >
+				   
+			</select>
+
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="94" colspan="1" rowspan="1"  >
+
+            <input id="qczhs" name="qczhs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="112" colspan="1" rowspan="1"  >
+
+            <input id="yzhs" name="yzhs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="104" colspan="1" rowspan="1"  >
+
+            <input id="zszcl" name="zszcl" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="113" colspan="1" rowspan="1"  >
+
+            <input id="esgjyx" name="esgjyx" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="110" colspan="1" rowspan="1"  >
+
+            <input id="nfzmzcl" name="nfzmzcl" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:140;
+               
+                color:; "
+                align="center" valign="bottom" width="114" colspan="1" rowspan="1"  >
+
+            <input id="szchul" name="szchul" class="form_input" readOnly="readOnly" style="border:0;" >
+        </td>
+    </tr>
+    
+</table>
+<!-- <div class="form_add_box"><button type="button" class="btn btn-primary" onclick="insertOneRow()"><span class="icon-plus"></span>&nbsp;添加一条数据<tton></div>
+ -->
+	</form>
+	</jsp:body>
+</t:form>

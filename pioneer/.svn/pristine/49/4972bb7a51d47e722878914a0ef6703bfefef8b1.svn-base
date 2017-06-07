@@ -1,0 +1,193 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	var url = "/pages/form/pc/";
+
+    $(document).ready(function(){
+	     $('#treeType').tree({     
+			    url: contextPath + '/tSysGroup/getGroupTree?groupType=1',
+			    method: 'post',
+		        animate: true,
+		        lines: true,
+		        onBeforeSelect:function(node){
+		        	//tree-node-selected
+		        	var classes = node.target.className;
+			    	//如果点击已被选中的节点，则取消选中
+		        	if(classes.indexOf('tree-node-selected') > 0){
+		        		node.target.className = classes.replace('tree-node-selected', '');
+		        		search();
+		        		return false;
+		        	}
+		        },
+		        onSelect: function(node){
+					search(node); 
+				}
+        });
+	     
+	     
+		   //按类型加载字典
+		   $('#tblx').combobox({    
+			    url:contextPath + "/tSysDict/listDict?type=PERIOD_TYPE",    
+			    valueField:'id',    
+			    textField:'text',
+			    onLoadSuccess : function(data) {  
+			        $("#tblx").combobox("setValue", data[0].id);  
+			    }  
+			});
+		   
+		   $('#shzt').combobox({    
+			    url:contextPath + "/tSysDict/listDict?type=SHZT",    
+			    valueField:'id',    
+			    textField:'text',
+			    onSelect: function(data) {  
+	              if(data.id == 0){
+	               	 $("#span_check").hide();
+	              }else{
+	            	  $("#span_check").show(); 
+	              }
+			    },
+				onLoadSuccess : function(data) {  
+				  $("#shzt").combobox("setValue", data[0].id);  
+				}  
+			});
+
+  });
+
+	function check() {
+	    var row = $('#datagrid').datagrid('getSelected');
+	       page.editDataGrid({
+			title : "审核",
+			width : 900,
+			height : 800,
+			formatURL : function(obj) {
+             var params="";
+             params+="form_id=" + obj.form_id+"&ischeck="+obj.check_edit+"&id="+obj.batch_id+"&processId=" + obj.process_id+"&area="+obj.area_name+"&tbzq="+obj.report_date;
+             console.log(params);
+				return contextPath +url+"check.jsp?"+params;
+			}
+		});
+	}
+
+
+    function view() {
+        var row = $('#datagrid').datagrid('getSelected');
+        var url = "/tProcessStepMsg/"+"listAll";
+        
+		page.editDataGrid({
+			title : "审核流程",
+			width : 900,
+			height : 500,
+			formatURL : function(obj) {
+                var params="";
+                params+="processId=" + obj.process_id;
+                
+                return contextPath + url+"?"+params;
+			}
+		});
+    }
+
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tianBao/"+"listCheckByPage";
+				opt.method = "get";
+			}
+		});
+
+	};
+
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+function search(evt) {
+    page.loadDataGrid({
+        setOptions : function(opt) {
+			opt.url = contextPath+"/tianBao/"+"listCheckByPage";
+            		opt.method = "post";
+					  var td = $('#treeType').tree('getSelected');
+			            if(td){
+			            	opt.queryParams.groupId = td.id;
+			            }else{
+			            	opt.queryParams.groupId = "";
+			            }
+			            opt.queryParams.shzt = $('#shzt').combobox('getValue');
+			            opt.queryParams.tblx = $('#tblx').combobox('getValue');
+			            opt.queryParams.formName = $('#formName').val();
+
+        }
+    });
+}
+
+ 
+</script>
+	</jsp:attribute>
+	<jsp:body>
+	    <t:listFormHead></t:listFormHead>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:100px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="searchbar">
+        <form>
+
+		表单名称:
+
+            <input id="formName" name="formName"  type="text"
+                   style="width: 146px;"   class="easyui-validatebox textbox"
+                   data-options="validType:'length[1,200]'">
+                             填报类型：<input id="tblx" name="tblx"   style="width: 146px;" panelHeight="auto">  
+		审核状态：<input id="shzt" name="shzt"   style="width: 146px;" panelHeight="auto">  
+		<a href="javascript:void search();" class="easyui-linkbutton"
+				iconCls="icon-search">查询</a>
+    	<a href="javascript:void page.resetForm();" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+
+    </form>
+	</div>
+
+    </div>
+	<div id="toolbar">
+		<span id="span_check"><a href="javascript:void check();" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true">审核</a></span>
+		<a href="javascript:void view();" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true">查看流程</a>
+	</div>
+	<div region="west" style="width:200px">
+		  <div class="tree-bar">
+		        表单分组:
+	      </div>      
+	      <ul id="treeType" style="margin-left: 10px"></ul>
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'form_name',width:100,align:'left',halign:'center'">表单名称</th>
+                <th data-options="field:'tbfs',width:100,align:'left',halign:'center'">填报类型</th>
+                <th data-options="field:'report_date',width:100,align:'left',halign:'center'">填报周期</th>
+                <th data-options="field:'tbjb',width:100,align:'left',halign:'center'">填报级别</th>
+                <th data-options="field:'area_name',width:100,align:'left',halign:'center'">行政区名称</th>
+                <th data-options="field:'receive_time',width:100,align:'left',halign:'center'">到达时间</th>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+           <t:listFormFooter></t:listFormFooter>
+	</jsp:body>
+</t:page>

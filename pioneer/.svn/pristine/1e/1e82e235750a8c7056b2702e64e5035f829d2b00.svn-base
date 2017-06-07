@@ -1,0 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tProcessStep/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>外键，流程编码:</th>
+					<td><span id="processId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，流程模板编码:</th>
+					<td><span id="ptId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，模板步骤编码:</th>
+					<td><span id="stepId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，流程步骤:</th>
+					<td><span id="stepseqId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>下一步，如果当前是最后一步，下一步为-1:</th>
+					<td><span id="nextstep" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>上一步，如果当前是第一步，上一步为-1:</th>
+					<td><span id="laststep" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否可以驳回：0 不可以，1可以(字典表):</th>
+					<td><span id="isreture" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>创建时间:</th>
+					<td><span id="createTime" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

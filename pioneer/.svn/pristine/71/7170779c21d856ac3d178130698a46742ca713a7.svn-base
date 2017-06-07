@@ -1,0 +1,48 @@
+package com.tfrd.bdas.module.tLoginObj.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
+import com.tfrd.bdas.module.tLoginObj.dao.TLoginObjDao;
+import com.tfrd.bdas.module.tLoginObj.service.TLoginObjService;
+import com.tfrd.bdas.module.tSysRight.model.TSysRightModel;
+import com.tfrd.bdas.module.tSysUser.model.TSysUserModel;
+
+@Service(value="TLoginObjServiceImpl")
+@Scope("prototype")
+public class TLoginObjServiceImpl implements TLoginObjService {
+	@Autowired
+    private TLoginObjDao  tLoginObjDao;
+	
+public List<TSysUserModel> checkLogin(Map<String, Object> params) {
+	 return tLoginObjDao.listMap(params);
+}
+
+@Override
+	public List<TSysRightModel> getSysRight(Map<String, Object> params) {
+		return  tLoginObjDao.getSysRight(params);
+	}
+
+@Override
+public void updateUserLastLoginTime(Map<String, Object> params) {
+		tLoginObjDao.updateUserLastLoginTime(params);
+}
+@Override
+public List findRoleName(Map<String, Object> params) {
+	return  tLoginObjDao.findRoleName(params);
+}
+@Override
+public List findRightUrl(Map<String, Object> params) {
+	return tLoginObjDao.findRightUrl(params);
+}
+
+@Override
+public Map<String, Object> getUserMsg(Map<String, Object> params) {
+	return tLoginObjDao.getUserMsg(params);
+}
+
+}

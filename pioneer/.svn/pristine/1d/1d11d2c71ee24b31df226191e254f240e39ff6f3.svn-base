@@ -1,0 +1,647 @@
+[
+    {
+        "id": "0",
+        "text": "功能",
+        "href": null,
+        "parentId": null,
+        "sort": null,
+        "children": [
+            {
+                "id": "1",
+                "text": "历史采集区记录",
+                "href": "pages/module/fFromHistoryCollectarea/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "2",
+                "text": "图表指标关联",
+                "href": "pages/module/tAnalyzeChartIndex/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "3",
+                "text": "数据维度",
+                "href": "pages/module/tAnalyzeDim/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "4",
+                "text": "gis地图查询项",
+                "href": "pages/module/tAnalyzeGisQueryitem/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "5",
+                "text": "指标定义",
+                "href": "pages/module/tAnalyzeIndex/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "6",
+                "text": "指标维度关联表",
+                "href": "pages/module/tAnalyzeIndexDim/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "7",
+                "text": "图表分析图",
+                "href": "pages/module/tAnalyzeThemeChart/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "8",
+                "text": "gis分析图",
+                "href": "pages/module/tAnalyzeThemeGis/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "9",
+                "text": "表单信息",
+                "href": "pages/module/tForm/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "10",
+                "text": "跨表规则",
+                "href": "pages/module/tFormCorssrule/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "11",
+                "text": "数据批次",
+                "href": "pages/module/tFormDataBatch/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "12",
+                "text": "表单字段",
+                "href": "pages/module/tFormField/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "13",
+                "text": "单值规则关联表",
+                "href": "pages/module/tFormFieldRule/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "14",
+                "text": "表内规则",
+                "href": "pages/module/tFormInrule/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "15",
+                "text": "填报权限",
+                "href": "pages/module/tFormRight/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "16",
+                "text": "验证规则",
+                "href": "pages/module/tFormRule/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "17",
+                "text": "填报范围关联表",
+                "href": "pages/module/tFormScope/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "18",
+                "text": "表单填报时限",
+                "href": "pages/module/tFormTimeLimit/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "19",
+                "text": "验证警告解释信息",
+                "href": "pages/module/tFormWarnMsg/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "20",
+                "text": "审核流程",
+                "href": "pages/module/tProcess/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "21",
+                "text": "流程步骤",
+                "href": "pages/module/tProcessStep/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "22",
+                "text": "流程处置步骤",
+                "href": "pages/module/tProcessStepDept/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "23",
+                "text": "流程处理步骤信息，记录全部流程历史信息",
+                "href": "pages/module/tProcessStepMsg/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "24",
+                "text": "步骤定义",
+                "href": "pages/module/tProcessStepseq/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "25",
+                "text": "流程模板",
+                "href": "pages/module/tProcessTemplate/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "26",
+                "text": "模板步骤",
+                "href": "pages/module/tProcessTemplateStep/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "27",
+                "text": "报表信息",
+                "href": "pages/module/tReport/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "27",
+                "text": "报表信息2",
+                "href": "pages/module/tReport/listBirt.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "28",
+                "text": "报表权限",
+                "href": "pages/module/tReportRight/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "29",
+                "text": "短信待发送表",
+                "href": "pages/module/tSmsRecord/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "30",
+                "text": "短信待发送历史",
+                "href": "pages/module/tSmsRecordLog/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "31",
+                "text": "数据资源",
+                "href": "pages/module/tSource/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "32",
+                "text": "数据集",
+                "href": "pages/module/tSourceDataset/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "33",
+                "text": "数据集字段",
+                "href": "pages/module/tSourceField/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "34",
+                "text": "地区表",
+                "href": "pages/module/tSysArea/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "35",
+                "text": "功能区域关联表",
+                "href": "pages/module/tSysAreaUnite/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "36",
+                "text": "品种信息",
+                "href": "pages/module/tSysBreed/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "37",
+                "text": "功能区信息",
+                "href": "pages/module/tSysCustomArea/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "38",
+                "text": "数据字典表",
+                "href": "pages/module/tSysDict/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "39",
+                "text": "系统分组",
+                "href": "pages/module/tSysGroup/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "40",
+                "text": "系统日志",
+                "href": "pages/module/tSysOptLog/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "41",
+                "text": "权限信息",
+                "href": "pages/module/tSysRight/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "42",
+                "text": "角色信息",
+                "href": "pages/module/tSysRole/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "43",
+                "text": "角色权限关联表",
+                "href": "pages/module/tSysRoleRight/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "44",
+                "text": "用户信息",
+                "href": "pages/module/tSysUser/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "45",
+                "text": "用户角色关联表",
+                "href": "pages/module/tSysUserRole/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "46",
+                "text": "重庆市畜禽养殖场养殖场（小区）备案申请表",
+                "href": "pages/module/tXmBasqb/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "47",
+                "text": "蛋鸡标准化示范场数据采集表",
+                "href": "pages/module/tXmBzhsfcDj/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "48",
+                "text": "奶牛标准化示范场数据采集表",
+                "href": "pages/module/tXmBzhsfcNn/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "49",
+                "text": "肉鸡标准化示范场数据采集表",
+                "href": "pages/module/tXmBzhsfcRj/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "50",
+                "text": "肉牛标准化示范场数据采集表",
+                "href": "pages/module/tXmBzhsfcRn/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "51",
+                "text": "肉羊标准化示范场数据采集表",
+                "href": "pages/module/tXmBzhsfcRy/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "52",
+                "text": "生猪标准化示范场数据采集表",
+                "href": "pages/module/tXmBzhsfcSz/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "53",
+                "text": "粪污处理利用数据采集表蛋鸡",
+                "href": "pages/module/tXmFwclDj/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "54",
+                "text": "粪污处理利用数据采集表奶牛",
+                "href": "pages/module/tXmFwclNn/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "55",
+                "text": "粪污处理利用数据采集表肉鸡",
+                "href": "pages/module/tXmFwclRj/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "56",
+                "text": "粪污处理利用数据采集表肉牛",
+                "href": "pages/module/tXmFwclRn/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "57",
+                "text": "粪污处理利用数据采集表肉羊",
+                "href": "pages/module/tXmFwclRy/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "58",
+                "text": "粪污处理利用数据采集表（生猪）",
+                "href": "pages/module/tXmFwclSz/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "59",
+                "text": "生猪良种补贴项目执行情况统计表",
+                "href": "pages/module/tXmSzlzbtxmzxqktjb/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "60",
+                "text": "种公猪登记卡",
+                "href": "pages/module/tXmZgzdjk/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "61",
+                "text": "种公猪站登记",
+                "href": "pages/module/tXmZgzzdj/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "62",
+                "text": "种公猪站仪器设备",
+                "href": "pages/module/tXmZgzzyqsb/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "63",
+                "text": "重庆市牲畜季报表",
+                "href": "pages/module/tXxkMxjbb/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "64",
+                "text": "重庆市生猪养殖固定监测村生产情况月报表",
+                "href": "pages/module/tXxkSzyzgdjccscqk/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+            {
+                "id": "65",
+                "text": "重庆市畜产品及饲料集市价格周报表",
+                "href": "pages/module/tXxkXcpjgzb/list.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+                        {
+                "id": "75",
+                "text": "本期填报",
+                "href": "pages/module/tianBao/listCurrent.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+              {
+                "id": "76",
+                "text": "不限时填报",
+                "href": "pages/module/tianBao/listUnlimit.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+              {
+                "id": "77",
+                "text": "超期填报",
+                "href": "pages/module/tianBao/listOverLimit.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+              {
+                "id": "78",
+                "text": "填报历史",
+                "href": "pages/module/tianBao/listHistory.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+              {
+                "id": "77",
+                "text": "待审核",
+                "href": "/pages/form/pc/listCheck.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            },
+             {
+                "id": "66",
+                "text": "数据展现",
+                "children": [
+                	 {
+		                "id": "1",
+		                "text": "资源查询",
+		                "href": "pages/module/tSourceQuery/sourceQ/list.jsp",
+		                "parentId": null,
+		                "sort": null,
+		                "children": null
+		            },
+		            {
+		                "id": "2",
+		                "text": "指标信息查询",
+		                "href": "pages/module/tSourceQuery/indexInfoQ/list.jsp",
+		                "parentId": null,
+		                "sort": null,
+		                "children": null
+		            },
+		            {
+		                "id": "3",
+		                "text": "趋势分析",
+		                "href": "pages/module/tSourceQuery/tendAnalyze/list.jsp",
+		                "parentId": null,
+		                "sort": null,
+		                "children": null
+		            },
+		            {
+		                "id": "4",
+		                "text": "预警分析",
+		                "href": "pages/module/tSourceQuery/warnAnalyze/list.jsp",
+		                "parentId": null,
+		                "sort": null,
+		                "children": null
+		            }
+                ]
+            },
+             {
+                "id": "67",
+                "text": "分析配置",
+                "children": [
+                	 {
+		                "id": "1",
+		                "text": "图表分析",
+		                "href": "pages/module/tDissertationConfig/chartDissertation/list.jsp",
+		                "parentId": null,
+		                "sort": null,
+		                "children": null
+		            },
+		            {
+		                "id": "2",
+		                "text": "GIS分析",
+		                "href": "pages/module/tDissertationConfig/GISDissertation/list.jsp",
+		                "parentId": null,
+		                "sort": null,
+		                "children": null
+		            }
+                ]
+            },
+             {
+                "id": "68",
+                "text": "分析展现",
+                "href": "pages/chart/main.jsp",
+                "parentId": null,
+                "sort": null,
+                "children": null
+            }
+        ]
+    }
+]

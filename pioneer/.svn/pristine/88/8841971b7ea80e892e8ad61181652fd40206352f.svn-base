@@ -1,0 +1,32 @@
+@charset "utf-8";
+body{overflow:hidden;}
+.loginadbox {
+	background-image: url(images/web_login_ad.jpg);
+	background-position: center top;
+	height:470px;
+}
+.loginadbox_abs{width:1440px;height:470px;margin:auto;padding-top:79px;}
+.loginbox{
+	background-image: url(images/web_login_inputboxbg.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	width:271px;
+	height:234px;
+	margin-left:766px;
+	padding-top:30px;
+	
+}
+.loginbtn{
+	width: 224px;
+	height: 32px;
+	background-color: transparent;
+	background-image: url(images/web_login_btn.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	border:none;
+}
+.logintable{background-color:#fafafa;}
+.loginicotd{width:29px;height:31px;}
+.logintxt{width:58px;color:#636363;font-size:14px;padding-left:8px;}
+.logininputstyle{background-color:#fafafa;border:none;height:30px;width:100%;}
+.loginerror{color:red;font-size:14px;}

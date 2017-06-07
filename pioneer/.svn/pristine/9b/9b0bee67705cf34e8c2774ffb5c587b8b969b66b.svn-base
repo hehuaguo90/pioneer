@@ -1,0 +1,413 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:formPhone>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+$(document).ready(function() {
+	var formId = '${formId}' || '${param.formId}';
+	var processId = '${processId}' || '${param.processId}';
+	initValidateInfo(formId, processId);//formId, processId
+	
+	$('#span_formName').html('${formName}'== '' ?'${param.formName}':'${formName}') ;
+	var param =  "${param.id}";
+	if(param){//如果存在查询条件，加载数据
+		page.send({
+            url : contextPath + "/tXxkXcpjgzb/getBeanById/?id=" + param
+        }).then(function(data) {
+           // item = kernel.json.parse(data);
+           // console.log(JSON.stringify(data));
+            page.loadForm({data:data });
+        });
+	}
+	page.url = contextPath+"/pages/form/phone/main.jsp?clickType=${param.clickType}";
+});
+  
+  
+</script>
+</jsp:attribute>
+	<jsp:body>
+
+<div class="form_box_container">
+	<div class="form_title"><span id="span_formName"></span></div>
+		<form method="post" action="${contextPath}/tXxkXcpjgzb/edit">
+				 <input type="hidden" id="id" name="id" value="${param.id}" >
+            	 <input type="hidden" id="form_id" name="form_id" value="${param.formId}" >
+            	 <input type="hidden" id="tbzq" name="tbzq" value="${tbzq}" >
+    <ul class="form_box_phone">
+        	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土杂仔猪</h4>
+                    <h6>(元/千克)<input id="tzzzdw" name="tzzzdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="tzzz"  name="tzzz" placeholder="&nbsp;">
+                </div>
+            </li>
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>洋三元或PIC仔猪</h4>
+                    <h6>(元/千克)<input id="ysyzzdw" name="ysyzzdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="ysyzz"  name="ysyzz" placeholder="&nbsp;">
+                </div>
+            </li>
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土杂肉猪</h4>
+                    <h6>(元/千克)<input id="tzrzdw" name="tzrzdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="tzrz"  name="tzrz" placeholder="&nbsp;">
+                </div>
+            </li>  
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>三元或PIC肉猪</h4>
+                    <h6>(元/千克)<input id="ysyrzdw" name="ysyrzdw"  type="hidden" value="1"/>	</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="ysyrz"  name="ysyrz" placeholder="&nbsp;">
+                </div>
+            </li>              
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>去骨带皮猪肉</h4>
+                    <h6>(元/千克)<input id="qgdpzrdw" name="qgdpzrdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="qgdpzr"  name="qgdpzr" placeholder="&nbsp;">
+                </div>
+            </li>  
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土鸡蛋</h4>
+                    <h6>(元/千克)<input id="tjddw" name="tjddw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="tjd"  name="tjd" placeholder="&nbsp;">
+                </div>
+            </li>   
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>专用型鸡蛋</h4>
+                    <h6>(元/千克)<input id="zyzjddw" name="zyzjddw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="zyzjd"  name="zyzjd" placeholder="&nbsp;">
+                </div>
+            </li>     
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>无公害鸡蛋</h4>
+                    <h6>(元/千克)<input id="wghxjddw" name="wghxjddw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="wghxjd"  name="wghxjd" placeholder="&nbsp;">
+                </div>
+            </li>   
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>鸭蛋</h4>
+                    <h6>(元/千克)<input id="yddw" name="yddw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="yd"  name="yd" placeholder="&nbsp;">
+                </div>
+            </li>  
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代蛋雏鸡</h4>
+                    <h6>(元/只)<input id="spddcjdw" name="spddcjdw"  type="hidden" value="4"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="spddcj"  name="spddcj" placeholder="&nbsp;">
+                </div>
+            </li>      
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代肉雏鸡</h4>
+                    <h6>(元/只)<input id="spdrcjdw" name="spdrcjdw"  type="hidden" value="4"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="spdrcj"  name="spdrcj" placeholder="&nbsp;">
+                </div>
+            </li> 
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代肉鸭苗</h4>
+                    <h6>(元/只)<input id="spdrymdw" name="spdrymdw"  type="hidden" value="4"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="spdrym"  name="spdrym" placeholder="&nbsp;">
+                </div>
+            </li>  
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代肉鹅苗</h4>
+                    <h6>(元/只)<input id="spdremdw" name="spdremdw"  type="hidden" value="4"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="spdrem"  name="spdrem" placeholder="&nbsp;">
+                </div>
+            </li>    
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>本地土鸡</h4>
+                    <h6>(元/千克)<input id="bdtjdw" name="bdtjdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="bdtj"  name="bdtj" placeholder="&nbsp;">
+                </div>
+            </li>     
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土杂肉鸡</h4>
+                    <h6>(元/千克)<input id="tzrjdw" name="tzrjdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="tzrj"  name="tzrj" placeholder="&nbsp;">
+                </div>
+            </li>
+        	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>快大型肉鸡</h4>
+                    <h6>(元/千克)<input id="kdxrjdw" name="kdxrjdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="kdxrj"  name="kdxrj" placeholder="&nbsp;">
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>西装鸡	</h4>
+                    <h6>(元/千克)<input id="xzjdw" name="xzjdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="xzj"  name="xzj" placeholder="&nbsp;">
+                </div>
+            </li>  
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>本地麻鸭</h4>
+                    <h6>(元/千克)<input id="bdmydw" name="bdmydw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="bdmy"  name="bdmy" placeholder="&nbsp;">
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>杂交肉鸭</h4>
+                    <h6>(元/千克)<input id="zjrydw" name="zjrydw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="zjry"  name="zjry" placeholder="&nbsp;">
+                </div>
+            </li>         
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>快大型肉鸭</h4>
+                    <h6>(元/千克)<input id="kdxrydw" name="kdxrydw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="kdxry"  name="kdxry" placeholder="&nbsp;">
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>活鹅</h4>
+                    <h6>(元/千克)<input id="hedw" name="hedw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="he"  name="he" placeholder="&nbsp;">
+                </div>
+            </li> 
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>去骨牛肉</h4>
+                    <h6>(元/千克)<input id="qgnrdw" name="qgnrdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="qgnr"  name="qgnr" placeholder="&nbsp;">
+                </div>
+            </li>     
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>牛奶</h4>
+                    <h6>(元/千克)<input id="nndw" name="nndw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="nn"  name="nn" placeholder="&nbsp;">
+                </div>
+            </li>     
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品活羊</h4>
+                    <h6>(元/千克)<input id="sphydw" name="sphydw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="sphy"  name="sphy" placeholder="&nbsp;">
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>带骨羊肉</h4>
+                    <h6>(元/千克)<input id="dgyrdw" name="dgyrdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="dgyr"  name="dgyr" placeholder="&nbsp;">
+                </div>
+            </li>      
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>绵羊毛</h4>
+                    <h6>(元/千克)<input id="mymdw" name="mymdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="mym"  name="mym" placeholder="&nbsp;">
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>活肉兔</h4>
+                    <h6>(元/千克)<input id="hrtdw" name="hrtdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="hrt"  name="hrt" placeholder="&nbsp;">
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>兔毛（统毛）</h4>
+                    <h6>(元/千克)<input id="tmdw" name="tmdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="tm"  name="tm" placeholder="&nbsp;">
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>玉米</h4>
+                    <h6>(元/千克)<input id="xmdw" name="xmdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="xm"  name="xm" placeholder="&nbsp;">
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>豆粕</h4>
+                    <h6>(元/千克)<input id="dpdw" name="dpdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="dp"  name="dp" placeholder="&nbsp;">
+                </div>
+            </li>  
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>小麦麸</h4>
+                    <h6>(元/千克)<input id="xmfdw" name="xmfdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="xmf"  name="xmf" placeholder="&nbsp;">
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>进口鱼粉</h4>
+                    <h6>(元/千克)<input id="jkyfdw" name="jkyfdw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="jkyf"  name="jkyf" placeholder="&nbsp;">
+                </div>
+            </li>        
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>育肥猪配合料</h4>
+                    <h6>(元/千克)<input id="yfzphldw" name="yfzphldw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="yfzphl"  name="yfzphl" placeholder="&nbsp;">
+                </div>
+            </li>             
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>肉鸡配合饲料</h4>
+                    <h6>(元/千克)<input id="rzphsldw" name="rzphsldw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="rzphsl"  name="rzphsl" placeholder="&nbsp;">
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>蛋鸡配合饲料</h4>
+                    <h6>(元/千克)<input id="djphsldw" name="djphsldw"  type="hidden" value="1"/></h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                <label for="name"  class="form_name">&nbsp;</label>
+                <input type="text" class="form-control" id="djphsl"  name="djphsl" placeholder="&nbsp;">
+                </div>
+            </li>                                                                                                                                                                                                                                                                                                                                                 
+    </ul>
+ </form>
+ <t:formEditFooterP></t:formEditFooterP>
+ <!--    <div class="form_title">验证信息</div>
+		<div>
+	                	<p class="text-warning">1、专用型鸡蛋价格超出平均价10倍</p>
+	                    <p><input type="text" class="form-control" id="name" placeholder="请输入解释信息"></p>
+	                	<p class="text-danger">2、有价格未填写，请全部填写后提交</p>
+	                    <br>
+	
+	    </div>
+	    <div class="form_btn_tools navbar-fixed-bottom">
+	    	 <a href="javascript:history.back()" class="cannel"><span class="glyphicon glyphicon-share-alt">&nbsp;</span>放弃</a>
+	    	<a href="javascript:validateForm('${formId}', '${processId}')" class="save"><span class="glyphicon glyphicon-eye-open">&nbsp;</span>审核</a>
+	        <a href="#"   onclick="page.saveForm('${formId}', '${processId}')"  class="submit"><span class="glyphicon glyphicon-ok">&nbsp;</span>提交</a>
+	    </div>
+	    <br>
+     	<br>
+	</div>
+  -->
+
+	</jsp:body>
+</t:formPhone>

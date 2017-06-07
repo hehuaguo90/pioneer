@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tAnalyzeThemeChart/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>专题分组id:</th>
+					<td><span id="groupId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>创建人id:</th>
+					<td><span id="userId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>专题名称:</th>
+					<td><span id="chartName" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>访问地址:</th>
+					<td><span id="url" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>显示顺序:</th>
+					<td><span id="showOrder" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>LOGO图片地址:</th>
+					<td><span id="imgUrl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>发布状态:</th>
+					<td><span id="publicStatus" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否在移动端展现:</th>
+					<td><span id="showMobile" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否对数转换:</th>
+					<td><span id="toLog" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>创建时间:</th>
+					<td><span id="createTime" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>介绍:</th>
+					<td><span id="introduce" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>详细描述，富文本:</th>
+					<td><span id="remark" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

@@ -1,0 +1,162 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+	<script src="${contextPath }/res/chart/chart.js"></script>
+	
+		<script type="text/javascript">
+		/***
+		获取监测数据
+		***/
+		function getJcsjData(){
+			$.ajax({
+			    url : contextPath+"/chartPig/getZrzb.action?_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showJcsjChart(datas['zrzb']);
+			    	console.log(datas['zrzb']);
+			    }
+			})
+		}
+		
+		/***
+		构建监测数据echart图表
+		***/
+		function showJcsjChart(datas){
+			var data_zr = findSeriesDataByKeyDesc(datas,['rlcl']);
+			var data_rcl = findSeriesDataByKeyDesc(datas,['zcl']);
+			var data_zb = findSeriesDataByKeyDesc(datas,['zb']);
+			var data_year = findSeriesDataByKeyDesc(datas,['tjsd']);
+			
+			var mapChart = echarts.init(document.getElementById('jcsj'));
+			option = {
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    legend: {
+				        data:[
+								{name: '肉类总产量',icon: 'roundRect'},
+								{name: '猪肉产量',icon: 'roundRect'},
+								{name: '全市平均猪粮比'}
+				              ]
+				    },
+				    grid: {
+				        left: '2%',
+				        containLabel: true
+				    },
+				    xAxis: [
+				        {
+				            type: 'category',
+				            data: data_year[0],
+				            axisLabel: {
+				                interval: 0,
+				                rotate: 30
+				            }
+				        }
+				    ],
+				    yAxis: [
+				        {
+				            type: 'value',
+				            name: '产量',
+				            splitLine : {show:false},
+				            axisLabel: {
+				                formatter: '{value} 吨'
+				            }
+				        },
+				        {
+				            type: 'value',
+				            name: '全市平均猪粮比',
+				            splitLine : {show:false},
+				            axisLabel: {
+				                formatter: '{value} '
+				            }
+				        }
+				    ],
+				    color: ['#2ec7c9','#b6a2de'],
+				    series: [
+				        {
+				            name:'猪肉产量',
+				            type:'bar',
+				            data:data_zr[0]
+				        },
+				        {
+				            name:'肉类总产量',
+				            type:'bar',
+				            data:data_rcl[0]
+				        },
+				        {
+				            name:'全市平均猪粮比',
+				            type:'line',
+				            yAxisIndex: 1,
+				            data:data_zb[0]
+				        }
+				    ]
+				};
+			mapChart.setOption(option);
+		}
+		
+		function pageInit(){
+			$.ajax({
+				url:"${ contextPath }/ChartMain/getDisserts",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					var chartIndex=data.chartIndex;
+					var themeGis=data.themeGis;
+					for(var i in chartIndex){
+						$("#dessertShow").append(newDIV(chartIndex[i].chartName,chartIndex[i].chartId,chartIndex[i].imgUrl.replace(/\"|\[|\]/g,""),1));
+					}
+					for(var i in themeGis){
+						$("#dessertShow").append(newDIV(themeGis[i].gisName,themeGis[i].gisId,themeGis[i].imgUrl.replace(/\"|\[|\]/g,""),2));
+					}
+					function newDIV(name,id,imgUrl,type){
+						var linkedAddr="${contextPath}/pages/chart/theme";
+						if(type==1){
+							linkedAddr+="/chartIndexView.jsp?chartId="+id;
+						}else if(type==2){
+							linkedAddr+="/themeGisView.jsp?gisId="+id;
+						}
+						return "<div class='col-xs-6 col-md-3'><div class='thumbnail'><img class='img-responsive' src='/uploads/"+imgUrl+"'alt='通用的占位符缩略图'/><div class='caption'><a href='"+linkedAddr+"'>"+name+"</a></div></div></div>";
+					}
+				}
+			});
+		}
+		
+		$(document).ready(function() {
+			//检测数据（图）
+			getJcsjData();
+			pageInit();
+		});
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+    <!--页面实际内容区开始-->
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class=" icon-bar-chart "></span>占比分析
+          <small class="simple_box_title_txt hidden-xs"> 分析猪肉产量与肉类总产量的占比变化情况 </small> </h3>
+        </div>
+		<div class="" style="height:450px;">
+        	<div id="jcsj" style="height:450px; width: 100%; float:left;">${null }</div>
+        </div>
+      </div>
+    </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 分析展示
+          <small class="simple_box_title_txt hidden-xs"> 可视化数据分析  </small></h3><!--  <a href="#fdsf" class="pull-right">查看更多&gt;</a> -->
+        </div>
+        <div id="dessertShow" class="row">
+        	
+        </div>
+      </div>
+    </div>
+	</jsp:body>
+</t:chart>

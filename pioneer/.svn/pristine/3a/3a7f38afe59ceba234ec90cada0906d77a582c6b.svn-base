@@ -1,0 +1,110 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>id:</th>
+					<td><span id="id" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政编码:</th>
+					<td><span id="xzbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>省级行政名称:</th>
+					<td><span id="sjxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地级行政名称:</th>
+					<td><span id="djxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>县级行政名称:</th>
+					<td><span id="xjxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政q级别:</th>
+					<td><span id="xzjb" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报编码:</th>
+					<td><span id="tbbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报时间:</th>
+					<td><span id="tbsj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>年度:</th>
+					<td><span id="nd" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报人:</th>
+					<td><span id="tbr" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>农闲田可种草:</th>
+					<td><span id="nftkzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>农闲田已种草:</th>
+					<td><span id="nftyzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>冬闲田可种草:</th>
+					<td><span id="dftkzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>冬闲田已种草:</th>
+					<td><span id="txtyzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>夏秋闲田可种草:</th>
+					<td><span id="xqxtkzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>夏秋闲田已种草:</th>
+					<td><span id="xqxtyzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>果园隙地可种草:</th>
+					<td><span id="gyxdkzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>果园隙地已种草:</th>
+					<td><span id="xyxdyzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>四边地可种草:</th>
+					<td><span id="sbdyzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>四边地已种草:</th>
+					<td><span id="sbdkzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>其他可种草:</th>
+					<td><span id="qtkzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>其他已种草:</th>
+					<td><span id="qtyzc" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

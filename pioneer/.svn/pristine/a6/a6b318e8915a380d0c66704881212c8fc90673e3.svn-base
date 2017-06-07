@@ -1,0 +1,490 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	    	var url = "/pages/module/tReport/";
+
+
+
+
+	function add() {
+		page.newDataGrid({
+			title : "新增",
+			width : 600,
+			height : 368,
+			url : contextPath + url + "add.jsp"
+		});
+	}
+
+	function edit() {
+	    var row = $('#datagrid').datagrid('getSelected');
+	       page.editDataGrid({
+			title : "编辑",
+			width : 600,
+			height : 368,
+			formatURL : function(obj) {
+				var params="";
+                params+="reportId=" + obj.reportId;
+				return contextPath +url+"edit.jsp?"+params;
+			}
+		});
+	}
+
+
+    function view() {
+        var row = $('#datagrid').datagrid('getSelected');
+
+		page.editDataGrid({
+			title : "数据列表",
+			width : 900,
+			height : 600,
+			formatURL : function(obj) {
+                //var params="";
+                //params+="reportId=" + obj.reportId;
+                return contextPath + obj.url;
+			}
+		});
+    }
+	function del() {// 方式一
+/*		page.delDataGrid({
+			formatURL : function(arr) {
+				return contextPath + "/tReport/delete";
+			},
+			formatPostData : function(arr) {
+				var obj = new Array();
+				$.each(arr, function(i, item) {
+					obj.push(item.seedId);
+				});
+				return {
+                    dataId : obj
+				};
+			}
+		});*/
+
+        page.delDataGrid({
+            formatURL : function(arr) {
+                return contextPath +"/tReport/"+"delete";
+            },
+            formatPostData : function(arr) {
+                return {data:JSON.stringify(arr)};
+            }
+        });
+    }
+	page.onLoad = function() {
+       
+		
+
+	};
+
+   
+    function exportExcel() {// 方式一
+        window.location.href = "${contextPath}/tReport/export";
+        /*				"id="+ $('#id').textbox('getValue')+
+                "&qkfl="+ $('#qkfl').textbox('getValue')+
+                "&qksb="+ $('#qksb').textbox('getValue')+
+                "&cjsj="+ $('#cjsj').textbox('getValue')+
+                "&sbrid="+ $('#sbrid').textbox('getValue')+
+                "&treeData="+ $('#treeData').textbox('getValue');*/
+    }
+
+    //自定义的校验方法
+	$.extend($.fn.validatebox.defaults.rules, { 
+	   minTime : {  
+  		  
+        validator : function(value, param) { 
+           var v = $('#zxsj').datebox('getValue');	
+           if(v!="" && v!=null){
+           if(compare(v,value)){
+        	   $('#zxsj').blur();
+        	   return true;
+           }else{
+        	   $.fn.validatebox.defaults.rules.minTime.message = "结束时间需要大于开始时间!";
+        	   return false;
+           }
+        }else{
+        	 return true;
+        }
+        }
+    },
+    maxTime : {  
+		  
+        validator : function(value, param) { 
+           var v = $('#zdsj').datebox('getValue');	
+           if(v!="" && v!=null){
+           if(compare(v,value)){
+        	   $.fn.validatebox.defaults.rules.maxTime.message = "开始时间需要小于结束时间!";
+        	   return false;
+           }else{
+        	   $('#zdsj').blur();
+        	   return true;
+           }
+           }else{
+          	 return true;
+           }
+        }
+    }
+	})
+	function compare(date1,date2){
+        var oDate1 = new Date(date1);
+        var oDate2 = new Date(date2);
+        if(oDate1.getTime() > oDate2.getTime()){
+        	 return false;
+        } else if (oDate1.getTime() < oDate2.getTime()){
+        	 return true;
+        } else {
+        	 return true;
+        }
+        
+    }
+    var tbFlg='1';
+    function dcsj(){
+       //判断类型lx
+       var lx = $("#lx").val();
+       var option={};
+       zhUrl(option,lx);
+       zhParam(option);
+       var url=option.url+option.queryParams;
+      // alert(url);
+       document.location.href=url;
+       
+    }
+    //组装url
+    function zhUrl(option,lx){
+       var url="";
+       if(lx=='sjtj'){
+         url="${contextPath}/tReport/tjsjDC?1=1";
+       }
+       else if(lx=='sjtb'){
+         url="${contextPath}/tReport/sjtbDC?1=1";
+       }
+       else{
+         url="${contextPath}/tReport/sjhbDC?1=1";
+       }
+       option.url=url;
+    }
+    //组装导出要传送的参数
+    function zhParam(options){
+       //组装参数：
+       var tjxm = $("#tjxm").combobox("getValues")+"";
+       var tjxmN = $("#tjxm").combobox("getText")+"";
+       var tableN = "";//要查询的表名
+       var _filedN =tjxm;//查询字段名
+       var _titleN = tjxmN;//查询字段中文名
+       var _kssj =$("#zxsj").datebox('getValue');//开始时间
+       var _jssj=$("#zdsj").datebox('getValue');//结束时间
+       var _dy = $("#dy").combobox('getValue');//地域
+       var _grouptj = $("#type").combobox('getValues')+"";//汇总方式1
+       var _hs = $("#hs").combobox('getValue');//函数
+       //组装参数
+      options.queryParams = "&filedN="+_filedN+"&kssj="+_kssj+"&jssj="+_jssj+"&dy="+_dy+"&grouptj="+_grouptj+"&hs="+_hs+"&titleN="+_titleN; 
+        
+    }
+    //组装要查询的参数
+    function zhPCX(options){
+       //组装参数：
+       var tjxm = $("#tjxm").combobox("getValues")+"";
+       var tjxmN = $("#tjxm").combobox("getText")+"";
+       var tableN = "";//要查询的表名
+       var _filedN =tjxm;//查询字段名
+       var _kssj =$("#zxsj").datebox('getValue');//开始时间
+       var _jssj=$("#zdsj").datebox('getValue');//结束时间
+       var _dy = $("#dy").combobox('getValue');//地域
+       var _grouptj = $("#type").combobox('getValues')+"";//汇总方式1
+       var _hs = $("#hs").combobox('getValue');//函数
+       //组装参数
+       options.queryParams = { 
+        filedN:_filedN, 
+        kssj:_kssj,
+        jssj:_jssj,
+        dy:_dy,
+        grouptj:_grouptj,
+        hs:_hs  
+       };  
+    }
+    function sjtj(){
+        var isValid = $("#f1").form('validate');
+	    if(!isValid){
+	      return;
+	    }
+	    $("#toolbar").text("数据统计");
+	    $("#lx").val("sjtj");
+        var str ="";
+        var tjxm = $("#tjxm").combobox("getValues")+"";
+        var tjxmN = $("#tjxm").combobox("getText")+"";
+        
+        var arrTjxm = tjxm.split(",");
+        var arrTjxmN = tjxmN.split(",");
+       
+       
+       var options={};
+       options.url=""
+       //组装url
+      options.url = '${contextPath}/tReport/tjsjDT';  
+      //组装参数
+      zhPCX(options);
+       //组合表头
+       zhTab(arrTjxm,arrTjxmN,options);
+    }
+    //数据同比
+    function sjtb(){
+        var isValid = $("#f1").form('validate');
+	    if(!isValid){
+	      return;
+	    }
+	    $("#toolbar").text("数据同比");
+	    $("#lx").val("sjtb");
+        var str ="";
+        var tjxm = $("#tjxm").combobox("getValues")+"";
+        var tjxmN = $("#tjxm").combobox("getText")+"";
+        
+        var arrTjxm = tjxm.split(",");
+        var arrTjxmN = tjxmN.split(",");
+       
+       
+       var options={};
+       options.url=""
+       //组装url
+      options.url = '${contextPath}/tReport/sjtbDT';  
+      //组装参数
+      zhPCX(options);
+      //组合表头
+      zhTab2(arrTjxm,arrTjxmN,options);
+    }
+    //数据环比
+    function sjhb(){
+        var isValid = $("#f1").form('validate');
+	    if(!isValid){
+	      return;
+	    }
+	    $("#toolbar").text("数据环比");
+	    $("#lx").val("sjhb");
+        var str ="";
+        var tjxm = $("#tjxm").combobox("getValues")+"";
+        var tjxmN = $("#tjxm").combobox("getText")+"";
+        
+        var arrTjxm = tjxm.split(",");
+        var arrTjxmN = tjxmN.split(",");
+       var options={};
+       options.url=""
+       //组装url
+      options.url = '${contextPath}/tReport/sjhbDT';  
+      //组装参数
+      //组装参数
+      zhPCX(options);
+      //组合表头
+      zhTab2(arrTjxm,arrTjxmN,options);
+    }
+    /**
+                  动态组合table，表头带%号
+      _option :{url,params}
+      url:table需要的数据
+      params:url要传递的参数。其中tableN，filedN必填{tableN,filedN，kssj,jssj,}
+    */    
+    function zhTab2(arr,arr1,_option){
+       //table需要的对象
+       var options=_option;
+    
+       var  str = "[[";
+       str = str+"{field:'tbzq',title:'填报周期',width:100}";
+       str = str+",{field:'tbqyid',title:'区县',width:100}"
+       for(var i=0;i<arr.length;i++){
+           
+               str = str+",{"
+             
+             str = str+"field:'"+arr[i]+"'";
+             str = str+",title:'"+arr1[i]+"%'";
+             str = str+",width:100";
+             str = str+"}";
+            
+           
+      }
+      str = str+ "]]"; 
+    //组装表头
+      options.columns = eval(str);  
+      
+      $("#datagrid").datagrid(options); 
+    }
+    /**
+                 动态组合table 不带%
+      _option :{url,params}
+      url:table需要的数据
+      params:url要传递的参数。其中tableN，filedN必填{tableN,filedN，kssj,jssj,}
+      
+    */
+    
+    function zhTab(arr,arr1,_option){
+       //table需要的对象
+       var options=_option;   
+       var  str = "[[";
+       str = str+"{field:'tbzq',title:'填报周期',width:100}";
+       str = str+",{field:'tbqyid',title:'区县',width:100}"
+       for(var i=0;i<arr.length;i++){
+           
+               str = str+",{"
+             
+             str = str+"field:'"+arr[i]+"'";
+             str = str+",title:'"+arr1[i]+"'";
+             str = str+",width:100";
+             str = str+"}";
+            
+           
+      }
+      str = str+ "]]"; 
+    //组装表头
+      options.columns = eval(str);  
+      
+      $("#datagrid").datagrid(options); 
+    }
+   $.extend($.fn.validatebox.defaults.rules, {
+   hsxz:{//验证是否选择了数据集
+     validator: function (value) {  
+                   var value = $("#type").combobox("getValue");
+                   if(value){
+                     return true;
+                   }
+                   else{
+                     return false;
+                   }
+                  
+             },  
+               message: '请先选择汇总第一个条件'  
+   }
+   });
+   function tjxm(){
+     var value=$("#reportId").combobox("getValue");
+     
+     $('#tjxm').combobox({
+                url :contextPath+'/tFormField/listAll',
+                queryParams : {
+                     "formId":value,
+                     "flglx" : 1
+                }
+            });
+   }
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:165px;overflow:hidden;" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="searchbar">
+        <form id="f1">
+        <table>
+           <tr>
+             <th>报表名称:</th>
+             <td>
+                <input type="hidden" id="lx" />
+                <input id="reportId" name="reportId" class="easyui-combobox" data-options="required:true,url:'${contextPath}/tReport/listBirt?reportType=2',valueField:'formId',textField:'reportName',method:'get',onSelect:tjxm" style="width:240px;">
+             </td>
+             <th>统计项目:</th>
+              <td>
+                <input id="tjxm" name="tjxm" class="easyui-combobox"   
+                                   data-options="required:true,multiple:true,valueField:'fieldCode',textField:'fieldName'" style="width:180px;"/>
+              </td>
+               <th>选中地域:</th>
+             <td>
+                <input id="dy" name="dy" class="easyui-combobox"   
+                                   data-options="valueField:'areaCode',textField:'fullName',url:'${ contextPath }/tSysArea/listAll?areaLeveleq=2'" style="width:180px;"/>
+             </td>
+           </tr>
+           
+           
+           
+           
+           <tr>
+             <th>统计时间:</th>
+             <td>
+                <input id="zxsj" name="zxsj"  type="text"
+                                   style="width: 110px;"   class="easyui-datebox"   editable="false"
+                                   data-options="required:false,validType:['maxTime']" >
+                                              到
+                <input id="zdsj" name="zdsj"  type="text"
+                                    style="width: 110px;"   class="easyui-datebox"  editable="false"
+                                    data-options="required:false,validType:['minTime']" >                                
+             </td>
+              <th>汇总方式:</th>
+             <td>
+               <!-- 按日期、地域 -->
+               <input id="type" name="type" class="easyui-combobox" style="width: 90px;"  
+                                   data-options="multiple:true,valueField:'code',textField:'name',url:'${ contextPath }/tSysDict/listAll?type=REPORT_TYPE'" />
+               <!-- 求平均、求和 -->
+               <input id="hs" name="hs" class="easyui-combobox" style="width: 90px;"  
+                                   data-options="validType:'hsxz',valueField:'code',textField:'name',url:'${ contextPath }/tSysDict/listAll?type=FUNC'" />
+             </td>
+             <td colspan="2"></td>
+             
+           </tr>
+           
+           
+           
+           
+           
+           
+        </table>
+		
+           <div style="padding-top:5px;text-align:center;">
+        
+        <a href="javascript:void sjtj();" class="easyui-linkbutton" 
+				iconCls="icon-search">数据统计</a>
+	    <a href="javascript:void sjtb();" class="easyui-linkbutton"
+				iconCls="icon-search">数据同比</a>
+		<a href="javascript:void sjhb();" class="easyui-linkbutton"
+				iconCls="icon-search">数据环比</a>
+		<a href="javascript:void dcsj();" class="easyui-linkbutton"
+				iconCls="icon-daochu">导出数据</a>
+    	<a href="javascript:void page.resetForm();" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+       
+		</div>
+
+    </form>
+	</div>
+
+    </div>
+	<div id="toolbar">
+		<!-- <a href="javascript:void add();" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:void edit();" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true">编辑</a>
+		<a href="javascript:void del();" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true">删除</a>
+		<a href="javascript:void view();" class="easyui-linkbutton"
+				iconCls="icon-ok" plain="true">查看</a>
+		<a href="javascript:void(0)" onclick="exportExcel();"
+		   class="easyui-linkbutton" iconCls="icon-save" plain="true">导出</a> -->
+		 
+		
+	</div>
+	
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+			<!-- url:'${contextPath}/tReport/listByPage?reportType=1' -->
+		<thead>
+            <tr id="bt">
+             
+            <!-- 
+                <th data-options="field:'ck',checkbox:true"></th>
+                
+                <th data-options="field:'reportName',width:100,align:'left',halign:'center'">报表名称</th>
+                <th data-options="field:'url',width:100,align:'left',halign:'center'">访问地址</th>
+                <th data-options="field:'createTime',width:100,align:'left',halign:'center'">创建日期</th>
+                <th data-options="field:'remark',width:100,align:'left',halign:'center'">备注</th>
+                 -->
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

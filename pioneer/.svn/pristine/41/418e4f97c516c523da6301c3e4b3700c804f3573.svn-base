@@ -1,0 +1,172 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:base></t:base>
+<head>
+<script src="${ contextPath }/res/front/js/jquery.min.js"  type="text/javascript"></script>
+<script src="${contextPath }/res/front/bootstrap/js/bootstrap.min.js"></script>
+<script src="${ contextPath }/res/lib/plugin/jsMap/jsMap.js" type="text/javascript"></script>
+<link href="${contextPath }/res/front/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${contextPath }/res/front/css/font-awesome.min.css">
+<link href="${contextPath }/res/front/style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="${contextPath }/res/front/style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script src="${ contextPath }/res/lib/echarts3/echarts.min.js" type="text/javascript"></script>
+<script src="tendAnalyze.js"  type="text/javascript"></script>
+<script type="text/javascript">
+var getDa=new getData();
+var contextPath="/bdas";
+$(document).ready(function(){
+	$.ajax({
+		url:contextPath + "/tAnalyzeThemeChart/getBeanById/?chartId=${param.chartId}",
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			$("#chartName").html(data.chartName);
+			$("#chartName").parent().css("width",36+20*data.chartName.length);
+		 	groupId=data.groupId;
+		 	$.ajax({
+		 	url:contextPath+"/tAnalyzeChartIndex/listAll?chartId="+data.chartId,
+		 	dataType:"json",
+		 	async:false,
+		 	success:function(data){
+		 	getDa.array=[];
+		 	var cindexId="";
+			 for(var i in data){
+			 	if(!isNaN(i)){
+			 		 cindexId+=data[i].cindexId+",";
+				    var reData=JSON.parse(data[i].queryParam);
+				    reData.cindexId = data[i].cindexId;
+				    reData.clickType="edit";
+				    getDa(reData);
+			 	}
+		 	 }
+		 	 	showChart(getDa.array);	
+		 	 	var arr_load=getDa.array;
+		 	 	for (var int = 0; int < arr_load.length; int++) {
+		 	 		if(arr_load[int].indexAlias){
+		 	 			indexName=arr_load[int].indexAlias;
+		 	 		}
+		 	 		if(arr_load[int].isShow == 0){
+		 	 			showOrHide(int,0);
+		 	 		}
+			 	
+				}
+		 	}
+	   	});
+		}
+	});
+});
+		
+/**
+ * 生成一个随机的UUID
+ *
+ * USAGE: Math.uuid(length, radix)
+ *   length - UUID位数
+ *   radix  - UUID进制
+ *
+ * EXAMPLES:
+ *   // No arguments  - returns RFC4122, version 4 ID
+ *   >>> Math.uuid()
+ *   "92329D39-6F5C-4520-ABFC-AAB64544E172"
+ *
+ *   // One argument - returns ID of the specified length
+ *   >>> Math.uuid(15)     // 15 character ID (default base=62)
+ *   "VcydxgltxrVZSTV"
+ *
+ *   // Two arguments - returns ID of the specified length, and radix. (Radix must be <= 62)
+ *   >>> Math.uuid(8, 2)  // 8 character ID (base=2)
+ *   "01001010"
+ *   >>> Math.uuid(8, 10) // 8 character ID (base=10)
+ *   "47473046"
+ *   >>> Math.uuid(8, 16) // 8 character ID (base=16)
+ *   "098F4D35"
+ */
+(function() {
+  // Private array of chars to use
+  var CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+ 
+  Math.uuid = function (len, radix) {
+    var chars = CHARS, uuid = [], i;
+    radix = radix || chars.length;
+ 
+    if (len) {
+      // Compact form
+      for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random()*radix];
+    } else {
+      // rfc4122, version 4 form
+      var r;
+ 
+      // rfc4122 requires these characters
+      uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+      uuid[14] = '4';
+ 
+      // Fill in random data.  At i==19 set the high bits of clock sequence as
+      // per rfc4122, sec. 4.1.5
+      for (i = 0; i < 36; i++) {
+        if (!uuid[i]) {
+          r = 0 | Math.random()*16;
+          uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+        }
+      }
+    }
+ 
+    return uuid.join('');
+  };
+ 
+  // A more performant, but slightly bulkier, RFC4122v4 solution.  We boost performance
+  // by minimizing calls to random()
+  Math.uuidFast = function() {
+    var chars = CHARS, uuid = new Array(36), rnd=0, r;
+    for (var i = 0; i < 36; i++) {
+      if (i==8 || i==13 ||  i==18 || i==23) {
+        uuid[i] = '-';
+      } else if (i==14) {
+        uuid[i] = '4';
+      } else {
+        if (rnd <= 0x02) rnd = 0x2000000 + (Math.random()*0x1000000)|0;
+        r = rnd & 0xf;
+        rnd = rnd >> 4;
+        uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+      }
+    }
+    return uuid.join('');
+  };
+ 
+  // A more compact, but less performant, RFC4122v4 solution:
+  Math.uuidCompact = function() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+  };
+})(); 
+</script>
+		<style>
+		.tractive{
+		    background-color: pink;
+		}
+		.buttonA {height: 21px;line-height: 21px;padding: 0 11px;background: #02bafa;border: 1px #26bbdb solid;border-radius: 3px;color: #fff;display: inline-block;text-decoration: none;font-size: 12px;outline: none;margin:0px 10px 0px 10px;}
+		
+		</style>
+		</head>
+<body>
+    <!--页面实际内容区开始-->
+ <div class="simple_box_title row" style="margin-bottom:0px;">
+          <h3 class="simple_box_title_name" ><span id="chartName"></span> </h3>
+          
+  </div>
+  <br/>   
+ <div style="height: 500px; ">
+			    <div style="height: 100%; ">
+			      <div  id="xxly" style="height: 100%; background-color: transparent;">
+			        <div style="position: relative; overflow: hidden; height: 100%;">
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+    <!--页面实际内容区结束--> 
+        
+</body>

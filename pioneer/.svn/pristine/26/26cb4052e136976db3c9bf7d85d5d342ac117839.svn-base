@@ -1,0 +1,284 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+		var url = "/pages/form/pc/"
+		    var totalCount = 0;//总条数
+		    var pageCount = 1;//总页数
+		    var pageSize = 5;//每页条数
+		    var nowPage = 1;//当前页
+		    var tab = 1;//1:选项卡选中待审核,2:选中审核历史
+			$(document).ready(function() {
+				var tab_t = document.getElementById("tab_title");
+				var tab_t_li = tab_t.getElementsByTagName("li");
+				var tab_c = document.getElementById("tab_content");
+				var tab_c_li = tab_c.getElementsByTagName("div");
+				var len = tab_t_li.length;
+				var i = 0;
+				for (i = 0; i < len; i++) {
+					tab_t_li[i].index = i;
+					tab_t_li[i].onclick = function() {
+						if(this.index==0){
+							tab = 1;
+							loadCheck();
+						}else{
+							tab = 2;
+							nowPage=1;
+							loadDatas();
+						}
+						
+					}
+				}
+				
+				selTblx();
+												
+				$(".col-md-1").bind("click", function () {   
+					if(tab==1){
+						loadCheck();
+					}else{
+						nowPage=1;
+						loadDatas();
+					}
+					
+	            });
+				
+				loadCheck();
+			});
+		    
+			function selTblx(){
+                $.ajax({  
+                    url: contextPath + "/tSysDict/listDict?type=PERIOD_TYPE",  
+                    dataType: "json",  
+                    success: function (data) {  
+                    	 $("#tblxitem").html('');
+                    	 $("#tblxitem").append("<li role='presentation'><a role='menuitem' onclick=\"setSel('','全部类型')\"  ' href='#' >全部类型</a></li>");
+                        $.each(data, function (index, units) {  
+                          // console.log("<li role='presentation'><a role='menuitem' tabindex='"+units.id+"' href='#' onclick=\"setSel("+ units.id + ",'"+ units.text +"')\"  >" + units.text + "</a></li>");
+                          $("#tblxitem").append("<li role='presentation'><a role='menuitem' tabindex='"+units.id+"' href='#' onclick=\"setSel("+ units.id + ",'"+ units.text +"')\"  >" + units.text + "</a></li>");  	                            
+                        });  
+                    },                       
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {  
+                        //alert("error");  
+                    }  
+                });  				
+			}	
+			
+			function setSel(id,value){
+		    	 $("#tblx").attr("value",id);
+		    	 $("#span_selected").html(value);
+		    }
+		    
+		    function openProcess(processId){
+		    	
+		    	//window.parent.document.getElementById("iframe5").src = contextPath+ "/tProcessStepMsg/listAll?processId="+processId ;		    	
+		   		var iframe = window.parent.document.getElementById("iframe5");
+		   		iframe.src =  contextPath+ "/tProcessStepMsg/listAll?processId="+processId ;
+		   		$('#loading').modal('show');
+		   	    if (iframe.attachEvent){
+		   	        iframe.attachEvent("onload", function(){
+		   	            window.parent.$('#myModal5').modal('show');	
+		   	        	$('#loading').modal('hide');
+		   	         });
+		   	    }else{
+		   	        iframe.onload = function(){
+		   	            window.parent.$('#myModal5').modal('show');	
+		   	            $('#loading').modal('hide');
+		   	    	};
+		   	    }		   			    	
+		    }
+		    
+			//查询待审核
+			function loadCheck(){
+				   $.ajax({ url: contextPath+"/tianBao/"+"listCheckByPage", 
+					        data:{page:1, rows:1000,formName:$('#formName').val(),tblx:$('#tblx').val()},
+				            beforeSend:function(){
+				    	       $('#loading').modal('show');
+				   	   },
+				   success: function(data){
+				         //alert(JSON.stringify(data));
+	 		             var datas=eval("("+data+")");  
+		                 var ajaxobj = datas.rows; 
+				         var html ='';
+				         var params="";
+				         var count=0;
+				         if(ajaxobj.length<1){
+				        	 $("#msg").show();
+				        	 $("#table1").hide();
+				         }else{
+				        	 html +="<thead><tr><th>序号</th>	<th>表单名称</th><th>填报类型</th><th>填报周期</th><th>填报级别</th><th>填报区域</th>	<th>到达时间</th><th>操作</th></tr></thead><tbody>";
+				        	 for(var i=0; i <ajaxobj.length;i++){
+					        	 // params="form_id=" + ajaxobj[i].form_id+"&ischeck="+ajaxobj[i].check_edit+"&id="+ajaxobj[i].batch_id+"&processId=" + ajaxobj[i].process_id+"&areaId="+ajaxobj[i].parea_id+"&area="+ajaxobj[i].parea_name+"&tbzq="+ajaxobj[i].report_date;
+					        	 params="formId=" + ajaxobj[i].form_id+"&batchId="+ajaxobj[i].batch_id+"&processId=" + ajaxobj[i].process_id+"&areaId="+ajaxobj[i].parea_id+"&area="+ajaxobj[i].parea_name+"&tbzq="+ajaxobj[i].report_date+"&isCheck=1"+ "&tbzqName="+ajaxobj[i].tbfs;
+					        	 if(ajaxobj[i].period_type == 0){
+					        		 ajaxobj[i].report_date="不限时";
+					        	 }
+					        	 html += '<tr>' +"<td>"+(++count)+"</td>" +'<td>'+ajaxobj[i].form_name+"</td>" +"<td>"+ajaxobj[i].tbfs+"</td>"+"<td>"+ajaxobj[i].report_date+"</td>" 
+					        	           +"<td>"+ajaxobj[i].tbjb+"</td>" +"<td>"+ajaxobj[i].parea_name+"</td>"+"<td>"+ajaxobj[i].dispose_time+"</td>"
+					        	           +"<td>" +"<a class='btn btn-success btn-xs' href='${contextPath}/tianBao/form.action?"+params+"' >审核</a>" 
+					        	           +"<a  class='btn btn-success btn-xs'  onclick=\"openProcess('"+ ajaxobj[i].process_id +"')\"     href='#'>查看流程</a>" +"</td>"+"</tr><tbody>";
+					         }
+				        	 $("#table1").html(html);
+				        	 $("#table1").show();
+				        	 $("#msg").hide();
+				         }
+	 					//console.log(html);
+				      
+				       setTimeout(" $('#loading').modal('hide')", 500 ) ;
+				      }}); 
+			}
+			//查询审核历史
+			function loadDatas(){
+				   $.ajax({ url: contextPath+"/tianBao/"+"listCheckByPage", 
+					        data:{page:nowPage, rows:pageSize,lczt:2,formName:$('#formName').val(),tblx:$('#tblx').val()},
+				            beforeSend:function(){
+				    	       $('#loading').modal('show');
+				   	   },
+				   success: function(data){
+				         //alert(JSON.stringify(data));
+	 		             var datas=eval("("+data+")");  
+		                 var ajaxobj = datas.rows; 
+		                 initPageMsg(datas.total);
+				         var html ='';
+				         var count =(nowPage - 1)*pageSize;
+				         if(ajaxobj.length<1){
+				        	 $("#msg2").show();	
+				        	 $("#table2").hide();
+				        	 $(".page_bar").hide();
+				         }else{
+				        	 html +="<thead><tr><th>序号</th>	<th>表单名称</th><th>填报类型</th><th>填报周期</th><th>填报级别</th><th>填报区域</th>	<th>到达时间</th><th>操作</th></tr></thead><tbody>";
+				        	  for(var i=0; i <ajaxobj.length;i++){
+						        	 count ++;
+						        	 params="formId=" + ajaxobj[i].form_id+"&batchId="+ajaxobj[i].batch_id+"&processId=" + ajaxobj[i].process_id+"&areaId="+ajaxobj[i].parea_id+"&area="+ajaxobj[i].parea_name+"&tbzq="+ajaxobj[i].report_date+ "&tbzqName="+ajaxobj[i].tbfs;
+						        	 if(ajaxobj[i].period_type == 0){
+						        		 ajaxobj[i].report_date="不限时";
+						        	 }
+						        		 html += '<tr>' +"<td>"+count+"</td>" +'<td>'+ajaxobj[i].form_name+"</td>" +"<td>"+ajaxobj[i].tbfs+"</td>"+"<td>"+ajaxobj[i].report_date+"</td>" 
+					        	           +"<td>"+ajaxobj[i].tbjb+"</td>" +"<td>"+ajaxobj[i].parea_name+"</td>"+"<td>"+ajaxobj[i].dispose_time+"</td>"
+					        	           +"<td>" +"<a class='btn btn-success btn-xs' href='${contextPath}/tianBao/form.view?"+params+"' >查看</a>" 
+					        	           +"<a class='btn btn-success btn-xs' onclick=\"openProcess('"+ ajaxobj[i].process_id +"')\"  href='#'>查看流程</a>" +"</td>"+"</tr></tbody>";
+						         }
+				        	  $("#table2").html(html);
+				        	  $("#table2").show();
+				        	  $(".page_bar").show();
+				        	  $("#msg2").hide();
+				         }
+	 					//console.log(html);
+				       
+				       setTimeout(" $('#loading').modal('hide')", 500) ;
+				      }}); 
+			}
+			//初始化分页信息
+			function initPageMsg(total){
+				 totalCount = total;
+	             pageCount = Math.ceil(totalCount/pageSize);
+	             
+	             $("#pageSize").html(pageSize);
+	             $("#totalCount").html(totalCount);
+	             $("#pageCount").html(pageCount);
+	             $("#pageCount2").html(pageCount);
+	             $("#nowPage").val(nowPage);
+	             $("#nowPage2").html(nowPage);
+			}
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+		  <t:listFormHead></t:listFormHead>
+<div class="modal fade" id="loading" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="loading_box row">
+    <div class="col-md-2">
+    <i class="icon-spinner icon-spin" style="font-size:36px;"></i>
+    </div>
+    <div class="col-md-10 loading_box_txt">
+    正在加载中，请稍候...
+    </div>
+    
+    </div>
+			<!-- /.modal-dialog -->
+</div>
+         <div class="paper_head">
+       		<div class="col-md-3 row" style="padding-top:8px;">
+            	<div class="col-md-3">
+                	<span class="icon-paste paperico"></span>
+                </div>
+                <div class="col-md-9">
+                	<p class="lanmu_name">数据审核</p>
+                    <p class="lanmu_memo">查看数据审核</p>
+                </div>
+            </div>
+            <div class="col-md-9 row searchbar" style="display:''">
+            	<div class="col-md-3">
+                  	<small>填写表单名称</small><br>
+					<input class="form-control" type="text" value="" id="formName"
+						name="formName" />
+                </div>
+                <div class="col-md-2">
+                   <div class="dropdown">
+                  	<small>选择填报类型</small><br>
+                    <button class="btn btn-default dropdown-toggle"
+							type="button" id="tblx" name="tblx" data-toggle="dropdown">
+							<span id="span_selected">全部类型</span>
+                    <span class="caret"></span>
+						</button>
+                    <ul class="dropdown-menu" role="menu"
+							aria-labelledby="tblx" id="tblxitem" aria-labelledby="menu1">
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="col-md-1">
+					<br>
+                
+                <button type="button" class="btn btn-success">
+						<span class="icon-search"></span>&nbsp;&nbsp;查询</button>
+                </div>
+
+            </div>
+       </div>
+        
+      <div class="paper_content_box_table">
+          
+          <ul id="tab_title" class="nav nav-tabs " style="margin-bottom:20px;"><!--nav-justified-->
+                      <li class="active"><a data-toggle="tab" href="#tab1" >待审核</a></li>
+                      <li ><a data-toggle="tab" href="#tab2" >审核历史</a></li>
+           </ul>
+        <div id="tab_content" class="tab-content">
+              <div id="tab1"  class="tab-pane in active colortable">
+              <div class="nomsg" id="msg" style="display:none"><span class="ico icon-paste"></span>暂无待审核数据！</div>
+				 <table id="table1" class="table table-striped table-bordered table-hover">
+	
+							   
+						</tbody>
+                   </table>
+			</div>
+             <div  id="tab2"  class="tab-pane fade">
+             <div class="nomsg" id="msg2" style="display:none"><span class="ico icon-paste"></span>暂无审核历史记录！</div>
+				<table id="table2" class="table table-striped table-bordered table-hover">
+					<%-- <thead>
+						<tr>
+						    <th>序号</th>
+							<th>表单名称</th>
+							<th>填报类型</th>
+							<th>填报周期</th>
+							<th>填报级别</th>
+							<th>填报区域</th>
+							<th>到达时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>	   
+					</tbody> --%>
+				</table>
+				<t:pageBarFront></t:pageBarFront>
+		   </div>
+        </div>
+     </div> 
+        
+	  <t:listFormFooter></t:listFormFooter>
+	</jsp:body>
+</t:form>

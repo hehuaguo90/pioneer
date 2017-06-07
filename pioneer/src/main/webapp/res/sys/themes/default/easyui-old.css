@@ -1,0 +1,441 @@
+@CHARSET "UTF-8";
+
+.panel-title {
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	height: 16px;
+	line-height: 16px;
+	margin: 5px 0px 0px 5px;
+}
+
+.window {
+	padding: 0px;
+}
+
+.window .window-header .panel-tool {
+	right: 5px;
+}
+
+.window-shadow {
+	background: transparent;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	filter: none;
+}
+
+.window .window-body {
+	border-color: #6dc3a4;
+}
+
+.window {
+	background-image: url('images/windowtitlebg.png')!important;
+	background-repeat: repeat-x;
+}
+
+#searchbar .l-btn {
+	background: url('images/btn_green_out.png') !important;
+	color: #fff;
+	border: none;
+	padding: 0 4px 0 4px;
+	height: 28px;
+	line-height: 28px;
+	-moz-border-radius: 0px 0px 0px 0px;
+	-webkit-border-radius: 0px 0px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
+}
+
+#searchbar .l-btn:hover {
+	background: url('images/btn_green_over.png') !important;
+	color: #fff;
+	border: none;
+}
+
+#operator .l-btn {
+	background: url('images/btn_green_out.png') !important;
+	color: #fff;
+	border: none;
+	padding: 0 4px 0 4px;
+	height: 24px;
+	line-height: 24px;
+	-moz-border-radius: 0px 0px 0px 0px;
+	-webkit-border-radius: 0px 0px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
+}
+
+#operator .l-btn:hover {
+	background: url('images/btn_green_over.png') !important;
+	color: #fff;
+	border: none;
+}
+
+.textbox {
+	-moz-border-radius: 0px 0px 0px 0px;
+	-webkit-border-radius: 0px 0px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
+	height:20px;
+	line-height:20px;
+}
+
+.tabs li a.tabs-inner {
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+
+.tabs li.tabs-selected a.tabs-inner {
+	color: #ffffff;
+	background-color: #e1e1e1;
+	background: url('images/tab_on.png') left bottom;
+	border-top: 1px;
+	filter: none;
+}
+
+.tabs li.tabs-selected a.tabs-close {
+	background: url('images/tabs_icons.png') no-repeat -47px center;
+}
+
+.tabs li a.tabs-inner {
+	color: #1383b2;
+	background: url('images/tab_bg.png') left bottom;
+	background-color: #e1e1e1;
+	border-top: 2px solid #07ac8f;
+}
+
+.tabs li a.tabs-inner {
+	height: 24px !important;
+}
+
+.tabs-header-plain {
+	background: transparent;
+}
+
+.tabs-header, .tabs-scroller-left, .tabs-scroller-right, .tabs-tool,
+	.tabs, .tabs-panels, .tabs li a.tabs-inner, .tabs li.tabs-selected a.tabs-inner,
+	.tabs-header-bottom .tabs li.tabs-selected a.tabs-inner,
+	.tabs-header-left .tabs li.tabs-selected a.tabs-inner,
+	.tabs-header-right .tabs li.tabs-selected a.tabs-inner {
+	border-color: #28b3e2;
+}
+
+.tabs li.tabs-selected a.tabs-inner {
+	border-bottom: none;
+	height: 26px !important;
+}
+
+.messager-button .l-btn {
+	background: url('images/btn_green_out.png') !important;
+	color: #fff;
+	border: none;
+	padding: 0 4px 0 4px;
+	height: 24px;
+	line-height: 24px;
+	-moz-border-radius: 0px 0px 0px 0px;
+	-webkit-border-radius: 0px 0px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
+}
+
+.messager-button .l-btn:hover {
+	background: url('images/btn_green_over.png') !important;
+	color: #fff;
+	border: none;
+}
+
+.tabs-header, .tabs-tool {
+	background-color: #e9f8ff !important;
+}
+
+.tabs li a.tabs-close {
+	background: rgba(0, 0, 0, 0) url("images/tabs_icons.png") no-repeat
+		scroll -34px center !important;
+}
+
+.window-proxy-mask, .window-mask {
+	background: #444444 none repeat scroll 0 0;
+}
+
+.window-shadow {
+	display: none !important;
+}
+
+.datagrid-header td, .datagrid-body td, .datagrid-footer td {
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+	margin: 0;
+	padding: 0;
+}
+
+.datagrid-header {
+	background: none;
+	filter: none;
+	background-color: #2ab2e1;
+	background: url('images/listtitlebg.png') repeat-x left bottom;
+	color:#fff;
+	height:32px!important;
+	/*line-height:32px;*/
+	font-weight:bold;
+}
+.datagrid-header .datagrid-htable td{height:32px!important;border-color:#1e9ace;}
+.datagrid-row-alt {
+	background: #e7f7fe none repeat scroll 0 0;
+}
+
+.panel-header, .panel-body {
+	border-color: #cdcdcd;
+}
+.datagrid-row {
+        height: 32px;
+    }
+#leftSide {
+	background: #c9eaf8;
+}
+#leftSide .panel-body {
+    background-color: #000;
+    color: #000000;
+    font-size: 12px;
+}
+.datagrid .panel-body {
+    border-color: #a8e2f8!important;
+}
+.datagrid-row-over {
+	background: #effff3;
+	color: #000000;
+	cursor: default;
+}
+
+.datagrid-row-selected {
+	background: #fff3ca none repeat scroll 0 0;
+	color: #000000;
+}
+
+.window .window-body {
+	border-color: #29b1e1;
+	background-color:#fff;
+}
+.window{
+	border-color: #29b1e1;
+	background-color:#29b1e1;
+	filter:none!important;
+}
+
+.datagrid-header td.datagrid-header-over {
+	background-color: #2ab2e1;
+	background: url('images/listtitlebg.png') repeat-x left bottom;
+	color: #fff;
+	cursor: default;
+}
+
+.datagrid-td-rownumber {
+	background: none;
+}
+
+.datagrid-sort-asc .datagrid-sort-icon {
+	background: rgba(0, 0, 0, 0) url("images/datagrid_icons.png") no-repeat
+		scroll 0 center;
+	display: inline;
+	padding: 0 13px 0 0;
+}
+
+.datagrid-sort-desc .datagrid-sort-icon {
+	background: rgba(0, 0, 0, 0) url("images/datagrid_icons.png") no-repeat
+		scroll -16px center;
+	display: inline;
+	padding: 0 13px 0 0;
+}
+
+.tabs-scroller-left {
+	background: #e9f8ff url("images/tabs_icons.png") no-repeat scroll 1px
+		center;
+}
+
+.tabs-scroller-right {
+	background: #e9f8ff url("images/tabs_icons.png") no-repeat scroll -15px
+		center;
+}
+
+.tabs-scroller-right {
+	right: 0;
+}
+
+.tabs li a.tabs-inner:hover {
+	filter: none;
+}
+
+.tabs li.tabs-selected a.tabs-close {
+	background: url('images/tabs_icons.png') no-repeat -47px center
+		!important;
+}
+
+.panel-header {
+	background-color: #F4F4F4;
+	background: -webkit-linear-gradient(top, #F4F4F4 0, #F4F4F4 100%);
+	background: -moz-linear-gradient(top, #F4F4F4 0, #F4F4F4 100%);
+	background: -o-linear-gradient(top, #F4F4F4 0, #F4F4F4 100%);
+	background: linear-gradient(to bottom, #F4F4F4 0, #F4F4F4 100%);
+	background-repeat: repeat-x;
+	filter: none;
+	
+}
+
+.window .panel-header {
+	filter: none;
+	
+}
+
+.datagrid .panel-header .panel-title {
+	color: #000;
+}
+
+.window, .window-shadow {
+	border-radius: 0px;
+}
+
+.l-btn {
+	filter: none;
+}
+
+#searchbar .easyui-linkbutton[iconCls="icon-search"], #operator .easyui-linkbutton:first-child,
+	.messager-button .l-btn:first-child {
+	background: url('images/btn_orange_out.png') repeat-x left bottom
+		!important;
+}
+
+#searchbar .easyui-linkbutton[iconCls="icon-search"]:hover, #operator .easyui-linkbutton:first-child:hover,
+	.messager-button .l-btn:first-child:hover {
+	background: url('images/btn_orange_over.png') repeat-x left bottom
+		!important;
+}
+.datagrid-htable {
+	color: #fff;
+	border-collapse: separate;	
+}
+.datagrid-header, .datagrid-toolbar, .datagrid-pager, .datagrid-footer-inner {
+    border-color: #98ddf7;
+}
+.datagrid-toolbar{height:35px!important;line-height:35px!important;}
+.datagrid-toolbar{background: #e7f7fe none repeat scroll 0 0;}
+ .datagrid-pager {
+    background: #f4f4f4 none repeat scroll 0 0;
+    height:35px;line-height:35px;
+}
+.datagrid-body td {
+    border-color: #a8e2f8;
+}
+.datagrid-toolbar .l-btn-plain {
+    background-color:#fff;
+    border-width: 1px!important;
+    border-color:#28afe0!important;
+    filter: none;
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #ffffff 0px, #ffffff 100%) repeat-x scroll 0 0;
+}
+.icon-qy{
+	background:url('images/qy.gif') no-repeat center center;
+}
+.icon-ty{
+	background:url('images/ty.gif') no-repeat center center;
+}
+.icon-excel{
+	background:url('images/excel_small.png') no-repeat center center;
+}
+.icon-excel-mb{
+	background:url('images/excel_small2.png') no-repeat center center;
+}
+
+.buttonA {
+    height: 21px;
+    line-height: 21px;
+    padding: 0 4px;
+    background: #02bafa;
+    border: 1px #26bbdb solid;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 12px;
+    outline: none;
+    margin: 0px 1px 0px 0px!important;
+}
+
+.default_form_input  input{width:200px!important;}
+.default_form_input  textarea{width:200px!important;}
+.default_form_input  select{width:200px!important;}
+.default_form_input  .textbox{width:200px!important;}
+
+.default_form_input  input[type=radio]{width: auto!important;}
+
+.width_3{width:150px;}
+.width_4{width:200px;}
+.width_5{width:250px;}
+.width_6{width:300px;}
+
+.icon-sjy{/*数据源*/
+	background:url('images/071.gif') no-repeat center center;
+}
+.icon-sjj{/*数据集*/
+	background:url('images/093.gif') no-repeat center center;
+}
+.icon-zd{/*字段*/
+	background:url('images/108.gif') no-repeat center center;
+}
+.icon-zb{/*指标*/
+	background:url('images/012.gif') no-repeat center center;
+}
+.icon-bb{/*报表*/
+	background:url('images/304.gif') no-repeat center center;
+}
+.icon-goup{/*报表*/
+	background:url('images/sign_out.png') no-repeat center center;
+}
+.icon-godown{/*报表*/
+	background:url('images/sign_in.png') no-repeat center center;
+}
+.icon-fabutuijian{/*推荐*/
+	background:url('images/202.gif') no-repeat center center;
+}
+.icon-tingyongtuijian{/*停荐*/
+	background:url('images/201.gif') no-repeat center center;
+}
+.chart_simple{/*图表单元*/
+	background:url('images/chart_simple.png') no-repeat center center;
+}
+#searchIndex .easyui-linkbutton[iconCls="icon-search"]{
+    background: url('images/btn_orange_out.png') repeat-x left bottom !important;
+    color:#fff;
+    border:none!important;
+    line-height:28px!important;
+    border-radius: 3px;
+    height:28px!important;
+      margin:0;
+      padding:0px 6px;
+}
+#searchIndex .easyui-linkbutton[iconCls="icon-search"]:hover{
+    background: url('images/btn_orange_over.png') repeat-x left bottom !important;
+    color:#fff;
+    border:none!important;
+    line-height:28px!important;
+    border-radius: 3px;
+    height:28px!important;
+      margin:0;
+      padding:0px 6px;
+}
+#searchIndex .easyui-linkbutton[iconCls="icon-reload"]{
+    background: url('images/btn_orange_out.png') repeat-x left bottom !important;
+    color:#fff;
+    border:none!important;
+    line-height:28px!important;
+    border-radius: 3px;
+    height:28px!important;
+      margin:0;
+      padding:0px 6px;
+}
+#searchIndex .easyui-linkbutton[iconCls="icon-reload"]:hover{
+    background: url('images/btn_orange_over.png') repeat-x left bottom !important;
+    color:#fff;
+    border:none!important;
+    line-height:28px!important;
+    border-radius: 3px;
+    height:28px!important;
+      margin:0;
+      padding:0px 6px;
+}

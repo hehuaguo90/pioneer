@@ -1,0 +1,248 @@
+package com.tfrd.bdas.module.tSysRight.service.impl;
+
+import javax.annotation.Resource;
+
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.tfrd.common.utils.NStringUtil;
+import com.tfrd.common.utils.TreeModel;
+import com.tfrd.bdas.module.tSysRight.service.TSysRightService;
+import com.tfrd.bdas.module.tSysRight.dao.TSysRightDao;
+import com.tfrd.bdas.module.tSysRight.model.TSysRightModel;
+import com.tfrd.bdas.module.tSysRoleRight.dao.TSysRoleRightDao;
+import com.tfrd.bdas.module.tSysUser.model.TSysUserModel;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* 数据服务层接口实现。
+* TABLE CODE:	t_sys_right;
+* TABLE NAME:	
+* TABLE REMARK:	权限信息
+* code tools version V1.0,created on Fri Dec 02 11:48:35 CST 2016
+*/
+@Service(value="TSysRightServiceImpl")
+@Scope("prototype")
+public class TSysRightServiceImpl implements TSysRightService{
+    @Autowired
+    private TSysRightDao tSysRightDao;
+    @Autowired
+    private TSysRoleRightDao tSysRoleRightDao;
+
+    Logger log4j = Logger.getLogger(TSysRightServiceImpl.class);
+
+    public List listBean(PageBounds page, Map    <String, Object> params)
+    {
+        return tSysRightDao.listBean(page,params);
+    }
+
+    public List listBean(Map<String, Object> params)
+    {
+        return tSysRightDao.listBean(params);
+    }
+    public List listMap(PageBounds page, Map<String, Object> params) {
+
+        return tSysRightDao.listMap(page,params);
+
+    }
+    public List listMap(Map<String, Object> params) {
+
+        return tSysRightDao.listMap(params);
+
+    }
+
+    public int save(TSysRightModel o) {
+
+        return tSysRightDao.save(o);
+
+    }
+
+    @Transactional("dbTransaction")
+    public int save(List<TSysRightModel> list) {
+
+        for (TSysRightModel item : list)
+        save(item);
+        return list.size();
+    }
+
+    public Map getBeanMapById(TSysRightModel o)
+    {
+        return tSysRightDao.getBeanMapById(o);
+    }
+
+    public TSysRightModel getBeanById(TSysRightModel o) {
+
+
+        return tSysRightDao.getBeanById(o);
+
+    }
+
+    public boolean update(TSysRightModel o) {
+        tSysRightDao.update(o);
+
+        return true;
+    }
+
+    public String delete(TSysRightModel[] items) {
+        for(int i=0;items!=null&&i<items.length;i++){
+        	Map<String, Object> params = new HashMap<String, Object>();
+        	params.put("pid", items[i].getRightId());
+        	List<Map<String, Object>> list =  tSysRightDao.listMap(params);
+        	if (list.size()>0) {
+        		String names = "";
+        		for (int j = 0; j < list.size(); j++) {
+					names+=list.get(j).get("rightName");
+					if (j<list.size()-1) {
+						names+=",";
+					}
+				}
+        		return  items[i].getRightName()+"已被子节点关联：["+names+"],不允许删除";
+			}
+        }
+        for(int i=0;items!=null&&i<items.length;i++){
+        	Map<String, Object> params = new HashMap<String, Object>();
+        	params.put("rightId", items[i].getRightId());
+        	List<Map<String, Object>> list =  tSysRoleRightDao.listMapByRightId(params);
+        	if (list.size()>0) {
+        		String names = "";
+        		for (int j = 0; j < list.size(); j++) {
+					names+=list.get(j).get("roleName");
+					if (j<list.size()-1) {
+						names+=",";
+					}
+				}
+        		return  items[i].getRightName()+"已被角色关联：["+names+"],不允许删除";
+			}
+        }
+        
+        for(int i=0;items!=null&&i<items.length;i++){
+    	tSysRightDao.delete(items[i]);
+        }
+        return "";
+    }
+    
+	@Override
+	public List getTreeGrid(String node, String rightName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		if(!StringUtils.isBlank(rightName)){
+			params.put("rightName", "%" + rightName.trim() + "%");
+			node = null;
+		}
+
+		List<Map<String,Object>> list = (List<Map<String,Object>>)tSysRightDao.listMap(params);
+        List<TreeModel> listTree = buildTreeGrid(node, list);
+        return listTree;
+	}
+	
+	private List<TreeModel> buildTreeGrid(String node, List<Map<String,Object>> list) {
+	     List<TreeModel> listTree = new ArrayList<TreeModel>();
+	     if(node != null){
+	    	 for(Map<String, Object> item : list){
+	    		 if((item.get("pid")).equals(node)){ 
+	    			 TreeModel treeItem = new TreeModel();
+	    			 treeItem.setId(item.get("rightId").toString());
+	    			 treeItem.setText(NStringUtil.changeHtmlString(item.get("rightName").toString()));
+	    			 if(item.get("rightUrl") != null){
+	    				 treeItem.setHref(item.get("rightUrl").toString());
+	    			 }
+	    			 if(item.get("remark") != null){
+	    				 treeItem.setRemark(item.get("remark").toString());
+	    			 }
+	    			 treeItem.setOrder(Integer.parseInt(item.get("showOrder").toString()));
+	    			 treeItem.setType((item.get("typeName").toString()));
+	    			 treeItem.setChildren(buildTreeGrid(treeItem.getId(), list));
+	    			 treeItem.setState("open");
+	    			 treeItem.setLogoUrl(item.get("logoUrl"));
+	    			 listTree.add(treeItem);
+	    		 }
+	    	 }
+	     }else{
+	    	 for(Map<String, Object> item : list){
+	    			 TreeModel treeItem = new TreeModel();
+	    			 treeItem.setId(item.get("rightId").toString());
+	    			 treeItem.setText(NStringUtil.changeHtmlString(item.get("rightName").toString()));
+	    			 if(item.get("rightUrl") != null){
+	    				 treeItem.setHref(item.get("rightUrl").toString());
+	    			 }
+	    			 if(item.get("remark") != null){
+	    				 treeItem.setRemark(item.get("remark").toString());
+	    			 }
+	    			 treeItem.setType((item.get("typeName").toString()));
+	    			 treeItem.setOrder( Integer.parseInt(item.get("showOrder").toString()));
+	    			 listTree.add(treeItem);
+	    	 } 
+	     }
+	    return listTree;
+	}
+	
+	@Override
+    public String getRightTree() {
+		JSONArray tree = new JSONArray();
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<Map<String, Object>> list = tSysRightDao.listMap(params);
+
+		if (list == null ) {
+			tree.toString();
+		}
+		getTree(list, "0", tree);
+		return tree.toString();
+	}
+   
+	//树形结构
+	private JSONArray getTree(List<Map<String, Object>> arealist, String pid, JSONArray tree) {
+		for (Map<String, Object> p : arealist) {
+			if (pid.equals(p.get("pid"))) {
+				String id = p.get("rightId").toString();
+				JSONObject pt = new JSONObject();
+				pt.put("id", id);
+				pt.put("text", p.get("rightName"));
+				
+				JSONArray arr = new JSONArray();
+				getTree(arealist, id, arr);//递归查询子节点
+				if(!arr.isEmpty()){
+					pt.put("children", arr);
+				}
+				
+				tree.add(pt);
+			}
+
+		}
+		return tree;
+	}
+	
+	public List getTree(String node){
+    	Map<String, Object> params = new HashMap<String, Object>();
+        List<TSysRightModel> list = (List<TSysRightModel>)tSysRightDao.listBean(null);
+        List<TreeModel> listTree = buildTree(node, list);
+        return listTree;
+    }
+
+    private List<TreeModel> buildTree(String node, List<TSysRightModel> list) {
+        List<TreeModel> listTree = new ArrayList<TreeModel>();
+        for(TSysRightModel item:list){
+            if((item.getPid()).equals(node)){
+                TreeModel treeItem = new TreeModel();
+                treeItem.setId(item.getRightId());
+                treeItem.setText(item.getRightName());
+                treeItem.setHref(item.getRightUrl());
+                treeItem.setOrder(item.getShowOrder());
+                treeItem.setChildren(buildTree(treeItem.getId()+"",list));
+                listTree.add(treeItem);
+            }
+        }
+        return listTree;
+    }
+}

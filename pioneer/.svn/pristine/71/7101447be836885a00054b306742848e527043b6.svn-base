@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+#loading {
+	display: block;
+}
+
+#loading .datagrid-mask-msg {
+	display: block;
+	width: 70px;
+	left: 50%;
+	margin-left: -55px;
+}

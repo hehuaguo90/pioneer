@@ -1,0 +1,1255 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var formId = "${formId}" || "${param.formId}";
+				var processId = "${processId}" || "${param.processId}";
+				initValidateInfo(formId, processId);//formId, processId
+				var area = "${area}";
+				
+				$('#span_area').html(area);
+				//$('#tbqyid').val(${areaId});
+				$('#span_tbzq').html("${tbzq}"== '' ? "${param.tbzq}" : "${tbzq}");
+				var param =  "id=${batchId}&formId=${formId}";
+				if(param){//如果存在查询条件，加载数据
+					page.send({
+		                url : contextPath + "/tianBao/form.load/?" + param
+	                }).then(function(data) {
+	                    //  item = kernel.json.parse(data);
+	                    page.loadForm({data:data });
+	                });
+					page.send({
+						url : contextPath+ "/tXmZgzqk/load/?"+ param
+					}).then(function(data) {
+						//alert(JSON.stringify(data));
+						//alert(data[0].pzmc);
+						if(data!=null){
+							for(var i=0;i<data.length;i++){
+								index++;
+								loadZgzqk(i,data);
+							}
+						}
+					});
+					page.send({
+						url : contextPath+ "/tXmZgzzyqsb/load/?"+ param
+					}).then(function(data) {
+						if(data!=null){
+							for(var i=0;i<data.length;i++){
+								rowId++;
+								loadYqsb(i,data);
+							}
+						}
+					});
+				}
+				$("#jcsj").daterangepicker({
+					singleDatePicker: true,
+					showDropdowns: true,
+			        startDate: moment(),   
+			        locale : {
+							 format: 'YYYY-MM-DD'
+                        } 
+					});
+			});
+			page.url = $(window.parent.document).find(".active a").attr("href");
+			
+			function loadZgzqk(i,data){
+				var trs = $('.mytr');
+				var tr=$(trs[trs.length-1]);
+				var newtr = tr.clone(true);
+				newtr.attr("id",index);
+				 newtr.find("input").each(function(i){
+			            $(this).val("");
+			        });
+		 		var inputs = newtr.find("input");
+				$(inputs[1]).attr("id","pzmc"+index);
+				$(inputs[2]).attr("id","ly"+index);
+				$(inputs[3]).attr("id","cngz"+index);
+				$(inputs[4]).attr("id","hbgz"+index);
+				$(inputs[5]).attr("id","cdgz"+index);
+				$(inputs[6]).attr("id","jyscl"+index);
+				$(inputs[7]).attr("id","jyxsl"+index);
+		 		//alert(data[i].cngz);
+				for(var key in data[i]){
+		 			for(var j = 0;j < inputs.length; j++){
+		 				
+		 				if(key == inputs[j].name){
+		 					//alert(key+data[i][key]);
+		 					if(typeof(data[i][key])!="undefined"){
+		 						inputs[j].value = data[i][key];
+			 					//alert(inputs[j].name);
+			 					
+		 					}
+		 					break;
+		 				}
+		 			}
+			     }
+				tr.after(newtr);
+				if(i==data.length-1){
+					$(trs[0]).remove();
+				}
+			}
+			
+			function loadYqsb(i,data){
+				var trs = $('.yqsb');
+				var tr=$(trs[trs.length-1]);
+				var newtr = tr.clone(true);
+				newtr.attr("id",rowId);
+				 newtr.find("input").each(function(i){
+			            $(this).val("");
+			        });
+		 		var inputs = newtr.find("input");
+				$(inputs[1]).attr("id","sbmc"+rowId);
+				$(inputs[2]).attr("id","xh"+rowId);
+				$(inputs[3]).attr("id","sl"+rowId);
+				$(inputs[4]).attr("id","sycs"+rowId);
+		 		//alert(data[i].cngz);
+				for(var key in data[i]){
+		 			for(var j = 0;j < inputs.length; j++){
+		 				
+		 				if(key == inputs[j].name){
+		 					//alert(key+data[i][key]);
+		 					if(typeof(data[i][key])!="undefined"){
+		 						inputs[j].value = data[i][key];
+			 					//alert(inputs[j].name);
+			 					
+		 					}
+		 					break;
+		 				}
+		 			}
+			     }
+				tr.after(newtr);
+				if(i==data.length-1){
+					$(trs[0]).remove();
+				}
+			}
+			//添加一行数据
+			var index = 0;
+			function addOneRow(){
+				index++;
+				var trs = $('.mytr');
+				var tr=$(trs[trs.length-1]);
+				var newtr = tr.clone(true);
+				var inputs = newtr.find("input");
+				newtr.attr("id",index);
+				$(inputs[1]).attr("id","pzmc"+index);
+				$(inputs[2]).attr("id","ly"+index);
+				$(inputs[3]).attr("id","cngz"+index);
+				$(inputs[4]).attr("id","hbgz"+index);
+				$(inputs[5]).attr("id","cdgz"+index);
+				$(inputs[6]).attr("id","jyscl"+index);
+				$(inputs[7]).attr("id","jyxsl"+index);
+				//newtr.find(":input")[0].html('<span class="icon-plus"></span>');
+			    newtr.find("input").each(function(i){
+		            $(this).val("");
+		            $(this).removeClass("error");
+		        });
+			    newtr.find("[name='ckb']").removeAttr("checked");//取消选中
+				
+				tr.after(newtr); 
+			}
+			
+			  //删除
+			 function delTr(){
+				 var trs = $('.mytr');
+				 //获取选中的复选框，然后循环遍历删除
+				 var ckbs=$("input[name=ckb]:checked");
+				 if(ckbs.size()==0){
+				     //alert("要删除指定行，需选中要删除的行！");
+				     $('#delInfo').modal('show');
+				     return;
+				 }
+				 if(ckbs.size()==trs.length){
+					$('#delInfo2').modal('show');
+				    return;
+				 }
+				  ckbs.each(function(){
+				  $(this).parent().parent().remove();
+				  });
+				 }
+			
+		    var rowId = 0;
+			function addYqsb(){
+				rowId++;
+				var trs = $('.yqsb');
+				var tr=$(trs[trs.length-1]);
+				var newtr = tr.clone(true);
+				var inputs = newtr.find("input");
+				newtr.attr("id",rowId);
+				$(inputs[1]).attr("id","sbmc"+rowId);
+				$(inputs[2]).attr("id","xh"+rowId);
+				$(inputs[3]).attr("id","sl"+rowId);
+				$(inputs[4]).attr("id","sycs"+rowId);
+			    newtr.find(":input").each(function(i){
+		            $(this).val("");
+		            $(this).removeClass("error");
+		        });
+			    newtr.find("[name='ckb2']").removeAttr("checked");//取消选中
+				tr.after(newtr); 
+			}
+			
+			 function delYqsb(){
+				 var trs = $('.yqsb');
+				 //获取选中的复选框，然后循环遍历删除
+				 var ckbs=$("input[name=ckb2]:checked");
+				 if(ckbs.size()==0){
+				    $('#delInfo').modal('show');
+				     return;
+				 }
+				 if(ckbs.size()==trs.length){
+					$('#delInfo2').modal('show');
+				    return;
+				 }
+				  ckbs.each(function(){
+				  $(this).parent().parent().remove();
+				  });
+				 }
+			 function validateZgzzdj(){
+				 $("input").each(function(i){
+			            $(this).removeClass("error");
+			        });
+				 var showMsg = "";
+				 var reg = /^([1-9]\d{0,9}|0)?$/; //正则验证是否为合理整数
+				 //alert($("input[name=cngz]").length);
+				 var cngzs = $("input[name=cngz]");
+				 var hbgzs = $("input[name=hbgz]");
+				 var cdgzs = $("input[name=cdgz]");
+				 var jyscls = $("input[name=jyscl]");
+				 var jyxsls = $("input[name=jyxsl]");
+				 var sls = $("input[name=sl]");
+				 var i = 0;
+				 var j;
+				 for(j = 0;j < cngzs.length; j++){
+					 if(!reg.test(cngzs[j].value)){
+						 i++;
+						 var key = $(cngzs[j]).attr("id");
+						 $("#" + key).addClass("error");
+						   showMsg += '<p class="text-danger" onclick="locationErr(\'' + key + '\', this)">' + i + "、" + "成年公猪" + "，" + "请输入合理正整数！" + "</p>";
+					    } 
+				 }
+				 for(j = 0;j < hbgzs.length; j++){
+					 if(!reg.test(hbgzs[j].value)){
+						 i++;
+						 var key = $(hbgzs[j]).attr("id");
+						 $("#" + key).addClass("error");
+						   showMsg += '<p class="text-danger" onclick="locationErr(\'' + key + '\', this)">' + i + "、" + "后备公猪" + "，" + "请输入合理正整数！" + "</p>";
+					    } 
+				 }
+				 for(j = 0;j < cdgzs.length; j++){
+					 if(!reg.test(cdgzs[j].value)){
+						 i++;
+						 var key = $(cdgzs[j]).attr("id");
+						 $("#" + key).addClass("error");
+						   showMsg += '<p class="text-danger" onclick="locationErr(\'' + key + '\', this)">' + i + "、" + "测定公猪" + "，" + "请输入合理正整数！" + "</p>";
+					    } 
+				 }
+				 for(j = 0;j < jyscls.length; j++){
+					 if(!reg.test(jyscls[j].value)){
+						 i++;
+						 var key = $(jyscls[j]).attr("id");
+						 $("#" + key).addClass("error");
+						   showMsg += '<p class="text-danger" onclick="locationErr(\'' + key + '\', this)">' + i + "、" + "精液生产量" + "，" + "请输入合理正整数！" + "</p>";
+					    } 
+				 }
+				 for(j = 0;j < jyxsls.length; j++){
+					 if(!reg.test(jyxsls[j].value)){
+						 i++;
+						 var key = $(jyxsls[j]).attr("id");
+						 $("#" + key).addClass("error");
+						   showMsg += '<p class="text-danger" onclick="locationErr(\'' + key + '\', this)">' + i + "、" + "精液销售量" + "，" + "请输入合理正整数！" + "</p>";
+					    } 
+				 }
+				 for(j = 0;j < sls.length; j++){
+					 if(!reg.test(sls[j].value)){
+						 i++;
+						 var key = $(sls[j]).attr("id");
+						 $("#" + key).addClass("error");
+						   showMsg += '<p class="text-danger" onclick="locationErr(\'' + key + '\', this)">' + i + "、" + "数量" + "，" + "请输入合理正整数！" + "</p>";
+					    } 
+				 }
+				 var nomsg = '<div class="nomsg"><span class="ico icon-coffee"></span>暂无验证信息！</div>';
+				 if(showMsg){
+					   $("#form_check_msg").html(showMsg);
+					   $("#form_check_msg").show();
+					   showErrMsg();
+					   return false;
+				   }else{
+					   $("#form_check_msg").html(nomsg);
+					   return true;
+				   }
+				   
+			 }
+				
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	<t:formEditHead></t:formEditHead>
+	<!-- 提示弹出框 -->
+	<div class="modal fade" id="delInfo" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true" style="top:30%">
+		<div class="modal-dialog" style="width:400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" id="btn_close"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">提示信息</h4>
+				</div>
+			 	<div id = "alertId" class="modal-body" >
+				   <div class="alert alert-warning">请选中要删除的行！</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"  data-dismiss="modal">关闭
+					</button>
+				</div>
+				
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+		<div class="modal fade" id="delInfo2" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true" style="top:30%">
+		<div class="modal-dialog" style="width:400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" id="btn_close"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">提示信息</h4>
+				</div>
+			 	<div id = "alertId" class="modal-body" >
+				   <div class="alert alert-warning">请至少保留一行！</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"  data-dismiss="modal">关闭
+					</button>
+				</div>
+				
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<form method="post" action="${contextPath}/tianBao/form.edit">
+	<div id="zqAndArea"><span>填报周期：</span><span>${tbzq_}</span><c:set value="0" var="index" />
+	<c:if test="${login.areaLevel !=  5 }">
+	<span style="margin: 0px 0px 0px 68px">填报地区：</span><span>${area_}</span>
+	 <input type="hidden" id="tbzq" name="tbzq" value="${tbzq}">
+	 <input type="hidden" id="form_id" name="form_id" value="${formId}">
+	 <input type="hidden" id="tbqyid" name="tbqyid" value="${areaId}">
+	 <input type="hidden" id="tbrid" name="tbrid" value="${tbrid}">
+ 				 
+	</c:if>
+	</div>
+        <table width="100%" style="border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;">
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             种公猪站登记
+        </td>
+    </tr>
+    <tr height="24" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:140;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             基&nbsp;&nbsp;本&nbsp;&nbsp;情&nbsp;&nbsp;况
+        </td>
+    </tr>
+    <tr height="21" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             单位名称
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="dwmc" name="dwmc" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             经济性质*
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="jjxz" name="jjxz" class="form_input" >
+        </td>
+    </tr>
+    <tr height="21" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             法人代表
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="frdb" name="frdb" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             联系电话
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="lxdh" name="lxdh" class="form_input" >
+        </td>
+    </tr>
+    <tr height="21" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             传&nbsp;&nbsp;&nbsp;&nbsp;真
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="cz" name="cz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             电子邮箱
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="dzyx" name="dzyx" class="form_input" >
+        </td>
+    </tr>
+    <tr height="20" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             注册地址
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="zcdz" name="zcdz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             邮&nbsp;&nbsp;&nbsp;&nbsp;编
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="yb" name="yb" class="form_input" >
+        </td>
+    </tr>
+    <tr height="21" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             建场时间
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<div id="time" class="input-prepend input-group">
+			   <span class="add-on input-group-addon"><i
+					class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+				</span><input type="text" readonly "
+					id="jcsj" name="jcsj" class="form-control form_input" 
+					 >
+			 </div>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             员工人数
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="ygrs" name="ygrs" class="form_input" >
+        </td>
+    </tr>
+    <tr height="21" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             总&nbsp;投&nbsp;资
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="ztz" name="ztz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             年总产值
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="nzcz" name="nzcz" class="form_input" >
+        </td>
+    </tr>
+    <tr height="21" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             占地面积
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="zdmj" name="zdmj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             建筑面积
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="jzmj" name="jzmj" class="form_input" >
+        </td>
+    </tr>
+    <tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             《种畜禽生产经营许可证》发放情况
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="5" rowspan="1"  >
+
+             发证单位
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+             编&nbsp;&nbsp;&nbsp;&nbsp;号
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+             有&nbsp;效&nbsp;期
+        </td>
+    </tr>
+    <tr height="20" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="5" rowspan="1"  >
+
+			<input id="fzdw" name="fzdw" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+			<input id="bh" name="bh" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="yxq" name="yxq" class="form_input" >
+        </td>
+    </tr>
+    <tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             人员构成
+        </td>
+    </tr>
+    <tr height="20" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+             总 计
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="157" colspan="1" rowspan="1"  >
+
+             本科以上
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             大专
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="157" colspan="1" rowspan="1"  >
+
+             中专
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             中级以上职称
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="76" colspan="1" rowspan="1"  >
+
+             其他
+        </td>
+    </tr>
+    <tr height="20" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+			<input id="rygczj" name="rygczj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="bkys" name="bkys" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+			<input id="dz" name="dz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="zz" name="zz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="zjyszc" name="zjyszc" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="76" colspan="1" rowspan="1"  >
+
+			<input id="qt" name="qt" class="form_input" >
+        </td>
+    </tr>
+    <tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+             主要机构设置
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="157" colspan="1" rowspan="1"  >
+
+             生产
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             检测
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             兽医
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             人工授精
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="76" colspan="1" rowspan="1"  >
+
+             其他
+        </td>
+    </tr>
+    <tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="4" rowspan="1"  >
+
+             人数
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="scrs" name="scrs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+			<input id="jcrs" name="jcrs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="syrs" name="syrs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="rgsjrs" name="rgsjrs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="76" colspan="1" rowspan="1"  >
+
+			<input id="qtrs" name="qtrs" class="form_input" >
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             种公猪情况
+        </td>
+    </tr>
+    <tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="2"  >
+
+             品 种
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="2"  >
+
+             来 源**
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="4" rowspan="1"  >
+
+             公猪（头）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+             精液产量(瓶)
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             成年
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             后备
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+             测定公猪
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="120" colspan="1" rowspan="1"  >
+
+             生产量
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="120" colspan="1" rowspan="1"  >
+
+             销售量
+        </td>
+    </tr>
+     <tr height="20" class="mytr" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+     <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+             <input id="ckb" name="ckb" type="checkbox" class="form_input form_checkbox">
+       </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="77" colspan="1" rowspan="1"  >
+             <input id="pzmc" name="pzmc" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+             <input id="ly" name="ly" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+                <input id="cngz" name="cngz" class="form_input" >
+
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             <input id="hbgz" name="hbgz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+             <input id="cdgz" name="cdgz" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="1" rowspan="1"  >
+
+            <input id="jyscl" name="jyscl" class="form_input" > 
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="left" valign="center" width="76" colspan="1" rowspan="1"  >
+
+             <input id="jyxsl" name="jyxsl" class="form_input">
+        </td>
+    </tr>
+    <tr height="20" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;padding:10px 0;
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11"   >
+
+                <span id = "addRow" style="margin-right:10px">
+				<button type="button" class="btn btn-info  btn-xs"
+					onclick="addOneRow()">
+					<span class="icon-plus"></span>添加一条数据</button></span>
+        		 <span id = "delRow" >
+				<button type="button" class="btn btn-warning btn-xs"
+					onclick="delTr()">
+					<span class="icon-remove"></span>删除</button>
+			</span>
+        </td>
+        
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="3"  >
+
+             公猪站
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="79" colspan="1" rowspan="3"  >
+
+             是否独立***
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="3"  >
+
+			<input id="sfdl" name="sfdl" type="checkbox" class="form_input form_checkbox" value="是">
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="7" rowspan="1"  >
+
+             功能区面积（平方米）
+        </td>
+    </tr>
+    <tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             管理区
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             隔离区
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+             兽医室
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="120" colspan="1" rowspan="1"  >
+
+             公猪舍
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="120" colspan="1" rowspan="1"  >
+
+             采精室
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+             精液处理室
+        </td>
+    </tr>
+    <tr height="20" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="glqmj" name="glqmj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="gelqmj" name="gelqmj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="1" rowspan="1"  >
+
+			<input id="syqmj" name="syqmj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="gzsmj" name="gzsmj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+			<input id="cjsmj" name="cjsmj" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+
+			<input id="jyclsmj" name="jyclsmj" class="form_input" >
+        </td>
+    </tr>
+    <tr height="36" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             注：*国有，集体，有限责任公司，股份有限公司，外商独资，中外合资。**，如果一个品种有多个来源，请分别填写。***，指公猪站是否与种猪场建设在一起。
+
+        </td>
+    </tr>
+    <tr height="36" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             种公猪站仪器设备
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             名称
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             型&nbsp;&nbsp;号
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="2" rowspan="1"  >
+
+             数&nbsp;&nbsp;&nbsp;量
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             使用参数
+        </td>
+    </tr>
+     <tr class="yqsb" height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+             <input id="ckb2" name="ckb2" type="checkbox" class="form_input form_checkbox">
+        </td>
+            <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="2" rowspan="1"  >
+                
+            <input id="sbmc" name="sbmc" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+           <input id="xh" name="xh" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="180" colspan="2" rowspan="1"  >
+
+             <input id="sl" name="sl" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             <input id="sycs" name="sycs" class="form_input" >
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;padding:10px 0;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             <span id="addYqsb" style="margin-right:10px">
+				<button type="button" class="btn btn-info  btn-xs"
+					onclick="addYqsb()">
+					<span class="icon-plus"></span>添加一条数据</button>
+			</span>
+             <span id = "delYqsb">
+				<button type="button" class="btn btn-warning btn-xs"
+					onclick="delYqsb()">
+					<span class="icon-remove"></span>删除</button>
+			</span>
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="11" rowspan="1"  >
+
+             精液产品规格
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             每瓶精液剂量（mL）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="5" rowspan="1"  >
+
+             每剂量中直线前进精子数（亿）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+             精子活力
+        </td>
+    </tr>
+    <tr height="17" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="mpjyjl" name="mpjyjl" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="5" rowspan="1"  >
+
+			<input id="mjlzzxqjjzs" name="mjlzzxqjjzs" class="form_input" >
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+			<input id="jzhl" name="jzhl" class="form_input" >
+        </td>
+    </tr>
+</table>
+
+
+</form>
+<t:formEditFooter></t:formEditFooter>
+	</jsp:body>
+</t:form>

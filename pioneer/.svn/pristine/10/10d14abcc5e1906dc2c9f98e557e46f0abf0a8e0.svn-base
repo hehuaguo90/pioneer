@@ -1,0 +1,342 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	    	var url = "/pages/module/tSource/";
+
+
+
+
+	function add() {
+	    var groupId=$("#treeIndex").tree('getSelected')?$("#treeIndex").tree('getSelected').id:"";
+		page.newDataGrid({
+			title : "新增数据源",
+			width : 670,
+			height : 500,
+			url : contextPath + url + "add.jsp?groupId="+groupId
+		});
+	}
+
+	function edit() {
+	  /* var row = $('#datagrid').datagrid('getSelections');
+	  
+      if(row==""){
+         var data={"message":"当前操作需要选择一条记录!"};
+         page.alert(data); 
+         return;
+      }
+      if(row.length>1){
+         var data={"message":"当前操作只能选择一条记录!"};
+         page.alert(data);
+         return;
+      }
+     var str="";
+         for(var i=0;i<row.length;i++){
+         if(row[i].c1!='0'){
+           if(i==0){
+             str = row[i].sourceName;
+           }
+           else{
+            str = str+","+row[i].sourceName;
+           }
+         }
+        }
+       if(str!=""){
+          str = str+"被使用不能编辑";
+          var data={"message":str};
+          page.alert(data);
+          return;
+       } */
+	      page.editDataGrid({
+			title : "编辑数据源",
+			width : 670,
+			height : 500,
+			formatURL : function(obj) {
+				var params="";
+                params+="sourceId=" + obj.sourceId;
+				return contextPath +url+"edit.jsp?"+params;
+			}
+		});
+	}
+
+
+    function view() {
+        var row = $('#datagrid').datagrid('getSelected');
+
+		page.editDataGrid({
+			title : "数据资详情",
+			width : 600,
+			height : 500,
+			formatURL : function(obj) {
+                var params="";
+                params+="sourceId=" + obj.sourceId;
+                return contextPath + url+"view.jsp?"+params;
+			}
+		});
+    }
+    function upStatus(status){
+      var row = $('#datagrid').datagrid('getSelections');
+      if(row==""){
+         var data={"message":"请至少选择一条记录!"};
+         page.alert(data);
+         return;
+      }
+      
+     var str="";
+       if(status=="0"){
+         for(var i=0;i<row.length;i++){
+         if(row[i].c1!='0'){
+           if(i==0){
+             str = row[i].sourceName;
+           }
+           else{
+            str = str+","+row[i].sourceName;
+           }
+         }
+        }
+       }
+       
+       if(str!=""){
+          str = str+"被使用不能停用";
+          var data={"message":str};
+          page.alert(data);
+          return;
+       }
+       
+      page.send({
+						url : contextPath +"/tSource/"+"upStatus?status="+status,
+						method : "post",
+						data : {data:JSON.stringify(row)}
+					}).then(function(data) {
+						page.alert(data).then(function() {
+							if (data.status === 1)
+								page.loadDataGrid({
+									
+								});
+						});
+					});
+    }
+	function del() {// 方式一
+/*		page.delDataGrid({
+			formatURL : function(arr) {
+				return contextPath + "/tSource/delete";
+			},
+			formatPostData : function(arr) {
+				var obj = new Array();
+				$.each(arr, function(i, item) {
+					obj.push(item.seedId);
+				});
+				return {
+                    dataId : obj
+				};
+			}
+		});*/
+		var row = $('#datagrid').datagrid('getSelections');
+        if(!row){
+         var data={"message":"请至少选择一条数据!"};
+         page.alert(data);
+         return;
+       }
+        var str="";
+       for(var i=0;i<row.length;i++){
+         if(row[i].c1!='0'){
+           if(i==0){
+             str = row[i].sourceName;
+           }
+           else{
+            str = str+","+row[i].sourceName;
+           }
+         }
+       }
+       if(str!=""){
+          str = str+"被使用,不允许删除!";
+          var data={"message":str};
+          page.alert(data);
+          return;
+       }
+        page.delDataGrid({
+            formatURL : function(arr) {
+                return contextPath +"/tSource/"+"delete";
+            },
+            formatPostData : function(arr) {
+                return {data:JSON.stringify(arr)};
+            }
+        });
+    }
+	page.onLoad = function() {
+        $('#treeIndex').tree({     
+		    url: contextPath + "/tSysGroup/getGroupTree?groupType=3",
+		    method: 'post',
+	        animate: true,
+	        lines: true,
+	        onBeforeSelect:function(node){
+	        	//tree-node-selected
+	        	var classes = node.target.className;
+		    	//如果点击已被选中的节点，则取消选中
+	        	if(classes.indexOf('tree-node-selected') > 0){
+	        		node.target.className = classes.replace('tree-node-selected', '');
+	        		search();
+	        		return false;
+	        	}
+	        },
+	        onSelect: function(node){
+	         	//if(!node.children){
+	         		search();
+	         	//}
+			}
+        });
+		/* page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tSource/"+"listByPage";
+				opt.method = "get";
+			}
+		}); */
+
+	};
+    function search() {
+	    var k ="";
+	    var sourceName = $("#sourceName").val();
+	    if($('#treeIndex').tree('getSelected')){
+	        k = $('#treeIndex').tree('getSelected').id;
+	    }
+	    page.loadDataGrid({
+	        setOptions : function(opt) {
+	       		opt.url = contextPath + "/tSource/listByPage";
+	       		opt.queryParams.sourceName=sourceName;
+	       		opt.method = "post";
+	            if(k){
+	                opt.queryParams.groupId = k;
+	            }else{
+	                opt.queryParams.groupId = "";
+	            }
+	        }
+	    });
+	}
+	function search2() {
+	   
+	    var sourceName = $("#sourceName").val();
+	   var groupId=$("#treeIndex").tree('getSelected')?$("#treeIndex").tree('getSelected').id:"";
+	    page.loadDataGrid({
+	        setOptions : function(opt) {
+	       		opt.url = contextPath + "/tSource/listByPage";
+	       		opt.queryParams.sourceName=sourceName;
+	       		opt.queryParams.groupId = groupId;
+	       		opt.method = "post";
+	            
+	        }
+	    });
+	}
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+
+    function exportExcel() {// 方式一
+        window.location.href = "${contextPath}/tSource/export";
+        /*				"id="+ $('#id').textbox('getValue')+
+                "&qkfl="+ $('#qkfl').textbox('getValue')+
+                "&qksb="+ $('#qksb').textbox('getValue')+
+                "&cjsj="+ $('#cjsj').textbox('getValue')+
+                "&sbrid="+ $('#sbrid').textbox('getValue')+
+                "&treeData="+ $('#treeData').textbox('getValue');*/
+    }
+/*    function formatCK(codeFieldCfg,row){
+        if(row.result =="0"){ //抓取失败的行返回 checkbox,成功了的什么都不返回
+            return '<input type="checkbox" class="ck" name="DataGridCheckbox"/>';
+        }
+    }*/
+    function zt(value,row){
+         switch(value)
+          {
+            case "0":
+            return "停用";
+            break;
+            case "1":
+            return "正常";
+            break;
+            default:
+             return "";
+             break;
+          }
+     }
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:100px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+			<div id="searchbar">
+        <form>
+		资源名称:
+
+        <input id="sourceName" name="sourceName"  type="text"
+               style="width: 146px;"   class= "easyui-validatebox textbox"  data-options="" >
+
+		<a href="javascript:void search2();" class="easyui-linkbutton"
+				iconCls="icon-search">查询</a>
+    	<a href="javascript:void page.resetForm();" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+
+    </form>
+	</div>
+
+    </div>
+	<div id="toolbar">
+		<a href="javascript:void add();" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:void edit();" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true">编辑</a>
+		<a href="javascript:void del();" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true">删除</a>
+	    
+		<a href="javascript:void view();" class="easyui-linkbutton"
+				iconCls="icon-tip" plain="true">查看</a>
+		<a href="javascript:void upStatus(1);" class="easyui-linkbutton"
+				iconCls="icon-qy" plain="true">启用</a>
+		<a href="javascript:void upStatus(0);" class="easyui-linkbutton"
+				iconCls="icon-ty" plain="true">停用</a>
+	    <!-- 
+		<a href="javascript:void(0)" onclick="exportExcel();"
+		   class="easyui-linkbutton" iconCls="icon-save" plain="true">导出</a>
+		 -->
+		 
+	</div>
+	<div region="west" style="width:200px">
+		   <div class="tree-bar">
+		                 数据源分组:
+	       </div>      
+	       <ul id="treeIndex" style="margin-left: 10px"></ul>
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true,url:'${contextPath}/tSource/listByPage'"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <!-- 
+                <th data-options="field:'groupId',width:100,align:'left',halign:'center'">分组Id</th>
+                 -->
+                 <th data-options="field:'sourceName',width:100,align:'left',halign:'center'">数据源名称</th>
+                <th data-options="field:'typeName',width:100,align:'left',halign:'center'">数据库类型</th>
+                <th data-options="field:'driverName',width:100,align:'left',halign:'center'">驱动类</th>
+                <th data-options="field:'jdbcUrl',width:100,align:'left',halign:'center'">连接地址</th>
+                <th data-options="field:'dbUsername',width:100,align:'left',halign:'center'">数据库用户名</th>
+                <th data-options="field:'dbPassword',width:100,align:'left',halign:'center'">数据库密码</th>                
+                <th data-options="field:'status',width:100,align:'left',halign:'center',formatter:zt">状态</th>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

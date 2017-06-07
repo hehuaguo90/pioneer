@@ -1,0 +1,268 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${  contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/spectrum.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/docs.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/toc.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/prettify.js"></script>
+<link type="text/css" rel="stylesheet"
+			href="${ contextPath }/res/lib/plugin/colorCheck/spectrum.css" />
+<script type="text/javascript">
+	Array.prototype.remove=function(num){
+		if(!isNaN(num)){
+			this.splice(num,1);
+		}else{
+			var arr = this;
+			for(var i = 0; i < arr.length; i++){
+				if(num == arr[i]){
+					this.splice(i,1);
+					i = 0; //循环删除所有相同的值
+				}
+			}
+		}
+	};
+var datagrid=[];
+function addGrid(data){
+	for(var i=0;i <datagrid.length;i++){
+		if(data.objId == datagrid[i].objId){
+			alert("该分析已添加，请重新选择！");
+			return;
+		}
+	}
+	datagrid.push(data);
+	return datagrid;
+}
+function delGrid(data){
+	for(var i =0;i<datagrid.length;i++){
+		if(datagrid[i].objId ==data.objId ){
+			datagrid.remove(datagrid[i]);
+			break;
+		}
+	}
+	return datagrid;
+}
+	page.onLoad = function() {
+		$('#treeIndex').tree({     
+		    url: contextPath + '/tSysGroup/getThemeTree?groupType=5',
+		    method: 'post',
+	        animate: true,
+	        lines: true,
+	        onBeforeSelect:function(node){
+	        	//tree-node-selected
+	        	var classes = node.target.className;
+		    	//如果点击已被选中的节点，则取消选中
+	        	if(classes.indexOf('tree-node-selected') > 0){
+	        		node.target.className = classes.replace('tree-node-selected', '');
+	        		var grid={};
+	         		grid.objId=node.id;
+	         		grid.themeName=node.text;
+	        		$("#datagrid").datagrid({data:delGrid(grid)});
+	        		return false;
+	        	}
+	        },
+	        onSelect: function(node){
+	         	if(!node.children){
+	         		var grid={};
+	         		grid.objId=node.id;
+	         		grid.themeName=node.text;
+	         		$("#datagrid").datagrid({data:addGrid(grid)});
+	         	}
+			}
+        });
+	};
+	function del(){
+		var row = $('#datagrid').datagrid('getSelections');
+        if(!row){
+         var info={"message":"请至少选择一条数据!"};
+         page.alert(info);
+         return;
+       }
+       for(var i=0;i<row.length;i++){
+       		delGrid(row[i]);
+       }
+       $("#datagrid").datagrid({data:datagrid});
+	}
+	function ObjectIsNull(obj) {
+		for ( var i in obj) {
+			return false;
+		}
+		return true;
+	}
+	function upMove(){
+		var row = $('#datagrid').datagrid('getSelections');
+       if(!row || row.length > 1){
+         var info={"message":"请选择一条数据!"};
+         page.alert(info);
+         return;
+       }
+       for(var i=0;i<datagrid.length;i++){
+       		if(datagrid[i].objId == row[0].objId){
+       			 if(i-1<0){
+       			 	return;
+       			 }
+       			 datagrid.remove(row[0]);
+       			 datagrid.splice(i-1,0,row[0]);
+       		}
+       }
+        $("#datagrid").datagrid({data:datagrid});
+	}
+	function downMove(){
+		var row = $('#datagrid').datagrid('getSelections');
+        if(!row || row.length > 1){
+         var info={"message":"请选择一条数据!"};
+         page.alert(info);
+         return;
+       }
+       for(var i=0;i<datagrid.length;i++){
+       		if(datagrid[i].objId == row[0].objId){
+       			 if(i-1 > datagrid.length-1){
+       			 	return;
+       			 }
+       			 datagrid.remove(row[0]);
+       			 datagrid.splice(i+1,0,row[0]);
+       		}
+       }
+        $("#datagrid").datagrid({data:datagrid});
+	}
+	function makeSure(){
+		var	imgUrl="";
+		var themeName=$("#themeName").val();
+		if(page.upload.uploadPicUrls && page.upload.uploadPicUrls["uploadBtn"].length>0){
+			imgUrl=page.upload.uploadPicUrls["uploadBtn"][0];
+		}else{
+			var info={"message":"请上传标题图片!"};
+         	page.alert(info);
+			return;
+		}
+		if(!themeName){
+			var info={"message":"请输入专题名称！"};
+       		page.alert(info);
+			return;
+		}
+		$.ajax({
+			url:contextPath+"/tAnalyzeTheme/add",
+			data:{datagrid:JSON.stringify(datagrid),
+			imgUrl:imgUrl,
+			themeName:themeName,
+			remark:$("#remark").textbox("getText")
+			},
+			dataType:"json",
+			type:"post",
+			success:function(data){
+				page.alert({status:data.status,message:data.message});
+				page.opener.refresh();
+				page.close();
+			}
+		});
+	}
+	function takeView(){
+		var objIds="";
+		for(var i=0;i<datagrid.length;i++){
+			objIds+=datagrid[i].objId+",";
+		}
+		$.ajax({
+				url:contextPath+"/tAnalyzeTheme/listType",
+				data:{
+				objIds:objIds
+				},
+				async:false,
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					var newGrid=[];
+					for(var i=0;i<datagrid.length;i++){
+						for(var j=0;j<data.length;j++){
+							if(datagrid[i].objId == data[j].objId){
+								var son={};
+								son.chartType=data[j].chartType;
+								son.objId=data[j].objId;
+								newGrid.push(son);
+								break;
+							}	
+						}
+					}
+					page.newDataGrid({
+						title : "预览专题",
+						width : '80%',
+						height : '80%',
+						url : contextPath +  "/pages/module/tDissertationConfig/dissertationConfig/view.jsp?params="+JSON.stringify(newGrid).replace(/\"/g,"\\\"")
+					});
+				}
+		});
+	}
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<div id="divIndex"   class="easyui-layout" fit="true">
+	<div   data-options="region:'west',border:true" style="width:300px">
+   	<div class="tree-bar">
+		                  可用分析:
+	       </div>      
+	       <ul id="treeIndex" style="margin-left: 10px"></ul>
+			<form method="post">
+        <table>
+            <tr>
+                <th>专题名称:</th>
+                <td>
+
+                        <input id="themeName" name="themeName"	type="text" style="width: 210px;" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,100]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>标题图片:</th>
+                <td>
+					<a class="easyui-linkbutton" id="uploadBtn"
+						data-options="required:true,field:'imgUrl'">添加图片
+					</a> 
+                </td>
+            </tr>
+             <tr>
+                <th>备注:</th>
+                <td>
+					<input id="remark" name="remark"	type="text" style="width: 210px;" class="easyui-textbox" data-options="multiline:true,height:80" />
+
+                </td>
+            </tr>
+        </table>
+	</form>
+	</div>
+	 <div   data-options="region:'center',border:false"  border="false" style="width:300px;">
+	 	<div id="toolbar">
+		<a href="javascript:void del();" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true">移除</a>
+		<a href="javascript:void upMove();" class="easyui-linkbutton"
+				iconCls="icon-goup" plain="true">上移</a>
+		<a href="javascript:void downMove();" class="easyui-linkbutton"
+				iconCls="icon-godown" plain="true">下移</a>
+	</div>
+		<table id="datagrid" class="easyui-datagrid" style="height: auto;display:inline-block;width:200px;"
+			data-options="fitColumns:true,fit:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+            	<th data-options="field:'objId',checkbox:true"></th>
+                <th data-options="field:'themeName',width:50,align:'left',halign:'center'" >分析名称</th>
+			</tr>
+        </thead>	
+    </table>
+	</div>
+	<div id="operator" data-options="region:'south',border:false">
+		<a href="javascript:void takeView()" class="easyui-linkbutton">预览</a> 
+		<a href="javascript:void makeSure()" class="easyui-linkbutton">保存</a> 
+	</div>
+	</div>
+	
+	</jsp:body>
+</t:page>

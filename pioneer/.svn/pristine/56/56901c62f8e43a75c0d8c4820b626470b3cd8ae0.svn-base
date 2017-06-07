@@ -1,0 +1,605 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+	<script src="${contextPath }/res/chart/chart.js"></script>
+	
+		<script type="text/javascript">
+	  function findWeeKDataByKey(jsonArray,keyArray) {
+			var data = new Array();
+			var cp = 0;
+			var sz = 0;
+			var xj = 0;
+			var zs = 0;
+			for ( var key in keyArray) {
+				var subData = new Array();
+				for ( var obj in jsonArray) {
+					zs++;
+					if(Number(jsonArray[obj][keyArray[key]])=='0'){
+						subData.push('0');
+						cp++;
+					}else{
+						subData.push(jsonArray[obj][keyArray[key]]);
+						if(jsonArray[obj][keyArray[key]]>0){
+							sz++;
+						}
+						if(jsonArray[obj][keyArray[key]]<0){
+							xj++;
+						}
+					}
+				}
+				data.push(subData);
+			}
+			
+			$("#sz").html(sz);
+			$("#xj").html(xj);
+			$("#cp").html(cp);
+			$("#bl").html(Math.round(cp*10/zs));
+			return data;
+		}
+	  
+		function addDateText(id,timeStr){
+			$("#"+id).html(timeStr);
+		} 
+		
+		function showWeekTab(jsonArray){
+			var tabStr = '';
+			var num = 1;
+			var i_hb= '';
+			
+			for ( var obj in jsonArray) {
+				if(jsonArray[obj]["hb"]>0){
+					i_hb = "class='glyphicon glyphicon-arrow-up'";
+				}else{
+					i_hb = "class='glyphicon glyphicon-arrow-down'";
+				}
+				
+				tabStr = tabStr + "<tr><td class='hidden-xs'>"+num+"</td><td>"+jsonArray[obj]["name"]+"</td><td>"+jsonArray[obj]["xzq"]+"</td><td align='center'><i "+i_hb+"></i>"+jsonArray[obj]["price"]+"</td></tr>";
+				num++;
+			}
+			$("#weekTable").html(tabStr);
+		}
+		
+		function getJgfbData(params){
+			$.ajax({
+			    url : contextPath+"/chartPrice/getWeekPrice.action?TypeId="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	
+			    	showJgfbChart(datas['zt']);
+			    	showWeekTab(datas['lb']);
+			    }
+			})
+		}
+		
+		/****
+		构建每周报价echarts图表
+		***/
+		function showJgfbChart(datas) {
+	    	var title = findWeeKDataByKey(datas,['name']);
+	    	var tbzq = findSeriesDataByKey(datas,['week']);
+	    	addDateText("sj1",tbzq[0][0]);
+	    	var legendData = findWeeKDataByKey(datas,['rate']);
+	    	var mapChart = echarts.init(document.getElementById('jgfb'));
+			option = {
+				    color: ['#3398DB'],
+				    tooltip : {
+				        trigger: 'axis',
+				        formatter: "{b}：{c}%",
+				        axisPointer : {            
+				            type : 'shadow'        
+				        }
+				    },
+				    grid: {
+				        left: '15',
+				        right: '0',
+				        bottom: '35',
+				        containLabel: true
+				    },
+				    xAxis :
+				        {
+				            type : 'category',
+				            data : title[0],
+				            axisLabel: {
+				                interval: 0,
+				                rotate: 30
+				            },
+				            axisTick: {
+				                alignWithLabel: true
+				            }
+				        }
+				    ,
+				    yAxis :
+				        {
+				            type : 'value',
+				            show : false
+				        }
+				    ,
+				    series : [
+				        {
+				            type:'bar',
+				            barWidth: '60%',
+				            itemStyle: {
+				                normal: {
+				                    color: function(params) {
+				                        var colorList = ['#e02222', '#3397c9'];
+				                        if (params.data <0) {
+				                            return colorList[0];
+				                        } else {
+				                            return colorList[1];
+				                        }
+				                    }
+				                }
+				            },
+				            data:legendData[0]
+				        }
+				    ]
+				};
+			mapChart.setOption(option);
+		}
+		
+		function getJgzsData(params){
+			$.ajax({
+			    url : contextPath+"/chartPrice/getWeekTrend.action?TypeId="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	
+			    	showPzdbChart(datas);
+			    }
+			})
+		}
+		
+		function buildSeriesPZDB(legendData){
+			var seriesArray = [];
+			for (var key in legendData)
+		    {
+		        seriesArray.push(
+					{
+			            name:key,
+			            type:'line',
+			            smooth: true,
+			            data:legendData[key]
+			        }
+				);
+		    }
+			return seriesArray;
+		}
+		
+		function buildFormatter(title,dwData){
+			var formatter = "{b}  <br/>";
+			for(i=0;i<title.length;i++){
+				formatter = formatter+"{a"+i+"}：{c"+i+"}"+dwData[i]+"<br/>";
+			}
+			return formatter;
+		}
+		
+		/****
+		构建品种对比echarts图表
+		***/
+		function showPzdbChart(datas) {
+			var title = buildTitle(datas['name'],'roundRect');
+			var week = datas['week'];
+	    	var legendData = datas['price'];
+	    	var dwData = datas['dw'];
+			var mapChart = echarts.init(document.getElementById('pzdb'));
+			option = {
+				    tooltip: {
+				        trigger: 'axis',
+				        formatter: function(params,ticket,callback){
+			  		      	var res = params[0].name+" <br/>";
+			  				for(i=0;i<params.length;i++){
+			  					res = res+"<span style='color:"+params[i].color+"'>"+params[i].seriesName+"："+params[i].data+"元/千克<br/></span>";
+			  				}
+				            return res;  
+				        }
+				    },
+				    color: ['#e5cf0d','#97b552','#2ec7c9','#ffb980','#5ab1ef','#b6a2de'],
+				    legend: {
+				        data:title,
+				        itemHeight :3, 
+				    	itemWidth :22,
+				        show:true
+				    },
+				    grid: {
+				    	left: '7',
+				        right: '35',
+				        bottom: '0',
+				        containLabel: true
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: week
+				    },
+				    yAxis: {
+				        type: 'value'
+				    },
+				    series: buildSeriesPZDB(legendData)
+				};
+			mapChart.setOption(option);
+			
+		}
+		
+		function getQydbData(params){
+			$.ajax({
+			    url : contextPath+"/chartPrice/getWeekPriceQy.action?TypeId="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	
+			    	showQydbChart(datas);
+			    }
+			})
+		}
+		
+		function showQydbChart(datas) {
+			var title = buildTitle(datas['name'],'roundRect');
+			var week = datas['week'];
+	    	var legendData = datas['price'];
+	    	var dwData = datas['dw'];
+			var mapChart = echarts.init(document.getElementById('qydb'));
+			option = {
+				    tooltip: {
+				        trigger: 'axis',
+				        formatter: function(params,ticket,callback){
+				        	var res = params[0].name+" <br/>";
+			  				for(i=0;i<params.length;i++){
+			  					res = res+"<span style='color:"+params[i].color+"'>"+params[i].seriesName+"："+params[i].data+"元/千克<br/></span>";
+			  				}
+				            return res;
+				        }
+				    },
+				    legend: {
+				        data:title,
+				        itemHeight :3, 
+				    	itemWidth :22,
+				        show:true
+				    },
+				    color: ['#e5cf0d','#97b552','#2ec7c9','#ffb980','#5ab1ef','#b6a2de'],
+				    grid: {
+				        left: '5',
+				        right: '35',
+				        bottom: '0',
+				        containLabel: true
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: week
+				    },
+				    yAxis: {
+				        type: 'value'
+				    },
+				    series: buildSeriesPZDB(legendData)
+				};
+			mapChart.setOption(option);
+		}
+		
+		//地区行情
+		function getDqhqData(params){
+			$.ajax({
+			    url : contextPath+"/chartPrice/getWeekDqhq.action?TypeId="+params+"&_"+new Date().getTime(),
+			    type:'POST',
+			    dataType : 'json',
+			    success : function(datas){
+			    	showDqhqChart(datas['map']);
+			    	showMapTab(datas['lb']);
+			    }
+			})
+		}
+		
+		//地区行情
+		function showDqhqChart(datas) {
+			showLableText(datas);
+			$.getJSON('${contextPath}/res/chart/chongqing.json', function (data) {
+			    echarts.registerMap('chongqing', data);
+				var mapChart = echarts.init(document.getElementById('dqhq'));
+				option = {
+					tooltip: {
+				        trigger: 'item',
+				        formatter: function(params,ticket,callback){
+				            var res = params.name; 
+				            var rank = '';
+				            if(!isNaN(params.value)){
+			            		res += "："+params.value+"%"; 
+			            	} 
+				            return res;  
+				        }
+				    },
+				    visualMap: {
+				        min: -30,
+				        max: 30,
+				        splitNumber: 3,
+				        color:['#ff0000','#ff8a00','#00c7ff','#2ceba0','#70fe23'],
+				        pieces: [
+				                 {min: 5, label: '涨幅>5%'}, 
+				                 {min: 2, max: 5, label: '涨幅>2%'}, 
+				                 {min: -2, max: 2, label: '价格平稳'},
+				                 {min: -5, max: -2, label: '跌幅>2%'},  
+				                 {max: -5, label: '跌幅>5%'}     
+				             ],
+				        left: 'left',
+				        itemHeight : 15,
+				        top: '50'
+				    },
+		            series: [{
+		            	name: '',
+		                type: 'map',
+		                map: 'chongqing',
+		                roam : true,
+		                left : 20,
+		                right : 0,
+		                top : 0,
+		                bottom : 0,
+		                data:datas
+		            }]
+		        }
+				mapChart.setOption(option);
+		    	}
+			);
+		}
+		
+		//构建地区行情的table
+		function showMapTab(jsonArray){
+			var tabStr = '';
+			var num = 1;
+			for ( var obj in jsonArray) {
+				var span_tb='';
+				var span_th='';
+				
+				if(jsonArray[obj]["tb"]>0){
+					i_tb = "class='glyphicon glyphicon-arrow-up'";
+				}else{
+					i_tb = "class='glyphicon glyphicon-arrow-down'";
+				}
+				
+				if(jsonArray[obj]["hb"]>0){
+					i_hb = "class='glyphicon glyphicon-arrow-up'";
+				}else{
+					i_hb = "class='glyphicon glyphicon-arrow-down'";
+				}
+				
+				tabStr = tabStr + "<tr><td class='hidden-xs'>"+num+"</td><td>"+jsonArray[obj]["xzq"]+"</td><td align='center'>"+jsonArray[obj]["price"]+"</td><td><i "+i_tb+"></i>"+jsonArray[obj]["tb"]+"%</td><td><i "+i_hb+"></i>"+jsonArray[obj]["hb"]+"%</td></tr>";
+				num++;
+			}
+			$("#mapTable").html(tabStr);
+		}
+		
+		//地区行情左侧单值显示
+		function showLableText(jsonArray){
+			var qus = 0;
+			var tb = 0;
+			var hb = 0;
+			var price = 0;
+			var dw = '';
+			for ( var obj in jsonArray) {
+				qus++;
+				tb = tb+jsonArray[obj]["tb"];
+				hb = hb+jsonArray[obj]["value"];
+				price = price+jsonArray[obj]["price"];
+				dw = jsonArray[obj]["dw"];
+			}
+			
+			$("#qstb").html((tb/qus).toFixed(2)+"%");
+			$("#qshb").html((hb/qus).toFixed(2)+"%");
+			
+			if(tb>0){
+				$("#tbIco").attr("class","glyphicon glyphicon-arrow-up");
+				$("#tbColor").attr("class","red");
+			}else{
+				$("#tbColor").attr("class","green");
+				$("#tbIco").attr("class","glyphicon glyphicon-arrow-down");
+			}
+			if(hb>0){
+				$("#hbIco").attr("class","glyphicon glyphicon-arrow-up");
+				$("#hbColor").attr("class","red");
+			}else{
+				$("#hbColor").attr("class","green");
+				$("#hbIco").attr("class","glyphicon glyphicon-arrow-down");
+			}
+			$("#qsjj").html((price/qus).toFixed(2));
+			$("#dw").html(dw);
+		}
+		
+		function WeekPrice(obj,typeId){
+			$("li[id=weekP]").removeClass("active");
+			$(obj).addClass("active");
+			getJgfbData(typeId);
+		}
+		
+		function WeekTrend(obj,typeId){
+			$("li[id=weekT]").removeClass("active");
+			$(obj).addClass("active");
+			getJgzsData(typeId);
+		}
+		
+		function WeekQydbD(obj,typeId){
+			$("li[id=weekDq]").removeClass("active");
+			$(obj).addClass("active");
+			getQydbData(typeId);
+		}
+		
+		function WeekDqhq(obj,name,typeId){
+			$("li[id=WeekDqhq]").removeClass("active");
+			$(obj).addClass("active");
+			$("#weekDqhq").html(name);
+			getDqhqData(typeId);
+		}
+
+		$(document).ready(function() {
+			getJgfbData("sz");
+			getJgzsData("sz");
+			getQydbData("qgdpzr");
+			getDqhqData("qgdpzr");
+		});
+
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+    <!--页面实际内容区开始-->
+    <div class="simple_box row">
+    	<div class="simple_box_title col-md-12"  style="margin-bottom:-8px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-bar-chart"></span>价格专题
+          <small class="simple_box_title_txt hidden-xs"> 对各种畜牧产品的价格进行分析 </small> </h3>
+        </div>
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:20px;">
+          <h3 class="simple_box_title_name">每周报价
+          <small class="simple_box_title_txt hidden-xs"> 对各种畜牧产品的每周报价进行分析 </small> </h3>
+        </div>
+		<div class="row">
+       	  <div class="col-md-8 row">
+       	  		<ul class="charts_tools_tab">
+                    <li class="active" id="weekP" onclick="WeekPrice(this,'sz');"><img src="${ contextPath }/res/front/style/images/jgjc_ico_1.png" width="58" height="58" />生猪</li>
+                    <li id="weekP" onclick="WeekPrice(this,'jqcp');"><img src="${ contextPath }/res/front/style/images/jgjc_ico_2.png" width="58" height="58" />家禽</li>
+                    <li id="weekP" onclick="WeekPrice(this,'spy');"><img src="${ contextPath }/res/front/style/images/jgjc_ico_3.png" width="58" height="58" />商品羊</li>
+                    <li id="weekP" onclick="WeekPrice(this,'jt');"><img src="${ contextPath }/res/front/style/images/jgjc_ico_4.png" width="58" height="58" />家兔</li>
+                    <li id="weekP" onclick="WeekPrice(this,'slcp');"><img src="${ contextPath }/res/front/style/images/jgjc_ico_5.png" width="58" height="58" />饲料</li>
+        		</ul>
+            	<div class="col-md-3 jiagegaikuang" >
+                	<h3>近<span id="bl">${null }</span>成<small><br/>全市均价持平</small></h3>
+                    <h4><em id="cp">${null }</em>种<small>全市均价持平</small></h4>
+                    <h4><em id="xj">${null }</em>种<small>全市均价下降</small></h4>
+                    <h4><em id="sz">${null }</em>种<small>全市均价上涨</small></h4>
+                </div>
+                <div class="col-md-9" style="height:360px;padding-right:30px;" >
+                	<div id="jgfb" style="height: 360px; width: 100%; float:left;"></div>
+                </div>
+                <p  class="col-md-12">说明：<span id="sj1">${null }</span> 全市周均价</p>
+            </div>
+          <div class="col-md-4" style="padding:0;">
+                     <div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <th width="45" class="hidden-xs">序号</th>
+                                <th width="120">品种 </th>
+                                <th width="90">区县</th>
+                                <th width="80">价格<small>(元/千克)</small></th>
+                              </tr>
+                            </thead>
+                            <tbody id="weekTable">
+                            ${null }
+                            </tbody>
+                          </table>
+                     </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+       <div class="simple_box_title row" style="margin-bottom:20px;">
+          <h3 class="simple_box_title_name">价格走势
+          <small class="simple_box_title_txt hidden-xs"> 展示各种畜牧产品的价格走势 </small> </h3>
+        </div>
+        <div class="row">
+        	<div class="col-md-6 col-xs-12">
+            	<div class="subtitle">
+                	<h4><span>品种对比</span></h4>
+                </div>
+                <div class="row charts_box_1" style="height:285px;">
+                	<div class="col-md-3" >
+                    	<ul class="nav nav-pills nav-stacked">
+                          <li class="active" id="weekT" onclick="WeekTrend(this,'sz');">生猪</li>
+                          <li id="weekT" onclick="WeekTrend(this,'jqcp');">家禽产品</li>
+                          <li id="weekT" onclick="WeekTrend(this,'spy');">商品羊</li>
+                          <li id="weekT" onclick="WeekTrend(this,'jt');">家兔</li>
+                          <li id="weekT" onclick="WeekTrend(this,'slcp');">饲料产品</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9">
+                    	<div id="pzdb" style="height: 300px; width: 100%; float:left;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+            	<div class="subtitle">
+                	<h4><span>区域对比</span></h4>
+                </div>
+                 <div class="row charts_box_1">
+                	<div class="col-md-3">
+                    	<ul  class="nav nav-pills nav-stacked">
+                          <li class="active" id="weekDq" onclick="WeekQydbD(this,'qgdpzr');">去骨带皮猪肉</li>
+                          <li id="weekDq" onclick="WeekQydbD(this,'tjd');">土鸡蛋</li>
+                          <li id="weekDq" onclick="WeekQydbD(this,'tzrj');">土杂肉鸡</li>
+                          <li id="weekDq" onclick="WeekQydbD(this,'qgnr');">去骨牛肉</li>
+                          <li id="weekDq" onclick="WeekQydbD(this,'nn');">牛奶</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9">
+                    	<div id="qydb" style="height: 300px; width: 100%; float:left;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+       <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name">地区行情
+          <small class="simple_box_title_txt hidden-xs"> 按地区分析各种畜牧产品的价格行情 </small> </h3>
+        </div>
+        <div class="row">
+        	<div class="col-md-8 col-xs-12" style="padding:0;">
+                <div class="col-md-3 chart_txt_2" >
+                	<div class="charts_box_1" style="width:111px!important;">
+                	<ul  class="nav nav-pills nav-stacked">
+                          <li class="active" id="WeekDqhq" onclick="WeekDqhq(this,'去骨带皮猪肉','qgdpzr');">去骨带皮猪肉</li>
+                          <li id="WeekDqhq" onclick="WeekDqhq(this,'土鸡蛋','tjd');">土鸡蛋</li>
+                          <li id="WeekDqhq" onclick="WeekDqhq(this,'土杂肉鸡','tzrj');">土杂肉鸡</li>
+                          <li id="WeekDqhq" onclick="WeekDqhq(this,'去骨牛肉','qgnr');">去骨牛肉</li>
+                          <li id="WeekDqhq" onclick="WeekDqhq(this,'牛奶','nn');">牛奶</li>
+                        </ul>
+                        </div>
+                    <br><br>
+
+                    <p>全市均价</p>
+                    <h3><em class="blue"><span id="qsjj">${null }</span></em><small><span id="dw">${null }</span></small></h3>
+                     <p>同比</p>
+                      <h4 id="tbColor"><span id="tbIco">${null }</span><span id="qstb">${null }</span></h4>
+                      <p>环比</p>
+					  <h4 id="hbColor"><span id="hbIco">${null }</span><span id="qshb">${null }</span></h4>
+                </div>
+            	<div class="col-md-9">
+                	<div id="dqhq" style="height: 520px; width: 100%; float:left;"></div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12"  style="padding:0;">
+            	<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                      <!--  <caption>价格列表</caption>-->
+                            <thead>
+                              <tr>
+                                <th width="45" class="hidden-xs">序号</th>
+                                <th width="90">区县 </th>
+                                <th width="90">价格<small>(元/千克)</small></th>
+                                <th width="60">同比</th>
+                                <th width="60">环比</th>
+                              </tr>
+                            </thead>
+                            <tbody id="mapTable">
+                              ${null }
+                            </tbody>
+                          </table>
+                     </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+        
+	</jsp:body>
+</t:chart>

@@ -1,0 +1,138 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>id:</th>
+					<td><span id="id" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政编码:</th>
+					<td><span id="xzbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>省级行政名称:</th>
+					<td><span id="sjxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地级行政名称:</th>
+					<td><span id="djxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>县级行政名称:</th>
+					<td><span id="xjxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政级别:</th>
+					<td><span id="xzjb" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报编码:</th>
+					<td><span id="tbbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报时间:</th>
+					<td><span id="tbsj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>年度:</th>
+					<td><span id="nd" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报人:</th>
+					<td><span id="tbr" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>年末保留种草面积:</th>
+					<td><span id="nmblzcmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>多年生保留:</th>
+					<td><span id="dnsbl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>人工种草保留:</th>
+					<td><span id="rgzcbl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>改良种草保留:</th>
+					<td><span id="glzcbl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>飞播种草保留:</th>
+					<td><span id="fbzzbl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年种草面积:</th>
+					<td><span id="dnzcmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年一年生种草:</th>
+					<td><span id="dnynszc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年多年生种草:</th>
+					<td><span id="dndnszc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年多年生人工种草:</th>
+					<td><span id="dndnsrgzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年改良种草:</th>
+					<td><span id="dnglzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年飞播种草:</th>
+					<td><span id="dnfbzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草种田面积:</th>
+					<td><span id="cztmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>种子产量:</th>
+					<td><span id="zzcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>多年生种子:</th>
+					<td><span id="dnszz" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>一年生种子:</th>
+					<td><span id="ynszz" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>秸秆产量:</th>
+					<td><span id="jgcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>秸秆饲用量:</th>
+					<td><span id="jgsyl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>秸秆加工饲用量:</th>
+					<td><span id="jgjgsyl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>其他农副资源饲用量:</th>
+					<td><span id="qtnfzysyl" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

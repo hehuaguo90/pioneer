@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+	<meta charset="UTF-8">
+<script type="text/javascript">
+</script>
+		<style>
+			form {
+				margin: 0;
+			}
+			textarea {
+				display: block;
+			}
+		</style>
+		<link rel="stylesheet" href="${ contextPath }/res/kindeditor-4.1.10/themes/default/default.css" />
+		<script charset="utf-8" src="${ contextPath }/res/kindeditor-4.1.10/kindeditor-min.js"></script>
+		<script charset="utf-8" src="${ contextPath }/res/kindeditor-4.1.10/lang/zh_CN.js"></script>
+		<script>
+			var editor;
+			KindEditor.ready(function(K) {
+				editor = K.create('textarea[name="content"]', {
+					allowFileManager : true
+				});
+				editor.html(sessionStorage.getItem("rechText"));
+				K('a[id=saveEdit]').click(function(e) {
+					var arr={};
+					arr.html=editor.html();
+					arr.type="${param.type}";
+					arr.clickType="rechText";
+					page.opener.refresh(arr);
+					page.close();
+				});
+			});
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	<form>
+			<textarea name="content" style="width:800px;height:400px;visibility:hidden;"></textarea>
+	</form>
+     <div id="operator" style="height:60px;padding:0;overflow:hidden;">
+					<a id="saveEdit" href="javascript:void(0)" class="easyui-linkbutton">
+						确定
+					</a>
+	</div>
+	</jsp:body>
+</t:page>

@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+    $(document).ready(function(){
+    	var url = contextPath + "/portAnalyze/getDatasetData?datasetId=${param.datasetId}&_=" + new Date().getTime();
+        $.post(url, function(data){
+        	var nameList = data.nameList;
+        	var fieldList = data.fieldList;
+            
+        	var columns = [];
+        	var column = [];
+        	for(var i = 0; i < fieldList.length; i++){
+        		var field = {
+        			field : fieldList[i],
+        			title : nameList[i]
+        		};
+        		
+        		column.push(field);
+        	};
+        	
+        	columns.push(column);
+        
+        	$('#datagrid').datagrid({
+        		url : url,
+        		loadFilter:function(data){
+        			return data.dataList;
+        		},
+        		columns:columns,
+        	    pagination : true,
+        	    rownumbers : true,
+        	    fitColumns:true,
+        	    fit:true
+        	});
+        });
+    });
+	
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+		    <div region="center" border="false">
+				<table id="datagrid" style="min-height: 450px"></table>
+		    </div>
+        </div>
+	</jsp:body>
+</t:page>

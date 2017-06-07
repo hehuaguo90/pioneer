@@ -1,0 +1,63 @@
+package com.wellsys.common.utils;
+
+import org.apache.commons.lang.StringUtils;
+
+public class NStringUtil extends StringUtils {
+	public static final String HANGUL_REG = "\uac00-\ud7a3|\u3131-\u3163";
+	public static final String CHINESE_REG = "\u4e00-\u9fbf\uf900-\ufaff";
+	public static final String CHINESE_GBK = "\u2E80-\u2EFF\u31C0-\u31EF\u3200-\u32FF\u3400-\u4DBF\u4E00-\u9FBF\uF900-\uFAFF";
+
+	public static boolean isNullOrEmpty(String str) {
+		return str == null ? true : "".equals(str) ? true : false;
+	}
+
+	public static boolean isNotNullAndEmpty(String str) {
+		return str == null ? false : "".equals(str) ? false : true;
+	}
+
+	public static boolean isNullOrEmpty(StringBuilder str) {
+		return str == null ? true : str.length() == 0 ? true : false;
+	}
+
+	public static boolean isNotNullAndEmpty(StringBuilder str) {
+		return str == null ? false : str.length() == 0 ? false : true;
+	}
+
+	public static String empty2Null(String str) {
+		if (str == null || "".equals(str))
+			return null;
+		return str.trim();
+	}
+
+	public static String null2Empty(String str) {
+		if (str == null || "null".equals(str))
+			return "";
+		return str.trim();
+	}
+
+	public static String null2Empty(Object str) {
+		if (str == null) {
+			return "";
+		}
+		return null2Empty(String.valueOf(str));
+	}
+
+	public static String forceTrim(String str) {
+		if (str == null)
+			return str;
+		return str.replaceAll("^\\s*(.*)\\s*$", "$1");
+	}
+	
+	  /**
+  	 * html特殊符号 转换为实体字符 
+  	 * @param oldString
+  	 * @return
+  	 */
+  	 public static String changeHtmlString(Object oldString){
+      	 if(oldString == null){
+      		 return null;
+      	 }else{
+      		 return oldString.toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      	 }
+     }
+}

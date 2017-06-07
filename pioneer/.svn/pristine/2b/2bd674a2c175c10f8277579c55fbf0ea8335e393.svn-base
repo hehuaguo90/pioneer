@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tfrd.bdas.module.tSysAreaUnite.dao.TSysAreaUniteDao" >
+    <resultMap id="tSysAreaUniteModelMap" type="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+        <id column="unite_id" property="uniteId" />
+        <result column="carea_id" property="careaId" />
+        <result column="area_id" property="areaId" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysAreaUniteModelMap" parameterType="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+        SELECT
+            unite_id
+            ,carea_id
+            ,area_id
+
+        FROM
+            t_sys_area_unite
+        WHERE
+            1=1
+            AND unite_id=#{uniteId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+        SELECT
+                t.unite_id as "uniteId"
+                ,t.carea_id as "careaId"
+                ,t.area_id as "areaId"
+
+        FROM
+                t_sys_area_unite t
+        WHERE
+                1=1
+                AND unite_id=#{uniteId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+            DELETE FROM
+                t_sys_area_unite
+            WHERE
+                1=1
+                AND unite_id=#{uniteId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+        INSERT INTO  t_sys_area_unite (
+             unite_id
+             ,carea_id
+             ,area_id
+
+        )
+        VALUES (
+            #{uniteId,jdbcType=VARCHAR }
+            ,#{careaId,jdbcType=VARCHAR }
+            ,#{areaId,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+        UPDATE
+                 t_sys_area_unite
+        SET
+                carea_id=#{careaId}
+                ,area_id=#{areaId}
+
+        WHERE
+                1=1
+                AND unite_id=#{uniteId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.unite_id as "uniteId"
+                ,t.carea_id as "careaId"
+                ,t.area_id as "areaId"
+
+        FROM
+                t_sys_area_unite t
+        WHERE
+                1=1
+            <if test="uniteId != null "> AND unite_id=#{uniteId} </if>
+            <if test="careaId != null "> AND carea_id=#{careaId} </if>
+            <if test="areaId != null "> AND area_id=#{areaId} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="tSysAreaUniteModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                unite_id
+                ,carea_id
+                ,area_id
+
+        FROM
+                t_sys_area_unite
+        WHERE
+                 1=1
+                <if test="uniteId != null "> AND unite_id=#{uniteId} </if>
+                <if test="careaId != null "> AND carea_id=#{careaId} </if>
+                <if test="areaId != null "> AND area_id=#{areaId} </if>
+    </select>
+
+   <delete id="deleteByCareaId" parameterType="com.tfrd.bdas.module.tSysAreaUnite.model.TSysAreaUniteModel" >
+            DELETE FROM
+                t_sys_area_unite
+            WHERE
+                carea_id=#{careaId}
+    </delete>
+</mapper> 

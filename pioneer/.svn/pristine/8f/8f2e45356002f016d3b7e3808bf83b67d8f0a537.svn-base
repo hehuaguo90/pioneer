@@ -1,0 +1,26 @@
+EXCEL_SHEET_DATA=60000
+WORD_ADDRESS=D\:/Downloads/file/
+PROJCE_NAME=pioneer
+SENDER_TEL=11111111111
+PIC_TYPE=.jpg\:.jpeg\:.png\:.gif\:.bmp\:.JPG\:.JPEG\:.PNG\:.GIF\:.BMP\:
+CACHE_PATH=c:/bdas/filecache/
+UPLOAD_FOLDER=E:/bdas/tomcat/webapps/uploads/
+RECH_TEXT_IMG=E:/bdas/tomcat/webapps/uploads/
+DBSQL_BACKUP=E:/bdas/tomcat/webapps/uploads/
+UPLOAD_PREFIX_URL=http://192.168.1.238:8000/uploads/
+RECH_TEXT_IMG_PREFIX_URL=http://192.168.1.238:8000/uploads/
+DBSQL_BACKUP_PREFIX_URL=http://192.168.1.238:8000/uploads/
+ROOT_PATH=E:/bdas/tomcat/webapps/bdas/
+#mysql database info
+REMOTE_HOST=-h192.168.1.50 -uroot -p123 bdas
+DEFAULT_FIELD=id,tbrid,tbqyid,tbzq,tbsj,
+ZGZQK_FIELD=pzmc,ly,cngz,hbgz,cdgz,jyscl,jyxsl
+ZGZZYQSB_FIELD=sbmc,xh,sl,sycs
+#weixin token refresh time, second default 5000, max 7200
+WX_TASK_TIME=5000
+#tfrd app info
+APPID=wx3aa140acf462f03c
+APPSECRET=19a829d27956dd28980751ab59cdafe8
+DATA_RESOURCE_URL=http\://rota.thtf.com.cn/xmdc-admin/tLoginObjAction/userLogin?account\=view&password\=123&validateCode\=9c9c 
+#GIS\u670d\u52a1\u7aef\u5730\u5740
+ges_url=http://192.168.1.56:8771/geoserver/

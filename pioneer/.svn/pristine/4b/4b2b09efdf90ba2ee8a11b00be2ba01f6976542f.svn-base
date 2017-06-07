@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg_ldzm">
+<!--页面顶部LOGO及主菜单栏开始-->
+<div class="contentbox">
+	<div class="logobox">
+    	<span >
+       		<img src="style/images/logo_ldzm.png" width="45" height="38"> 
+        	重庆市畜牧一张图
+        </span>
+    </div>
+    <div class="ldzm_body">
+    	<div class="row ldzm_body_up">
+        	<div class="col-md-2">
+            	<h4>肉类总产量</h4>
+				<div>环状饼</div>
+            </div>
+            <div class="col-md-2">
+           		<h4>出栏率</h4>
+                <div>仪表盘</div>
+            </div>
+            <div class="col-md-2">
+           		<h4>猪粮比</h4>
+                <div>仪表盘</div>
+            </div>
+            <div class="col-md-6">
+            	<h4>肉类价格走势</h4>
+                <div>折线图</div>
+            </div>
+        </div>
+      <div class="row ldzm_body_bottom">
+        	<div class="col-md-6">
+            	<h4>猪肉产量分布</h4>
+                <div >GIS地图</div>
+            </div>
+            <div class="col-md-6">
+            	<ul class="chart_ex">
+                	<li class="active"><p class="example_1">16,730<small>(吨)</small></p></li>
+                  <li><p class="example_2">16,730<small>(吨)</small></p></li>
+                  <li><p class="example_3">16,730<small>(吨)</small></p></li>
+                  <li><p class="example_4">16,730<small>(吨)</small></p></li>
+                  <li><p class="example_5">16,730<small>(吨)</small></p></li>
+                  <li>
+                    <p class="example_6">673<small>(平方公里)</small></p></li>
+                    
+                </ul>
+                <div class="clear" style="margin-bottom:20px;"></div>
+           		<h4 style="margin-bottom:20px;">全市猪养殖情况</h4>
+                <div class="example_table">
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <th>产量<small>(吨)</small></th>
+                        <th>存栏数<small>(头)</small></th>
+                        <th>出栏数<small>(头)</small></th>
+                        <th>规模场数<small>(户)</small></th>
+                      </tr>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-arrow-down">&#160;</span>16,730</td>
+                        <td><span class="glyphicon glyphicon-arrow-up">&#160;</span>12,018</td>
+                        <td><span class="glyphicon glyphicon-arrow-down">&#160;</span>1,011</td>
+                        <td><span class="glyphicon glyphicon-arrow-up">&#160;</span>1,180</td>
+                      </tr>
+                      <tr>
+                        <th>纳入追溯数<small>(户)</small></th>
+                        <th>养殖户数<small>(户)</small></th>
+                        <th>产品认证数<small>(个)</small></th>
+                        <th>财政补助额<small>(万元)</small></th>
+                      </tr>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-arrow-up">&#160;</span>1,011</td>
+                        <td><span class="glyphicon glyphicon-arrow-down">&#160;</span>2,810</td>
+                        <td><span class="glyphicon glyphicon-arrow-down">&#160;</span>810</td>
+                        <td><span class="glyphicon glyphicon-arrow-up">&#160;</span>3,810</td>
+                      </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysOrg.dao.TSysOrgDao">
+	<resultMap id="tSysOrgModelMap"
+		type="com.wellsys.pioneer.module.tSysOrg.model.TSysOrgModel">
+		<id column="org_id" property="orgId" />
+		<result column="pid" property="pid" />
+		<result column="area_id" property="areaId" />
+		<result column="org_name" property="orgName" />
+		<result column="show_order" property="showOrder" />
+		<result column="remark" property="remark" />
+	</resultMap>
+
+
+
+	<select id="getBeanById" resultMap="tSysOrgModelMap"
+		parameterType="com.wellsys.pioneer.module.tSysOrg.model.TSysOrgModel">
+		SELECT
+		org_id
+		,pid
+		,area_id
+		,org_name
+		,show_order
+		,remark
+
+		FROM
+		t_sys_org
+		WHERE
+		1=1
+		AND org_id=#{orgId}
+	</select>
+
+	<select id="getBeanMapById" resultType="java.util.HashMap"
+		parameterType="com.wellsys.pioneer.module.tSysOrg.model.TSysOrgModel">
+		SELECT
+		t.org_id as "orgId"
+		,IFNULL(t.pid, '0') as "pid"
+		,t.area_id as "areaId"
+		,t.org_name as "orgName"
+		,t.show_order as "showOrder"
+		,t.remark as "remark"
+        ,a.short_name as "areaName",
+        IFNULL(t1.org_name, '无') as "porgName"
+		FROM
+		t_sys_org t inner join t_sys_area a on t.area_id = a.area_id left join t_sys_org t1
+		on t.pid = t1.org_id
+		WHERE
+		t.org_id=#{orgId}
+
+	</select>
+
+
+	<delete id="delete" parameterType="com.wellsys.pioneer.module.tSysOrg.model.TSysOrgModel">
+		DELETE FROM
+		t_sys_org
+		WHERE
+		1=1
+		AND org_id=#{orgId}
+	</delete>
+
+
+	<insert id="save" parameterType="com.wellsys.pioneer.module.tSysOrg.model.TSysOrgModel">
+		INSERT INTO t_sys_org (
+		org_id
+		,pid
+		,area_id
+		,org_name
+		,show_order
+		,remark
+
+		)
+		VALUES (
+		#{orgId,jdbcType=VARCHAR }
+		,#{pid,jdbcType=VARCHAR }
+		,#{areaId,jdbcType=VARCHAR }
+		,#{orgName,jdbcType=VARCHAR }
+		,#{showOrder,jdbcType=INTEGER }
+		,#{remark,jdbcType=VARCHAR }
+		)
+	</insert>
+
+
+	<update id="update" parameterType="com.wellsys.pioneer.module.tSysOrg.model.TSysOrgModel">
+		UPDATE
+		t_sys_org
+		SET
+		pid=#{pid}
+		,area_id=#{areaId}
+		,org_name=#{orgName}
+		,show_order=#{showOrder}
+		,remark=#{remark}
+
+		WHERE
+		1=1
+		AND org_id=#{orgId}
+	</update>
+
+	<select id="listMap" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		t.org_id as "orgId"
+		,t.pid as "pid"
+		,t.area_id as "areaId"
+		,t.org_name as "orgName"
+		,t.show_order as "showOrder"
+		,t.remark as "remark"
+
+		FROM
+		t_sys_org t
+		WHERE
+		1=1
+		<if test="orgId != null "> AND org_id=#{orgId} </if>
+		<if test="pid != null "> AND pid=#{pid} </if>
+		<if test="areaId != null "> AND area_id=#{areaId} </if>
+		<if test="orgName != null "> AND org_name=#{orgName} </if>
+		<if test="showOrder != null "> AND show_order=#{showOrder} </if>
+		<if test="remark != null "> AND remark=#{remark} </if>
+	</select>
+
+
+	<select id="listBean" resultMap="tSysOrgModelMap" parameterType="java.util.HashMap">
+		SELECT
+		org_id
+		,pid
+		,area_id
+		,org_name
+		,show_order
+		,remark
+
+		FROM
+		t_sys_org
+		WHERE
+		1=1
+		<if test="orgId != null "> AND org_id=#{orgId} </if>
+		<if test="pid != null "> AND pid=#{pid} </if>
+		<if test="areaId != null "> AND area_id=#{areaId} </if>
+		<if test="orgName != null "> AND org_name=#{orgName} </if>
+		<if test="showOrder != null "> AND show_order=#{showOrder} </if>
+		<if test="remark != null "> AND remark=#{remark} </if>
+	</select>
+
+	<select id="listOrgComp" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		v.id,
+		v.name text,
+		v.pid
+
+		FROM
+		v_sys_org_comp v
+		WHERE
+		1=1
+		<if test="pid != null "> AND pid=#{pid} </if>
+		order by id
+	</select>
+
+	<select id="listOrg" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select 
+		t.org_id id, 
+		t.pid, 
+		t.org_name orgName,
+		a.short_name areaName, 
+		t.remark
+		from t_sys_org t, t_sys_area a
+		where t.area_id = a.area_id
+		<if test="pid != null "> AND t.pid=#{pid} </if>
+		<if test="orgName != null "> AND t.org_name like #{orgName} </if>
+		<if test="shortName != null "> AND t.short_name like #{shortName} </if>
+		<if test="areaLevel != null "> AND a.area_level = #{areaLevel} </if>
+		order by t.show_order, t.org_id
+	</select>
+
+    <select id="hasChildOrg" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		select 
+		count(1)
+		from t_sys_org t
+		where 
+		t.pid=#{pid}
+	</select>
+	
+	<select id="hasChildComp" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+	select 
+		count(1)
+		from t_sys_comp t
+		where 
+		t.org_id=#{pid}
+	</select>
+	
+	<select id="hasChildUser" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+	select 
+		count(1)
+		from t_sys_user t
+		where 
+		t.pid=#{pid}
+	</select>
+	
+</mapper> 

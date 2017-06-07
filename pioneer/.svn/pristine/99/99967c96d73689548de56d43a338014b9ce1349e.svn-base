@@ -1,0 +1,166 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:formCommon />
+	<link type="text/css" rel="stylesheet"
+	href="${ contextPath }/res/sys/process/style.css" />
+<script type="text/javascript">
+
+function showMore(sid,deptid)
+		{
+			subcontent = "subcontent" + sid + deptid;
+			loadmore = "loadmore" + sid + deptid;
+			if ($("#"+subcontent).is(":hidden"))
+			{
+				$("#"+subcontent).show();
+				$("#"+loadmore).text("↑ 收起详情");
+			}
+			else
+			{
+				$("#"+subcontent).hide();
+				$("#"+loadmore).text("↓ 查看详情");
+			}
+		}
+
+
+
+</script>
+	<body>
+	<div class="stepbox">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <c:forEach var="dropNum" items="${stepList}" varStatus="status">
+  
+  <tr>
+			  <c:if test="${status.first}">
+					   			<jsp:text>
+									<![CDATA[
+			      						 <td valign="top" class="start_done">
+									]]>
+								</jsp:text>
+			 </c:if>
+			  <c:if test="${!status.first and !status.last}">
+				  						<c:if test="${dropNum.lastStep != -1 and dropNum.status == '1' }">
+				  					<jsp:text>
+											<![CDATA[
+				  						 		<td valign="top" class="between_done">
+											]]>
+									</jsp:text>
+										</c:if>
+										<c:if test="${dropNum.nextStep == -1 and dropNum.status == '0' }">
+				  					<jsp:text>
+											<![CDATA[
+				  						 		<td valign="top" class="end_doing">
+											]]>
+									</jsp:text>
+										</c:if>
+										<c:if test="${dropNum.lastStep == -1 and dropNum.status == '1' }">
+				  					<jsp:text>
+											<![CDATA[
+				  						 		<td valign="top" class="between_done">
+											]]>
+									</jsp:text>
+										</c:if>
+				</c:if>
+				
+ 		    	<c:if test="${status.last}">
+		    		<c:if test="${status.index gt 0}">
+		    			<c:if test="${dropNum.nextStep == '-1' and dropNum.status == '1' }">
+		    				<jsp:text>
+								<![CDATA[
+		    					<td valign="top" class="end_done">
+									]]>
+							</jsp:text>
+			    		</c:if>
+			    		<c:if test="${dropNum.nextStep == '-1' and dropNum.status != '1' }">
+						    	<jsp:text>
+									<![CDATA[
+			    					<td valign="top" class="end_doing">
+										]]>
+								</jsp:text>
+			    		</c:if>
+			    		<c:if test="${dropNum.nextStep != '-1'  and dropNum.status == '0'  }">
+						    	<jsp:text>
+									<![CDATA[
+			    					<td valign="top" class="end_doing">
+										]]>
+								</jsp:text>
+			    		</c:if>
+    				</c:if>
+		    	</c:if>
+ 		    	
+		    		<div>
+		    		<div class="lcleft"><span class="lcname">${dropNum.areaName }</span></div>
+		    		<div class="p_content">
+					    		<div class="substep">
+					    			<c:if test="${dropNum.lastStep == -1 }">
+						    			 <c:set target="${dropNum}" property="btNum" value="1"/>
+							    		<span class="timeout"><img src="${contextPath}/res/sys/process/images/tianbao.png" width="29" height="14" />${null }</span>
+							    	</c:if>
+							    	<c:if test="${dropNum.nextStep == -1 and dropNum.status == 1 and dropNum.isReture != 1 }">
+						    			 <c:set target="${dropNum}" property="btNum" value="1"/>
+							    		<span class="timeout"><img src="${contextPath}/res/sys/process/images/guidang.png" width="29" height="14" />${null }</span>
+							    	</c:if>
+							    	<c:if test="${dropNum.status == 0} ">
+						    			 <c:set target="${dropNum}" property="btNum" value="1"/>
+							    		<span class="timeout"><img src="${contextPath}/res/sys/process/images/daishenhe.png" width="29" height="14" />${null }</span>
+							    	</c:if>
+							     	<c:if test="${dropNum.status == 1 and dropNum.lastStep != -1 and dropNum.isReture == 0 and dropNum.nextStep != -1 }">
+						    			 <c:set target="${dropNum}" property="btNum" value="1"/>
+							    		<span class="timeout"><img src="${contextPath}/res/sys/process/images/tongguo.png" width="29" height="14" />${null }</span>
+							    	</c:if>
+							    	<c:if test="${dropNum.status == 1 and dropNum.lastStep != -1 and dropNum.isReture == 1 }">
+						    			 <c:set target="${dropNum}" property="btNum" value="1"/>
+							    		<span class="timeout"><img src="${contextPath}/res/sys/process/images/bohui.png" width="29" height="14" />${null }</span>
+							    	</c:if>
+							    	
+							    	<c:if test="${dropNum.btNum == 1 }">
+							    		<div class="breakline">${null }</div>
+							    	</c:if>
+					    			<span class="contentname">办理人员：</span><span class="contentis_name">${dropNum.userName } </span><br />
+					    			<span class="contentname" >到达时间：</span><span class="contentis"><fmt:formatDate value="${dropNum.receiveTime }" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+					    			<span class="contentname" >办理时间：</span><span class="contentis">${dropNum.disposeTime }</span><br />
+	          						<span class="contentname">办理意见：</span><span class="contentis_memo">${dropNum.checkMsg }</span>
+	          						
+	          						 <div id="subcontent${dropNum.msgId}${dropNum.fieldCode}" class="subcontent" style="display:none;">
+						            	<table  border="0" cellspacing="0" cellpadding="0">
+										  <tr>
+										    <th style="width:150px;" align="left">字段名称 </th>
+										    <th style="width:140px;" align="center">原内容</th>
+										    <th style="width:140px;" align="center">修改后内容</th>
+										    <th style="width:140px;" align="center">修改时间</th>
+										  </tr>
+										 
+										  <c:forEach var="statusNum" items="${updateList}" varStatus="status3">
+										   
+											  <c:if test="${statusNum.msgId == dropNum.msgId}">
+											  	  <c:set target="${dropNum}" property="msgNum" value="1"/>
+												  <tr>
+												    <td align="left">${statusNum.itemName}</td>
+												    <td align="center">${statusNum.oldValue}</td>
+												    <td align="center">${statusNum.newValue}</td>
+												    <td align="center"><fmt:formatDate value="${statusNum.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+												  </tr>
+											  </c:if>
+										  </c:forEach>
+										</table>
+            						</div>
+            						<c:if test="${dropNum.msgNum == 1}">
+            							<div id="loadmore${dropNum.msgId}${dropNum.fieldCode}" class="loadmore" onClick="showMore('${dropNum.msgId}','${dropNum.fieldCode}')">↓&#160;查看详情</div>
+            						</c:if>
+	          					</div>
+			        </div>
+				</div>			        
+		    	
+		        <jsp:text>
+						<![CDATA[
+						</td>
+							]]>
+					</jsp:text>
+  </tr>
+  </c:forEach>
+  </table>
+</div>
+	</body>

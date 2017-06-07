@@ -1,0 +1,205 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				selTblx();
+				
+				$(".col-md-1").bind("click", function () {              
+					loadDatas();
+	            });
+				loadDatas();
+			 
+			});
+ 			
+			function selTblx(){
+                $.ajax({  
+                    url: contextPath + "/tSysDict/listDict?type=PERIOD_TYPE",  
+                    dataType: "json",  
+                    success: function (data) {  
+                    	 $("#tblxitem").html('');
+                    	 $("#tblxitem").append("<li role='presentation'><a role='menuitem' onclick=\"setSel('','全部类型')\"  ' href='#' >全部类型</a></li>");
+                        $.each(data, function (index, units) {  
+                          // console.log("<li role='presentation'><a role='menuitem' tabindex='"+units.id+"' href='#' onclick=\"setSel("+ units.id + ",'"+ units.text +"')\"  >" + units.text + "</a></li>");
+                          $("#tblxitem").append("<li role='presentation'><a role='menuitem' tabindex='"+units.id+"' href='#' onclick=\"setSel("+ units.id + ",'"+ units.text +"')\"  >" + units.text + "</a></li>");  	                            
+                        });  
+                    },                       
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {  
+                        //alert("error");  
+                    }  
+                });  				
+			}	
+			
+		    function openProcess(processId){
+		    	
+		    	//window.parent.document.getElementById("iframe5").src = contextPath+ "/tProcessStepMsg/listAll?processId="+processId ;		    	
+		   		var iframe = window.parent.document.getElementById("iframe5");
+		   		iframe.src =  contextPath+ "/tProcessStepMsg/listAll?processId="+processId ;
+		   		$('#loading').modal('show');
+		   	    if (iframe.attachEvent){
+		   	        iframe.attachEvent("onload", function(){
+		   	            window.parent.$('#myModal5').modal('show');	
+		   	        	$('#loading').modal('hide');
+		   	         });
+		   	    }else{
+		   	        iframe.onload = function(){
+		   	            window.parent.$('#myModal5').modal('show');	
+		   	            $('#loading').modal('hide');
+		   	    	};
+		   	    }		   			    	
+		    }
+			function loadDatas(){
+				$.ajax({ url: contextPath+"/tianBao/"+"listOverLimit",
+					     data:{formName:$('#formName').val(),tblx:$('#tblx').val()},
+		                 beforeSend:function(){
+		    	             $('#loading').modal('show');
+		   	           },
+		   	        success: function(data){
+			             ajaxobj=eval("("+data+")");  
+				        if(ajaxobj.length >0) {
+					         var html ='	<thead>  ' + 
+					         '	<tr>' +  '	<th>序号</th>' +
+					         '	<th>表单名称</th>' +
+							'	<th>填报区域</th>' +
+							'	<th>填报类型</th>' +
+							'	<th>填报周期</th>' +
+							'	<th>填报状态</th>' +
+							'	<th>操作</th>' +
+							'	</tr>' +
+						'</thead><tbody>';
+						  var count=0;
+					         for(var i=0; i <ajaxobj.length;i++){
+					        	 var url = contextPath + ajaxobj[i].url;
+					        	 url += '?formId='+ajaxobj[i].form_id+"&batchId="+ajaxobj[i].batch_id+"&tbzq="+ajaxobj[i].tbzq
+					        			 + "&areaId="+ajaxobj[i].parea_id+ "&area="+ajaxobj[i].parea_name+ "&processId="+ajaxobj[i].process_id+ "&tbzqName="+ajaxobj[i].name;
+					        	 html += '<tr>' +"<td>"+(++count)+"</td>" + '<td>'+ajaxobj[i].form_name+"</td>"  +"<td>"+ajaxobj[i].parea_name+"</td>" 
+					        	 + "<td>"+ajaxobj[i].name+"</td>"+"<td>"+ajaxobj[i].tbzq+"</td>" 
+					        	          +"<td>"+ajaxobj[i].current_step_name+"</td>"
+					        	           +"<td>" +"<a   class='btn btn-success btn-xs'   href='" + url  +"'>"+ajaxobj[i].is_edit_name +"</a>" +"<a class='btn btn-success btn-xs' onclick=\"openProcess('"+ ajaxobj[i].process_id +"')\"  href='#'>查看流程</a>"   +"</td>"+"</tr>";
+					         }
+					         html += '</tbody>';
+					       $("table").html(html);
+					       $(".nomsg").hide();	
+				       }else{
+				    	   $("table").html("");
+				    	   $(".nomsg").show();	 
+				       }
+				       setTimeout(" $('#loading').modal('hide')", 500 ) ;
+				      }}); 	 
+			}
+			 
+			function setSel(id,value){
+		    	 $("#tblx").attr("value",id);
+		    	 $("#span_selected").html(value);
+		    }
+			 
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	 <t:listFormHead></t:listFormHead>
+<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="loading_box row">
+    <div class="col-md-2">
+    <i class="icon-spinner icon-spin" style="font-size:36px;"></i>
+    </div>
+    <div class="col-md-10 loading_box_txt">
+    正在加载中，请稍候...
+    </div>
+    
+    </div><!-- /.modal-dialog -->
+</div>
+		
+         <div class="paper_head"  >
+       		<div class="col-md-3 row" style="padding-top:8px;">
+            	<div class="col-md-3">
+                	<span class="icon-paste paperico"></span>
+                </div>
+                <div class="col-md-9">
+                	<p class="lanmu_name">超期填报</p>
+                    <p class="lanmu_memo">查看超期填报记录</p>
+                </div>
+            </div>
+            <div class="col-md-9 row searchbar" style="display:''">
+            	<div class="col-md-3">
+                  	<small>填写表单名称</small><br>
+					<input class="form-control" type="text" value="" id="formName" name="formName"/>
+                </div>
+                <div class="col-md-2">
+                  <div class="dropdown">
+                  	<small>选择填报类型</small><br>
+                    <button class="btn btn-default dropdown-toggle"
+							type="button" id="tblx" name="tblx" data-toggle="dropdown" ><span id="span_selected">全部类型</span>
+                    <span class="caret"></span>
+						</button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="tblx" id="tblxitem"
+							aria-labelledby="menu1">
+
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-1">
+					<br>
+                
+                <button type="button" class="btn btn-success">
+						<span class="icon-search"></span>&nbsp;&nbsp;查询</button>
+                </div>
+
+            </div>
+       </div>
+       <div class="paper_content_box_table">
+       <h4>超期填报记录列表</h4>
+        <table class="table table-striped table-bordered table-hover">
+	<!--  
+	<thead>
+		<tr>
+			<th>表单名称</th>
+			<th>填报周期</th>
+			<th>填报状态</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	 
+	<tbody>	   
+		<!--   <tr>
+			<td>Tanmay</td>
+			<td>Bangalore</td>
+			<td>560001</td>
+			<td>560001</td>
+			<td>560001</td>
+			<td>560001</td>
+		</tr>
+		
+	</tbody>-->
+</table>
+<div class="nomsg" style="display:none"><span class="ico icon-paste"></span>暂无超期填报记录！</div>
+         <div class="page_bar row" style="display:none">
+            	<div class="col-md-7">每页<strong>10</strong>条&nbsp;&nbsp;共有<strong>2015</strong>条&nbsp;&nbsp;<strong>200</strong>页&nbsp;&nbsp;前往第<input
+						type="text" class="form-control pageinput">页</div>
+                <div class=" col-md-5">
+                  <ul class="pagination pull-right">
+                        <li><a href="#">&laquo;</a>
+						</li>
+                        <li class="active"><a href="#">1</a>
+						</li>
+                        <li><a href="#">2</a>
+						</li>
+                        <li><a href="#">3</a>
+						</li>
+                        <li><a href="#">4</a>
+						</li>
+                        <li><a href="#">5</a>
+						</li>
+                        <li><a href="#">&raquo;</a>
+						</li>
+                    </ul>
+                </div>
+            </div>
+		</div>
+         <t:listFormFooter></t:listFormFooter>
+	</jsp:body>
+</t:form>

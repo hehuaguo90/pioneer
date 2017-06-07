@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="pioneer"
+  id="myeclipse.1459839610812"
+  context-root="/pioneer"
+  j2ee-spec="6.0"
+  archive="pioneer.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

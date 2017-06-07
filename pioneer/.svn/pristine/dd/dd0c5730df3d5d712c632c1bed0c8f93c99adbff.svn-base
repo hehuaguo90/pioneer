@@ -1,0 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initValidatePane();
+				var param = "${pageContext.request.queryString}" || "${queryParam}";
+				 page.loadView({
+				      url : contextPath + "/tFormUserPright/getBeanMapById/?" + param;
+			     });
+			});
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	<t:formViewHead></t:formViewHead>
+	<form>
+		<table>
+
+				<tr>
+					<th>外键，表单id:</th>
+					<td><span id="formId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，用户id:</th>
+					<td><span id="userId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>权限类型:</th>
+					<td><span id="rightType" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，企业或村id:</th>
+					<td><span id="objId" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	<t:formViewFooter></t:formViewFooter>
+	</jsp:body>
+</t:form>

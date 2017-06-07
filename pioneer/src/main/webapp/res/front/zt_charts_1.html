@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+       <h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+	<div class="container-fluid"> 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+			<span class="sr-only">切换导航</span>
+			<span class="icon-bar" style="color:#fff;"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;"><h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4></a>
+	</div>
+	<div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="home_charts.html">首页</a></li>
+			<li><a href="zt_charts_1.html">生产概况</a></li>
+			<li><a href="#">专题展示</a></li>
+			<li><a href="#">价格监测</a></li>
+			<li><a href="zt_charts_1.html">用户信息</a></li>
+			<li><a href="zt_charts_2.html">修改密码</a></li>
+			<li><a href="zt_charts_3.html">退出系统</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+      <li class="menubg_1"><a href="#"><span class="icon-home"></span><br/>
+        首页</a></li>
+      <li class="menubg_2"><a href="#"><span class="icon-flag"></span><br/>
+        生产概况</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-shopping-cart" style="font-size:28px!important;"></span><br/>
+        价格监测</a></li>
+      <li class="menubg_4"><a href="#"><span class="icon-bar-chart" style="font-size:28px!important;"></span><br/>
+        专题展示</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-globe"></span>存栏、出栏量分析
+          <small class="simple_box_title_txt hidden-xs"> 分析全市各区县存栏量和出栏量构成 </small> 
+          <a class="title_tool" href="#fdsf"><span class="icon-reply"></span>返回</a>
+          
+          </h3>
+        </div>
+        <p class="charts_txt"> 
+        	2014年我市27个区县政府将畜牧业纳入特色效益农业主导产业，其中有16个区县是山羊等草食牲畜产业，有力地促进了畜牧业快速发展，主要畜产品优势产区逐步形成。合川、荣昌的生猪，丰都、云阳的肉牛，开县、巫溪的山羊，秀山、城口的土鸡，彭水、南川的蜂，铜梁、梁平的水禽以及长寿的蛋鸡等特色畜牧业发展迅速并且已达相应水平，产业聚集效益明显，为农民就业和保供做出了积极贡献。
+        </p><br>
+
+        
+        		<div class="btn-group">
+                    <button type="button" class="btn btn-success ">出栏</button>
+                    <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">出栏</a></li>
+                        <li><a href="#">存栏</a></li>
+                    </ul>
+                </div>
+                
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success ">2015年</button>
+                    <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">2012年</a></li>
+                        <li><a href="#">2013年</a></li>
+                        <li><a href="#">2014年</a></li>
+                        <li><a href="#">2015年</a></li>
+                        <li><a href="#">2016年</a></li>
+                    </ul>
+                </div>
+                
+                
+        
+		<div class="row">
+        	<div class="col-md-6" style="height:550px;">
+            	此处为GIS图
+            </div>
+            <div class="col-md-6" style="padding-top:10px;">
+            		<ul class="nav nav-tabs "><!--nav-justified-->
+                      <li class="active"><a data-toggle="tab" href="#menu1">查看表格</a></li>
+                      <li ><a data-toggle="tab" href="#menu2">查看图表</a></li>
+                    </ul>
+                    <div class="tab-content">
+                    
+                      <div id="menu1" class="tab-pane in active colortable">
+                          <p>2015年，全市牲畜出栏总量为27947头，其中，肉猪12408头,占总数的54%，出栏和自宰的肉用牛8654头，占总数的37%，牛存栏量7102头，肉牛出栏量为6012头。 </p>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                  <th class="hidden-xs">#</th>
+                                <th>品种 </th>
+                                <th>出栏量(头) </th>
+                                <th>百分比</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                  <td class="hidden-xs">1</td>
+                                <td>肉猪</td>
+                                <td>12408</td>
+                                <td>32%</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">2</td>
+                                <td>出栏和自宰的肉用牛</td>
+                                <td>8654</td>
+                                <td>26%</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">3</td>
+                                <td>出栏和自宰的肉用羊</td>
+                                <td>7102</td>
+                                <td>25%</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">4</td>
+                                <td>家禽</td>
+                                <td>6012</td>
+                                <td>17%</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div id="menu2" class="tab-pane fade">
+                         
+                          此处为饼图等与左侧GIS联动的图表 
+                        </div>
+                        
+                    
+                    
+                    
+                    </div>
+                    
+                    
+                    
+            </div>
+        	
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div class="charts_memo">
+        <h4 class="charts_memo_title"><span class="icon-file-alt "></span>描述信息</h4>
+        <p> 据统计，2014年重庆市生猪出栏2150.8万头、存栏1483.7万头，同比增长2.2%、-1.23%；牛出栏64.2万头、存栏140.6万头，同比增长8.9%、2.93%；羊出栏249.8万只、存栏209.5万只，同比增长9.88%、13.15%；禽出栏23601.3万只、存栏1800万只，同比增长11.3%、7.2%。肉类总产量达213.9万吨，禽蛋总产量达43.2万吨，奶类总产量5.6万吨，同比分别增长2.94%、5.16%、-16.32%。除奶牛下降外主要畜禽生产持续增长，有效保障了主要畜产品的市场供给。今年一季度，据部分区县实地调研并结合动物疫病春防数据，较去年同期存栏能繁母猪下降了20%、生猪下降了10%左右，从行业统计分析，生猪价格经过长期低迷后开始小幅回升；而牛羊在长时间价格上扬拉动和政策的大力扶持，市场供给充足有余，价格开始小幅回落。</p>
+        </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 推荐专题
+          <small class="simple_box_title_txt hidden-xs"> 经过精心设计的推荐专题  </small></h3> <a href="#fdsf" class="pull-right">查看更多&gt;</a>
+        </div>
+        <div class="row">
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_1.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                    <a href="#" >
+                        草场分布
+                    </a> 
+                    </div>
+               </div>
+            </div>
+          	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_2.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >生猪存栏量分布</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_3.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >猪肉和玉米价格分析</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_4.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >
+                      生猪出栏数量分布
+                  </a> 
+                  </div>
+               </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tBaseYc.dao.TBaseYcDao" >
+    <resultMap id="TBaseYcModelMap" type="com.wellsys.pioneer.module.tBaseYc.model.TBaseYcModel" >
+        <id column="id" property="id" />
+        <result column="area" property="area" />
+        <result column="clcode" property="clcode" />
+        <result column="adcode99" property="adcode99" />
+        <result column="name99" property="name99" />
+        <result column="sh2" property="sh2" />
+        <result column="di2" property="di2" />
+        <result column="x2" property="x2" />
+        <result column="centroid_x" property="centroidX" />
+        <result column="centroid_y" property="centroidX" />
+        <result column="geometry" property="geometry" />
+        <result column="info" property="info" />
+        <result column="bak" property="bak" />
+        <result column="pic" property="pic" />
+        <result column="areaId" property="areaId" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="TBaseYcModelMap" parameterType="com.wellsys.pioneer.module.tBaseYc.model.TBaseYcModel" >
+        SELECT
+            id
+			,area
+			,clcode
+			,adcode99
+			,name99
+			,sh2
+			,di2
+			,x2
+			,centroid_y
+			,centroid_x
+			,geometry
+			,info
+			,bak
+			,pic
+			,areaId
+
+        FROM
+           base_yc
+        WHERE
+            1=1
+            AND id=#{id}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tBaseYc.model.TBaseYcModel" >
+        SELECT
+            id
+			,area
+			,clcode
+			,adcode99
+			,name99
+			,sh2
+			,di2
+			,x2
+			,centroid_y
+			,centroid_x
+			,geometry
+			,info
+			,bak
+			,pic
+			,areaId
+
+        FROM
+                base_yc t
+        WHERE
+                1=1
+                AND id=#{id}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tBaseYc.model.TBaseYcModel" >
+            DELETE FROM
+                base_yc
+            WHERE
+                1=1
+                AND id=#{id}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tBaseYc.model.TBaseYcModel" >
+        INSERT INTO  base_yc (
+            id
+			,area
+			,clcode
+			,adcode99
+			,name99
+			,sh2
+			,di2
+			,x2
+			,centroid_y
+			,centroid_x
+			,geometry
+			,info
+			,bak
+			,pic
+			,areaId
+
+        )
+        VALUES (
+            #{id,jdbcType=VARCHAR }
+            ,#{area,jdbcType=VARCHAR }
+            ,#{clcode,jdbcType=VARCHAR }
+            ,#{adcode99,jdbcType=VARCHAR }
+            ,#{name99,jdbcType=VARCHAR }
+            ,#{sh2,jdbcType=VARCHAR }
+            ,#{di2,jdbcType=VARCHAR }
+            ,#{centroidY,jdbcType=VARCHAR }
+            ,#{centroidX,jdbcType=VARCHAR }
+            ,#{geometry,jdbcType=VARCHAR }
+            ,#{info,jdbcType=VARCHAR }
+            ,#{bak,jdbcType=VARCHAR }
+            ,#{pic,jdbcType=VARCHAR }
+            ,#{areaId,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tBaseYc.model.TBaseYcModel" >
+        UPDATE
+                 base_yc
+        SET
+                area=#{area}
+                ,clcode=#{clcode}
+                ,adcode99=#{adcode99}
+                ,name99=#{name99}
+                ,sh2=#{sh2}
+                ,di2=#{di2}
+                ,x2=#{x2}
+                ,centroid_y=#{centroidY}
+                ,centroid_x=#{centroidX}
+                ,geometry=#{geometry}
+                ,info=#{info}
+                ,bak=#{bak}
+                ,pic=#{pic}
+                ,areaId=#{areaId}
+        WHERE
+                1=1
+                AND id=#{id}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+            id
+			,area
+			,clcode
+			,adcode99
+			,name99
+			,sh2
+			,di2
+			,x2
+			,centroid_y
+			,centroid_x
+			,geometry
+			,info
+			,bak
+			,pic
+			,areaId
+        FROM
+                base_yc t
+        WHERE
+                1=1
+            <if test="id != null "> AND t.id=#{id} </if>
+            <if test="area != null "> AND t.area =#{area} </if>
+            <if test="clcode != null "> AND t.clcode=#{clcode} </if>
+            <if test="adcode99 != null "> AND t.adcode99=#{adcode99} </if>
+            <if test="name99 != null "> AND t.name99=#{name99} </if>
+            <if test="sh2 != null "> AND t.sh2=#{sh2} </if>
+            <if test="di2 != null "> AND t.di2=#{di2} </if>
+            <if test="x2 != null "> AND t.x2=#{x2} </if>
+            <if test="centroidY != null "> AND t.centroid_y=#{centroidY} </if>
+            <if test="centroidX != null "> AND t.centroid_x=#{centroidX} </if>
+            <if test="geometry != null "> AND t.geometry=#{geometry} </if>
+            <if test="info != null "> AND t.info=#{info} </if>
+            <if test="bak != null "> AND t.bak=#{bak} </if>
+            <if test="pic != null "> AND t.pic=#{pic} </if>
+            <if test="areaId != null "> AND t.areaId=#{areaId} </if>
+    </select>
+    <select id="listBean" resultMap="TBaseYcModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+            id
+			,area
+			,clcode
+			,adcode99
+			,name99
+			,sh2
+			,di2
+			,x2
+			,centroid_y
+			,centroid_x
+			,geometry
+			,info
+			,bak
+			,pic
+			,areaId
+
+        FROM
+                base_yc
+        WHERE
+                 1=1
+          	<if test="id != null "> AND t.id=#{id} </if>
+            <if test="area != null "> AND t.area =#{area} </if>
+            <if test="clcode != null "> AND t.clcode=#{clcode} </if>
+            <if test="adcode99 != null "> AND t.adcode99=#{adcode99} </if>
+            <if test="name99 != null "> AND t.name99=#{name99} </if>
+            <if test="sh2 != null "> AND t.sh2=#{sh2} </if>
+            <if test="di2 != null "> AND t.di2=#{di2} </if>
+            <if test="x2 != null "> AND t.x2=#{x2} </if>
+            <if test="centroidY != null "> AND t.centroid_y=#{centroidY} </if>
+            <if test="centroidX != null "> AND t.centroid_x=#{centroidX} </if>
+            <if test="geometry != null "> AND t.geometry=#{geometry} </if>
+            <if test="info != null "> AND t.info=#{info} </if>
+            <if test="bak != null "> AND t.bak=#{bak} </if>
+            <if test="pic != null "> AND t.pic=#{pic} </if>
+            <if test="areaId != null "> AND t.areaId=#{areaId} </if>
+    </select>
+
+
+</mapper> 

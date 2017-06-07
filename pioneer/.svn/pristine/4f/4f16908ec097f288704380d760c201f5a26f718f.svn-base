@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:formPhone>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+  
+</script>
+</jsp:attribute>
+	<jsp:body>
+<div class="form_box_container">
+	<div class="form_title">用户信息设置</div>
+    <div class="form_box_phone setbox">
+   		<table>
+            <tr >
+                <th for="name"  class="form_name"><h6><span class="icon-user "></span>用户姓名：</h6></th><td><h4>江小白</h4></td>
+            </tr>
+            <tr style="background-color:#fff;">
+                <th for="name"  class="form_name"><h6><span class="icon-tablet " style="margin-left:2px;"></span>手机号码：</h6></th>
+                <td><input type="text" class="form-control" id="name" placeholder="请输入手机号" style="padding-left:0px;"></td>
+            </tr>
+        </table>
+    </div>
+   
+    <div class="form_btn_tools navbar-fixed-bottom">
+    	 <a href="main.jsp" class="cannel" style="width:50%;"><span class="glyphicon glyphicon-share-alt">&nbsp;</span>放弃</a>
+    	
+        <a href="javascript:void alert('提交')" class="submit"  style="width:50%!important;"><span class="glyphicon glyphicon-ok">&nbsp;</span>提交</a>
+    </div>
+    <br>
+<br>
+</div>
+	</jsp:body>
+</t:formPhone>

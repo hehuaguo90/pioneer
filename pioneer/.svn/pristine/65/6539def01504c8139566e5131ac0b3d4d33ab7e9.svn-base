@@ -1,0 +1,232 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	var url = "/pages/module/tFormMonitor/";
+
+    $(document).ready(function(){
+	     $('#treeType').tree({     
+			    url: contextPath + '/tSysGroup/getGroupTree?groupType=1',
+			    method: 'post',
+		        animate: true,
+		        lines: true,
+		        onBeforeSelect:function(node){
+		        	//tree-node-selected
+		        	var classes = node.target.className;
+			    	//如果点击已被选中的节点，则取消选中
+		        	if(classes.indexOf('tree-node-selected') > 0){
+		        		node.target.className = classes.replace('tree-node-selected', '');
+		        		search();
+		        		return false;
+		        	}
+		        },
+		        onSelect: function(node){
+					search();
+				}
+        });
+  });
+
+	function tbjd() {
+	    var row = $('#datagrid').datagrid('getSelected');
+	       page.editDataGrid({
+			title : "填报进度",
+			width : 800,
+			height : 600,
+			formatURL : function(obj) {
+				var params="";
+                params+="formId=" + obj.formId;
+				return contextPath +url+"tbjd.jsp?"+params;
+			}
+		});
+	}
+
+
+	//得到id数组
+	function getIds(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.formId);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}
+	//启用与停用
+	function changeStatus(status) {
+		var warn="";
+		if(status==0){
+			warn="是否确定停用";
+		}else if(status==1){
+			warn="是否确定启用";
+		}
+		$.messager.confirm('提示', warn, function(r) {
+			if (r) {
+				var url =  contextPath +"/tForm/"+"changeStatus";
+				var ids = getIds();
+				var params = {
+					id : ids,
+					status : status
+				};
+				jQuery.post(url, params,function(data){
+				page.confirm(data.message);
+				page.loadDataGrid();
+				},"json");
+			}
+		});
+    }
+	
+	
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tForm/"+"listByPageMonitor";
+				opt.method = "get";
+			}
+		});
+
+	};
+
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+function search(evt) {
+    page.loadDataGrid({
+        setOptions : function(opt) {
+            		opt.url = contextPath+"/tForm/"+"listByPageMonitor";
+            		opt.method = "post";
+					opt.queryParams.formName = $('#formName').val();
+					  var td = $('#treeType').tree('getSelected');
+			            if(td){
+			            	opt.queryParams.groupId = td.id;
+			            }else{
+			            	opt.queryParams.groupId = "";
+			            }
+
+        }
+    });
+}
+
+function checkTime(value, row, index){
+	  var periodType = row.periodType;
+	  if(value!=null){
+	  var result=value.split(",");
+	  if(periodType==1){
+		  if(result.length>0){
+			  return weekNum(result[0]);
+		  } 
+	  }else if(periodType==2){
+		  if(result.length>0){
+		 	 return checkMonth(result[0]);
+		  }
+	  }else if(periodType==3){
+		  if(result.length>1){
+		 	 return checkMonth(result[1]);
+		  }
+	  }else if(periodType==4){
+		  if(result.length>1){
+		 	 return result[0]+"月"+ checkMonth(result[1]);
+		  }
+	  }
+	  }else{
+		  return "";
+	  }
+}
+
+function weekNum(value){
+	if(value==1){
+		return "周一";
+	}else if(value==2){
+		return "周二";
+	}else if(value==3){
+		return "周三";
+	}else if(value==4){
+		return "周四";
+	}else if(value==5){
+		return "周五";
+	}else if(value==6){
+		return "周六";
+	}else if(value==7){
+		return "周日";
+	}else{
+		return value;
+	}
+}
+
+function checkMonth(value){
+	if(value==31){
+		return "月末";
+	}else{
+		return  value+"号";
+	}
+}
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:100px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="searchbar">
+        <form>
+
+		表单名称:
+
+            <input id="formName" name="formName"  type="text"
+                   style="width: 146px;"   class="easyui-validatebox textbox"
+                   data-options="validType:'length[1,200]'">
+
+
+		<a href="javascript:void search();" class="easyui-linkbutton"
+				iconCls="icon-search">查询</a>
+    	<a href="javascript:void page.resetForm();" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+
+    </form>
+	</div>
+
+    </div>
+	<div id="toolbar">
+		<a href="javascript:void tbjd();" class="easyui-linkbutton"
+				iconCls="icon-jindu" plain="true">填报进度</a>
+
+	</div>
+	<div region="west" style="width:200px">
+		  <div class="tree-bar">
+		        表单分组:
+	      </div>      
+	      <ul id="treeType" style="margin-left: 10px"></ul>
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'formName',width:200,align:'left',halign:'center'">表单名称</th> 
+				<th data-options="field:'periodTypeName',width:100,align:'left',halign:'center'">填报周期</th>  
+                <th data-options="field:'areaLevelName',width:100,align:'left',halign:'center'">填报级别</th>
+                <th data-options="field:'tbNum',width:50,align:'left',halign:'center'">已填报</th>
+                <th data-options="field:'wtbNum',width:50,align:'left',halign:'center'">未填报</th>
+                <th data-options="field:'shzNum',width:50,align:'left',halign:'center'">审核中</th>
+                <th data-options="field:'gdNum',width:50,align:'left',halign:'center'">已归档</th>
+                <th data-options="field:'beginTime',width:50,align:'left',halign:'center',formatter:checkTime">填报开始时间</th>
+                <th data-options="field:'endTime',width:50,align:'left',halign:'center',formatter:checkTime">填报结束时间</th>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

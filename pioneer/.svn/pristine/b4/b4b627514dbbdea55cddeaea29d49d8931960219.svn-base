@@ -1,0 +1,17 @@
+#minute
+#SOLR_TASK_TIME=600
+WORD_ADDRESS=D\:/Downloads/file/
+EXCEL_SHEET_DATA=50000
+CACHE_PATH=c:/
+PROJCE_NAME=pioneer
+SENDER_TEL=11111111111
+pic_type=.jpg\:.jpeg\:.png\:.gif\:.bmp\:.JPG\:.JPEG\:.PNG\:.GIF\:.BMP\:
+upload_folder=D:\\tomcat\\apache-tomcat-7.0.70\\webapps\\uploads
+upload_prefix=http\://192.168.1.233\:8090/uploads
+temp_folder=dessertation
+default_filed=id,tbrid,tbqyid,tbzq,tbsj,
+tendAnalyzeWord_doc_dir=D:\\tomcat\\apache-tomcat-7.0.70\\webapps\\uploads\\doc
+zgzqk_filed=pzmc,ly,cngz,hbgz,cdgz,jyscl,jyxsl
+zgzzyqsb_filed=sbmc,xh,sl,sycs
+#GIS\u670d\u52a1\u7aef\u5730\u5740
+ges_url=http://192.168.1.56:8771/geoserver/

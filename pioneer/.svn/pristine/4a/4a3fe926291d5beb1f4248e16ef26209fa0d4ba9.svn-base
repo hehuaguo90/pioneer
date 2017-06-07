@@ -1,0 +1,167 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+	<script src="${contextPath }/res/chart/chart.js"></script>
+	
+		<script type="text/javascript">
+		 var sizeFunction = function (x) {
+		        var y = Math.sqrt(x / 5e8) + 0.1;
+		        return y * 80;
+		    };
+		
+		/***
+		构建监测数据echart图表
+		***/
+		function showJcsjChart(){
+			
+			var mapChart = echarts.init(document.getElementById('jcsj'));
+			option = {
+			        baseOption: {
+			            backgroundColor: '#404a59',
+			            title: [{
+			                textAlign: 'center',
+			                left: '63%',
+			                top: '55%',
+			                textStyle: {
+			                    fontSize: 100,
+			                    color: 'rgba(255, 255, 255, 0.7)'
+			                }
+			            	}],
+			            legend: {
+					        data:[
+									{name: '肉类总产量',icon: 'roundRect'},
+									{name: '猪肉产量',icon: 'roundRect'}
+					              ]
+						},
+			            tooltip: {
+			                padding: 5,
+			                backgroundColor: '#222',
+			                borderColor: '#777',
+			                borderWidth: 1,
+			                formatter: function (obj) {
+			                    var value = obj.value;
+			                    return '类别' + '：' + value[3] + '<br>'
+			                            + '年龄' + '：' + value[1] + '<br>'
+			                            + '收入' + '：' + value[0] + '<br>'
+			                            + '幅度' + '：' + value[2] + '<br>';
+			                }
+			            },
+			            grid: {
+			                left: '12%',
+			                right: '110'
+			            },
+			            xAxis: {
+			                type: 'log',
+			                name: '人均收入',
+			                max: 100000,
+			                min: 300,
+			                nameGap: 25,
+			                nameLocation: 'middle',
+			                nameTextStyle: {
+			                    fontSize: 18
+			                },
+			                splitLine: {
+			                    show: false
+			                },
+			                axisLine: {
+			                    lineStyle: {
+			                        color: '#ccc'
+			                    }
+			                },
+			                axisLabel: {
+			                    formatter: '{value} $'
+			                }
+			            },
+			            yAxis: {
+			                type: 'value',
+			                name: '平均寿命',
+			                max: 100,
+			                nameTextStyle: {
+			                    color: '#ccc',
+			                    fontSize: 18
+			                },
+			                axisLine: {
+			                    lineStyle: {
+			                        color: '#ccc'
+			                    }
+			                },
+			                splitLine: {
+			                    show: false
+			                },
+			                axisLabel: {
+			                    formatter: '{value} 岁'
+			                }
+			            },
+			            visualMap: [
+			                {
+			                    show: false,
+			                    dimension: 3,
+			                    categories: ["a","b","c"],
+			                    calculable: true,
+			                    precision: 0.1,
+			                    textGap: 30,
+			                    textStyle: {
+			                        color: '#ccc'
+			                    },
+			                    inRange: {
+			                        color: (function () {
+			                            var colors = ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'];
+			                            return colors.concat(colors);
+			                        })()
+			                    }
+			                }
+			            ],
+			            series: [
+			                {
+			                	name:"肉类总产量",
+			                    type: 'scatter',
+			                    data: [[815,34.05,351014,"a"],[1314,39,645526,"b"
+			],[985,32,321675013,"c"]],
+			                    symbolSize: function(val) {
+			                        return sizeFunction(val[2]);
+			                    }
+			                },
+			                {
+			                	name:"猪肉产量",
+			                    type: 'scatter',
+			                    data: [[410,27.05,351014,"a"],[890,35,645526,"b"
+			],[1220,22,321675013,"c"]],
+			                    symbolSize: function(val) {
+			                        return sizeFunction(val[2]);
+			                    }
+			                }
+			            ]
+			        },
+			        options: []
+			    };
+			mapChart.setOption(option);
+		}
+		
+		
+		
+		$(document).ready(function() {
+			//检测数据（图）
+			showJcsjChart();
+		});
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+    <!--页面实际内容区开始-->
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class=" icon-bar-chart "></span>占比分析
+          <small class="simple_box_title_txt hidden-xs"> 分析猪肉产量与肉类总产量的占比变化情况 </small> </h3>
+        </div>
+		<div class="" style="height:450px;">
+        	<div id="jcsj" style="height:450px; width: 100%; float:left;">${null }</div>
+        </div>
+      </div>
+    </div>
+	</jsp:body>
+</t:chart>

@@ -1,0 +1,323 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+		src="${  contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+  var url = "/pages/module/tAnalyzeIndex/";
+  page.onLoad = function(){
+ };
+function sjj(node){
+    
+   
+        if(node.lx!="set"){
+          //清除选中  
+            $('#datasetId').combotree('clear'); 
+        }
+        else{
+           reload(node.datasetId);
+        }
+        
+ }
+ //改变指标字段，时间字段
+ function reload(datasetId) {
+        //改变指标字段
+        $('#indexField').combobox({
+            url:contextPath+'/tSourceDataset/listColumn',
+            queryParams : {
+                     "datasetId":datasetId,
+                     "flglx" : 0
+                }
+        });
+        //改变时间字段
+        $('#dateField').combobox({
+            url:contextPath+'/tSourceDataset/listColumn',
+            queryParams : {
+                     "datasetId":datasetId,
+                     "flglx" : 0
+                }
+        });
+            /* $('#dg').datagrid({
+                url :contextPath+'/tSourceDataset/listColumn',
+                queryParams : {
+                     "datasetId":datasetId,
+                     "flglx" : 0
+                }
+            }); */
+}
+        //***********************可编辑列表开始************************
+        var editIndex = undefined;
+        function onClickRow(index){ 
+            
+			if (editIndex != index){
+				if (endEditing(index)){
+					$('#dg').datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+				   
+					editIndex = index;
+				} else {
+					$('#dg').datagrid('selectRow', editIndex);
+				}
+				
+			}
+			
+		}
+        function append(){
+           var datasetId=$("#datasetId").combotree("getValue");
+           if(datasetId==""){
+             $.messager.alert("提示","请先选择数据集！");
+             return;
+           }
+	       /* page.editDataGrid({
+			title : "添加",
+			width : 600,
+			height : 500,
+			formatURL : function(obj) {
+				var params="";
+                params+="indexId=" + obj.indexId;
+				return contextPath +url+"tj.jsp?"+params;
+			}
+		   }); */
+		   page.dialog({
+				title : "添加维度",
+				width : 600,
+				height : 250,
+				url : contextPath +url+"tj.jsp?datasetId="+datasetId
+			});
+			/* if (endEditing()){
+			    //添加行
+			    $('#dg').datagrid('appendRow',{status:'P'});
+			    
+			     
+				editIndex = $('#dg').datagrid('getRows').length-1;
+				xz_index = editIndex;
+				$('#dg').datagrid('selectRow', editIndex)
+						.datagrid('beginEdit', editIndex);
+			    
+			} */
+		}
+		function removeit(){ 
+		    var rows = $('#dg').datagrid('getSelections');
+            for (var i = 0; i < rows.length; i++) {  
+                 var index = $('#dg').datagrid('getRowIndex', rows[i]);//获取某行的行号          
+                 $('#dg').datagrid('deleteRow', index);  
+                                 
+            }  
+		}	
+		function endEditing(_index){
+		   
+			if (editIndex == undefined){
+			    
+			    return true;
+			}
+			if ($('#dg').datagrid('validateRow', editIndex)){
+			    
+				//设置显示需要的数据类型名称、校验规则名称
+				/* var ed = $('#dg').datagrid('getEditor', {index:editIndex,field:'zdsjlx'});
+				
+				var ed2 = $('#dg').datagrid('getEditor', {index:editIndex,field:'jygz'});
+				var name = $(ed.target).combobox('getText');
+				var gzmc = $(ed2.target).combobox('getText');
+				$('#dg').datagrid('getRows')[editIndex]['name'] = name;
+				$('#dg').datagrid('getRows')[editIndex]['gzmc'] = gzmc;
+				$('#dg').datagrid('endEdit', editIndex);
+				 if(_index!=undefined){
+			      xz_index = _index;
+			      
+			    } */
+			    $('#dg').datagrid('endEdit', editIndex);
+				editIndex = undefined;
+				return true;
+			} else {
+				return false;
+			}
+		}
+		//*********************可编辑列表结束***************************
+	page.onRefresh = function(data) {
+	    var data = $.parseJSON(data);
+	    
+		//page.loadDataGrid();
+		//根据id获取维度数据
+		var str="";
+		$.ajax({  
+                 url : "${contextPath}/tAnalyzeDim/getBeanMap",  
+                 async : false, //注意此处需要同步，因为返回完数据后，下面才能让结果的第一条selected  
+                 type : "post",  
+                 data : "dimId="+data.dimId,  
+                 success : function(data) {  
+                   var obj = $.parseJSON(data);
+                   str = obj.codeField;
+                   
+                 }  
+             }); 
+		$('#dg').datagrid('appendRow',{
+           dimId:data.dimId,
+           name:data.name,
+           codeFiled:str,
+           dimCode:data.dimCode,
+           dimName:data.dimName
+           
+        }); 
+		
+	};
+	function save(){
+	  var allsj = $("#dg").datagrid('getRows'); 
+	  var str = JSON.stringify(allsj);
+	  $("#str").val(str);
+	  page.saveForm();
+	}
+	
+	var reg_idyz2 = /^\w+$/;
+	$.extend($.fn.validatebox.defaults.rules, {
+		idyz : {//验证是否选择了数据集
+			validator : function(value) {
+				var flg = true;
+				$.ajax({
+					url : "${contextPath}/tAnalyzeComindex/isIndexExist",
+					async : false,
+					type : "post",
+					data : "indexId=" + value,
+					success : function(data) {
+						if (data == "0") {//不存在
+							flg = true;
+
+						} else {
+							flg = false;
+						}
+					}
+				});
+				return flg;
+			},
+			message : '该指标代码已被使用'
+		},
+		idyzt:{
+	    	validator: function(value){  
+	    		return reg_idyz2.test(value);
+	        },    
+	        message: '请输入字母、数字或下划线'
+	    }
+	})
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form method="post" action="${ contextPath }/tAnalyzeIndex/add">
+	    
+        <table>
+            <tr>
+              <th>指标代码:</th>
+              <td>
+              <input id="indexId" name="indexId"  type="text"
+                                   style="width: 200px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:['length[1,50]', 'idyzt', 'idyz']">
+              <input id="str" name="str" type="hidden"/>
+              </td>
+              <th>数据集:</th>
+              <td>
+                <input id="datasetId" name="datasetId" class="easyui-combotree" data-options="url:'${ contextPath }/tSourceDataset/getDataTree?flg=n',method:'get',required:true,onSelect:sjj" style="width:200px;">
+              </td>
+            </tr>
+            <tr>
+               <th>指标名称:</th>
+               <td>
+                 <input id="indexName" name="indexName"  type="text" style="width:200px;"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,50]'" >
+               </td>
+               <th>指标字段:</th>
+               <td>
+                 <input id="indexField" name="indexField" class="easyui-combobox" style="width:200px;"  
+                                   data-options="editable:false,required:true,valueField:'fieldCode',textField:'fieldName'" />
+                
+               </td>
+            </tr>
+            <tr>
+              <th>计量单位:</th>
+              <td>
+                <input id="indexUnit" name="indexUnit" class="easyui-combobox" style="width:200px;"  
+                                   data-options="editable:false,required:true,valueField:'code',textField:'name',url:'${ contextPath }/tSysDict/listAll?type=INDEX_UNIT'" />
+                
+              </td>
+              <th>聚合函数:</th>
+              <td>
+                <input id="func" name="func" class="easyui-combobox" style="width:200px;"
+                                   data-options="editable:false,required:true,valueField:'code',textField:'name',url:'${ contextPath }/tSysDict/listAll?type=FUNC'" />
+                
+              </td>
+            </tr>
+            <tr>
+              <th>指标分组:</th>
+              <td>
+               <input id="groupId" name="groupId" class="easyui-combotree" data-options="url:'${ contextPath }/tSysGroup/getGroupTree?groupType=4',method:'get',required:true" value="${param.groupId}" style="width:200px;">
+               
+              </td>
+              <th>时间字段:</th>
+              <td>
+               <input id="dateField" name="dateField" class="easyui-combobox" style="width:200px;"  
+                                   data-options="editable:false,required:true,valueField:'fieldCode',textField:'fieldName'" />
+               
+              </td>
+            </tr>
+           
+            
+            
+            
+            
+            
+            
+            <tr>
+                <th>统计频度:</th>
+                <td colspan="3">
+                  <input id="statFreq" name="statFreq" class="easyui-combobox" style="width:200px;"  
+                                   data-options="editable:false,required:true,valueField:'code',textField:'name',url:'${ contextPath }/tSysDict/listAll?type=STAT_FREQ'" />      
+                            
+
+                </td>
+            </tr>
+            
+            <tr>
+                <th>备注:</th>
+                <td colspan="3">
+
+                            
+                           <input id="remark" name="remark" class="easyui-textbox textbox" 
+	                               style="width: 590px;height: 60px"
+	    			               data-options="multiline:true,validType:['length[1,200]']"/>
+                     
+                </td>
+            </tr>
+
+        </table>
+        
+	</form>
+	<div>
+	 <table id="dg" class="easyui-datagrid" style="height:300px;"
+			 data-options="toolbar: '#tb',fitColumns:true,rownumbers:true,iconCls: 'icon-edit',method: 'get'"
+			 >
+			
+			<thead>
+			<tr>
+			     <th data-options="field:'ck',checkbox:true"></th>
+				 <th data-options="field:'name',width:80,align:'left',halign:'center',editor:{type:'textbox',options:{validType:'length[1,100]'}}">维度名称</th>
+				 <th data-options="field:'codeFiled',width:80,align:'left',halign:'center',editor:{type:'textbox',options:{validType:'length[1,100]'}}">维度代码字段</th>
+				 <th data-options="field:'dimCode',width:80,align:'left',halign:'center',editor:{type:'textbox',options:{validType:'length[1,100]'}}">统计口径字段</th>
+				 <th data-options="field:'dimName',width:80,align:'left',halign:'center',editor:{type:'textbox',options:{validType:'length[1,100]'}}">统计口径名称</th>
+				 
+				</tr>
+				</thead>
+			</table>
+	</div>
+	<div id="tb" style="height:auto">
+		     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">添加维度</a>
+		      <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">删除行</a>
+	       </div>
+	<div id="operator">
+		<a href="javascript:void save()" class="easyui-linkbutton">保存</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

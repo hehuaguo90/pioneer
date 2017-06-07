@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tfrd.bdas.module.tSysRight.dao.TSysRightDao" >
+    <resultMap id="tSysRightModelMap" type="com.tfrd.bdas.module.tSysRight.model.TSysRightModel" >
+        <id column="right_id" property="rightId" />
+        <result column="pid" property="pid" />
+        <result column="right_name" property="rightName" />
+        <result column="show_order" property="showOrder" />
+        <result column="right_url" property="rightUrl" />
+        <result column="right_type" property="rightType" />
+        <result column="remark" property="remark" />
+        <result column="is_enable" property="isEnable" />
+        <result column="logo_url" property="logoUrl" />
+    </resultMap>
+
+    <select id="getBeanById" resultMap="tSysRightModelMap" parameterType="com.tfrd.bdas.module.tSysRight.model.TSysRightModel" >
+        SELECT
+            right_id
+            ,pid
+            ,right_name
+            ,show_order
+            ,right_url
+            ,right_type
+            ,remark
+            ,logo_url
+            ,is_enable
+
+        FROM
+            t_sys_right
+        WHERE
+            1=1
+            AND right_id=#{rightId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.tfrd.bdas.module.tSysRight.model.TSysRightModel" >
+        SELECT
+                t.right_id as "rightId"
+                ,t.pid as "pid"
+                ,t.right_name as "rightName"
+                ,t.show_order as "showOrder"
+                ,t.right_url as "rightUrl"
+                ,right_type as "rightType"
+                ,t.remark as "remark"
+                ,t.logo_url as "logoUrl"
+                ,t.is_enable as "isEnable"
+
+        FROM
+                t_sys_right t
+        WHERE
+                1=1
+                AND right_id=#{rightId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.tfrd.bdas.module.tSysRight.model.TSysRightModel" >
+            DELETE FROM
+                t_sys_right
+            WHERE
+                1=1
+                AND right_id=#{rightId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.tfrd.bdas.module.tSysRight.model.TSysRightModel" >
+        INSERT INTO  t_sys_right (
+             right_id
+             ,pid
+             ,right_name
+             ,show_order
+             ,right_url
+             ,right_type
+             ,remark
+             ,logo_url
+             ,is_enable
+
+        )
+        VALUES (
+            #{rightId,jdbcType=VARCHAR }
+            ,#{pid,jdbcType=VARCHAR }
+            ,#{rightName,jdbcType=VARCHAR }
+            ,#{showOrder,jdbcType=INTEGER }
+            ,#{rightUrl,jdbcType=VARCHAR }
+            ,#{rightType,jdbcType=VARCHAR }
+            ,#{remark,jdbcType=VARCHAR }
+            ,#{logoUrl,jdbcType=VARCHAR }
+            ,#{isEnable,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.tfrd.bdas.module.tSysRight.model.TSysRightModel" >
+        UPDATE
+                 t_sys_right
+        SET
+                pid=#{pid}
+                ,right_name=#{rightName}
+                ,show_order=#{showOrder}
+                ,right_url=#{rightUrl}
+                ,right_type=#{rightType}
+                ,remark=#{remark}
+                ,logo_url=#{logoUrl}
+                ,is_enable=#{isEnable}
+
+        WHERE
+                1=1
+                AND right_id=#{rightId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.right_id as "rightId"
+                ,t.pid as "pid"
+                ,t.right_name as "rightName"
+                ,t.show_order as "showOrder"
+                ,t.right_url as "rightUrl"
+                ,t.right_type as "rightType"
+                ,t.remark as "remark"
+				,d.name as "typeName"
+				,t.logo_url as "logoUrl"
+                ,t.is_enable as "isEnable"
+        FROM
+                t_sys_right t
+                left join t_sys_dict d
+                on d.code = t.right_type
+        WHERE
+                1=1 and d.type="RIGHT_TYPE"
+            <if test="rightId != null "> AND right_id=#{rightId} </if>
+            <if test="pid != null "> AND pid=#{pid} </if>
+            <if test="rightName != null "> AND right_name like '%${rightName}%'</if>
+            <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+            <if test="rightUrl != null "> AND right_url=#{rightUrl} </if>
+             <if test="rightType != null "> AND right_type=#{rightType} </if>
+            <if test="remark != null "> AND remark=#{remark} </if>
+            order by t.show_order, t.right_id
+    </select>
+
+    <select id="listBean" resultMap="tSysRightModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                right_id  as "rightId"
+                ,pid
+                ,right_name as "rightName"
+                ,show_order as "showOrder"
+                ,right_url as "rightUrl"
+                ,right_type
+                ,remark
+                ,logo_url as "logoUrl"
+                ,is_enable as "isEnable"
+
+        FROM
+                t_sys_right
+        WHERE
+                 1=1
+                <if test="rightId != null "> AND right_id=#{rightId} </if>
+                <if test="pid != null "> AND pid=#{pid} </if>
+                <if test="rightName != null "> AND right_name=#{rightName} </if>
+                <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+                <if test="rightUrl != null "> AND right_url=#{rightUrl} </if>
+                <if test="rightType != null "> AND right_type=#{rightType} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+                order by show_order, right_id
+    </select>
+
+
+</mapper> 

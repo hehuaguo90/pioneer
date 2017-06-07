@@ -1,0 +1,567 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:form>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+	    $(document).ready(function() {
+			//initValidatePane();
+			var param =  "id=${batchId}&formId=${formId}";
+			 page.loadView({
+				 url : contextPath + "/tianBao/form.load/?" + param
+		     });
+		});
+		page.url = $(window.parent.document).find(".active a").attr("href");
+		
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+	<t:formViewHead></t:formViewHead>
+		<div id="zqAndArea"><span>填报周期：</span><span>${tbzq_}</span>
+	<c:if test="${login.areaLevel !=  5 }">
+	<span style="margin: 0px 0px 0px 68px">填报地区：</span><span>${area_}</span>
+	</c:if>
+	</div>
+	<form>
+           <table width="100%" style="border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;">
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="9"  >
+
+             基</br>本</br>信</br>息
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             养殖场名称
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="yzcmc" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             单位性质
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="dwxz" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:110;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="dz" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="160" colspan="1" rowspan="1"  >
+
+             邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="240" colspan="1" rowspan="1"  >
+
+                <span id="yb" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="160" colspan="1" rowspan="1"  >
+
+             建场时间
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="240" colspan="1" rowspan="1"  >
+
+                <span id="jcsj" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             法人姓名
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="frxm" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             联系电话
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="frxmdh" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             联系人姓名
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="lxrxm" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             联系电话
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="lxrxmdh" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             传&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;真
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="cz" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             网址/电子邮箱
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="wz" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             生产类型
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="sclx" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             经营范围
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="jyfw" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             产品/产地认证
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="cpcdrz" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="3"  >
+
+             资</br>产</br>信</br>息
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             注册资金&nbsp;(万元)
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="zcjz" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             年总产值&nbsp;(万元)
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="nzcz" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             建筑面积&nbsp;(平方米)
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="zjmj" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             占地面积&nbsp;(平方米)
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="zdmj" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             养殖圈舍与设施总造价（万元）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="zzj" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="2"  >
+
+             人</br>员</br>信</br>息
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             职工总数
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="zgzs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             专业技术人员(人数)
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="zyjsryrs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="3"  >
+
+             生</br>产</br>信</br>息
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="2"  >
+
+             饲养品种
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="1" rowspan="2"  >
+
+                <span id="sypz" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="2"  >
+
+             饲养方式（平养、笼养）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="1" rowspan="2"  >
+
+                <span id="syfs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="1" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             年出栏量（只）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="ncll" data-options="" class="data_span"></span>
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             成活率（%）
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:100;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="1" rowspan="1"  >
+
+                <span id="chl" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="6"  >
+
+               环</br>保</br>信</br>息
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             粪污处理设施
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="fwclss" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             清粪方式
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="xffs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             固体粪便处理利用方式
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="gtfbcllyfs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             污水处理利用方式
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="wscllyfs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             排污方式
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="pwfs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="35" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:110;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             死畜处理方式
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="3" rowspan="1"  >
+
+                <span id="scclfs" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+    <tr height="19" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:700;font-size:120;
+               
+                color:#000000; "
+                align="center" valign="center" width="57" colspan="1" rowspan="1"  >
+
+             备注
+        </td>
+        <td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;font-weight:400;font-size:105;
+               
+                color:#000000; "
+                align="left" valign="center" width="57" colspan="4" rowspan="1"  >
+
+                <span id="bz" data-options="" class="data_span"></span>
+        </td>
+    </tr>
+</table>
+
+
+	</form>
+	<t:formViewFooter></t:formViewFooter>
+	</jsp:body>
+</t:form>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysRole.dao.TSysRoleDao" >
+    <resultMap id="tSysRoleModelMap" type="com.wellsys.pioneer.module.tSysRole.model.TSysRoleModel" >
+        <id column="role_id" property="roleId" />
+
+        <result column="role_name" property="roleName" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysRoleModelMap" parameterType="com.wellsys.pioneer.module.tSysRole.model.TSysRoleModel" >
+        SELECT
+            role_id
+            ,role_name
+            ,remark
+
+        FROM
+            t_sys_role
+        WHERE
+            1=1
+            AND role_id=#{roleId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysRole.model.TSysRoleModel" >
+        SELECT
+                t.role_id as "roleId"
+                ,t.role_name as "roleName"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_role t
+        WHERE
+                1=1
+                AND role_id=#{roleId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysRole.model.TSysRoleModel" >
+            DELETE FROM
+                t_sys_role
+            WHERE
+                1=1
+                AND role_id=#{roleId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysRole.model.TSysRoleModel" >
+        INSERT INTO  t_sys_role (
+             role_id
+             ,role_name
+             ,remark
+
+        )
+        VALUES (
+            #{roleId,jdbcType=VARCHAR }
+            ,#{roleName,jdbcType=VARCHAR }
+            ,#{remark,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysRole.model.TSysRoleModel" >
+        UPDATE
+                 t_sys_role
+        SET
+                role_name=#{roleName}
+                ,remark=#{remark}
+
+        WHERE
+                1=1
+                AND role_id=#{roleId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.role_id as "roleId"
+                ,t.role_name as "roleName"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_role t
+        WHERE
+                1=1
+            <if test="roleId != null "> AND role_id=#{roleId} </if>
+            <if test="roleName != null "> AND role_name like'%${roleName}%' </if>
+            <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="tSysRoleModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                role_id
+                ,role_name
+                ,remark
+
+        FROM
+                t_sys_role
+        WHERE
+                 1=1
+                <if test="roleId != null "> AND role_id=#{roleId} </if>
+                <if test="roleName != null "> AND role_name=#{roleName} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+</mapper> 

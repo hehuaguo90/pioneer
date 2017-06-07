@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tfrd.bdas.module.tSysBreed.dao.TSysBreedDao" >
+    <resultMap id="tSysBreedModelMap" type="com.tfrd.bdas.module.tSysBreed.model.TSysBreedModel" >
+        <id column="breed_id" property="breedId" />
+        <result column="pid" property="pid" />
+        <result column="breed_name" property="breedName" />
+        <result column="show_order" property="showOrder" />
+        <result column="create_time" property="createTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysBreedModelMap" parameterType="com.tfrd.bdas.module.tSysBreed.model.TSysBreedModel" >
+        SELECT
+            breed_id
+            ,pid
+            ,breed_name
+            ,show_order
+            ,create_time
+            ,remark
+
+        FROM
+            t_sys_breed
+        WHERE
+            1=1
+            AND breed_id=#{breedId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.tfrd.bdas.module.tSysBreed.model.TSysBreedModel" >
+        SELECT
+                t.breed_id as "breedId"
+                ,t.pid as "pid"
+                ,t.breed_name as "breedName"
+                ,t.show_order as "showOrder"
+                ,t.create_time as "createTime"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_breed t
+        WHERE
+                1=1
+                AND breed_id=#{breedId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.tfrd.bdas.module.tSysBreed.model.TSysBreedModel" >
+            DELETE FROM
+                t_sys_breed
+            WHERE
+                1=1
+                AND breed_id=#{breedId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.tfrd.bdas.module.tSysBreed.model.TSysBreedModel" >
+        INSERT INTO  t_sys_breed (
+             breed_id
+             ,pid
+             ,breed_name
+             ,show_order
+             ,create_time
+             ,remark
+
+        )
+        VALUES (
+            #{breedId,jdbcType=VARCHAR }
+            ,#{pid,jdbcType=VARCHAR }
+            ,#{breedName,jdbcType=VARCHAR }
+            ,#{showOrder,jdbcType=INTEGER }
+            ,#{createTime,jdbcType=TIMESTAMP }
+            ,#{remark,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.tfrd.bdas.module.tSysBreed.model.TSysBreedModel" >
+        UPDATE
+                 t_sys_breed
+        SET
+                pid=#{pid}
+                ,breed_name=#{breedName}
+                ,show_order=#{showOrder}
+                ,remark=#{remark}
+
+        WHERE
+                1=1
+                AND breed_id=#{breedId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.breed_id as "breedId"
+                ,t.pid as "pid"
+                ,t.breed_name as "breedName"
+                ,t.show_order as "showOrder"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_breed t
+        WHERE
+                1=1
+            <if test="breedId != null "> AND breed_id=#{breedId} </if>
+            <if test="pid != null "> AND pid = #{pid} </if>
+            <if test="breedName != null "> AND breed_name like #{breedName}</if>
+            <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+            <if test="createTime != null "> AND create_time=#{createTime} </if>
+            <if test="remark != null "> AND remark=#{remark} </if>
+            order by t.show_order, t.breed_id
+    </select>
+
+
+    <select id="listBean" resultMap="tSysBreedModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                breed_id
+                ,pid
+                ,breed_name
+                ,show_order
+                ,create_time
+                ,remark
+
+        FROM
+                t_sys_breed
+        WHERE
+                 1=1
+                <if test="breedId != null "> AND breed_id=#{breedId} </if>
+                <if test="pid != null "> AND pid=#{pid} </if>
+                <if test="breedName != null "> AND breed_name=#{breedName} </if>
+                <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+                <if test="createTime != null "> AND create_time=#{createTime} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+</mapper> 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysCustomArea.dao.TSysCustomAreaDao" >
+    <resultMap id="tSysCustomAreaModelMap" type="com.wellsys.pioneer.module.tSysCustomArea.model.TSysCustomAreaModel" >
+        <id column="carea_id" property="careaId" />
+        <result column="area_code" property="areaCode" />
+        <result column="area_name" property="areaName" />
+        <result column="show_order" property="showOrder" />
+        <result column="create_time" property="createTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysCustomAreaModelMap" parameterType="com.wellsys.pioneer.module.tSysCustomArea.model.TSysCustomAreaModel" >
+        SELECT
+            carea_id
+            ,area_code
+            ,area_name
+            ,show_order
+            ,create_time
+            ,remark
+
+        FROM
+            t_sys_custom_area
+        WHERE
+            1=1
+            AND carea_id=#{careaId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysCustomArea.model.TSysCustomAreaModel" >
+        SELECT
+                t.carea_id as "careaId"
+                ,t.area_code as "areaCode"
+                ,t.area_name as "areaName"
+                ,t.show_order as "showOrder"
+                ,t.create_time as "createTime"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_custom_area t
+        WHERE
+                1=1
+                AND carea_id=#{careaId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysCustomArea.model.TSysCustomAreaModel" >
+            DELETE FROM
+                t_sys_custom_area
+            WHERE
+                1=1
+                AND carea_id=#{careaId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysCustomArea.model.TSysCustomAreaModel" >
+        INSERT INTO  t_sys_custom_area (
+             carea_id
+             ,area_code
+             ,area_name
+             ,show_order
+             ,create_time
+             ,remark
+
+        )
+        VALUES (
+            #{careaId,jdbcType=VARCHAR }
+            ,#{areaCode,jdbcType=VARCHAR }
+            ,#{areaName,jdbcType=VARCHAR }
+            ,#{showOrder,jdbcType=INTEGER }
+            ,#{createTime,jdbcType=TIMESTAMP }
+            ,#{remark,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysCustomArea.model.TSysCustomAreaModel" >
+        UPDATE
+                 t_sys_custom_area
+        SET
+                area_code=#{areaCode}
+                ,area_name=#{areaName}
+                ,show_order=#{showOrder}
+                ,remark=#{remark}
+
+        WHERE
+                1=1
+                AND carea_id=#{careaId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.carea_id as "careaId"
+                ,t.area_code as "areaCode"
+                ,t.area_name as "areaName"
+                ,t.show_order as "showOrder"
+                ,t.create_time as "createTime"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_custom_area t
+        WHERE
+                1=1
+            <if test="careaId != null "> AND carea_id=#{careaId} </if>
+            <if test="areaCode != null "> AND area_code=#{areaCode} </if>
+            <if test="areaName != null "> AND area_name like '%${areaName}%' </if>
+            <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+            <if test="createTime != null "> AND create_time=#{createTime} </if>
+            <if test="remark != null "> AND remark=#{remark} </if>
+           order by t.show_order
+    </select>
+
+
+    <select id="listBean" resultMap="tSysCustomAreaModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                carea_id
+                ,area_code
+                ,area_name
+                ,show_order
+                ,create_time
+                ,remark
+
+        FROM
+                t_sys_custom_area
+        WHERE
+                 1=1
+                <if test="careaId != null "> AND carea_id=#{careaId} </if>
+                <if test="areaCode != null "> AND area_code=#{areaCode} </if>
+                <if test="areaName != null "> AND area_name=#{areaName} </if>
+                <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+                <if test="createTime != null "> AND create_time=#{createTime} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+</mapper> 

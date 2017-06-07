@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+    <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="mysqlDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <!-- 
+        <property name="jdbcUrl" value="jdbc:mysql://192.168.1.51:3306/bdas"/>
+         -->
+          <property name="jdbcUrl" value="jdbc:mysql://192.168.1.51:3306/bdas"/>
+        <property name="user" value="root"/>
+        <property name="password" value="tfrd123"/>
+        <property name="initialPoolSize" value="3"/>
+        <property name="acquireIncrement" value="10"/>
+        <property name="maxPoolSize" value="20"/>
+        <property name="autoCommitOnClose" value="true"/>
+        <property name="maxIdleTime" value="60"/>
+        <property name="numHelperThreads" value="10"/>
+        <property name="checkoutTimeout" value="30000"/>
+    </bean>
+
+
+    <!-- 配置Jdbc模板 -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <!--
+                <property name="dataSource" ref="dataSource"></property>
+        -->
+        <constructor-arg   ref="mysqlDataSource" />
+    </bean>
+
+
+
+
+</beans>

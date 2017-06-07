@@ -1,0 +1,199 @@
+@charset "utf-8";
+
+* {
+	font-family: "微软雅黑", "Microsoft YaHei ";
+}
+
+@font-face {
+	font-family: 'impact'; /*字体名称*/
+	src: url('impact_1.ttf'); /*字体源文件*/
+}
+
+body, html, div, p {
+	padding: 0;
+	margin: 0;
+}
+
+ul, li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.clear {
+	clear: both;
+	visibility: visible;
+}
+
+a {
+	/*初始化A的样式，不要下划线*/
+	text-decoration: none !important;
+	color: #343844;
+}
+
+.bodybg {
+	/*主框架页面上方的背景白云图片*/
+	background-color: #438072;
+	/*background-image: url(images/login_bg.jpg);*/
+	background-position:center top;
+	background-repeat:no-repeat;
+	margin: 0;
+	padding: 0;
+}
+
+.login_box {
+	/*background-image: url(images/login_box_bg.png);*/
+	background-repeat: no-repeat;
+	background-position: center center;
+	
+	width: 1168px;
+	height: 408px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -204px;
+	margin-left: -584px;
+}
+
+.login_inputbox_tab {
+	width: 472px;
+	z-index: 4;
+	position: absolute;
+	left: 324px;
+	top: 90px;
+}
+
+.login_inputbox_tab li {
+	width: 100px;
+	height: 34px;
+	line-height: 34px;
+	float: left;
+	background-color: #5c9bd3;
+	color: #fff;
+	border-radius: 0px 0px 0 0;
+	text-align: center;
+	margin-right: 4px;
+	cursor: pointer;
+}
+
+.login_inputbox_tab li.active {
+	background-color: #f2f2f2;
+	color: #1f8b34;
+	height: 38px;
+	line-height: 38px;
+}
+
+.login_inputbox_body {
+	width: 483px;
+	height: 179px;
+	background-image: url(images/login_inputbox_bg.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	position: absolute;
+	left: 319px;
+	top: 124px;
+	z-index: 3;
+}
+
+.inputbox {
+	padding: 16px 40px;
+}
+
+.inputbox .input-group-addon {
+	background-color: #fff;
+	border-right: none;
+	border-color: #e0e0e0;
+	border-radius: 0;
+	height: 35px\9\0;
+}
+
+.inputbox .ico {
+	color: #aaaaaa;
+}
+
+.inputbox .input-group {
+	margin-bottom: 15px;
+}
+
+.form-control {
+	border-radius: 0;
+	border-color: #e0e0e0;
+	color: #333;
+}
+
+.form-control {
+	-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
+	box-shadow: inset 0 0px 0px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-control:focus {
+	border-color: #63a658;
+	outline: 0;
+	-webkit-box-shadow: inset 0 0px 0px #63a658, 0 0 0px #63a658;
+	box-shadow: inset 0 0px 0px #63a658, 0 0 0px #63a658;
+}
+
+.login_btn a {
+	display: block;
+	background-color: #4db361;
+	color: #fff;
+	text-align: center;
+	border-radius: 4px;
+	font-size: 16px;
+	padding: 10px;
+	width: 69px;
+	height: 84px;
+	margin-top: 15px;
+}
+
+.login_btn a.reset {
+	background-color: #6e96b9;
+}
+
+.login_btn a:hover {
+	background-color: #47A55A;
+}
+
+.login_btn a.reset:hover {
+	background-color: #5C89B1;
+}
+
+.icobox {
+	height: 39px;
+	line-height: 39px;
+}
+
+.icobox span {
+	vertical-align: middle;
+}
+
+.login_msgbox {
+	font-size: 12px;
+	color: #939393;
+	padding: 10px 27px 20px 12px;
+}
+
+.login_errorbox {
+	font-size: 12px;
+	color: #d23b3b;
+	padding: 10px 27px 20px 12px;
+}
+
+.versionbox {
+	height: 29px;
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	bottom: 60px;
+	right: 80px;
+	color: #5b5c5b;
+	font-size: 12px;
+	z-index: 3;
+	padding-right: 60px;
+	text-align: center;
+}

@@ -1,0 +1,438 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+
+
+<script type="text/javascript">
+    page.onLoad = function() {
+                page.send({
+                    url : contextPath + "/tCyCyjsqk/getBeanById/?${pageContext.request.queryString}"
+                }).then(function(data) {
+                    //  item = kernel.json.parse(data);
+                    page.loadForm({data:data });
+                });
+
+                //page.loadForm({url : contextPath + "/tCyCyjsqk/getBeanById/?${pageContext.request.queryString}"});
+
+	};
+</script>
+
+</jsp:attribute>
+	<jsp:body>
+	<form method="post" action="${ contextPath }/tCyCyjsqk/edit">
+        <table>
+            <tr>
+                <th>id:</th>
+                <td>
+
+                            <input id="id" name="id"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,10]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>行政编码:</th>
+                <td>
+
+                            <input id="xzbm" name="xzbm"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,6]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>省级行政名称:</th>
+                <td>
+
+                            <input id="sjxzmc" name="sjxzmc"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,10]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>地级行政名称:</th>
+                <td>
+
+                            <input id="djxzmc" name="djxzmc"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,20]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>县级行政名称:</th>
+                <td>
+
+                            <input id="xjxzmc" name="xjxzmc"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,20]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>行政级别:</th>
+                <td>
+
+                            <input id="xzjb" name="xzjb"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,1]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>填报时间:</th>
+                <td>
+
+                        <input id="tbsj" name="tbsj"  type="text"
+                               style="width: 146px;"   class= "easyui-datetimebox width-5" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>年度:</th>
+                <td>
+
+                            <input id="nd" name="nd"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,4]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>填报人:</th>
+                <td>
+
+                            <input id="tbr" name="tbr"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,15]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>草原总面积:</th>
+                <td>
+
+                            <input id="cyzmj" name="cyzmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>其中可利用面积:</th>
+                <td>
+
+                            <input id="qzklymj" name="qzklymj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>划定基本草原面积:</th>
+                <td>
+
+                            <input id="gdjbcymj" name="gdjbcymj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>当年划定基本草原面积:</th>
+                <td>
+
+                            <input id="dnhdjbcymj" name="dnhdjbcymj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>累计承包面积:</th>
+                <td>
+
+                            <input id="ljcbmj" name="ljcbmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>承包到户面积:</th>
+                <td>
+
+                            <input id="cbdhmj" name="cbdhmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>承包到联户面积:</th>
+                <td>
+
+                            <input id="cbdlhmj" name="cbdlhmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>其他承包形式面积:</th>
+                <td>
+
+                            <input id="qtcbxsmj" name="qtcbxsmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>禁牧休牧轮牧面积:</th>
+                <td>
+
+                            <input id="jmxmlmmj" name="jmxmlmmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>禁牧面积:</th>
+                <td>
+
+                            <input id="jmmj" name="jmmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>休牧面积:</th>
+                <td>
+
+                            <input id="xmmj" name="xmmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>轮牧面积:</th>
+                <td>
+
+                            <input id="lmmj" name="lmmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>累计围栏面积:</th>
+                <td>
+
+                            <input id="ljwlmj" name="ljwlmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>当年新增围栏面积:</th>
+                <td>
+
+                            <input id="dnxzwlmj" name="dnxzwlmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>鼠害危害面积:</th>
+                <td>
+
+                            <input id="shwhmj" name="shwhmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>鼠害治理面积:</th>
+                <td>
+
+                            <input id="shzlmj" name="shzlmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>草原火灾面积:</th>
+                <td>
+
+                            <input id="cyhzmj" name="cyhzmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>改良年末保留面积:</th>
+                <td>
+
+                            <input id="glnmblmj" name="glnmblmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>改良当年新增面积:</th>
+                <td>
+
+                            <input id="gldnxzmj" name="gldnxzmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>虫害危害面积:</th>
+                <td>
+
+                            <input id="chwhmj" name="chwhmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>虫害治理面积:</th>
+                <td>
+
+                            <input id="chzlmj" name="chzlmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>财政投入:</th>
+                <td>
+
+                            <input id="cztr" name="cztr"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>群众自筹:</th>
+                <td>
+
+                            <input id="qzzc" name="qzzc"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>当年耕地种草面积:</th>
+                <td>
+
+                            <input id="dngdzcmj" name="dngdzcmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>当年冬季贮草总量:</th>
+                <td>
+
+                            <input id="dndjccmj" name="dndjccmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>当年青贮总量:</th>
+                <td>
+
+                            <input id="dnqczl" name="dnqczl"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>累计有效打井数:</th>
+                <td>
+
+                            <input id="ljyxdjs" name="ljyxdjs"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>当年打井数:</th>
+                <td>
+
+                            <input id="dndjs" name="dndjs"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>草场灌溉面积:</th>
+                <td>
+
+                            <input id="ccggmj" name="ccggmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>井灌面积:</th>
+                <td>
+
+                            <input id="jgmj" name="jgmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>定居点牲畜棚圈面积:</th>
+                <td>
+
+                            <input id="djdmxpjmj" name="djdmxpjmj"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,22]'" >
+
+                </td>
+            </tr>
+
+        </table>
+	</form>
+	<div id="operator">
+		<a href="javascript:void page.saveForm()" class="easyui-linkbutton">保存</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

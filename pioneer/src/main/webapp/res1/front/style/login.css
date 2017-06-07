@@ -1,0 +1,121 @@
+@charset "utf-8";
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #fff;
+	background-image: url(images/login_bg.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+}
+div, td, th, span {
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";
+}
+.bodybg {
+	/*主框架页面上方的背景白云图片*/
+	width: 100%;
+position: absolute;
+left: 0px;
+top: 0px;
+right: 0px;
+bottom: 0px;
+
+background-color: #ecf0f5;
+background-image: url(images/sysselectbg2.jpg);
+background-size: 100% 100%;
+}
+.loginbox {
+	width: 596px;
+	height: 346px;
+	background-image: url(images/loginbox_bg.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -298px;
+	margin-top: -173px;
+}
+.logininputbox {
+	width: 201px;
+	float: right;
+	margin-right: 32px;
+}
+.inputbox {
+	height: 27px;
+}
+.inputbox td {
+	padding: 0px;
+	margin: 0px;
+	color: #9b9b9b;
+}
+.inputbox table {
+	height: 27px;
+	width: 100%;
+	background-color: #fff;
+	margin-top: 20px;
+}
+.inputico {
+	height: 27px;
+	width: 25px;
+}
+.inputtxt {
+	height: 27px;
+	width: 53px;
+	font-size: 12px;
+}
+.inputwrite {
+	height: 27px;
+}
+.inputstyle {
+	width: 100%;
+	height: 27px;
+	line-height: 27px;
+	border: none;
+	background-color: #fff;
+}
+label {
+	cursor: pointer;
+	margin-left: 4px;
+}
+.loginbtn {
+	width: 90px;
+	height: 27px;
+	color: #fff;
+	text-align: center;
+	line-height: 27px;
+	border:none;
+	cursor:pointer;
+	margin-top:20px;
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";
+	background: url('images/loginbtn.png') no-repeat center center;
+}
+.loginbtn:hover {
+	width: 90px;
+	height: 27px;
+	color: #fff;
+	text-align: center;
+	line-height: 27px;
+	background: url('images/loginbtn_over.png') no-repeat center center;
+}
+.resetbtn {
+	padding:0px;
+	width: 90px;
+	height: 27px;
+	color: #fff;
+	margin-top:20px;
+	text-align: center;
+	line-height: 27px;
+	border:none;
+	cursor:pointer;
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";
+	float:right;
+	background: url('images/loginresetbtn.png') no-repeat center center;
+}
+.resetbtn:hover{
+	width: 90px;
+	height: 27px;
+	color: #fff;
+	text-align: center;
+	line-height: 27px;
+	background: url('images/loginresetbtn_over.png') no-repeat center center;
+}

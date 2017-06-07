@@ -1,0 +1,480 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"	src="${  contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript"	src="${  contextPath }/res/lib/plugin/colorCheck/spectrum.js"></script>
+<script type="text/javascript"	src="${  contextPath }/res/lib/plugin/colorCheck/docs.js"></script>
+<script type="text/javascript"	src="${  contextPath }/res/lib/plugin/colorCheck/toc.js"></script>
+<script type="text/javascript"	src="${  contextPath }/res/lib/plugin/colorCheck/prettify.js"></script>
+<link type="text/css" rel="stylesheet"	href="${ contextPath }/res/lib/plugin/colorCheck/spectrum.css" />
+<script type="text/javascript">
+   var reData={};
+	function getIndexConfig(indexId) {
+		ids=[];
+		var url = contextPath + "/portAnalyze/getIndexConfig";
+		$.get(url, {
+			indexId : indexId
+		}, function(arr) {
+			if (arr.length > 0) {
+				var zbwd = "";
+				var length = arr.length;
+				//如果返回多条指标信息，表示是复合指标
+				if(length > 1){
+					length = length - 1;//最后一条为复合指标信息，需要去除复合指标
+				}
+				
+				for ( var i = 0; i < length; i++) {
+					var data = arr[i];
+					if (arr.length > 1) {
+						zbwd += data.indexCinfg.indexName + " ";//添加指标名称
+					}
+					zbwd += data.dimCinfg.html;
+					zbwd += "<br/>";
+
+					//下拉框的name为维度字段名称，查询指标时 返回字段名和值的名值对
+					ids.push({
+						indexId : data.indexCinfg.indexId,
+						ids : data.dimCinfg.ids
+					});
+				}
+				$("#zbwd").html(zbwd);//指标维度,查询条件
+				$.parser.parse($('#zbwd'));
+				reData.indexConfig = arr[arr.length - 1].indexCinfg;
+				var indexNum = "${param.indexNum}";
+				if (indexNum > 0 && statFreq != reData.indexConfig.statFreqCode) {
+					$.messager.alert('系统信息', '该指标时间周期与第一条指标不一致，请重新选择时间周期相同的指标！', 'error');
+					return;
+				}
+			}
+		});
+	}
+	//加载分组字段
+	function loadGroupByField(indexId) {
+		var url = contextPath + "/portAnalyze/getGroupField?indexId=" + indexId;
+		$('#groupByField').combobox({
+			url : url,
+			valueField : 'id',
+			textField : 'text',
+			value : '-1',
+			onSelect : function(node) {
+				groupField = node.id;
+			}
+		});
+	}
+	var ids = [];
+	var groupField = "";
+	var deleteUrl=[];
+  page.onLoad = function(){
+  	 $('#indexTree').combotree({
+			url : contextPath + "/portAnalyze/getIndexTree?isAll=y",
+			required : true,
+			onClick: function(node){
+				indexId = node.id;
+				reData.indexName = node.text;
+				reData.indexId = node.id;
+
+				if (node.sort == "0") {//基础指标
+					$("#showGroup").show();
+					reData.groupFieldShow=1;
+					loadGroupByField(indexId);
+				}
+
+				//如果点击的是指标
+				if (node.type == "index") {
+					if(node.sort != "0"){
+						$("#showGroup").hide();
+						reData.groupFieldShow=0;
+						groupField="";
+					}
+					getIndexConfig(node.id);
+				}
+			}
+		});
+	reqParams=JSON.parse(sessionStorage.getItem("editDissertationParams"));
+	console.log(reqParams);
+	if(reqParams.modifyType && reqParams.modifyType == "edit"){
+		reData= reqParams;
+		$("#indexAlias").val(reData.indexAlias);
+	}
+	var startDate=reqParams.startDate;
+	var endDate=reqParams.endDate;
+	function formateDate(date){ //date = 2012-02-03
+		if(date){
+			var list= date.split("-");
+			return list[1]+"/"+list[2]+"/"+list[0];
+		}
+		return "";
+	}
+	$("#startDate").datebox('setValue',formateDate(startDate));
+    $("#endDate").datebox('setValue',formateDate(endDate));
+	$('#indexTree').combotree("setValue",reqParams.indexId);
+     $.ajax({
+	   		url:contextPath + "/portAnalyze/getIndexConfig",
+	   		data:{indexId: reqParams.indexId},
+	   		async:false,
+	   		dataType:"json",
+	   		type:"get",
+	   		success:function(arr){
+	   			var zbwd = "";
+				var length = arr.length;
+	   			//如果返回多条指标信息，表示是复合指标
+				if(length > 1){
+					length = length - 1;//最后一条为复合指标信息，需要去除复合指标
+				}
+	   			for ( var i = 0; i < length; i++) {
+					var data = arr[i];
+					if (arr.length > 1) {
+						zbwd += "<p class='indexname-p'>" + data.indexCinfg.indexName + "</p>";//添加指标名称
+					}
+					zbwd += data.dimCinfg.html;
+
+					//下拉框的name为维度字段名称，查询指标时 返回字段名和值的名值对
+					ids.push({
+						indexId : data.indexCinfg.indexId,
+						ids : data.dimCinfg.ids
+					});
+				}
+				
+	   		 	$("#zbwd").html(zbwd);//指标维度
+			   var pc ="";
+			   $.parser.onComplete  = function(){
+			  		if(pc){
+			  			clearTimeout(pc);
+			  		}else{
+			  			pc= setTimeout(loadCombo(reqParams), 1000);
+			  		}
+			   };
+			   //重新渲染easyui组件
+			   $.parser.parse($('#zbwd'));
+			   function loadCombo(params){
+			   	 if(params.editQparams){
+			   	 	for(var j =0;j < params.editQparams.length;j++){
+			   	 		var dimConfigs= params.editQparams[j];
+			   	 		var delUrl={};
+					   for(var i = 0 ; i< dimConfigs.length; i++){
+					   		if(i>0){
+					   			delUrl[dimConfigs[i].id]=dimConfigs[i].url;
+					   			delete $("#"+dimConfigs[i].id).combobox("options").url;
+					   		}
+					    	$.ajax({
+					    		url:dimConfigs[i].url,
+					    		async:false,
+					    		dataType:"json",
+					    		type:"post",
+					    		success:function(data){
+					    			$("#"+dimConfigs[i].id).combobox({data:data});
+					    			$("#"+dimConfigs[i].id).combobox("setValue",dimConfigs[i].value);
+					    		}
+					    	});
+					   }
+					   deleteUrl.push(delUrl);
+			   	 	}
+			   	 }
+			   }
+			  
+			   
+	   		}
+   	 });
+   	 if(reqParams.groupFieldShow){
+   	 		$("#showGroup").show();
+   	 }
+   	 	$("#theoryMinValue").numberbox("setValue",reqParams.theoryMinValue);
+		$("#theoryMaxValue").numberbox("setValue",reqParams.theoryMaxValue);
+		$("#warnMaxValue").numberbox("setValue",reqParams.warnMaxValue);
+		$("#warnMinValue").numberbox("setValue",reqParams.warnMinValue);
+   	 	setColor(reqParams.warnMaxColor,"warnColor");
+   	 	setColor(reqParams.warnMinColor,"warnMinColor");
+   		setColor(reqParams.color);
+   		var xv=reqParams.chartData.xvalue;
+		var yv=reqParams.chartData.yvalue;
+		var checkPeriodData=[];
+		for(var j=0;j<xv.length;j++){
+			var son={};
+			son.xvalue=xv[j];
+			son.yvalue=yv[j];
+			checkPeriodData.push(son);
+		}
+		$("#checkPeriod").combobox({data:checkPeriodData});
+		$("#checkPeriod").combobox("setValue",reqParams.checkPeriod.value);
+  };
+    var defaultColor=['#60C0DD','#F3A43B','#FAD860','#9BCA63','#FE8463','#27727B' ,'#E87C25','#FCCE10','#B5C334','#C1232B','#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0']; 
+    function loadPeriod(){
+   		var chartStyle=$("#chartStyle").val();
+		if(chartStyle == "line" ||chartStyle == "bar" ){
+			reData.warnMinValue=$("#warnMinValue").numberbox("getValue");
+			reData.warnMaxValue=$("#warnMaxValue").numberbox("getValue");
+			if(reData.warnMaxValue && reData.warnMinValue && Number(reData.warnMinValue) > Number(reData.warnMaxValue)){
+				alert("预警最大值不能小于最小值！");
+				return;
+			}else if((reData.warnMaxValue&&!reData.warnMinValue) || (!reData.warnMaxValue&&reData.warnMinValue)){
+				alert("请同时设置预警最大最小值！");
+				return;
+			}
+			reData.warnColor=$("#warnColor").val();
+			if(!reData.warnColor){
+				reData.warnColor="#ff0000"; //预警默认颜色。
+			}
+		}
+	   var params = {};
+	   var startDate = reqParams.chartDataParams.startDate;
+	   var endDate = reqParams.chartDataParams.endDate;
+	   var toLog=reqParams.toLog;
+	   var indexNum=reqParams.indexNum;
+	   var statFreq= reqParams.indexConfig.statFreq;
+	   params.startDate = startDate;
+	   params.endDate = endDate;
+	   params.indexs = [];
+	   params.groupField = groupField;
+	   //拼接维度条件
+		if (ids.length > 0) {
+			reData.editQparams = [];
+			for ( var k =0 ;k < ids.length;k++) {
+				//拼接维度条件
+				var fields = [];
+				var v = ids[k];
+				var _indexId = v.indexId;
+				var _ids = v.ids;
+				if (_ids) {
+					var dimIds = _ids.split(","); //获取到每一个维度 下拉框id
+					var editQparams = new Array();
+					for ( var i = 0; i < dimIds.length; i++) {
+						var id = dimIds[i];
+						var filedName = $("#" + id).attr("comboname");//字段名
+						var value = $("#" + id).combo('getValue');
+						var param = {};
+						param[filedName] = value;
+						fields.push(param);
+						var newParam = {};
+						newParam.filedName = filedName;
+						newParam.value = value;
+						newParam.id = id;
+						newParam.url = $("#" + id).combobox("options").url;
+						if(!newParam.url){
+							newParam.url = deleteUrl[k][id];
+						}
+						editQparams[i] = {};
+						editQparams[i] = newParam;
+					}
+					reData.editQparams.push(editQparams);
+				}
+				params.indexs.push({
+					indexId : _indexId,
+					fields : fields
+				});
+			}
+		}
+	   //查询指标数据
+	   var url = contextPath + "/portAnalyze/getIndexData";//该url写在项目配置文件中，分析图展现时使用， params 保存到 query_param字段
+  		indexId=reqParams.indexId;
+   		var getPeriodFlag=true;
+	   $.ajax({
+	   		url:url,
+	   		data:{indexId: indexId, params: JSON.stringify(params)},
+	   		async:false,
+	   		dataType:"json",
+	   		type:"get",
+	   		success:function(data){
+	   			if(ObjectIsNull(data)){
+	   				alert("该周期类暂无数据！");
+	   				getPeriodFlag=false;
+	   				return;
+	   			}
+	   			reData.chartData=data;
+	   		}
+	   });
+	   if(!getPeriodFlag){
+	   		return;
+	   }
+	   if(!reData.chartData){
+	   		alert("请选择查询条件！");
+	   		return;
+	   }else if(ObjectIsNull(reData.chartData) && indexNum == 0){
+	   		alert("添加的第一条指标必须有数据！");
+	   		return;
+	   }
+	   if(indexNum > 0 && statFreq != reData.indexConfig.statFreq){
+			alert("该指标时间周期与第一条指标不一致，请重新选择时间周期相同的指标！");
+			return;	   
+	   }
+	   var color=$("#full").val();
+   		if (color) {
+			reData.color = color;
+		} else {
+			var addedColors_str = "${param.addedColors}";
+			if (addedColors_str) {
+				var addedColors = JSON.parse(addedColors_str);
+
+				for ( var j = 0; j < addedColors.length; j++) {
+					addedColors[j] = "#" + addedColors[j];
+				}
+				for ( var j = 0; j < defaultColor.length; j++) {
+					if (!existOne(defaultColor[j], addedColors)) {
+						reData.color = defaultColor[j];
+						break;
+					}
+				}
+				function existOne(val, arr) {
+					for ( var i = 0; i < arr.length; i++) {
+						if (val == arr[i]) {
+							return true;
+						}
+					}
+					return false;
+				}
+			} else {
+				reData.color = reqParams.color;
+				if(!reData.color){
+					reData.color=defaultColor[0];
+				}
+			}
+		}
+		var warnMinColor=reqParams.warnMinColor;
+		var getWarnMinColor=$("#warnMinColor").val();
+		if(getWarnMinColor){
+			warnMinColor=getWarnMinColor;
+		}
+		reData.warnMinColor=warnMinColor;
+		var warnMaxColor=reqParams.warnMaxColor;
+		var getWarnMaxColor=$("#warnColor").val();
+		if(getWarnMaxColor){
+			warnMaxColor=getWarnMaxColor;
+		}
+		reData.warnMaxColor=warnMaxColor;
+	   if(!reData.indexName){
+	   	reData.indexName=reqParams.indexName;
+	   }
+	   if(!reData.indexId){
+	   	reData.indexId=reqParams.indexId;
+	   }
+	   reData.cindexId = reqParams.cindexId;
+	   params.color=reData.color;
+	   reData.chartDataParams=params;
+	   reData.clickType="edit";
+	   reData.num=reqParams.rowNum;
+	   reData.toLog=toLog;
+	   reData.indexAlias = $("#indexAlias").val();
+	   reData.style = chartStyle;
+  		reData.theoryMinValue=$("#theoryMinValue").numberbox("getValue");
+		reData.theoryMaxValue=$("#theoryMaxValue").numberbox("getValue");
+		reData.warnMaxValue=$("#warnMaxValue").numberbox("getValue");
+		reData.warnMinValue=$("#warnMinValue").numberbox("getValue");
+   }
+    function ObjectIsNull(obj){
+			for(var i in obj ){
+				return false;
+			}
+			return true;
+		}
+   	function search(){
+		loadPeriod();
+		var checkPeriod={};
+		checkPeriod.name=$("#checkPeriod").combobox("getText");
+		checkPeriod.value=$("#checkPeriod").combobox("getValue");
+		reData.checkPeriod=checkPeriod;
+		console.log(reData.checkPeriod);
+		page.opener.refresh(reData);
+		page.close();
+	}
+   	function formatNum(v){
+		var val=v.toString();
+		var reg=/0$|\.$/;
+		while(reg.test(val)){
+			if(/\.$/.test(val)){
+				val= val.substring(0,val.length-1);
+				break;
+			}else{
+				val= val.substring(0,val.length-1);
+			}
+		}
+		return val;
+	}
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form method="post" >
+        <table>
+            <tr>
+                <th>指标:</th>
+                <td>
+
+                            <input id="indexTree" name="indexTree"  type="text"
+                                   style="width: 163px;"   class="easyui-combotree"
+                                   data-options="validType:'length[1,100]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>指标别名:</th>
+                <td>
+                            <input id="indexAlias" name="indexAlias" style="width: 163px;" type="text" class="easyui-validatebox textbox" />
+                </td>
+            </tr>
+             <tr>
+                <th>查询条件:</th>
+                <td id="searchCondition">
+                            <div id="zbwd" style="display:inline-block;"></div>
+                </td>
+            </tr>
+            <tr id="showGroup" style="display: none;">
+                <th>分组字段:</th>
+                <td>
+                      <input id="groupByField" name="groupByField"> 
+                       <input id="chartStyle" name="chartStyle" type="hidden" value="gauge"/>
+                </td>
+            </tr>
+            <tr class="warnColorTr">
+                <th>全部范围:</th>
+                <td id="parseWarnValue">
+                          <input id="theoryMinValue" name="theoryMinValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"  size=5  style="width:50px" />&nbsp;&nbsp;到&nbsp;&nbsp;
+                          <input id="theoryMaxValue" name="theoryMaxValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"   size=5   style="width:50px"  />
+
+                </td>
+            </tr>             
+            <tr class="warnColorTr">
+                <th>预警下限值:</th>
+                <td>
+                	<input id="warnMinValue" name="warnMinValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"  size=5  style="width:50px" />
+                          
+					 &nbsp;&nbsp;超出下限值颜色： <div style='text-align:left;display:inline-block;'>
+					  		<input id="warnMinColor" />
+					  </div>
+                </td>
+            </tr>
+            <tr class="warnColorTr">
+                <th>预警上限值:</th>
+                <td>
+                	  <input id="warnMaxValue" name="warnMaxValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"   size=5   style="width:50px"  />
+					  &nbsp;&nbsp;超出上限值颜色：<div style='text-align:left;display:inline-block;margin-left: 3px;'>
+					  		<input id="warnColor" />
+					  </div>
+                </td>
+            </tr>
+             <tr>
+                <th>图表颜色:</th>
+                <td>
+
+                          <div style='text-align:left;'>
+						  		<input id="full" />
+						  </div>
+
+                </td>
+            </tr>
+             <tr>
+                <th>选择周期:</th>
+                <td>
+						<input id="checkPeriod" class="easyui-combobox" data-options="valueField: 'yvalue',textField: 'xvalue',editable:false,length:5" panelheight="100" />
+                </td>
+            </tr>
+        </table>
+	</form>
+	<div id="operator">
+		<a href="javascript:void search()" class="easyui-linkbutton">确定</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

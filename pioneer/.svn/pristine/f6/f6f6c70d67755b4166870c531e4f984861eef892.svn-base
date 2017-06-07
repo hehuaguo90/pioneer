@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<link href="style/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var off = true;
+  $("#form_check_turn").click(function(){
+	  if(off){
+		  $("#body_turn").removeClass("body_bottom_tuonoff");
+		  $("#body_turn").addClass("body_bottom_tuonon");
+		  off = false;
+	  }else{
+		  $("#body_turn").removeClass("body_bottom_tuonon");
+		  $("#body_turn").addClass("body_bottom_tuonoff");
+		  off = true;
+	  }
+	  
+ 	 
+  });
+  
+ // $("#form_check_btn").click(function(){
+ 	// $("#form_check_box").toggleClass("navbar-fixed-bottom");
+ // });
+  
+});
+</script>
+
+</head>
+
+<body  class="iframe_bg" >
+<div id="body_turn" class="iframe_body body_bottom_tuonoff"><!--此DIV为必要的body以下最外层页面容器-->
+<div class="body_main">
+
+    <div class="paper_box_bg">
+    	<div class="paper_box">
+        <!--此DIV为内容区的最外层容器，所有内容均应放置于本DIV以内-->
+       
+       <div class="paper_head">
+       		<div class="col-md-3 row" style="padding-top:8px;">
+            	<div class="col-md-3" >
+                	<span class="icon-edit paperico"></span>
+                </div>
+                <div class="col-md-9">
+                	<p class="lanmu_name">信息填报</p>
+                    <p class="lanmu_memo">进行畜牧信息的填报</p>
+                </div>
+            </div>
+            <div class="col-md-9 papertitle">
+            	<h3>重庆市畜产品及饲料集市价格周报表<small>（无编辑权限）</small></h3>
+            </div>
+       </div>
+       
+       <div class="paper_content_box_form">
+       <form method="post" action="/bdasTest/tXxkXcpjgzb/add">
+           <table width="100%" style="border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;">
+	
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:700;  font-size: 90%;" align="left" valign="center" width="57"  colspan="4" rowspan="1">
+地区：   　时间：2016年第  周 		</td>
+	</tr>
+	<tr height="19" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:700;  font-size: 90%;" align="center" valign="center" width="57"  colspan="2" rowspan="1">
+项目		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:700;  font-size: 90%;" align="center" valign="center" width="57"  colspan="1" rowspan="1">
+计量单位		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:700;  font-size: 90%;" align="center" valign="center" width="57"  colspan="1" rowspan="1">
+价格（元）		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+一、生猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="2">
+1、仔猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+土杂仔猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="tzrz" name="tzrz" class="form_input error" >
+		</td>
+	</tr>
+	<tr height="31" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+洋三元或PIC仔猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="ysyzz" name="ysyzz" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="2">
+2、待宰活猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+土杂肉猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="tzrz" name="tzrz" class="form_input" >
+		</td>
+	</tr>
+	<tr height="31" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+洋三元或PIC肉猪		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="ysyrz" name="ysyrz" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+3、去骨带皮猪肉		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="qgdpzr" name="qgdpzr" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+二、家禽产品		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="3">
+1、鸡蛋		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+土鸡蛋		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="tjd" name="tjd" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+专用型鸡蛋		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="zyzjd" name="zyzjd" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+无公害鸡蛋		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="wghxjd" name="wghxjd" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+2、鸭蛋		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000;  align="left" valign="center" width="57"   >
+        <div   class="form_closebox">
+<input id="yd" name="yd" class="form_input"  value="fdasfdsf">
+<span class="closebtn"><span class="glyphicon glyphicon-remove closebtn"></span></span>
+</div>
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+3、商品代蛋雏鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+只		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="spddcj" name="spddcj" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+4、商品代肉雏鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+只		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="spdrcj" name="spdrcj" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+5、商品代肉鸭苗		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+只		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="spdrym" name="spdrym" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+6、商品代肉鹅苗		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+只		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="spdrem" name="spdrem" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="4">
+7、鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+本地土鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="bdtj" name="bdtj" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+土杂肉鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="tzrj" name="tzrj" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+快大型肉鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="kdxrj" name="kdxrj" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+西装鸡		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="xzj" name="xzj" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="3">
+8、活鸭		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+本地麻鸭		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="bdmy" name="bdmy" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+杂交肉鸭		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="zjry" name="zjry" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+快大型肉鸭		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="kdxry" name="kdxry" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+9、活鹅		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="he" name="he" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+三、去骨牛肉		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="qgnr" name="qgnr" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+四、牛奶		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="nn" name="nn" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+五、商品羊		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+1、商品活羊		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="sphy" name="sphy" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+2、带骨羊肉		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="dgyr" name="dgyr" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+六、绵羊毛		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="mym" name="mym" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+七、家兔		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+1、活肉兔		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="hrt" name="hrt" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+1、兔毛（统毛）		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="tm" name="tm" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+八、饲料产品		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+1、玉米		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="xm" name="xm" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+2、豆粕		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="dp" name="dp" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+3、小麦麸		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="xmf" name="xmf" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+4、进口鱼粉		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="jkyf" name="jkyf" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+5、育肥猪配合料		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+<input id="yfzphl" name="yfzphl" class="form_input" >
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+6、肉鸡配合饲料		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1" >
+       
+				
+		
+
+		</td>
+	</tr>
+	<tr height="18" style="border:1px solid #000;border-width:0 1px 1px 0;margin:2px 0 2px 0;">
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="2" rowspan="1">
+7、蛋鸡配合饲料		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1">
+千克		</td>
+		<td style="border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0;  background-color:#ffffff;  color:#000000;  font-weight:400;  font-size: 90%;" align="left" valign="center" width="57"  colspan="1" rowspan="1"  >
+       
+		
+
+		</td>
+	</tr>
+</table>
+<div class="form_add_box"><button type="button" class="btn btn-primary"><span class="icon-plus"></span>&nbsp;添加一条数据</button></div>
+
+	</form>
+
+			
+		</div>
+		
+
+
+        </div>
+    </div>
+    </div>
+ <div class="body_bottom">   
+ <div id="form_check_box" class="form_check_box">
+            	<div class="form_check_tools">
+                	<button id="form_check_btn"  type="button" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;自动审核</button>
+                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-saved"></span>&nbsp;暂存</button>
+                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;导入</button>
+                    <button type="button" class="btn btn-primary"><span class="glyphicon  glyphicon-share"></span>&nbsp;导出</button>
+                    <button id="form_check_turn" type="button" class="btn btn-danger">隐藏验证信息</button>	
+                    <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;放弃</button>
+                    <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp;提交</button>
+                   
+                </div>
+                <div id="form_check_msg" class="form_check_msg" >
+                	<p class="text-warning">1、专用型鸡蛋价格超出平均价10倍</p>
+                    <p><input type="text" class="form-control errorinput" id="name" placeholder="请输入解释信息"></p>
+                	<p class="text-danger">2、有价格未填写，请全部填写后提交</p>
+                    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+                </div>
+            
+        </div>
+ </div>
+</div>
+
+</body>
+</html>

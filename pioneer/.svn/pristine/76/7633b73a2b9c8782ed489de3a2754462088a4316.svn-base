@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysComp.dao.TSysCompDao" >
+    <resultMap id="tSysCompModelMap" type="com.wellsys.pioneer.module.tSysComp.model.TSysCompModel" >
+        <id column="comp_id" property="compId" />
+        <result column="org_id" property="orgId" />
+        <result column="comp_name" property="compName" />
+        <result column="comp_code" property="compCode" />
+        <result column="stepseq_id" property="stepseqId" />
+        <result column="area_level" property="areaLevel" />
+        <result column="show_order" property="showOrder" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysCompModelMap" parameterType="com.wellsys.pioneer.module.tSysComp.model.TSysCompModel" >
+        SELECT
+            comp_id
+            ,org_id
+            ,comp_name
+            ,comp_code
+            ,stepseq_id
+            ,area_level
+            ,show_order
+            ,remark
+
+        FROM
+            t_sys_comp
+        WHERE
+            1=1
+            AND comp_id=#{compId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysComp.model.TSysCompModel" >
+        SELECT
+                t.comp_id as "compId"
+                ,t.org_id as "orgId"
+                ,t.comp_name as "compName"
+                ,t.comp_code as "compCode"
+                ,t.stepseq_id as "stepseqId"
+                ,t.area_level as "areaLevel"
+                ,t.show_order as "showOrder"
+                ,t.remark as "remark"
+            ,o.org_name as "orgName"
+
+        FROM
+                t_sys_comp t, t_sys_org o 
+        WHERE
+                t.org_id = o.org_id
+                AND t.comp_id=#{compId}
+
+    </select>
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysComp.model.TSysCompModel" >
+            DELETE FROM
+                t_sys_comp
+            WHERE
+                1=1
+                AND comp_id=#{compId}
+    </delete>
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysComp.model.TSysCompModel" >
+        INSERT INTO  t_sys_comp (
+             comp_id
+             ,org_id
+             ,comp_name
+             ,comp_code
+             ,stepseq_id
+             ,area_level
+             ,show_order
+             ,remark
+
+        )
+        VALUES (
+            #{compId,jdbcType=VARCHAR }
+            ,#{orgId,jdbcType=VARCHAR }
+            ,#{compName,jdbcType=VARCHAR }
+            ,#{compCode,jdbcType=VARCHAR }
+            ,#{stepseqId,jdbcType=INTEGER }
+            ,#{areaLevel,jdbcType=INTEGER }
+            ,#{showOrder,jdbcType=INTEGER }
+            ,#{remark,jdbcType=VARCHAR }
+        )
+    </insert>
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysComp.model.TSysCompModel" >
+        UPDATE
+                 t_sys_comp
+        SET
+                org_id=#{orgId}
+                ,comp_name=#{compName}
+                ,remark=#{remark}
+
+        WHERE
+                1=1
+                AND comp_id=#{compId}
+    </update>
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.comp_id as "compId"
+                ,t.org_id as "orgId"
+                ,t.comp_name as "compName"
+                ,t.comp_code as "compCode"
+                ,t.stepseq_id as "stepseqId"
+                ,t.area_level as "areaLevel"
+                ,t.show_order as "showOrder"
+                ,t.remark as "remark"
+                ,o.org_name as "orgName"
+
+        FROM
+                t_sys_comp t, t_sys_org o 
+        WHERE
+                t.org_id = o.org_id
+            <if test="compId != null "> AND comp_id=#{compId} </if>
+            <if test="orgId != null "> AND org_id=#{orgId} </if>
+            <if test="compName != null "> AND comp_name like '%${compName}%' </if>
+            <if test="compCode != null "> AND comp_code=#{compCode} </if>
+            <if test="stepseqId != null "> AND stepseq_id=#{stepseqId} </if>
+            <if test="areaLevel != null "> AND area_level=#{areaLevel} </if>
+            <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+            <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="tSysCompModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                comp_id
+                ,org_id
+                ,comp_name
+                ,comp_code
+                ,stepseq_id
+                ,area_level
+                ,show_order
+                ,remark
+
+        FROM
+                t_sys_comp
+        WHERE
+                 1=1
+                <if test="compId != null "> AND comp_id=#{compId} </if>
+                <if test="orgId != null "> AND org_id=#{orgId} </if>
+                <if test="compName != null "> AND comp_name=#{compName} </if>
+                <if test="compCode != null "> AND comp_code=#{compCode} </if>
+                <if test="stepseqId != null "> AND stepseq_id=#{stepseqId} </if>
+                <if test="areaLevel != null "> AND area_level=#{areaLevel} </if>
+                <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+    <select id="hasChildUser" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+       select 
+		count(1)
+		from t_sys_user t
+		where 
+		t.pid=#{pid}
+    </select>
+
+</mapper> 

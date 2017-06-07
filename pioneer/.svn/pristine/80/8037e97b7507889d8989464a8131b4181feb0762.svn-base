@@ -1,0 +1,215 @@
+@charset "utf-8";
+
+* {
+	font-family: "微软雅黑", "Microsoft YaHei ";
+}
+
+@font-face {
+	font-family: 'impact'; /*字体名称*/
+	src: url('impact_1.ttf'); /*字体源文件*/
+}
+
+body, html, div, p {
+	padding: 0;
+	margin: 0;
+}
+
+ul, li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.clear {
+	clear: both;
+	visibility: visible;
+}
+
+a {
+	/*初始化A的样式，不要下划线*/
+	text-decoration: none !important;
+	color: #343844;
+}
+
+.bodybg {
+	/*主框架页面上方的背景白云图片*/
+	width: 100%;
+position: absolute;
+left: 0px;
+top: 0px;
+right: 0px;
+bottom: 0px;
+
+background-color: #ecf0f5;
+background-image: url(images/sysselectbg.jpg);
+background-size: 100% 100%;
+}
+
+.login_box {
+
+	
+	width: 440px;
+	height: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -290px;
+	margin-left: -220px;
+}
+
+.login_inputbox_tab {
+	width: 472px;
+	z-index: 4;
+	position: absolute;
+	left: 324px;
+	top: 90px;
+}
+
+.login_inputbox_tab li {
+	width: 100px;
+	height: 34px;
+	line-height: 34px;
+	float: left;
+	background-color: #5c9bd3;
+	color: #fff;
+	border-radius: 0px 0px 0 0;
+	text-align: center;
+	margin-right: 4px;
+	cursor: pointer;
+}
+
+.login_inputbox_tab li.active {
+	background-color: #f2f2f2;
+	color: #1f8b34;
+	height: 38px;
+	line-height: 38px;
+}
+
+.login_inputbox_body {
+	margin:auto;
+	margin-top:45px;
+	width: 343px;
+	min-height: 340px;
+	z-index: 3;
+	padding:47px 32px 32px 32px;
+	
+	background-color:#f6f6f6;
+	border-radius:8px;
+	
+	
+	
+}
+
+.inputbox {
+	padding: 16px 40px;
+}
+
+.inputbox .input-group-addon {
+	background-color: #fff;
+	border-right: none;
+	border-color: #e0e0e0;
+	border-radius: 0;
+	height: 35px\9\0;
+}
+
+.inputbox .ico {
+	color: #aaaaaa;
+}
+
+.inputbox .input-group {
+	margin-bottom: 15px;
+}
+
+.form-control {
+	border-radius: 0;
+	border-color: #e0e0e0;
+	color: #333;
+}
+
+.form-control {
+	-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
+	box-shadow: inset 0 0px 0px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-control:focus {
+	border-color: #63a658;
+	outline: 0;
+	-webkit-box-shadow: inset 0 0px 0px #63a658, 0 0 0px #63a658;
+	box-shadow: inset 0 0px 0px #63a658, 0 0 0px #63a658;
+}
+
+.login_btn  {
+	background-color: #28ce6e;
+	color: #fff;
+	text-align: center;
+	border-radius: 4px;
+	font-size: 16px;
+	padding: 10px;
+	width: 100%;
+	height: 44px;
+	margin-top: 10px;
+	border-radius:4px;
+	border:none;
+}
+.login_btn:hover  {
+	background-color: #24BD65;
+}
+	
+.login_btn a.reset {
+	background-color: #6e96b9;
+}
+
+.login_btn a:hover {
+	background-color: #47A55A;
+}
+
+.login_btn a.reset:hover {
+	background-color: #5C89B1;
+}
+
+.icobox {
+	height: 39px;
+	line-height: 39px;
+}
+
+.icobox span {
+	vertical-align: middle;
+}
+
+.login_msgbox {
+	font-size: 12px;
+	color: #939393;
+	padding: 10px 27px 20px 12px;
+}
+
+.login_errorbox {
+	font-size: 12px;
+	color: #d23b3b;
+	padding: 10px 27px 20px 12px;
+}
+
+.versionbox {
+	height: 29px;
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	bottom: 60px;
+	right: 80px;
+	color: #000;
+	font-size: 14px;
+	z-index: 3;
+	
+	text-align: center;
+}
+
+.active .input_simple{border:1px solid #28ce6e;color:#28ce6e;}
+.input_simple{height:42px;line-height:42px;border:1px solid #d5d5d5;border-radius:3px;background-color:#fff;color:#8e8e8e;font-size:14px;margin-bottom:20px;}
+.input_simple input{border:none;background-color:transparent;height:40px;margin:0;padding:0;width:100%;outline:none}
+.input_simple input:focus{border:none;background-color:transparent;}
+.input_simple .ico{vertical-align:middle;font-size:24px;}
+.inputname{border-right:1px  solid #e0e0e0;padding-right:15px;}

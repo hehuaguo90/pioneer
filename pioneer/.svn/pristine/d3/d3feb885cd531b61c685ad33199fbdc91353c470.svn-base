@@ -1,0 +1,43 @@
+package com.wellsys.common.utils;
+
+import com.wellsys.common.utils.file.FileDeleter;
+
+
+
+public class StaticVal {
+
+	//智能查询服务地址
+	//public static String SOLR_URL;
+	
+	public static String WORD_ADDRESS;
+	public static int EXCEL_SHEET_DATA;
+	public static String CACHE_PATH;//文件处理缓存地址
+	public static String PROJCE_NAME;//项目名称
+	public static String SENDER_TEL;//发送人号码
+	/**
+	 * 趋势分析导出word目录
+	 */
+	public static String tendAnalyzeWord_doc_dir;
+	/**
+	 * 下载目录前缀
+	 */
+	public static String upload_prefix;
+	public void init(){
+		System.out.println("静态变量初始化");
+		//SOLR_URL = System_ConfigUtil.getProperty("SOLR_URL");
+		StaticVal.WORD_ADDRESS = System_ConfigUtil.getProperty("WORD_ADDRESS");
+		String excelSheetData = System_ConfigUtil.getProperty("EXCEL_SHEET_DATA");
+		EXCEL_SHEET_DATA = Integer.parseInt(excelSheetData);
+		if(EXCEL_SHEET_DATA > 65536){
+			EXCEL_SHEET_DATA = 65536;
+		}
+		
+		CACHE_PATH = System_ConfigUtil.getProperty("CACHE_PATH");
+		PROJCE_NAME = System_ConfigUtil.getProperty("PROJCE_NAME");
+		SENDER_TEL = System_ConfigUtil.getProperty("SENDER_TEL");
+		tendAnalyzeWord_doc_dir= System_ConfigUtil.getProperty("tendAnalyzeWord_doc_dir");
+		upload_prefix= System_ConfigUtil.getProperty("upload_prefix");
+		FileDeleter fm = new FileDeleter();
+        fm.start();
+	}
+}

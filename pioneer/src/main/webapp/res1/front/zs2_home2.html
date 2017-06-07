@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<link href="style/webstyle.css" rel="stylesheet" type="text/css" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#leftbar_turnbox").click(function(){
+ 	 $("#bodybg_box").toggleClass("turn_off");
+
+  });
+  
+  $("#layout_turn").click(function(){
+	  $(window.frames["iframe1"].document).find("#paper_box_bg").toggleClass("paper_layout_full");
+	  
+	  });
+   $(".leftmenu li").click(function(){
+	  
+	  
+	    $("#bodybg_box").removeClass("turn_off");
+	 $(".leftmenu li.active").removeClass("active");
+	  $(this).addClass("active");
+  });
+  $(".leftmenu p").click(function(){
+	  
+	  
+	 $(".leftmenu p.active").removeClass("active");
+	  $(this).addClass("active");
+  });
+});
+</script>
+
+
+<style type="text/css">
+body, html {
+	height: 100%;
+}
+</style>
+</head>
+
+<body>
+
+
+  
+  <!--内容区开始-->
+<div class="bodybg2" > 
+	<div class="main_logo"><img src="style/images/home_menu_logo.png" width="439" height="95"></div>
+	<div class="main_menu"> 
+   		 <a href="#fdsfdsf"><img src="style/images/zs2_main_menu_ico_1.png" ></a> 
+         <a href="#fdsfdsf"><img src="style/images/zs2_main_menu_ico_2.png" ></a> 
+         <a href="#fdsfdsf"><img src="style/images/zs2_main_menu_ico_3.png" ></a> 
+         <a href="#fdsfdsf"><img src="style/images/zs2_main_menu_ico_4.png" ></a> 
+         <a href="#fdsfdsf"><img src="style/images/zs2_main_menu_ico_5.png" ></a> 
+         <a href="#fdsfdsf"><img src="style/images/zs2_main_menu_ico_6.png" ></a> 
+    </div>
+
+    <div class="footbox">重庆同方融达信息科技有限公司&#160;&#160;&#160;<a href="#fwsdfdsf">[企业管理平台]</a>&#160;<a href="#fdsfff">[公共查询平台]</a></div>
+    
+    
+    
+</div>
+  <!--内容区结束--> 
+  
+
+
+
+</body>
+
+
+</html>

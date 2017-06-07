@@ -1,0 +1,344 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:formPhone>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+$(document).ready(function() {
+	//initValidatePane();
+	 var param =  "${param.id}";
+	 page.loadView({
+	      url : contextPath + "/tXxkXcpjgzb/getBeanMapById/?id=" + param
+     });
+});
+  
+</script>
+</jsp:attribute>
+	<jsp:body>
+<div class="form_box_container">
+	<div class="form_title">重庆市畜产品及饲料集市价格周报表</div>
+    <ul class="form_box_phone">
+        	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土杂仔猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="tzzz"></p>
+                </div>
+            </li>
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>洋三元或PIC仔猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+               		 <p class="inputvalue" id="ysyzz"></p>
+                </div>
+            </li>
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土杂肉猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+   		            <p class="inputvalue" id="tzrz"></p>
+                </div>
+            </li>  
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>三元或PIC肉猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+          	       <p class="inputvalue" id="ysyrz"></p>
+                </div>
+            </li>              
+         	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>去骨带皮猪肉</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+  		            <p class="inputvalue" id="qgdpzr"></p>
+                </div>
+            </li>  
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土鸡蛋</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="tjd"></p>
+                </div>
+            </li>   
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>专用型鸡蛋</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="zyzjd"></p>
+                </div>
+            </li>     
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>无公害鸡蛋</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="wghxjd"></p>
+                </div>
+            </li>   
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>鸭蛋</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="yd"></p>
+                </div>
+            </li>  
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代蛋雏鸡</h4>
+                    <h6>(元/只)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="spddcj"></p>
+                </div>
+            </li>      
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代肉雏鸡</h4>
+                    <h6>(元/只)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="spdrcj"></p>
+                </div>
+            </li> 
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代肉鸭苗</h4>
+                    <h6>(元/只)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                      <p class="inputvalue" id="spdrym"></p>
+                </div>
+            </li>  
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品代肉鹅苗</h4>
+                    <h6>(元/只)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="spdrem"></p>
+                </div>
+            </li>    
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>本地土鸡</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="bdtj"></p>
+                </div>
+            </li>     
+          	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>土杂肉鸡</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                   <p class="inputvalue" id="tzrj"></p>
+                </div>
+            </li>
+        	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>快大型肉鸡</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="kdxrj"></p>
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>西装鸡	</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="xzj"></p>
+                </div>
+            </li>  
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>本地麻鸭</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="bdmy"></p>
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>杂交肉鸭</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="zjry"></p>
+                </div>
+            </li>         
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>快大型肉鸭</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="kdxry"></p>
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>活鹅</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="he"></p>
+                </div>
+            </li> 
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>去骨牛肉</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="qgnr"></p>
+                </div>
+            </li>     
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>牛奶</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="nn"></p>
+                </div>
+            </li>     
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>商品活羊</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="sphy"></p>
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>带骨羊肉</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="dgyr"></p>
+                </div>
+            </li>      
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>绵羊毛</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                       <p class="inputvalue" id="mym"></p> 
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>活肉兔</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="hrt"></p> 
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>兔毛（统毛）</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                      <p class="inputvalue" id="tm"></p> 
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>玉米</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                     <p class="inputvalue" id="xm"></p>
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>豆粕</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="dp"></p>
+                </div>
+            </li>  
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>小麦麸</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                   <p class="inputvalue" id="xmf"></p>
+                </div>
+            </li>   
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>进口鱼粉</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                   <p class="inputvalue" id="jkyf"></p>
+                </div>
+            </li>        
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>育肥猪配合料</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="yfzphl"></p>
+                </div>
+            </li>             
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>肉鸡配合饲料</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="rzphsl"></p>
+                </div>
+            </li>    
+           	<li class="row">
+            	<div class="col-md-8 col-xs-8 col-sm-8">
+                	<h4>蛋鸡配合饲料</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-4 col-xs-4 col-sm-4">
+                    <p class="inputvalue" id="djphsl"></p>
+                </div>
+            </li>                                                                                                                                                                                                                                                                                                                                        
+    </ul>    
+
+
+</div>
+	</jsp:body>
+</t:formPhone>

@@ -1,0 +1,29 @@
+log4j.rootLogger=ERROR,stdout,logfile
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+#log4j.appender.stdout.Target=System.err
+log4j.appender.stdout.layout=org.apache.log4j.SimpleLayout
+log4j.appender.logfile=org.apache.log4j.FileAppender
+log4j.appender.logfile.File=c:/bdas/log/error.log 
+log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n
+
+log4j.logger.com.springapp.mvc=TRACE
+ 
+log4j.logger.com.ibatis=error
+log4j.logger.com.ibatis.common.jdbc.SimpleDataSource=DEBUG
+log4j.logger.com.ibatis.common.jdbc.ScriptRunner=DEBUG
+log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=DEBUG
+log4j.logger.java.sql.Connection=DEBUG
+log4j.logger.java.sql.Statement=DEBUG
+log4j.logger.java.sql.PreparedStatement=DEBUG
+
+log4j.logger.info_log=INFO,info_log
+log4j.appender.info_log=org.apache.log4j.DailyRollingFileAppender 
+log4j.appender.info_log.File=c:/bdas/log/info.log 
+log4j.appender.info_log.layout=org.apache.log4j.PatternLayout  
+log4j.appender.info_log.layout.ConversionPattern=%d - %m%n
+log4j.appender.info_log.Threshold=INFO
+log4j.appender.info_log.DatePattern='_'yyyy-MM-dd'.log'
+
+
+

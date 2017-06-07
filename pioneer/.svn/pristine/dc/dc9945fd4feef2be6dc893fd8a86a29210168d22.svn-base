@@ -1,0 +1,82 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript" src="./inRule.js"></script>	
+<script type="text/javascript">
+    page.onLoad = function() {
+                page.send({
+                    url : contextPath + "/tFormInrule/getBeanById/?${pageContext.request.queryString}"
+                }).then(function(data) {
+                    //  item = kernel.json.parse(data);
+                    //console.log("data", data);
+                    page.loadForm({data:data });
+                }).then(function(){
+                	init($("#formId").val());
+                });
+
+                //page.loadForm({url : contextPath + "/tFormInrule/getBeanById/?${pageContext.request.queryString}"});
+
+	};
+</script>
+
+</jsp:attribute>
+	<jsp:body>
+	<form method="post" action="${ contextPath }/tFormInrule/edit">
+       <input type="hidden" name="ruleId" id="ruleId">
+       <input type="hidden" name="formId" id="formId">
+        <table>
+            <tr>
+                <th width="100">规则名称:</th>
+                <td>
+                     <input id="ruleName" name="ruleName"  type="text"
+                           style="width: 294px;"   class="easyui-validatebox textbox"
+                           data-options="required:true,validType:['length[1,40]']" >
+                </td>
+            </tr>
+            <tr>
+                <th>规则级别:</th>
+                <td>
+                     错误 <input type="radio" name="ruleLevel" checked="checked" value="1" > &nbsp;&nbsp; 
+                     警告 <input type="radio" name="ruleLevel" value="0">
+                </td>
+            </tr>
+            <tr>
+                <th>规则描述:</th>
+                <td>
+	                 <input class="easyui-textbox textbox" name="remark" id="remark" 
+	                 style="width: 294px;height: 60px"
+	    			 data-options="multiline:true,validType:['length[1,200]']"/>
+                </td>
+            </tr>
+             <tr>
+                <th>表达式:</th>
+                <td>
+                    <div style="float: left; width: 300px;">
+			        	<textarea  name="content" id="model" style="width: 290px;height: 120px"></textarea>
+			        	<!-- <div style="color:red;" id="vmethodmsg"></div>
+			        	<a href="javascript:void indexCode2Name()" class="easyui-linkbutton">模型翻译</a>
+			        	-->
+			        	<div style="color:red;" id="vmethodmsg"></div> <div id="scoreScope"></div>
+			        	<div id="translate" style="width: 290px; height: 100px; overflow: auto;"></div>
+			        </div>
+			        <div style="float: right; width: 180px; max-height:260px; margin-right: 20px; overflow: auto;">
+			              <div> 可选字段:</div>
+			              <ul id="tfield" style="min-height: 190px;"></ul> 
+			        </div> 
+                </td>
+            </tr>
+        </table>
+	</form>
+	<div id="operator">
+		<a href="javascript:void page.saveForm()" class="easyui-linkbutton">保存</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

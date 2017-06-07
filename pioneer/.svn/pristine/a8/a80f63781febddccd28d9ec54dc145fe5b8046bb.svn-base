@@ -1,0 +1,102 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tXmSzlzbtxmzxqktjb/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>填报人ID:</th>
+					<td><span id="tbrid" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报周期:</th>
+					<td><span id="tbzq" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>审核状态:</th>
+					<td><span id="shzt" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报时间:</th>
+					<td><span id="tbsj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>审核时间:</th>
+					<td><span id="shsj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>市:</th>
+					<td><span id="city" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>区县:</th>
+					<td><span id="area" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>年底能繁母猪数量:</th>
+					<td><span id="ndnfmzsl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>补贴任务（万头）:</th>
+					<td><span id="btrw" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>实际配种母猪（窝）:</th>
+					<td><span id="sjpzmz" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>任务完成比例（%）:</th>
+					<td><span id="rwwcbl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>补贴资金（万元）:</th>
+					<td><span id="btzj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>已结算资金（万元）:</th>
+					<td><span id="yjszj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>资金完成比例（%）:</th>
+					<td><span id="zjwcbl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>供精单位（个）:</th>
+					<td><span id="gjdw" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>存栏采精种公猪（头）:</th>
+					<td><span id="clcjzgz" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>技术培训人次（名）:</th>
+					<td><span id="jspxrc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>受益农户（户）:</th>
+					<td><span id="synh" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

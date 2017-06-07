@@ -1,0 +1,198 @@
+var translateField = {};
+var vmethodmsg;
+var reg = /\$\w+/g;
+function init(statFreq) {
+	loadTranslate();
+	
+	$('#statFreq').combobox({    
+	    url: contextPath + '/tSysDict/listAll?type=STAT_FREQ',    
+	    valueField:'code',    
+	    textField:'name',
+	    editable:false,
+	    panelHeight:120,
+	    onSelect: function(node){
+	    	loadIndexTree(node.code);
+	    }
+	}); 
+	
+	$('#comindexUnit').combobox({    
+	    url: contextPath + '/tSysDict/listDict?type=INDEX_UNIT&showNull=y',    
+	    valueField:'id',    
+	    textField:'text',
+	    editable:false
+	    //panelHeight:120,
+	}); 
+	
+	if(!statFreq){
+		statFreq = 1;
+	}
+	loadIndexTree(statFreq);
+	
+	$("#model").bind("keyup", function(e) {
+		indexCode2Name();
+
+		if ($.trim($("#model").val()) && $("#model").val().length <= 20000) {
+			$("#model").removeClass("alertInput");
+			$(".tooltip").addClass("mytooltip");
+		} else {
+			$("#model").addClass("alertInput");
+			$(".tooltip").removeClass("mytooltip");
+		}
+	});
+
+	showModelTooltip("该输入项为必输项");
+	vmethodmsg = $("#vmethodmsg");
+}
+
+function loadIndexTree(statFreq){
+	 var url = contextPath + '/portAnalyze/getIndexTree?statFreq=' + statFreq
+			+ '&_' + new Date().getTime();
+	$('#indexTree').tree({
+		url : url,
+		method : 'post',
+		animate : true,
+		lines : true,
+		onSelect : function(node) {
+			if (node.type == 'index') {
+				insertItem(node.id);
+				indexCode2Name();
+			}
+		}
+//		onLoadSuccess : function(node, data) {
+//			indexCode2Name();
+//			// console.log("translateField ", translateField);
+//		}
+	});
+}
+
+function loadTranslate(){
+	 var url = contextPath + '/tAnalyzeIndex/listAll';
+	 $.post(url, function(data){
+		 if(data){
+			 data = JSON.parse(data);
+			 for (var i = 0; i < data.length; i++) {
+				 translateField[data[i].indexId] = data[i].indexName;
+			 }
+		 }
+		 indexCode2Name();
+	 });
+}
+
+// //公式提示框
+function showModelTooltip(content) {
+	// 手动控制提示框是否显示，默认隐藏
+	$(".tooltip").addClass("mytooltip");
+	$('#model').tooltip(
+			{
+				position : 'right',
+				content : '<span style="color:#000">' + content + '</span>',
+				onShow : function() {
+					if (!$.trim($("#model").val())
+							|| $("#model").val().length > 20000) {
+						$("#model").addClass("alertInput");
+						$(".tooltip").removeClass("mytooltip");// 显示提示框
+					} else {
+						$('#model').tooltip("hide");
+						$("#model").removeClass("alertInput");
+						$(".tooltip").addClass("mytooltip");
+						return;
+					}
+
+					$(this).tooltip('tip').css({
+						backgroundColor : '#ffffcc',
+						borderColor : '#cc9933'
+					});
+				},
+				onHide : function() {
+					if ($.trim($("#model").val())
+							&& $("#model").val().length < 2000) {
+						$("#model").removeClass("alertInput");
+					}
+					$(this).tooltip('tip').addClass("mytooltip");
+				}
+			});
+}
+
+function showModelMsg(content) {
+	$('#model').tooltip("update", content);
+	$('#model').tooltip("show");
+	$("#model").addClass("alertInput");
+}
+
+function hideModelMsg() {
+	$('#model').tooltip("hide");
+	$("#model").removeClass("alertInput");
+}
+
+function indexCode2Name(viewdata) {
+	//console.log("translateField ", translateField);
+	var model = $("#model").val();
+	if (viewdata) {
+		model = viewdata;
+	}
+	if (model) {
+		var result = model.match(reg);
+		if (result != null) {
+			for ( var i = 0; i < result.length; i++) {
+				var d = result[i];
+				var name = translateField[d.replace('$', '')];
+				if (name) {
+					model = model.replace(d, name);
+				}
+			}
+		}
+	}
+
+	$("#translate").html(model);
+}
+
+// 文本域中插入内容
+function insertItem(item) {
+	$("#model").removeClass("alertInput");
+	indexCode2Name();
+
+	item = "$" + item;
+	var obj = document.getElementById("model");
+	if (!item) {
+		obj.focus();
+		return;
+	}
+	if (document.selection) {
+		obj.focus();
+		var sel = document.selection.createRange();
+		// To remove the contents of the current selection from the document
+		document.selection.empty();
+		sel.text = item;
+	} else {
+		var prefix, suffix; // main
+		prefix = obj.value.substring(0, obj.selectionStart);
+		// main = obj.value.substring(obj.selectionStart, obj.selectionEnd);
+		suffix = obj.value.substring(obj.selectionEnd);
+		obj.value = prefix + item + suffix;
+	}
+	obj.focus();
+}
+
+function submitForm() {
+	var model = $.trim($("#model").val());
+	if (!model || model.length == 0) {
+		// $("#vmethodmsg").html("该输入项为必输项");
+		showModelMsg("该输入项为必输项");
+		return;
+	} else if ($("#model").val().length > 20000) {
+		showModelMsg("输入长度必须在1到20000之间");
+		return;
+		// $("#vmethodmsg").html("输入长度必须在1到2000之间");
+	} else {
+		// $("#vmethodmsg").html("");
+	}
+
+	if (model.indexOf('return') < 0) {
+		// showModelMsg("没有返回值");
+		vmethodmsg.html("验证信息：没有返回值");
+		return;
+	}
+
+	vmethodmsg.html('');
+	page.saveForm();
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/webstyle_phone.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="form_box_container">
+	<div class="form_title">重庆市畜产品及饲料集市价格周报表</div>
+    <ul class="form_box_phone">
+        	<li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>土杂仔猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                
+               <p class="inputvalue">12.90</p>
+                </div>
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>洋三元或PIC仔猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+               
+                <p class="inputvalue">12.90</p>
+                </div>
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6">
+                	<h4>土杂仔猪</h4>
+                    <h6>(元/千克)</h6>
+                </div>
+            	<div class="col-md-6 col-xs-6">
+              
+                <p class="inputvalue">12.90</p>
+                </div>
+            </li>
+    </ul>
+    <div class="form_title row">
+    重庆市畜牧生产季报
+    </div>
+   
+    <ul class="form_box_phone">
+    		 <li class="title row">
+                <div class="col-md-6 col-xs-6 col-sm-6">产品名称</div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <label for="name"  class="form_name">本季度数</label>
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <label for="name"  class="form_name">累计数</label>
+                </div>
+            </li>
+        	<li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>生猪存栏数</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+               <p class="inputvalue">12.90</p>
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <p class="inputvalue">12.90</p>
+                </div>
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>能繁殖母猪</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <p class="inputvalue">12.90</p>
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <p class="inputvalue">12.90</p>
+                </div>
+            </li>
+            <li class="row">
+            	<div class="col-md-6 col-xs-6 col-sm-6">
+                	<h4>大牲畜存栏数</h4>
+                    <h6>(头)</h6>
+                </div>
+            	<div class="col-md-3 col-xs-3 col-sm-3">
+                <p class="inputvalue">12.90</p>
+                </div>
+                <div class="col-md-3 col-xs-3 col-sm-3">
+                <p class="inputvalue">12.90</p>
+                </div>
+            </li>
+    </ul>
+
+
+</div>
+</body>
+</html>

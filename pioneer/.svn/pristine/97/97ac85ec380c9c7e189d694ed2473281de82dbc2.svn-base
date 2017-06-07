@@ -1,0 +1,198 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+		src="${  contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+  page.onLoad = function(){
+ };
+ function sjj(node){
+    
+   
+        if(node.lx!="set"){
+          //清除选中  
+            $('#datasetId').combotree('clear'); 
+        }
+        else{
+           reload(node.datasetId);
+        }
+        
+ }
+ function reload(datasetId) {
+            $('#dg').datagrid({
+                url :contextPath+'/tSourceDataset/listColumn',
+                queryParams : {
+                     "datasetId":datasetId,
+                     "flglx" : 0
+                }
+            });
+}
+$.extend($.fn.validatebox.defaults.rules, {
+   setyz:{//验证是否选择了数据集
+     validator: function (value) {  
+                   //return /^[+]?[1-9]+\d*$/i.test(value);  
+                   var value = $("#datasetId").combotree("getValue");
+                   if(value){
+                     return true;
+                   }
+                   else{
+                     return false;
+                   }
+                  
+             },  
+               message: '请先选择数据集'  
+   },
+   colyz:{//验证输入内容是否在数据集中
+     message: '输入字段与数据集中的字段不匹配',
+     validator: function (value) {
+                  var rows = $("#dg").datagrid("getRows");
+                  var flg=true;
+                  var str="";
+                  if(value){
+                   var arr = value.split(",");
+                    for(var i=0;i<arr.length;i++){
+                        for(var j=0;j<rows.length;j++){
+                           
+                            if(arr[i]==rows[j].fieldCode){
+                              
+                               break;
+                            }
+                           
+                            if(j==rows.length-1&&arr[i]!=rows[j].fieldCode){
+                              
+                               return false;
+                            }
+                        }
+                    }
+                  }
+                
+                  return flg;
+                  
+             }  
+                 
+   },
+   codeyz: {// 验证整数 可正负数  
+             validator: function (value) {  
+                   //return /^[+]?[1-9]+\d*$/i.test(value);  
+                   if($("#codeField").val()==""){
+                      return false;
+                   }
+                   else{
+                      return true;
+                   } 
+             },  
+               message: '请先输入代码字段'  
+          },
+   mczdyz: {// 验证整数 可正负数  
+             validator: function (value) {  
+                   var arr = value.split(",");
+                   var arr2 = $("#codeField").val().split(",");
+                   if(arr.length!=arr2.length){
+                      return false;
+                   }
+                   else{
+                      return true;
+                   }
+             },  
+               message: '代码字段、名称字段个数不匹配'  
+          }
+});
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form method="post" action="${ contextPath }/tAnalyzeDim/add">
+        <table>
+            <tr>
+                <th>数据集:</th>
+                <td>
+                     <input id="datasetId" name="datasetId" class="easyui-combotree" data-options="url:'${ contextPath }/tSourceDataset/getDataTree?flg=n',method:'get',required:true,onSelect:sjj" style="width:200px;">
+                </td>
+            </tr>
+            <tr>
+                <th>维度名称:</th>
+                <td>
+
+                            <input id="dimName" name="dimName"  type="text"
+                                   style="width: 200px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,50]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>代码字段:</th>
+                <td>
+
+                            <input id="codeField" name="codeField"  type="text"
+                                   style="width: 200px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:['setyz','colyz','length[1,100]']" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>名称字段:</th>
+                <td>
+
+                            <input id="nameField" name="nameField"  type="text"
+                                   style="width: 200px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:['setyz','codeyz','colyz','mczdyz','length[1,100]']" >
+
+                </td>
+            </tr>
+            <!-- 
+            <tr>
+                <th>状态:</th>
+                <td>
+
+                            <input id="status" name="status"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="required:true,validType:'length[1,2]'" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>创建时间:</th>
+                <td>
+
+                        <input id="createTime" name="createTime"  type="text"
+                               style="width: 146px;"   class= "easyui-datetimebox width-5" >
+
+                </td>
+            </tr>
+            <tr>
+                <th>备注:</th>
+                <td>
+
+                            <input id="remark" name="remark"  type="text"
+                                   style="width: 146px;"   class="easyui-validatebox textbox"
+                                   data-options="validType:'length[1,200]'" />
+
+                </td>
+            </tr>
+            -->
+        </table>
+	</form>
+	<table id="dg" class="easyui-datagrid" style="min-height: 200px"
+			 data-options="fitColumns:true,rownumbers:true,iconCls: 'icon-edit',singleSelect: true,method: 'get'"
+			 >
+			
+			<thead>
+			<tr>
+			
+				 <th data-options="field:'fieldCode',width:80,align:'left',halign:'center'">字段编码</th>
+				 <th data-options="field:'fieldName',width:80,align:'left',halign:'center',editor:{type:'textbox',options:{validType:'length[1,100]'}}">字段中文名</th>
+				 <th data-options="field:'fieldType',width:80,align:'left',halign:'center',editor:{type:'textbox',options:{required:true,validType:'length[1,100]'}}">字段类型</th>
+				
+				</tr>
+				</thead>
+			</table>
+	<div id="operator">
+		<a href="javascript:void page.saveForm()" class="easyui-linkbutton">保存</a> <a
+				href="javascript:void page.resetForm()" class="easyui-linkbutton">重置</a>
+	</div>
+	</jsp:body>
+</t:page>

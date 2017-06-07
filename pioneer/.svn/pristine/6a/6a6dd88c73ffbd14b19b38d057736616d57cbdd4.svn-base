@@ -1,0 +1,182 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>id:</th>
+					<td><span id="id" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政编码:</th>
+					<td><span id="xzbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>省级行政名称:</th>
+					<td><span id="sjxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地级行政名称:</th>
+					<td><span id="djxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>县级行政名称:</th>
+					<td><span id="xjxzmc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>行政级别:</th>
+					<td><span id="xzjb" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报时间:</th>
+					<td><span id="tbsj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>年度:</th>
+					<td><span id="nd" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报人:</th>
+					<td><span id="tbr" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草原总面积:</th>
+					<td><span id="cyzmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>其中可利用面积:</th>
+					<td><span id="qzklymj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>划定基本草原面积:</th>
+					<td><span id="gdjbcymj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年划定基本草原面积:</th>
+					<td><span id="dnhdjbcymj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>累计承包面积:</th>
+					<td><span id="ljcbmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>承包到户面积:</th>
+					<td><span id="cbdhmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>承包到联户面积:</th>
+					<td><span id="cbdlhmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>其他承包形式面积:</th>
+					<td><span id="qtcbxsmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>禁牧休牧轮牧面积:</th>
+					<td><span id="jmxmlmmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>禁牧面积:</th>
+					<td><span id="jmmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>休牧面积:</th>
+					<td><span id="xmmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>轮牧面积:</th>
+					<td><span id="lmmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>累计围栏面积:</th>
+					<td><span id="ljwlmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年新增围栏面积:</th>
+					<td><span id="dnxzwlmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>鼠害危害面积:</th>
+					<td><span id="shwhmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>鼠害治理面积:</th>
+					<td><span id="shzlmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草原火灾面积:</th>
+					<td><span id="cyhzmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>改良年末保留面积:</th>
+					<td><span id="glnmblmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>改良当年新增面积:</th>
+					<td><span id="gldnxzmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>虫害危害面积:</th>
+					<td><span id="chwhmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>虫害治理面积:</th>
+					<td><span id="chzlmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>财政投入:</th>
+					<td><span id="cztr" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>群众自筹:</th>
+					<td><span id="qzzc" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年耕地种草面积:</th>
+					<td><span id="dngdzcmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年冬季贮草总量:</th>
+					<td><span id="dndjccmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年青贮总量:</th>
+					<td><span id="dnqczl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>累计有效打井数:</th>
+					<td><span id="ljyxdjs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当年打井数:</th>
+					<td><span id="dndjs" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草场灌溉面积:</th>
+					<td><span id="ccggmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>井灌面积:</th>
+					<td><span id="jgmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>定居点牲畜棚圈面积:</th>
+					<td><span id="djdmxpjmj" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

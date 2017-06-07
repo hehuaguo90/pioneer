@@ -1,0 +1,41 @@
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:t="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" version="2.0">
+	<jsp:directive.tag language="java" pageEncoding="UTF-8"
+		body-content="empty" />
+	<t:base />
+	<fmt:setBundle basename="system_config" />
+	<fmt:message key="UPLOAD_PREFIX_URL" var="uploadPath" />
+	<fmt:message key="upload_prefix_qrcode" var="codePath" />
+	<c:set var="codePath"
+		value="${ fn:replace(codePath, '{base}', contextPath) }"
+		scope="request" />
+	<jsp:text>
+		<![CDATA[
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no" />
+	<title>${title}</title>
+	<link href="${ contextPath }/res/front/style/webstyle.css" rel="stylesheet" type="text/css" />
+	<link href="${ contextPath }/res/front/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${ contextPath }/res/front/style/bootstrap_ext.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="${ contextPath }/res/front/css/font-awesome.min.css">
+	<script type="text/javascript" src="${ contextPath }/res/front/js/jquery.min.js"></script>
+	<script src="${ contextPath }/res/front/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="${ contextPath }/res/front/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <script type="text/javascript" src="${ contextPath }/res/front/plugins/bootstrap-daterangepicker/moment.js"></script>
+    <script type="text/javascript" src="${ contextPath }/res/front/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript"
+		src="${ contextPath }/res/lib/kernel/1.3/kernel.js"></script>
+	<script type="text/javascript">
+	    var kernel = window["kernel@1.3"];
+		var contextPath = "${ contextPath }";
+		var uploadPath = "${ uploadPath }";
+	</script>
+	<link rel="shortcut icon" href="${ contextPath }/pages/favicon.ico" type="image/x-icon" />	
+	]]>
+	</jsp:text>
+
+</jsp:root>

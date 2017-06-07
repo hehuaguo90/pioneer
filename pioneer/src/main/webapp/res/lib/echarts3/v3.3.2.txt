@@ -1,0 +1,2 @@
+echarts.js为开发版，该版本包含了常见的警告和错误提示
+echarts.min.js 为压缩版

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="plugins/ionslider/ion.rangeSlider.css">
+    <!-- ion slider Nice -->
+    <link rel="stylesheet" href="plugins/ionslider/ion.rangeSlider.skinNice.css">
+    <!-- bootstrap slider -->
+    <link rel="stylesheet" href="plugins/bootstrap-slider/slider.css">
+    <script src="plugins/ionslider/ion.rangeSlider.min.js"></script>
+    <!-- Bootstrap slider -->
+    <script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
+    
+     <script>
+	var i=1 ; 
+	var className ;
+	function  updateClass(){
+		 if(i==5){i = 1;}
+		 className= ".line_"+i;
+		 $(".step_simple").removeClass("active");
+	     $(className).addClass("active");
+	  	   i++;
+	}
+	 setInterval("updateClass()",2000);
+	 $(document).ready(function(){
+	 
+		 $(".line_step_box td").click(function(){
+		  
+		  i = $(this).context.className.substring(5,6);
+		  
+		  
+  		});
+	});
+     
+
+     
+    </script>
+    
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+<div class="modal" id="myModal3" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel"  style="top:30%;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel"><span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>退出系统</h4>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-warning"> 是否确认退出系统？</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"  data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-warning"   onclick ="exit()">确认退出
+					</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+        <h4>重庆市畜牧信息系统<br/>
+          <small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse"> <span class="sr-only">切换导航</span> <span class="icon-bar" style="color:#fff;"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;">
+      <h4>重庆市畜牧信息系统<br/>
+        <small>数据展现</small></h4>
+      </a> </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="home_charts.html">首页</a></li>
+        <li><a href="zt_charts_1.html">生产概况</a></li>
+        <li><a href="#">专题展示</a></li>
+        <li><a href="#">价格监测</a></li>
+        <li><a href="zt_charts_1.html">用户信息</a></li>
+        <li><a href="zt_charts_2.html">修改密码</a></li>
+        <li><a href="zt_charts_3.html">退出系统</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+      <li class="menubg_1"><a href="#"><span class="icon-home"></span><br/>
+        首页</a></li>
+      <li class="menubg_2"><a href="#"><span class="icon-flag"></span><br/>
+        生产概况</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-shopping-cart" style="font-size:28px!important;"></span><br/>
+        价格监测</a></li>
+      <li class="menubg_4"><a href="#"><span class="icon-bar-chart" style="font-size:28px!important;"></span><br/>
+        专题展示</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+    <div class="simple_box row" style="padding-bottom:10px;">
+      <div class="simple_box_title col-md-12" style="margin-bottom:-8px;">
+        <h3 class="simple_box_title_name_withico"> <span class="icon-bar-chart"></span>生猪专题 <small class="simple_box_title_txt hidden-xs"> 分析全市生猪生产情况 </small> </h3>
+      </div>
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:0px;">
+          <h3 class="simple_box_title_name" >生产总览 <small class="simple_box_title_txt hidden-xs">全市生猪生产情况总览 </small> </h3>
+        </div>
+        <div class="row" style="padding:10px;">
+          <div class="col-md-3 valuebox" style="height:264px;">
+            <div class="valuebox_body" >
+              <h4>规模养殖场数<small>(户)</small><span class="numvalue">366</span></h4>
+              <div class="line_step_box" > 
+              	<!--<input id="range_5" type="text" name="range_5" value="">-->
+                <table width="100%" border="0" cellspacing="2" cellpadding="2" class="step_line">
+  <tr>
+    <td class="line_1 step_simple active">
+    <div>
+    <div class="floatlabel">
+    	<span class="text">5000-10000头</span><br/>
+        <span class="arrow"><img src="style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+    </div>
+    </div>
+    </td>
+    <td class="line_2 step_simple ">
+     <div>
+    <div class="floatlabel">
+    	<span class="text">10000头以上</span><br/>
+        <span class="arrow"><img src="style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+    </div>
+    </div>
+    </td>
+    <td class="line_3 step_simple " >
+     <div>
+    <div class="floatlabel">
+    	<span class="text">10000头以上</span><br/>
+        <span class="arrow"><img src="style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+    </div>
+    </div>
+    </td>
+    <td class="line_4 step_simple " >
+     <div>
+    <div class="floatlabel">
+    	<span class="text">10000头以上</span><br/>
+        <span class="arrow"><img src="style/images/arrow_bottom_ico.png" width="11" height="6"></span>
+    </div>
+    </div>
+    </td>
+  </tr>
+ <tr>
+    <th class="line_txt" title="1-50头"><div class="setp_line_num" style="left:-5px;">50</div></th>
+    <th class="line_txt" title="51-100头"><div class="setp_line_num" style="left:-10px;">100</div></th>
+    <th class="line_txt" title="101-150头"><div class="setp_line_num" style="left:-10px;">150</div></th>
+    <th class="line_txt" title="151-200头"><div class="setp_line_num" style="left:-13px;">2000</div><div class="setp_line_num" style="position:absolute;top:3px;right:-15px;">12000</div></th>
+  </tr>
+</table>
+
+              </div>
+              <h4>总饲养量<small>(头)</small><span class="numvalue">72,133,366</span></h4>
+            </div>
+          </div>
+          <div class="col-md-6 valuebox" style="height:264px;">
+            <div class="valuebox_body">
+              <div class=" row">
+                <div class="col-md-4" style="border-right:1px solid #d1d1d1;height:216px;">
+                  <h4>平均出栏率</h4>
+                  <p class="numvalue_imp">36.46%</p>
+                  <br>
+                  <h4 style="margin-top:11px;padding:8px 0;">总出栏数<small>(头)</small></h4>
+                  <span class="numvalue">13,722,366</span> </div>
+                <div class="col-md-8">
+                  <h4>总存栏数<small>(头)</small><span class="numvalue">36,233,512</span></h4>
+                  <div> 双圆环饼 </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 valuebox">
+            <div class="valuebox_body" style="height:116px;margin-bottom:16px;">
+              <div class=" row">
+                <div class="col-md-3"> <img src="style/images/jgjc_ico_1_gray.png" width="48" style="margin-top:-10px;"> </div>
+                <div class="col-md-9">
+                  <h4 >总屠宰量<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>13,722,366</p>
+                </div>
+              </div>
+            </div>
+            <div class="valuebox_body" style="height:116px;">
+              <div class=" row">
+                <div class="col-md-3"> <img src="style/images/jgjc_ico_6_gray.png" width="42" style="margin-top:-10px;"> </div>
+                <div class="col-md-9">
+                  <h4 >总肉产量<small>(吨)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-up"></span>13,722,366</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 valuebox" style="height:264px;">
+            <div class="valuebox_body" >
+              <h4>认证产品数量<small>(个)</small></h4>
+              <div> 柱图 </div>
+            </div>
+          </div>
+          <div class="col-md-3 valuebox" style="height:264px;">
+            <div class="valuebox_body">
+              <h4>全市猪相关财政资金项目数</h4>
+              <div> 双层饼图 </div>
+            </div>
+          </div>
+          <div class="col-md-3 valuebox" style="height:264px;">
+            <div class="valuebox_body" style="height:116px;margin-bottom:16px;">
+              <div class=" row">
+                <div class="col-md-3"> <span class="icon-copy " style="font-size:36px;color:#676767;margin-left:8px;"></span></div>
+                <div class="col-md-9">
+                  <h4 >许可证数量<small>(个)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>1,366</p>
+                </div>
+              </div>
+            </div>
+            <div class="valuebox_body" style="height:116px;">
+              <div class=" row">
+                <div class="col-md-3"> <span class="icon-qrcode" style="font-size:36px;color:#676767;margin-left:8px;"></span> </div>
+                <div class="col-md-9">
+                  <h4 ><small>加入追溯平台的</small><br/>
+                    企业/养殖场数量</h4>
+                  <p class="numvalue" style="padding-top:10px;"><span class="glyphicon glyphicon-arrow-down"></span>4,338</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="simple_box row" style="padding-bottom:10px;">
+      
+        <div class="simple_box_title row" style="margin-bottom:0px;">
+          <h3 class="simple_box_title_name">监测数据 <small class="simple_box_title_txt hidden-xs"> 全市生猪生产情况监测（农业部和重庆市） </small> </h3>
+        </div>
+        <div class="row" style="padding:10px;">
+          <div class="col-md-6 valuebox" style="height:292px;">
+            <div class="valuebox_body" >折线图 </div>
+          </div>
+          <div class="col-md-6 valuebox" style="height:292px;">
+            <div class="valuebox_body">
+              柱图
+            </div>
+          </div>
+          
+            
+            <div class="col-md-2 valuebox">
+            	<div class="valuebox_body" style="padding:0;">
+               	 <img src="style/images/lm_1.png" height="290"> 
+                </div>
+                
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:136px;margin-bottom:16px;">
+                	<div class="optionbox"> <button type="button" class="btn btn-success">对比</button></div>
+                  <h4 >全市种猪场数<small>(户)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>722,366</p>
+	            </div>
+                <div class="valuebox_body" style="height:136px;">
+            
+                  <h4 >能繁母畜存栏数<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>722,366</p>
+	            </div>
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:136px;margin-bottom:16px;">
+             
+                  <h4 >年末存栏数<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>722,366</p>
+	            </div>
+                <div class="valuebox_body" style="height:136px;">
+               
+                  <h4 >当年出场数<small>(头)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>722,366</p>
+	            </div>
+            </div>
+            
+            
+            
+            	<div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="padding:0;">
+               	 <img src="style/images/lm_2.png"  height="290"> 
+                </div>
+                
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:135px;margin-bottom:16px;">
+                <div class="optionbox"> <button type="button" class="btn btn-success">占比</button></div>
+                  <h4 >全市猪肉产量<small>(吨)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>722,366</p>
+	            </div>
+                <div class="valuebox_body" style="height:135px;">
+               
+                  <h4 >饲料产量<small>(吨)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>722,366</p>
+	            </div>
+            </div>
+            <div class="col-md-2 valuebox" >
+            	<div class="valuebox_body" style="height:135px;margin-bottom:16px;">
+              
+                  <h4 >猪肉价格<small>(元/公斤)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>32.6</p>
+	            </div>
+                <div class="valuebox_body" style="height:135px;">
+                
+                
+                  <h4 >饲料价格<small>(元/公斤)</small></h4>
+                  <p class="numvalue" style="padding-top:18px;"><span class="glyphicon glyphicon-arrow-down"></span>22.3</p>
+	            </div>
+            </div>
+            
+          
+          
+          
+          
+          
+          
+          
+        </div>
+      
+    </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:10px;">
+          <h3 class="simple_box_title_name">分布情况 <small class="simple_box_title_txt hidden-xs"> 全市生猪生产地区分布 </small> </h3>
+        </div>
+        <div class="row"  style="padding:10px;">
+        <div class="col-md-7 col-xs-12" style="min-height:520px;">
+        
+        <!--浮动按钮块开始-->
+           	<div class="mapoption_1">
+                	<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-check"></span>农业部年报</button>
+                	<div class="btn-group">
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-unchecked"></span>农业部监测</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-unchecked"></span>重庆市监测</button>
+                    </div>
+                </div>
+                
+        <!--浮动按钮块结束-->
+        <!--地图浮动信息及操作块开始-->
+                <div class="mapoption_2">
+                    <div class="map_float_msg">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <th colspan="2"><h4>大渡口区</h4></th>
+                          </tr>
+                          <tr>
+                            <th>规模场数(户):</th>
+                            <td>601</td>
+                          </tr>
+                          <tr>
+                            <th>存栏数(头):</th>
+                            <td>86,544,814</td>
+                          </tr>
+                          <tr>
+                            <th>出栏数(头):</th>
+                            <td>12,408,015</td>
+                          </tr>
+                        </table>
+        
+                    </div>
+                    <div class="optionbar">
+                    <h4>相关信息</h4>
+                        <a href="#fdsf" data-toggle="modal" data-target="#myModal1"><em>●</em>草原草场</a>
+                        <a href="#fdsf" data-toggle="modal" data-target="#myModal2"><em>●</em>三品一标</a><br>
+                        <a href="#fdsf" data-toggle="modal" data-target="#myModal4"><em>●</em>产品许可证</a>
+                        <a href="#fdsf"><em>●</em>财政补助</a>
+                        
+                    </div>
+                </div>
+        
+        <!--地图浮动信息及操作块结束-->
+
+                
+            <img src="style/images/fdasfdsf.jpg" width="591" height="513"> 
+            </div>
+            <div class="col-md-5 col-xs-12">
+            	<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                      <caption>全市生猪养殖情况</caption>
+                            <thead>
+                              <tr>
+                                  <th class="hidden-xs">排名</th>
+                                <th>区县</th>
+                                <th>规模场数<small>（户）</small></th>
+                                <th>存栏数<small>（头）</small></th>
+                                <th>出栏数<small>（头）</small></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                  <td class="hidden-xs">1</td>
+                                  <td>渝中区</td>
+                                  <td><a href="zt_charts_szzt_钻取.html">325625</a></td>
+                                <td>325625</td>
+                                <td>325625</td>
+                              </tr>
+                              <tr  class="tractive">
+                                  <td class="hidden-xs">2</td>
+                                  <td>渝中区</td>
+                                  <td><a href="zt_charts_szzt_钻取.html">23463535</a></td>
+                                <td>23463535</td>
+                                <td>23463535</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">3</td>
+                                <td>巴南区</td>
+                                <td><a href="zt_charts_szzt_钻取.html">52435435</a></td>
+                                <td>52435435</td>
+                                <td>52435435</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">4</td>
+                                <td>渝北区</td>
+                                <td><a href="zt_charts_szzt_钻取.html">2245352</a></td>
+                                <td>2245352</td>
+                                <td>2245352</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">5</td>
+                                  <td>南岸区</td>
+                                  <td><a href="zt_charts_szzt_钻取.html">24535</a></td>
+                                <td>24535</td>
+                                <td>24535</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     </div>
+          </div>
+        
+        
+        
+        
+        
+        
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+
+
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:20%;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>巴南区草场概况
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                    
+                            
+                              <tr>
+                                
+                                <th>产量<small>(吨)</small></th>
+                                <th>可利用面积<small>(万亩)</small></th>
+                                <th>承包面积<small>(万亩)</small></th>
+                                <th>草原总面积<small>(万亩)</small></th>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <td align="center">325625</td>
+                                <td align="center">325625</td>
+                                <td align="center">325625</td>
+                                <td align="center">325625</td>
+                              </tr>
+                              <tr>
+                                
+                                <th>保护面积<small>(万亩)</small></th>
+                                <th>鼠害面积<small>(户)</small></th>
+                                <th>虫害面积<small>(个)</small></th>
+                                <th>投资金额<small>(万元)</small></th>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <td align="center">325625</td>
+                                <td align="center">325625</td>
+                                <td align="center">325625</td>
+                                <td align="center">325625</td>
+                              </tr>
+                             
+                          </table>
+                     </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:10%;">
+	<div class="modal-dialog" style="width:800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">×
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>巴南区三品一标产品情况
+				</h4>
+			</div>
+			<div class="modal-body">
+            <h4 class="subtitle_p">三品一标产品概况</h4>
+				<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                    
+                            
+                              <tr>
+                                
+                                <th>无公害农产品<small>(种)</small></th>
+                                <th>绿色产品<small>(种)</small></th>
+                                <th>有机产品<small>(种)</small></th>
+                                <th>地理标志产品<small>(种)</small></th>
+                                 <th>名牌农产品<small>(种)</small></th>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <td align="center"><a href="#fsdfds"><strong>23</strong></a></td>
+                                <td align="center"><a href="#dsfdsf"><strong>7</strong></a></td>
+                                <td align="center"><a href="#fdsfdf"><strong>12</strong></a></td>
+                                <td align="center"><a href="#fdsf"><strong>76</strong></a></td>
+                                <td align="center"><a href="#fdsfdsf"><strong>49</strong></a></td>
+                              </tr>
+                             
+                             
+                          </table>
+                     </div>
+                     <h4 class="subtitle_p">无公害农产品列表</h4>
+                     <div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                    
+                            
+                              <tr>
+                                 <th>序号</th>
+                                <th>产品名称</th>
+                                <th>生产单位</th>
+                                <th>产地规模（亩）</th>
+                                <th>证书编号</th>
+                                 <th>证书有效期</th>
+                              </tr>
+                            
+                              <tr>
+                               <td  align="center">1</td>
+                                <td ><a href="#fsdfds">活鸡</a></td>
+                                <td >桂林大发养殖有限公司重庆分公司</td>
+                                <td >24.1</td>
+                                <td >WNCR-CQ14-0030</td>
+                                <td >2014.01-2017.01</td>
+                              </tr>
+                               <tr>
+                               <td align="center">2</td>
+                                <td ><a href="#fsdfds">生猪</a></td>
+                                <td >璧山县锦宏畜禽养殖农民专业合作社</td>
+                                <td >24.1</td>
+                                <td >WNCR-CQ14-0030</td>
+                                <td >2014.01-2017.01</td>
+                              </tr>
+                               <tr>
+                               <td align="center">3</td>
+                                <td ><a href="#fsdfds">活兔</a></td>
+                                <td >璧山县锦宏畜禽养殖农民专业合作社</td>
+                                <td >24.1</td>
+                                <td >WNCR-CQ14-0030</td>
+                                <td >2014.01-2017.01</td>
+                              </tr>
+                             
+                             
+                          </table>
+                     </div>
+                      <h4 class="subtitle_p">肉鸡产品详情</h4>
+				<div id="menu1" class="colortable1"  style="max-height:400px;overflow:auto;">
+                        <table class="table table-bordered table-striped">
+                    
+                            
+                              <tr>
+                                
+                                <th>产品名称</small></th>
+                                <td>普通淡水鱼</td>
+                                <th >产地规模（亩）</th>
+                                <td >24.1</td>
+                              </tr>
+                             <tr>
+                               
+                                <th >颁证日期</th>
+                                <td >2014-01-20</td>
+                                <th >证书有效期</th>
+                                <td >2014.01-2017.01</td>
+                              </tr>
+                          
+                              <tr>
+                               
+                                <th >联系人</th>
+                                <td >尹毓悦</td>
+                                <th >电话</th>
+                                <td >13996218031</td>
+                              </tr>
+                              <tr>
+                               
+                                <th >邮编</th>
+                                <td >402760</td>
+                                 <th >证书编号</th>
+                                <td >WNCR-CQ14-0032</td>
+                              </tr>
+                              <tr>
+                               
+                                <th >区县</th>
+                                <td >石柱土家族自治县</td>
+                                <th >颁证单位</th>
+                                <td >重庆市农业委员会</td>
+                              </tr>
+                              <tr>
+                                
+                                <th>生产单位</th>
+                                <td colspan="3">重庆市碧峰水产养殖场</td>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <th >认定产地名称</th>
+                                <td colspan="3">重庆市无公害淡水鱼产地</td>
+                              </tr>
+                              
+                              <tr>
+                               
+                                <th >产地地址</th>
+                                <td colspan="3">重庆市璧山县八塘镇</td>
+                              </tr>
+                              
+                              
+                              
+                              
+                              
+                             
+                              
+                              
+                             
+                              <tr>
+                               
+                                <th >通讯地址</th>
+                                <td colspan="3">重庆市璧山区璧泉街道双狮社区</td>
+                              </tr>
+                            
+                          </table>
+                     </div>
+                     
+                     
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">返回
+				</button>
+                <button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+<!--三品一标弹窗开始-->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="">
+	<div class="modal-dialog" style="width:900px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<span class="icon-comments " style="font-size:30px;margin-right:20px;"></span>巴南区三品一标产品情况
+				</h4>
+			</div>
+			<div class="modal-body map_product_content" >
+            
+           
+<ul class="nav nav-tabs nav-justified" style="margin-bottom:10px;">
+  <li class="active"><a href="#">无公害农产品<span class="badge label-info">999</span></a></li>
+  <li><a href="#">绿色产品<span class="badge label-info">1278</span></a></li>
+  <li><a href="#">有机产品<span class="badge label-info">72</span></a></li>
+  <li><a href="#">地理标志产品<span class="badge label-info">133</span></a></li>
+  <li><a href="#">名牌农产品<span class="badge label-info">5</span></a></li>
+</ul>
+            
+            <div class="row">
+                <div class="col-md-3" >
+                	<h4 class="subtitle_p">无公害农产品列表</h4>
+                    <div style="max-height:400px;overflow:auto;">
+                	<a href="#" class="list-group-item">1、活兔</a>
+                    <a href="#" class="list-group-item">2、活羊</a>
+                    <a href="#" class="list-group-item active">3、肉鸡</a>
+                    <a href="#" class="list-group-item">4、葡萄淡水鱼</a>
+                    <a href="#" class="list-group-item">5、普通淡水鱼</a>
+                	<a href="#" class="list-group-item">6、活兔</a>
+                    <a href="#" class="list-group-item">7、活羊</a>
+                    <a href="#" class="list-group-item">8、肉鸡</a>
+                    <a href="#" class="list-group-item">9、葡萄淡水鱼</a>
+                    <a href="#" class="list-group-item">10、普通淡水鱼</a>
+                 	<a href="#" class="list-group-item">11、活兔</a>
+                    <a href="#" class="list-group-item">12、活羊</a>
+                    <a href="#" class="list-group-item">13、肉鸡</a>
+                    <a href="#" class="list-group-item">14、葡萄淡水鱼</a>
+                    <a href="#" class="list-group-item">15、普通淡水鱼</a>      
+                    </div>             
+                </div>
+                <div class="col-md-9" >
+               <h4 class="subtitle_p">肉鸡产品详情</h4>
+				<div id="menu1" class="colortable1"  style="max-height:400px;overflow:auto;">
+                        <table class="table table-bordered table-striped">
+                    
+                            
+                              <tr>
+                                
+                                <th>产品名称</small></th>
+                                <td>普通淡水鱼</td>
+                                <th >产地规模（亩）</th>
+                                <td >24.1</td>
+                              </tr>
+                             <tr>
+                               
+                                <th >颁证日期</th>
+                                <td >2014-01-20</td>
+                                <th >证书有效期</th>
+                                <td >2014.01-2017.01</td>
+                              </tr>
+                          
+                              <tr>
+                               
+                                <th >联系人</th>
+                                <td >尹毓悦</td>
+                                <th >电话</th>
+                                <td >13996218031</td>
+                              </tr>
+                              <tr>
+                               
+                                <th >邮编</th>
+                                <td >402760</td>
+                                 <th >证书编号</th>
+                                <td >WNCR-CQ14-0032</td>
+                              </tr>
+                              <tr>
+                               
+                                <th >区县</th>
+                                <td >石柱土家族自治县</td>
+                                <th >颁证单位</th>
+                                <td >重庆市农业委员会</td>
+                              </tr>
+                              <tr>
+                                
+                                <th>生产单位</th>
+                                <td colspan="3">重庆市碧峰水产养殖场</td>
+                              </tr>
+                            
+                              <tr>
+                               
+                                <th >认定产地名称</th>
+                                <td colspan="3">重庆市无公害淡水鱼产地</td>
+                              </tr>
+                              
+                              <tr>
+                               
+                                <th >产地地址</th>
+                                <td colspan="3">重庆市璧山县八塘镇</td>
+                              </tr>
+                              
+                              
+                              
+                              
+                              
+                             
+                              
+                              
+                             
+                              <tr>
+                               
+                                <th >通讯地址</th>
+                                <td colspan="3">重庆市璧山区璧泉街道双狮社区</td>
+                              </tr>
+                            
+                          </table>
+                     </div>
+                 </div>
+                     
+            </div>         
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+						data-dismiss="modal">关闭
+				</button>
+				
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+
+
+<!--三品一标弹窗结束-->
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

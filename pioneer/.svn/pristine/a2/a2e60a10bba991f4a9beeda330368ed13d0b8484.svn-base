@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysUser.dao.TSysUserDao" >
+    <resultMap id="tSysUserModelMap" type="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+        <id column="user_id" property="userId" />
+        <result column="pid" property="pid" />
+        <result column="user_name" property="userName" />
+        <result column="sys_account" property="sysAccount" />
+        <result column="sys_password" property="sysPassword" />
+        <result column="user_tel" property="userTel" />
+        <result column="user_mobile" property="userMobile" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="last_log_time" property="lastLogTime" />
+        <result column="log_error_count" property="logErrorCount" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysUserModelMap" parameterType="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+        SELECT
+            user_id
+            ,pid
+            ,user_name
+            ,sys_account
+            ,sys_password
+            ,user_tel
+            ,user_mobile
+            ,status
+            ,create_time
+            ,last_log_time
+            ,log_error_count
+            ,remark
+
+        FROM
+            t_sys_user
+        WHERE
+            1=1
+            AND user_id=#{userId}
+    </select>
+
+    <select id="getUserInfoById" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+        SELECT
+                t.user_id as "userId"
+                ,t.pid as "pid"
+                ,a.name as "shortName"  
+                ,t.user_name as "userName"
+                ,t.sys_account as "sysAccount"
+                ,t.sys_password as "sysPassword"
+                ,t.user_tel as "userTel"
+                ,t.user_mobile as "userMobile"
+                ,t.status as "status"
+                ,t.create_time as "createTime"
+                ,t.last_log_time as "lastLogTime"
+                ,t.log_error_count as "logErrorCount"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_user t 
+                inner join  v_user_info u on u.user_id = t.user_id 
+                inner join  v_sys_area_comp a  on  u.areaId = a.id
+        WHERE
+                1=1
+                AND t.user_id=#{userId}
+
+    </select>
+    
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+        SELECT
+                t.user_id as "userId"
+                ,t.pid as "pid"
+                ,t.user_name as "userName"
+                ,t.sys_account as "sysAccount"
+                ,t.sys_password as "sysPassword"
+                ,t.user_tel as "userTel"
+                ,t.user_mobile as "userMobile"
+                ,t.status as "status"
+                ,t.create_time as "createTime"
+                ,t.last_log_time as "lastLogTime"
+                ,t.log_error_count as "logErrorCount"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_user t
+        WHERE
+                1=1
+                AND user_id=#{userId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+            DELETE FROM
+                t_sys_user
+            WHERE
+                1=1
+                AND user_id=#{userId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+        INSERT INTO  t_sys_user (
+             user_id
+             ,pid
+             ,user_name
+             ,sys_account
+             ,sys_password
+             ,user_tel
+             ,user_mobile
+             ,status
+             ,create_time
+             ,last_log_time
+             ,log_error_count
+             ,remark
+
+        )
+        VALUES (
+            #{userId,jdbcType=VARCHAR }
+            ,#{pid,jdbcType=VARCHAR }
+            ,#{userName,jdbcType=VARCHAR }
+            ,#{sysAccount,jdbcType=VARCHAR }
+            ,#{sysPassword,jdbcType=VARCHAR }
+            ,#{userTel,jdbcType=VARCHAR }
+            ,#{userMobile,jdbcType=VARCHAR }
+            ,#{status,jdbcType=VARCHAR }
+            ,#{createTime,jdbcType=TIMESTAMP }
+            ,#{lastLogTime,jdbcType=TIMESTAMP }
+            ,#{logErrorCount,jdbcType=INTEGER }
+            ,#{remark,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysUser.model.TSysUserModel" >
+        UPDATE
+                 t_sys_user
+        SET
+                pid=#{pid}
+                ,user_name=#{userName}
+                <!-- ,sys_account=#{sysAccount} -->
+               <if test="sysPassword != null ">,sys_password=#{sysPassword}</if>
+                ,user_tel=#{userTel}
+                ,user_mobile=#{userMobile}
+               <!--  ,status=#{status}
+                ,create_time=#{createTime}
+                ,last_log_time=#{lastLogTime}
+                ,log_error_count=#{logErrorCount} -->
+                ,remark=#{remark}
+
+        WHERE
+                1=1
+                AND user_id=#{userId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        select * from (SELECT
+                t.user_id as "id"
+                ,t.pid as "pid"
+                ,t.user_name as "userName"
+                ,t.sys_account as "sysAccount"
+                ,t.sys_password as "sysPassword"
+                ,t.user_tel as "userTel"
+                ,t.user_mobile as "userMobile"
+                ,t.status as "status"
+                ,t.create_time as "createTime"
+                ,t.last_log_time as "lastLogTime"
+                ,t.log_error_count as "logErrorCount"
+                ,t.remark as "remark"
+                , GROUP_CONCAT(r.role_name) as "roleName"
+                ,i.areaName as "areaName"
+                ,i.orgName as "orgName"
+
+        FROM
+                t_sys_user t
+                LEFT JOIN t_sys_user_role ur on  ur.user_id = t.user_id
+				left JOIN t_sys_role r on r.role_id = ur.role_id
+				left join v_user_info i on i.user_id=t.user_id
+
+        WHERE
+                1=1
+            <if test="userId != null "> AND t.user_id=#{userId} </if>
+            
+            <if test="userName != null "> AND t.user_name like  '%${userName}%' </if>
+            <if test="sysAccount != null "> AND t.sys_account=#{sysAccount} </if>
+            <if test="sysPassword != null "> AND t.sys_password=#{sysPassword} </if>
+            <if test="userTel != null "> AND t.user_tel=#{userTel} </if>
+            <if test="userMobile != null "> AND t.user_mobile=#{userMobile} </if>
+            <if test="status != null "> AND t.status=#{status} </if>
+            <if test="createTime != null "> AND t.create_time=#{createTime} </if>
+            <if test="lastLogTime != null "> AND t.last_log_time=#{lastLogTime} </if>
+            <if test="logErrorCount != null "> AND t.log_error_count=#{logErrorCount} </if>
+            <if test="remark != null "> AND t.remark=#{remark} </if>
+            <if test="thisUserId != null "> AND t.user_id != #{thisUserId} </if>
+            
+            	group by t.user_id
+            ) a
+             where 1=1
+            <if test="pid != null "> AND FIND_IN_SET(a.pid, f_child_orgcomps(#{pid})) </if>
+            
+    </select>
+
+
+    <select id="listBean" resultMap="tSysUserModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                user_id
+                ,pid
+                ,user_name
+                ,sys_account
+                ,sys_password
+                ,user_tel
+                ,user_mobile
+                ,status
+                ,create_time
+                ,last_log_time
+                ,log_error_count
+                ,remark
+
+        FROM
+                t_sys_user
+        WHERE
+                 1=1
+                <if test="userId != null "> AND user_id=#{userId} </if>
+                <if test="pid != null "> AND FIND_IN_SET(pid, f_child_orgcomps(#{pid})) </if>
+                <if test="userName != null "> AND user_name=#{userName} </if>
+                <if test="sysAccount != null "> AND sys_account=#{sysAccount} </if>
+                <if test="sysPassword != null "> AND sys_password=#{sysPassword} </if>
+                <if test="userTel != null "> AND user_tel=#{userTel} </if>
+                <if test="userMobile != null "> AND user_mobile=#{userMobile} </if>
+                <if test="status != null "> AND status=#{status} </if>
+                <if test="createTime != null "> AND create_time=#{createTime} </if>
+                <if test="lastLogTime != null "> AND last_log_time=#{lastLogTime} </if>
+                <if test="logErrorCount != null "> AND log_error_count=#{logErrorCount} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+	<update id="updateStatus" parameterType="java.util.HashMap" >
+	 UPDATE
+	                 T_SYS_USER t
+	        SET
+	                t.`status`=#{status}
+	              <!--  <if test="loginErrorCount != null ">,LOGIN_ERROR_COUNT=#{loginErrorCount} </if> -->
+	        WHERE
+	                t.user_id  = '${id}'
+               
+	 </update>
+	 
+	 <update id="updatePassword" parameterType="java.util.HashMap" >
+        UPDATE
+                 T_SYS_USER
+        SET
+                SYS_PASSWORD=#{sysPassword}
+
+        WHERE
+                1=1
+                AND user_id=#{id}
+    </update>
+    
+    <update id="updateUserInfo" parameterType="java.util.HashMap" >
+        UPDATE
+                 T_SYS_USER
+        SET
+ 
+            <if test="userTel != null ">  user_tel=#{userTel} </if>
+            <if test="userMobile != null ">  ,user_mobile=#{userMobile} </if>
+
+        WHERE
+                1=1
+                AND user_id=#{id}
+    </update>
+	 
+	 <select id="orgListMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+	 
+		SELECT t.*
+		FROM v_sys_org_comp t
+	 
+	 </select>
+</mapper> 

@@ -1,0 +1,128 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+
+
+<script type="text/javascript">
+   var indexId;//指标编码
+   $(document).ready(function(){
+	   $('#datasetTree').combotree({
+			url : contextPath + "/portAnalyze/getDatasetTree",
+			required : true,
+			onClick: function(node){
+			    $('#lonField').combobox("clear");  //每次切换节点，情况数据级字段信息
+			    $('#latField').combobox("clear");  
+			    $('#titleField').combobox("clear");
+			    
+			    $('#addressField').combobox("clear");  //每次切换节点，情况数据级字段信息
+			    $('#picField').combobox("clear");  
+			    $('#remarkField').combobox("clear");
+			    
+				console.log("node ", node)
+				//如果点击的是指标
+				if(node.type == "dataset"){
+					getDatasetConfig(node.id)
+					
+				}else{
+					
+				}
+			}
+		});
+   });
+  
+   //获取数据集信息
+   function getDatasetConfig(datasetId){
+	   console.log("datasetId ", datasetId);
+	   var url = contextPath + "/portAnalyze/getDataSetFields";
+	   $.get(url, {datasetId: datasetId}, function(data){
+		   $('#lonField').combobox({    
+			    data: data,
+			    required : true,
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#latField').combobox({    
+			    data: data,
+			    required : true,
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#titleField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#addressField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#picField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#remarkField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+	   });
+   }
+   
+   function search(){
+	   var datasetId = $('#datasetTree').combotree("getValue");
+       var lonField = $('#lonField').combobox("getValue");
+       var latField = $('#latField').combobox("getValue");
+       var titleField = $('#titleField').combobox("getValue");
+       var addressField = $('#addressField').combobox("getValue");
+       var picField = $('#picField').combobox("getValue");
+       var remarkField = $('#remarkField').combobox("getValue");
+	   
+       var obj = {
+   		   datasetId:datasetId, 
+   		   lonField: lonField,
+   		   latField:latField, 
+   		   titleField: titleField,
+   		   addressField: addressField,
+   		   picField: picField,
+   		   remarkField: remarkField
+       }
+       
+	   //查询数据集数据
+	   var url = contextPath + "/portAnalyze/getGisData";//该url写在项目配置文件中，专题图展现时使用， params 保存到 query_param字段
+	   $.get(url, obj, function(data){
+		   console.log("data ", data)
+		   $("#datas").html(JSON.stringify(data));
+	   });
+   }
+   
+</script>
+
+</jsp:attribute>
+	<jsp:body>
+	<div>数据集树：<input class="easyui-combobox" id="datasetTree"></div>
+	<div>经度字段：<input class="easyui-combobox" id="lonField"></div>
+	<div>维度字段：<input class="easyui-combobox" id="latField"></div>
+	<div>标题字段：<input class="easyui-combobox" id="titleField"></div>
+	<div>地址字段：<input class="easyui-combobox" id="addressField"></div>
+	<div>描述字段：<input class="easyui-combobox" id="remarkField"></div>
+	<div>图片字段：<input class="easyui-combobox" id="picField"></div>
+	
+	<input type="button" value="查询数据" onclick="search()" />
+	<br>
+	百度地图要使用的数据：<div id="datas"></div>
+	</jsp:body>
+</t:page>

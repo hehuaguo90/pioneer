@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tfrd.bdas.module.tSysDict.dao.TSysDictDao" >
+    <resultMap id="tSysDictModelMap" type="com.tfrd.bdas.module.tSysDict.model.TSysDictModel" >
+        <id column="dict_id" property="dictId" />
+        <result column="type" property="type" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="show_order" property="showOrder" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysDictModelMap" parameterType="com.tfrd.bdas.module.tSysDict.model.TSysDictModel" >
+        SELECT
+            dict_id
+            ,type
+            ,code
+            ,name
+            ,show_order
+            ,remark
+
+        FROM
+            t_sys_dict
+        WHERE
+            1=1
+            AND dict_id=#{dictId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.tfrd.bdas.module.tSysDict.model.TSysDictModel" >
+        SELECT
+                t.dict_id as "dictId"
+                ,t.type as "type"
+                ,t.code as "code"
+                ,t.name as "name"
+                ,t.show_order as "showOrder"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_dict t
+        WHERE
+                1=1
+                AND dict_id=#{dictId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.tfrd.bdas.module.tSysDict.model.TSysDictModel" >
+            DELETE FROM
+                t_sys_dict
+            WHERE
+                1=1
+                AND dict_id=#{dictId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.tfrd.bdas.module.tSysDict.model.TSysDictModel" >
+        INSERT INTO  t_sys_dict (
+             dict_id
+             ,type
+             ,code
+             ,name
+             ,show_order
+             ,remark
+
+        )
+        VALUES (
+            #{dictId,jdbcType=VARCHAR }
+            ,#{type,jdbcType=VARCHAR }
+            ,#{code,jdbcType=VARCHAR }
+            ,#{name,jdbcType=VARCHAR }
+            ,#{showOrder,jdbcType=INTEGER }
+            ,#{remark,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.tfrd.bdas.module.tSysDict.model.TSysDictModel" >
+        UPDATE
+                 t_sys_dict
+        SET
+                type=#{type}
+                ,code=#{code}
+                ,name=#{name}
+                ,show_order=#{showOrder}
+                ,remark=#{remark}
+
+        WHERE
+                1=1
+                AND dict_id=#{dictId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.dict_id as "dictId"
+                ,t.type as "type"
+                ,t.code as "code"
+                ,t.name as "name"
+                ,t.show_order as "showOrder"
+                ,t.remark as "remark"
+
+        FROM
+                t_sys_dict t
+        WHERE
+                1=1
+            <if test="dictId != null "> AND dict_id=#{dictId} </if>
+            <if test="type != null "> AND type=#{type} </if>
+            <if test="code != null "> AND code=#{code} </if>
+            <if test="name != null "> AND name=#{name} </if>
+            <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+            <if test="remark != null "> AND remark=#{remark} </if>
+            <if test="typeLike != null "> AND t.type like '%${typeLike}%' </if>
+            <if test="nameLike != null "> AND t.name like '%${nameLike}%' </if>
+            order by t.type,t.show_order, t.dict_id
+    </select>
+
+
+    <select id="listBean" resultMap="tSysDictModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                dict_id
+                ,type
+                ,code
+                ,name
+                ,show_order
+                ,remark
+
+        FROM
+                t_sys_dict
+        WHERE
+                 1=1
+                <if test="dictId != null "> AND dict_id=#{dictId} </if>
+                <if test="type != null "> AND type=#{type} </if>
+                <if test="code != null "> AND code=#{code} </if>
+                <if test="name != null "> AND name=#{name} </if>
+                <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+                <if test="remark != null "> AND remark=#{remark} </if>
+    </select>
+
+
+</mapper> 

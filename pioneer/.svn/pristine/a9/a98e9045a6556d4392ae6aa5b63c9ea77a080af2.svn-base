@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tProcessStepMsg/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>外键，流程编码:</th>
+					<td><span id="processId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，步骤序号:</th>
+					<td><span id="stepseqId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>接受时间:</th>
+					<td><span id="receiveTime" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>处理时间:</th>
+					<td><span id="disposeTime" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地区id（市，区县等）:</th>
+					<td><span id="areaId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>地区名称:</th>
+					<td><span id="areaName" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，填报人id:</th>
+					<td><span id="userId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>处理姓名:</th>
+					<td><span id="userName" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否驳回：0否，1是(字典表):</th>
+					<td><span id="isreture" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>步骤类型：0填报，1审核(字典表):</th>
+					<td><span id="stepType" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否处理：0未处理，1已处理（字典表）:</th>
+					<td><span id="status" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>审核信息:</th>
+					<td><span id="checkMsg" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

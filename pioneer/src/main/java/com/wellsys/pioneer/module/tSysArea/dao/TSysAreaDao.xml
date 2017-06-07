@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysArea.dao.TSysAreaDao" >
+    <resultMap id="tSysAreaModelMap" type="com.wellsys.pioneer.module.tSysArea.model.TSysAreaModel" >
+        <id column="area_id" property="areaId" />
+        <result column="area_code" property="areaCode" />
+        <result column="full_name" property="fullName" />
+        <result column="short_name" property="shortName" />
+        <result column="pid" property="pid" />
+        <result column="stepseq_id" property="stepseqId" />
+        <result column="area_level" property="areaLevel" />
+        <result column="show_order" property="showOrder" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysAreaModelMap" parameterType="com.wellsys.pioneer.module.tSysArea.model.TSysAreaModel" >
+        SELECT
+            area_id
+            ,area_code
+            ,full_name
+            ,short_name
+            ,pid
+            ,stepseq_id
+            ,area_level
+            ,show_order
+
+        FROM
+            t_sys_area
+        WHERE
+            1=1
+            AND area_id=#{areaId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysArea.model.TSysAreaModel" >
+        SELECT
+                t.area_id as "areaId"
+                ,t.area_code as "areaCode"
+                ,t.full_name as "fullName"
+                ,t.short_name as "shortName"
+                ,t.pid as "pid"
+                ,t.stepseq_id as "stepseqId"
+                ,t.area_level as "areaLevel"
+                ,t.show_order as "showOrder"
+
+        FROM
+                t_sys_area t
+        WHERE
+                1=1
+                AND area_id=#{areaId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysArea.model.TSysAreaModel" >
+            DELETE FROM
+                t_sys_area
+            WHERE
+                1=1
+                AND area_id=#{areaId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysArea.model.TSysAreaModel" >
+        INSERT INTO  t_sys_area (
+             area_id
+             ,area_code
+             ,full_name
+             ,short_name
+             ,pid
+             ,stepseq_id
+             ,area_level
+             ,show_order
+
+        )
+        VALUES (
+            #{areaId,jdbcType=VARCHAR }
+            ,#{areaCode,jdbcType=VARCHAR }
+            ,#{fullName,jdbcType=VARCHAR }
+            ,#{shortName,jdbcType=VARCHAR }
+            ,#{pid,jdbcType=VARCHAR }
+            ,#{stepseqId,jdbcType=INTEGER }
+            ,#{areaLevel,jdbcType=VARCHAR }
+            ,#{showOrder,jdbcType=INTEGER }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysArea.model.TSysAreaModel" >
+        UPDATE
+                 t_sys_area
+        SET
+                area_code=#{areaCode}
+                ,full_name=#{fullName}
+                ,short_name=#{shortName}
+                ,pid=#{pid}
+                ,stepseq_id=#{stepseqId}
+                ,area_level=#{areaLevel}
+                ,show_order=#{showOrder}
+
+        WHERE
+                1=1
+                AND area_id=#{areaId}
+    </update>
+
+
+<select id="searchListMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.area_id as "id"
+                ,t.area_code as "code"
+                ,t.full_name as "fullName"
+                ,t.short_name as "text"
+                ,t.pid as "pid"
+                ,t.stepseq_id as "stepseqId"
+                ,t.area_level as "areaLevel"
+                ,t.show_order as "order"
+				,d.`name` as "levelName"
+				,a.short_name as "pAreaName"
+        FROM
+                t_sys_area t
+				 left join t_sys_dict d on d.code= t.area_level and d.type='AREA_LEVEL'
+				 LEFT JOIN t_sys_area a on a.area_id = t.pid
+        WHERE
+                1=1
+            <if test="areaCode != null "> AND t.area_code like '%${areaCode}%' </if>
+            <if test="fullName != null "> AND t.full_name=#{fullName} </if>
+            <if test="shortName != null "> AND (t.short_name like '%${shortName}%' or  t.full_name like '%${shortName}%')</if>
+            <if test="pid != null "> AND t.pid=#{pid} </if>
+            order by t.show_order, t.area_id
+    </select>
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.area_id as "areaId"
+                ,t.area_code as "areaCode"
+                ,t.full_name as "fullName"
+                ,t.short_name as "shortName"
+                ,t.pid as "pid"
+                ,t.stepseq_id as "stepseqId"
+                ,t.area_level as "areaLevel"
+                ,t.show_order as "showOrder"
+
+        FROM
+                t_sys_area t
+        WHERE
+                1=1
+            <if test="areaId != null "> AND t.area_id=#{areaId} </if>
+            <if test="areaCode != null "> AND t.area_code=#{areaCode} </if>
+            <if test="fullName != null "> AND t.full_name=#{fullName} </if>
+            <if test="shortName != null "> AND t.short_name=#{shortName} </if>
+            <if test="pid != null "> AND t.pid=#{pid} </if>
+            <if test="stepseqId != null "> AND t.stepseq_id=#{stepseqId} </if>
+            <if test="areaLevel != null "> AND t.area_level <![CDATA[<=]]> ${areaLevel} </if>
+            <if test="areaLeveleq != null "> AND t.area_level =#{areaLeveleq}</if>
+            <if test="showOrder != null "> AND t.show_order=#{showOrder} </if>
+            <if test="thisAreaId != null "> AND t.area_id != #{thisAreaId} </if>
+    </select>
+
+    <select id="listMapTree" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.area_id as "areaId"
+                ,t.area_code as "areaCode"
+                ,t.full_name as "fullName"
+                ,t.short_name as "shortName"
+                ,t.pid as "pid"
+                ,t.stepseq_id as "stepseqId"
+                ,t.area_level as "areaLevel"
+                ,t.show_order as "showOrder"
+
+        FROM
+                t_sys_area t
+        WHERE
+                1=1  and area_level <![CDATA[<=]]> 2  
+            <if test="areaId != null "> AND area_id=#{areaId} </if>
+            <if test="areaCode != null "> AND area_code=#{areaCode} </if>
+            <if test="fullName != null "> AND full_name=#{fullName} </if>
+            <if test="shortName != null "> AND short_name=#{shortName} </if>
+            <if test="pid != null "> AND pid=#{pid} </if>
+            <if test="stepseqId != null "> AND stepseq_id=#{stepseqId} </if>
+            <if test="areaLevel != null "> AND area_level <![CDATA[<=]]> ${areaLevel} </if>
+            <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+    </select>
+
+    <select id="listBean" resultMap="tSysAreaModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                area_id
+                ,area_code
+                ,full_name
+                ,short_name
+                ,pid
+                ,stepseq_id
+                ,area_level
+                ,show_order
+
+        FROM
+                t_sys_area
+        WHERE
+                 1=1
+                <if test="areaId != null "> AND area_id=#{areaId} </if>
+                <if test="areaCode != null "> AND area_code=#{areaCode} </if>
+                <if test="fullName != null "> AND full_name=#{fullName} </if>
+                <if test="shortName != null "> AND short_name=#{shortName} </if>
+                <if test="pid != null "> AND pid=#{pid} </if>
+                <if test="stepseqId != null "> AND stepseq_id=#{stepseqId} </if>
+                <if test="areaLevel != null "> AND area_level=#{areaLevel} </if>
+                <if test="showOrder != null "> AND show_order=#{showOrder} </if>
+    </select>
+    
+    <select id="getAreaTrees" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+        SELECT
+             t.area_id as id 
+             ,t.short_name as  text
+             ,t.pid as pid
+             ,t.area_level as areaLevel
+			,t.area_code as "areaCode"
+            ,t.show_order as "showOrder"
+            ,d.name as "levelName"
+        FROM
+             t_sys_area t
+             left join t_sys_dict d on d.code= t.area_level and d.type='AREA_LEVEL'
+        WHERE
+             1=1
+            <if test="pid != null "> AND t.pid=#{pid} </if>
+            <if test="areaLevel != null "> AND t.area_level &lt;= ${areaLevel} </if>
+            order by t.show_order, t.area_id
+    </select>
+    <select id="getAreas" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+   		 select id as areaId,name99 as areaName from base_yc order by id
+    </select>
+    <select id="repairDepot" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+   		 select t.id,t.name99,t.title,t.info,t.bak,t.pic,b.name99 as "areaName" from base_yc t left join base_sy b on t.areaid = b.adcode99 
+   		 WHERE 	1=1 
+   		<if test="NAME99 != null "> AND t.NAME99 like #{NAME99} </if>
+   		order by t.id
+    </select>
+    
+     <select id="homePageListPage2" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+   		select id,name99,info,fgsmc,rownum rn from base_sy 
+   		
+   		WHERE 	1=1 
+   		<if test="NAME99 != null "> AND NAME99 like #{NAME99} </if>
+   		order by id
+    </select>
+    <select id="districtTree" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+   		select id,name99,info,fgsmc,ADCODE99 from base_sy 
+   		
+   		WHERE 	1=1 
+   		<if test="NAME99 != null "> AND NAME99 like #{NAME99} </if>
+   		order by id
+    </select>
+  
+	<update id="updateInfo" parameterType="java.util.HashMap" >
+	 UPDATE
+	                 base_sy t
+	        SET
+	                t.info=#{INFO,jdbcType=VARCHAR}
+	        WHERE
+	                t.id  = #{ID,jdbcType=VARCHAR}
+               
+	 </update>
+	<update id="updateRepair" parameterType="java.util.HashMap" >
+	 UPDATE
+	                 base_yc t
+	        SET
+	                t.info=#{INFO,jdbcType=VARCHAR},
+	                t.title=#{TITLE,jdbcType=VARCHAR},
+	                t.name99=#{NAME99,jdbcType=VARCHAR},
+	                t.pic=#{PIC,jdbcType=VARCHAR},
+	                t.bak=#{BAK,jdbcType=VARCHAR}
+	        WHERE
+	                t.id  = #{ID,jdbcType=VARCHAR}
+               
+	 </update>
+	   <select id="repairRoute" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+   		select t.id as "id",t.bh as "bh",t.mc as "mc",t.zxsid as "jxsId",t.status as "status",t.ssdz as "ssdz",t.cd as "cd",t.pbts as "pbts" ,
+t.zjrl as "zjrl" ,t.bz as "bz",b.name99 as "name99",c.name99 as "districtName" from sys_jxxl  t left join base_yc b on t.zxsid = b.id
+left join base_sy c on t.areaid = c.adcode99 
+   		WHERE 	1=1 
+   		<if test="mc != null "> AND t.mc like #{mc} </if>
+   		<if test="jxsId != null "> AND t.zxsid = #{jxsId} </if>
+   		order by t.CREATE_TIME desc,t.id
+    </select>
+    <insert id="saveRepairRoute" parameterType="java.util.HashMap" >
+        INSERT INTO  sys_jxxl (
+             id
+             ,bh
+             ,mc
+             ,zxsid
+             ,areaId
+             ,status
+             ,ssdz
+             ,cd
+             ,pbts
+             ,zjrl
+             ,bz
+        )
+        VALUES (
+            #{id,jdbcType=VARCHAR }
+            ,#{bh,jdbcType=VARCHAR }
+            ,#{mc,jdbcType=VARCHAR }
+            ,#{jxsId,jdbcType=VARCHAR }
+            ,#{areaId,jdbcType=VARCHAR }
+            ,#{status,jdbcType=VARCHAR }
+            ,#{ssdz,jdbcType=VARCHAR }
+            ,#{cd,jdbcType=INTEGER }
+            ,#{pbts,jdbcType=INTEGER }
+            ,#{zjrl,jdbcType=INTEGER }
+            ,#{bz,jdbcType=VARCHAR }
+        )
+    </insert>
+    <delete id="deleteRepairRoute" parameterType="java.util.HashMap" >
+            DELETE FROM
+                sys_jxxl
+            WHERE
+                1=1
+                AND id=#{id,jdbcType=VARCHAR}
+    </delete>
+    	<update id="updateRouteStatus" parameterType="java.util.HashMap" >
+	 UPDATE
+	                 sys_jxxl t
+	        SET
+	                t.status=#{status,jdbcType=VARCHAR},
+	                t.create_time=sysdate
+	        WHERE
+	                t.id  = #{id,jdbcType=VARCHAR}
+               
+	 </update>
+   	 <select id="repairWarn" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+	 select t.id as "id",t.qxry as "qxry",t.qxcl as "qxcl",t.zyry as "zyry",t.zycl as "zycl",t.wxry as "wxry",t.wxcl as "wxcl"
+,a.name99 as "districtName",b.name99 as "jxsName", t.areaid as "areaId", t.jxsid as "jxsId"
+ from sys_yj t 
+left join base_sy a on t.areaid = a.adcode99 
+left join base_yc b on t.jxsid = b.id
+   		WHERE 	1=1 
+   		<if test="jxsId != null "> AND t.jxsId = (select d.id from base_yc d where d.name99 like #{jxsName}) </if>
+   		order by t.create_time desc,t.id
+    </select>
+   	<select id="getJxsArea" resultType="java.util.HashMap"  parameterType="java.util.HashMap" >
+ 		select a.adcode99 as "areaId",a.name99 as "districtName" from base_sy a where a.adcode99 =  ( select t.areaId from base_yc t where t.id = #{jxsId,jdbcType=VARCHAR} )
+    </select>
+   
+    <insert id="saveRepairWarn" parameterType="java.util.HashMap" >
+        INSERT INTO  sys_yj (
+             id
+             ,qxry
+             ,qxcl
+             ,zyry
+             ,zycl
+             ,wxry
+             ,wxcl
+             ,areaId
+             ,jxsId
+        )
+        VALUES (
+            #{id,jdbcType=VARCHAR }
+            ,#{qxry,jdbcType=INTEGER }
+            ,#{qxcl,jdbcType=INTEGER }
+            ,#{zyry,jdbcType=INTEGER }
+            ,#{zycl,jdbcType=INTEGER }
+            ,#{wxry,jdbcType=INTEGER }
+            ,#{wxcl,jdbcType=INTEGER }
+            ,#{areaId,jdbcType=VARCHAR }
+            ,#{jxsId,jdbcType=VARCHAR }
+        )
+    </insert>
+    	<update id="updateRouteWarn" parameterType="java.util.HashMap" >
+	 UPDATE
+	                 sys_yj t
+	        SET
+	         t.qxry = #{qxry,jdbcType=INTEGER }
+            ,t.qxcl = #{qxcl,jdbcType=INTEGER }
+            ,t.zyry = #{zyry,jdbcType=INTEGER }
+            ,t.zycl = #{zycl,jdbcType=INTEGER }
+            ,t.wxry = #{wxry,jdbcType=INTEGER }
+            ,t.wxcl = #{wxcl,jdbcType=INTEGER }
+            ,t.areaId = #{areaId,jdbcType=VARCHAR }
+            ,t.jxsId = #{jxsId,jdbcType=VARCHAR }
+	        WHERE
+	                t.id  = #{id,jdbcType=VARCHAR}
+               
+	 </update>
+    <delete id="deleteRepairWarn" parameterType="java.util.HashMap" >
+            DELETE FROM
+                sys_yj
+            WHERE
+                1=1
+                AND id=#{id,jdbcType=VARCHAR}
+    </delete>
+     <update id="updateRouteStatusAll" parameterType="java.util.HashMap" >
+	 	UPDATE
+	                 sys_jxxl t
+	        SET
+	                t.status=#{status,jdbcType=VARCHAR},
+	                t.create_time=sysdate
+	        WHERE
+	                t.id in (select a.id from sys_jxxl a  where a.zxsid = #{jxsId,jdbcType=VARCHAR})
+               
+	 </update>
+</mapper> 

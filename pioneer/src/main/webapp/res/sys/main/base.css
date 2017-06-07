@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+
+body {
+	background-color: #fff;
+	font-family: "Microsoft YaHei", "微软雅黑", "宋体";
+}
+
+ul, li {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+img {
+	border: none;
+}
+
+a {
+	text-decoration: none;
+}

@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+.printpaper{-webkit-text-size-adjust:none; width:70mm;height:30mm;background-color:#fff;color:#000;border:1px solid #eeeeee;font-size:2mm;font-family:"黑体";}
+.codepic{width:26mm;}
+.codepic img{width:20mm;height:20mm;margin:1mm;}
+.titletxt{-webkit-text-size-adjust:none;font-size:2.5mm;font-weight:bold;}
+.codetxt{-webkit-text-size-adjust:none;font-size:1.3mm;text-align:center;}
+.printhiddenbox{-webkit-text-size-adjust:none;width:1px;height:1px;overflow:hidden;}

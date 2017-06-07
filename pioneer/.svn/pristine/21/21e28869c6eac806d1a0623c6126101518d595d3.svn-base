@@ -1,0 +1,372 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+<script src="${ contextPath }/res/lib/echarts3/echarts.min.js" type="text/javascript"></script>
+<script src="${ contextPath }/res/lib/plugin/jsMap/jsMap.js" type="text/javascript"></script>
+<script src="${ contextPath }/res/lib/kernel/1.3/kernel.js"  type="text/javascript"></script>
+<script src="${ contextPath }/res/lib/easyui/1.4.3/jquery.easyui.min.js"  type="text/javascript"></script>
+<script src="${ contextPath }/res/sys/main/pageInAlone.js"  type="text/javascript"></script>
+<script src="${ contextPath }/pages/module/tSourceQuery/tendAnalyze/tendAnalyze.js"  type="text/javascript"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=txgiGHuuE71URkntEazg2qwr"></script>
+<script type="text/javascript">
+var getDa=new getData();
+$(document).ready(function(){
+	loadBaiduMap();
+	//分析分组
+	$('#groupId').combotree({
+			url : contextPath + "/tSysGroup/getGroupTree?groupType=5",
+			required : true,
+			onChange : function(newValue, oldValue){
+				//console.log("newValue ", newValue);
+			},
+			onClick: function(node){
+				//console.log("node ", node);
+			}
+		});
+		page.send({
+			  url : contextPath + "/tAnalyzeThemeGis/getBeanById/?gisId=${param.gisId}"
+		}).then(function(data) {
+				$('#datasetTree').combotree({
+					url : contextPath + "/portAnalyze/getDatasetTree",
+					required : true,
+					async:false,
+					onClick: function(node){
+					    $('#lonField').combobox("clear");  //每次切换节点，情况数据级字段信息
+					    $('#latField').combobox("clear");  
+					    $('#titleField').combobox("clear");
+					    
+					    $('#addressField').combobox("clear");  //每次切换节点，情况数据级字段信息
+					    $('#picField').combobox("clear");  
+					    $('#remarkField').combobox("clear");
+					    
+						//如果点击的是指标
+						if(node.type == "dataset"){
+							getDatasetConfig(node.id)
+						}else{
+							
+						}
+					}
+				});
+			 	$(".charts_txt").html(data.introduce);
+			 	$("#remark").html(data.remark);
+			 	$("#titlePic").attr("src","/uploads/"+data.imgUrl.replace(/\"|\[|\]/g,""));
+			 	$("#gisName").html(data.gisName);
+			 	groupId=data.groupId;
+			 	$.ajax({
+			 	url:contextPath+"/tAnalyzeGisQueryitem/listAll?gisId="+data.gisId,
+			 	dataType:"json",
+			 	async:false,
+			 	success:function(data){	
+			 	getDatasetConfig(data[0].datasetId);
+			 		reData=data;
+			 	}
+		   	});
+			
+	  	}).then(function(){
+			   $("#groupId").combotree("setValue",groupId);
+			   searchMap(reData);
+  		});
+  	pageInit();
+});
+		function pageInit(){
+			$.ajax({
+				url:"${ contextPath }/ChartMain/getDisserts",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					var chartIndex=data.chartIndex;
+					var themeGis=data.themeGis;
+					var m;
+					if(chartIndex.length>1 && themeGis.length>1){
+						m=2;
+						for(var i=0;i<m;i++){
+						$("#dessertShow").append(newDIV(chartIndex[i].chartName,chartIndex[i].chartId,chartIndex[i].imgUrl.replace(/\"|\[|\]/g,""),1));
+						}
+						for(var i=0;i<m;i++){
+							$("#dessertShow").append(newDIV(themeGis[i].gisName,themeGis[i].gisId,themeGis[i].imgUrl.replace(/\"|\[|\]/g,""),2));
+						}
+					}else{
+						for(var i=0;i<chartIndex.length;i++){
+							$("#dessertShow").append(newDIV(chartIndex[i].chartName,chartIndex[i].chartId,chartIndex[i].imgUrl.replace(/\"|\[|\]/g,""),1));
+						}
+						for(var i=0;i<themeGis.length;i++){
+							$("#dessertShow").append(newDIV(themeGis[i].gisName,themeGis[i].gisId,themeGis[i].imgUrl.replace(/\"|\[|\]/g,""),2));
+						}
+					}
+					function newDIV(name,id,imgUrl,type){
+						var linkedAddr="${contextPath}/pages/chart/theme";
+						if(type==1){
+							linkedAddr+="/chartIndexView.jsp?chartId="+id;
+						}else if(type==2){
+							linkedAddr+="/themeGisView.jsp?gisId="+id;
+						}
+						return "<div class='col-xs-6 col-md-3'><div class='thumbnail'><img class='img-responsive' src='/uploads/"+imgUrl+"'alt='通用的占位符缩略图'/><div class='caption'><a href='"+linkedAddr+"'>"+name+"</a></div></div></div>";
+					}
+				}
+			});
+		}  
+
+	var url = "/pages/module";
+	var indexId;//指标编码
+	page.onLoad = function() {
+
+	
+	};
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+	
+	function loadBaiduMap(){
+		map = new BMap.Map("baiduMap");  // 创建Map实例
+		// 百度地图API功能
+		map.centerAndZoom("重庆",15);      // 初始化地图,用城市名设置地图中心点
+		var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+		var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+		var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+		/*缩放控件type有四种类型:
+		BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+		//添加控件和比例尺
+		map.addControl(top_left_control);        
+		map.addControl(top_left_navigation);     
+		map.addControl(top_right_navigation); 
+		map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+		map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用   
+	}
+  
+   //获取数据集信息
+   function getDatasetConfig(datasetId){
+	   var url = contextPath + "/portAnalyze/getDataSetFields";
+	   $.ajax({
+	   url:url,
+	   data:{datasetId: datasetId},
+	   dataType:"json",
+	   async:false,
+	   success: function(data){
+		   $('#lonField').combobox({    
+			    data: data,
+			    required : true,
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#latField').combobox({    
+			    data: data,
+			    required : true,
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#titleField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#addressField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#picField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+		   
+		   $('#remarkField').combobox({    
+			    data: data,    
+			    valueField: 'fieldCode',    
+			    textField: 'fieldName'   
+		   });  
+	   	}
+	   });
+   }
+   function locationCoord(lon,lat,num){ 
+   		var pt = new BMap.Point(lon, lat);
+   		var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));//
+   		myIcon.imageUrl = contextPath+"/res/front/style/images/marker_blue_sprite.png";
+   		myIcon.size={height:25,width:19};
+   		myIcon.anchor={height:25,width:10};
+   		myIcon.imageOffset={height:0,width:0};
+   		myIcon.infoWindowAnchor={height:0,width:10};
+   		myIcon.imageSize=undefined;
+   		myIcon.printImageUrl="";
+   		for(var i =0 ;i < markers.length;i++){
+   			if(i == num){
+   				markers[i].setIcon(myIcon);
+   			}else{
+   				markers[i].setIcon(defaultIcon[0]);
+   			}
+   		}
+   		map.centerAndZoom(pt, 14);
+   }
+   var markers=new Array();
+   function searchMap(reData){
+	   var datasetId = reData[0].datasetId;
+       var lonField = reData[0].lonField;
+       var latField = reData[0].latField;
+       var titleField = reData[0].titleField;
+       var addressField = reData[0].addressField;
+       var picField = reData[0].picField;
+       var remarkField = reData[0].remarkField;
+       var imgUrl="";
+       if(reData[0].imgUrl){
+       		 imgUrl=reData[0].imgUrl.replace(/\"|\[|\]/g,"");
+       };
+       var columnField=reData[0].title;
+       var obj = {
+   		   datasetId:datasetId, 
+   		   lonField: lonField,
+   		   latField:latField, 
+   		   titleField: titleField,
+   		   addressField: addressField,
+   		   picField: picField,
+   		   remarkField: remarkField
+       };
+        map.clearOverlays(); 
+	   //查询数据集数据
+	   var url = contextPath + "/portAnalyze/getGisData";//该url写在项目配置文件中，分析图展现时使用， params 保存到 query_param字段
+	   $.get(url, obj, function(data){
+		   map.centerAndZoom(new BMap.Point(data[0].lon, data[0].lat), 11);
+		   var myIcon=null;
+	  		if(imgUrl){
+	  			if(imgUrl.substring(imgUrl.indexOf(".")).toLowerCase().indexOf("gif")==-1){
+	  				alert("标注图片请上传GIF动图！");
+	  				return;
+	  			}
+	  			myIcon = new BMap.Icon("http://"+location.host+"/uploads/"+imgUrl, new BMap.Size(300,157));
+	  		}
+	  		$("#infoTitle").html("<span class='icon-bar-chart'></span>"+columnField);
+	  		var tableText="";
+		   for(var i=0;i< data.length;i++){
+		   		if(!titleField){
+		   			data[i].title="";
+		   		}
+		   		if(!addressField){
+		   			data[i].address="";
+		   		}
+		   		if(!picField){
+		   			data[i].pic="";
+		   		}
+		   		if(!remarkField){
+		   			data[i].remark="";
+		   		}
+		  		var pt = new BMap.Point(data[i].lon, data[i].lat);
+		  		var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+				var imgInfoArr=["/res/front/style/images/noPic.png","/res/front/style/images/noPic.png"];
+				var getImg=data[i].pic.split(",");
+				if(getImg[0]){
+					imgInfoArr[0]=getImg[0];
+				}
+				if(getImg[1]){
+					imgInfoArr[1]=getImg[1];
+				}
+				var sContent =
+						"<div class='map_floatbox'><div class='title'><h4>"+data[i].title+"<small class='pull-right'></small></h4><span class='closebtn'><span class='glyphicon glyphicon-remove closebtn'></span></span></div><div class='map_floatbox_body'><div class='map_picbox'><a href='#fdsf'>"+
+						"<img class='imgInfo' src='"+imgInfoArr[0]+"' width='680'height='510'></a><a href='#fdsf'>"+
+						"<img class='imgInfo' src='"+imgInfoArr[1]+"' width='550'height='340'></a></div><h5 class='map_floatbox_addr'>"+data[i].address+"</h5><div class='map_floatbox_jj'><p>"+data[i].remark+"</p></div></div></div>";
+			    var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+			    marker2.addEventListener("click", function(){  
+				   this.openInfoWindow(infoWindow);
+				   //图片加载完毕重绘infowindow
+				var imgNodes=  document.getElementsByClassName("imgInfo");
+					for(var n = 0; n < imgNodes.length ; n ++){
+						imgNodes[n].onload = function (){
+												  infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+											 };
+					}
+				});
+				markers[i]= marker2;
+				tableText +="<tr onclick='locationCoord("+data[i].lon+","+data[i].lat+","+i+")'><td><div class='row'><div class='col-md-2 list_num'>"+(parseInt(i)+1)+"</div><div class='col-md-10'><h4>"+data[i].title+"<small class='pull-right'></small></h4><p>"+data[i].address+"</p></div></div></td></tr>";
+				map.addOverlay(marker2); 
+		   }
+		   //把默认图标放入其中
+		   defaultIcon=function(){
+		   		var arr=new Array();
+		   		arr.push(markers[0].getIcon());
+		   		return arr;
+		   }();
+		   $("#infoTr").html(tableText);
+		   $("#tittleIntroduc").show();
+		   $("#infoTr").find("tr").on("mouseover mouseout",function(){
+		   		$(this).toggleClass("introMouse");
+		   });
+		
+	   });
+   } 
+</script>
+		<style>
+		.tractive{
+		    background-color: pink;
+		}
+#supportMo{width:700px;margin:0px 0px 0px 20px;}
+#supportMo li{display:inline-block;float:left;position:relative;margin:20px 0px 0px 0px;min-height:30px;}
+.titleDate{	width:15%;	text-align:right;vertical-align:middle;line-height:22px;}
+.titleInput{width:35%;text-align:left;vertical-align:middle;line-height:15px;}
+#tittleIntroduc {float: left;z-index: 301;	right: 0px;position: absolute;width: 350px;height: 500px;bottom: 0px;opacity:0.9;display:none;overflow-y:auto;overflow-X:hidden;}
+#mapView{border:1px solid grey;}
+#infoTr tr{background-color:#f9f9f9;}
+.introMouse{background-color:wheat !important;}		
+		</style>
+	</jsp:attribute>
+	<jsp:body>
+    <!--页面实际内容区开始-->
+    <div class="simple_box row">
+<div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-globe"></span><span id="gisName"></span>
+          <small class="simple_box_title_txt hidden-xs"> </small> </h3>
+        </div>
+        <p class="charts_txt"> 
+        	
+        </p><br>
+        
+		<div class="row" style="position:relative;">
+       <div  border="true"  data-options="region:west,minWidth:600px,maxWidth:900px" border="true">
+      		<div id="baiduMap" style="height:500px;"></div>
+      	</div>
+								      	<div id="tittleIntroduc" border="true" data-options="region:center,minWidth:100px;background-color:gray;">
+								      	<div id="menu1" class="colortable mapcontent">
+											<table class="table table-bordered table-striped">
+												<thead>
+													<tr>
+														<th id="infoTitle" style="font-size:18px;">
+															<span class="icon-bar-chart">
+															</span>
+														</th>
+													</tr>
+												</thead>
+												<tbody id="infoTr">
+												</tbody>
+											</table>
+										</div>
+										</div>
+     
+        </div>
+      </div>       
+     </div>
+    <div class="charts_memo">
+        <h4 class="charts_memo_title"><span class="icon-file-alt "></span>描述信息</h4>
+        <p id="remark"> </p>
+        </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 推荐分析
+          <small class="simple_box_title_txt hidden-xs"> 经过精心设计的推荐分析  </small></h3><!--   <a href="#fdsf" class="pull-right">查看更多&gt;</a>-->
+        </div>
+        <div id="dessertShow" class="row">
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+        
+	</jsp:body>
+</t:chart>

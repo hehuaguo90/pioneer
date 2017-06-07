@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	    	var url = "/pages/module/tDnsmcfzlzzqk/";
+
+
+
+
+	function add() {
+		page.newDataGrid({
+			title : "新增",
+			width : 600,
+			height : 470,
+			url : contextPath + url + "add.jsp"
+		});
+	}
+
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tDnsmcfzlzzqk/"+"listByPage";
+				opt.method = "get";
+			}
+		});
+
+	};
+
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+
+    function exportExcel() {// 方式一
+        window.location.href = "${contextPath}/tDnsmcfzlzzqk/export";
+        /*				"id="+ $('#id').textbox('getValue')+
+                "&qkfl="+ $('#qkfl').textbox('getValue')+
+                "&qksb="+ $('#qksb').textbox('getValue')+
+                "&cjsj="+ $('#cjsj').textbox('getValue')+
+                "&sbrid="+ $('#sbrid').textbox('getValue')+
+                "&treeData="+ $('#treeData').textbox('getValue');*/
+    }
+/*    function formatCK(codeFieldCfg,row){
+        if(row.result =="0"){ //抓取失败的行返回 checkbox,成功了的什么都不返回
+            return '<input type="checkbox" class="ck" name="DataGridCheckbox"/>';
+        }
+    }*/
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+            <div  data-options="region:'north',border:false" style="height:110px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="toolbar">
+		<a href="javascript:void add();" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true">新增</a>
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'tbbm',width:100,align:'left',halign:'center'">填报编码</th>
+                <th data-options="field:'mczl',width:100,align:'left',halign:'center'">牧草种类</th>
+                <th data-options="field:'zclb',width:100,align:'left',halign:'center'">种草类别</th>
+                <th data-options="field:'dnxzmj',width:100,align:'left',halign:'center'">当年新增面积</th>
+                <th data-options="field:'nmblmj',width:100,align:'left',halign:'center'">年末保留面积</th>
+                <th data-options="field:'dwmjcl',width:100,align:'left',halign:'center'">单位面积产量</th>
+                <th data-options="field:'zcl',width:100,align:'left',halign:'center'">总产量</th>
+                <th data-options="field:'qzl',width:100,align:'left',halign:'center'">青贮量</th>
+                <th data-options="field:'bz',width:100,align:'left',halign:'center'">备注</th>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

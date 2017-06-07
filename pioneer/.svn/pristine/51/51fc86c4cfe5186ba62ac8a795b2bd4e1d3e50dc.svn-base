@@ -1,0 +1,305 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	var url = "/pages/module/tForm/";
+
+    $(document).ready(function(){
+	     $('#treeType').tree({     
+			    url: contextPath + '/tSysGroup/getGroupTree?groupType=1',
+			    method: 'post',
+		        animate: true,
+		        lines: true,
+		        onBeforeSelect:function(node){
+		        	//tree-node-selected
+		        	var classes = node.target.className;
+			    	//如果点击已被选中的节点，则取消选中
+		        	if(classes.indexOf('tree-node-selected') > 0){
+		        		node.target.className = classes.replace('tree-node-selected', '');
+		        		search();
+		        		return false;
+		        	}
+		        },
+		        onSelect: function(node){
+					search();
+				}
+        });
+  });
+    
+    function add() {
+		page.newDataGrid({
+			title : "新增表单",
+			width : 600,
+			height : 500,
+			url : contextPath + url + "add.jsp"
+		});
+	}
+    function del() {
+   	        page.delDataGrid({
+   	            formatURL : function(arr) {
+   	                return contextPath +"/tForm/"+"delete";
+   	            },
+   	         formatPostData : function(arr) {
+             	var a = [];
+             	for(var i in arr){
+             		a.push({
+             			formId : arr[i].formId
+             		});
+             	}
+                 return {data:JSON.stringify(a)};
+             }
+   	        });
+   	    }
+ 
+    
+
+	function edit() {
+	    var row = $('#datagrid').datagrid('getSelected');
+	       page.editDataGrid({
+			title : "编辑表单",
+			width : 600,
+			height : 500,
+			formatURL : function(obj) {
+				var params="";
+                params+="formId=" + obj.formId;
+                params+="&period_type=" + obj.period_type;
+				return contextPath +url+"edit.jsp?"+params;
+			}
+		});
+	}
+
+
+    function view() {
+        var row = $('#datagrid').datagrid('getSelected');
+
+		page.editDataGrid({
+			title : "表单详情",
+			width : 600,
+			height : 500,
+			formatURL : function(obj) {
+                var params="";
+                params+="formId=" + obj.formId;
+                params+="&periodType=" + obj.periodType;
+                params+="&areaLevel=" + obj.areaLevel;
+                return contextPath + url+"view.jsp?"+params;
+			}
+		});
+    }
+    //表单字段
+    function bdzd() {
+    	var row = $('#datagrid').datagrid('getSelected');
+	       page.editDataGrid({
+			title : "表单字段信息",
+			width : 750,
+			height : 580,
+			formatURL : function(obj) {
+				var params="";
+            	 params+="formId=" + obj.formId;
+            	 params+="&formType=" + obj.formType;
+				return contextPath+"/tForm/initFormField?"+params;
+			}
+		});
+    }
+      //填报范围
+     function tbfw() {
+        var row = $('#datagrid').datagrid('getSelected');
+
+		page.editDataGrid({
+			title : "填报范围信息",
+			width : 500,
+			height : 400,
+			formatURL : function(obj) {
+                var params="";
+                params+="formId=" + obj.formId;
+                params+="&areaLevel=" + obj.areaLevel;
+                return contextPath + url+"formArea.jsp?"+params;
+			}
+		});
+    }
+     //逻辑规则
+     function ljgz() {
+        var row = $('#datagrid').datagrid('getSelected');
+
+		page.editDataGrid({
+			title : "逻辑规则信息",
+			width : 800,
+			height : 600,
+			formatURL : function(obj) {
+                var params="";
+                params += "formId=" + obj.formId;
+                return contextPath + "/pages/module/tFormInrule/list.jsp?"+params;
+			}
+		});
+    }
+	function del() {
+        page.delDataGrid({
+            formatURL : function(arr) {
+                return contextPath +"/tForm/"+"delete";
+            },
+            formatPostData : function(arr) {
+            	var a = [];
+            	for(var i in arr){
+            		a.push({
+            			formId : arr[i].formId
+            		});
+            	}
+                return {data:JSON.stringify(a)};
+            }
+        });
+    }
+	//得到id数组
+	function getIds(){
+		var checkedItems = $('#datagrid').datagrid('getChecked');
+   		var idAry = [];
+	    $.each(checkedItems, function(index, item){
+	        idAry.push(item.formId);
+	   	});   
+		var ids = idAry.join(",");
+		return ids;
+	}
+	//启用与停用
+	function changeStatus(status) {
+		var warn="";
+		if(status==0){
+			warn="是否确定停用";
+		}else if(status==1){
+			warn="是否确定启用";
+		}
+		$.messager.confirm('提示', warn, function(r) {
+			if (r) {
+				var url =  contextPath +"/tForm/"+"changeStatus";
+				var ids = getIds();
+				var params = {
+					id : ids,
+					status : status
+				};
+				jQuery.post(url, params,function(data){
+				page.confirm(data.message);
+				page.loadDataGrid();
+				},"json");
+			}
+		});
+    }
+	
+	
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tForm/"+"listByPage";
+				opt.method = "get";
+			}
+		});
+
+	};
+
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+function search(evt) {
+    page.loadDataGrid({
+        setOptions : function(opt) {
+            		opt.url = contextPath+"/tForm/"+"listByPage";
+            		opt.method = "post";
+					opt.queryParams.formName = $('#formName').val();
+					  var td = $('#treeType').tree('getSelected');
+			            if(td){
+			            	opt.queryParams.groupId = td.id;
+			            }else{
+			            	opt.queryParams.groupId = "";
+			            }
+
+        }
+    });
+}
+
+function checkStatus(value, row, index){
+	   if (value == 0) {
+			return "停用";
+		}else if (value == 1) {
+			return "正常";
+		} else{
+			return "删除";
+		}
+}
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+    		<div  data-options="region:'north',border:false" style="height:100px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="searchbar">
+        <form>
+
+		表单名称:
+
+            <input id="formName" name="formName"  type="text"
+                   style="width: 146px;"   class="easyui-validatebox textbox"
+                   data-options="validType:'length[1,200]'">
+
+
+		<a href="javascript:void search();" class="easyui-linkbutton"
+				iconCls="icon-search">查询</a>
+    	<a href="javascript:void page.resetForm();" class="easyui-linkbutton"
+       			iconCls="icon-reload">重置</a>
+
+    </form>
+	</div>
+
+    </div>
+	<div id="toolbar">
+		<a href="javascript:void add();" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:void edit();" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true">编辑</a>
+		<a href="javascript:void del();" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true">删除</a>
+		 <a href="javascript:void view();" class="easyui-linkbutton"
+				iconCls="icon-tip" plain="true">查看</a> 
+		<a href="javascript:void changeStatus(1);" class="easyui-linkbutton"
+				iconCls="icon-qy" plain="true">启用</a>
+		<a href="javascript:void changeStatus(0);" class="easyui-linkbutton"
+				iconCls="icon-ty" plain="true">停用</a>
+		<a href="javascript:void bdzd();" class="easyui-linkbutton"
+				iconCls="icon-excel1" plain="true">表单字段</a>
+		<!-- <a href="javascript:void tbfw();" class="easyui-linkbutton"
+				iconCls="icon-ok" plain="true">填报范围</a> -->
+		<a href="javascript:void ljgz();" class="easyui-linkbutton"
+				iconCls="icon-large-clipart" plain="true">逻辑规则</a>
+	</div>
+	<div region="west" style="width:200px">
+		  <div class="tree-bar">
+		        表单分组:
+	      </div>      
+	      <ul id="treeType" style="margin-left: 10px"></ul>
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'formName',width:250,align:'left',halign:'center'">表单名称</th> 
+				<th data-options="field:'periodType',width:100,align:'left',halign:'center'">填报周期</th>  
+                <th data-options="field:'areaLevelName',width:100,align:'left',halign:'center'">填报级别</th>
+                <th data-options="field:'status',width:100,align:'left',halign:'center',formatter:checkStatus">状态</th>
+                <th data-options="field:'remark',width:250,align:'left',halign:'center'">备注</th>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

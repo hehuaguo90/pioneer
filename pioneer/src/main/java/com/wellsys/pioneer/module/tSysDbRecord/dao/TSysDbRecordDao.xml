@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysDbRecord.dao.TSysDbRecordDao" >
+    <resultMap id="tSysDbRecordModelMap" type="com.wellsys.pioneer.module.tSysDbRecord.model.TSysDbRecordModel" >
+        <id column="record_id" property="recordId" />
+        <result column="user_id" property="userId" />
+        <result column="file_name" property="fileName" />
+        <result column="begin_time" property="beginTime" />
+        <result column="end_time" property="endTime" />
+        <result column="record_type" property="recordType" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="tSysDbRecordModelMap" parameterType="com.wellsys.pioneer.module.tSysDbRecord.model.TSysDbRecordModel" >
+        SELECT
+            record_id
+            ,user_id
+            ,file_name
+            ,begin_time
+            ,end_time
+            ,record_type
+
+        FROM
+            t_sys_db_record
+        WHERE
+            1=1
+            AND record_id=#{recordId}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysDbRecord.model.TSysDbRecordModel" >
+        SELECT
+                t.record_id as "recordId"
+                ,t.user_id as "userId"
+                ,t.file_name as "fileName"
+                ,t.begin_time as "beginTime"
+                ,t.end_time as "endTime"
+                ,t.record_type as "recordType"
+
+        FROM
+                t_sys_db_record t
+        WHERE
+                1=1
+                AND record_id=#{recordId}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysDbRecord.model.TSysDbRecordModel" >
+            DELETE FROM
+                t_sys_db_record
+            WHERE
+                1=1
+                AND record_id=#{recordId}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysDbRecord.model.TSysDbRecordModel" >
+        INSERT INTO  t_sys_db_record (
+             record_id
+             ,user_id
+             ,file_name
+             ,begin_time
+             ,end_time
+             ,record_type
+
+        )
+        VALUES (
+            #{recordId,jdbcType=VARCHAR }
+            ,#{userId,jdbcType=VARCHAR }
+            ,#{fileName,jdbcType=VARCHAR }
+            ,#{beginTime,jdbcType=TIMESTAMP }
+            ,#{endTime,jdbcType=TIMESTAMP }
+            ,#{recordType,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysDbRecord.model.TSysDbRecordModel" >
+        UPDATE
+                 t_sys_db_record
+        SET
+                user_id=#{userId}
+                ,file_name=#{fileName}
+                ,begin_time=#{beginTime}
+                ,end_time=#{endTime}
+                ,record_type=#{recordType}
+
+        WHERE
+                1=1
+                AND record_id=#{recordId}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.record_id as "recordId"
+                ,t.user_id as "userId"
+                ,t.file_name as "fileName"
+                ,t.begin_time as "beginTime"
+                ,t.end_time as "endTime"
+                ,t.record_type as "recordType"
+				,u.user_name as "userName"
+        FROM
+                t_sys_db_record t
+                left join t_sys_user u on u.user_id = t.user_id
+        WHERE
+                1=1
+            <if test="recordId != null "> AND t.record_id=#{recordId} </if>
+            <if test="userName != null "> AND u.user_name like '%${userName}%' </if>
+            <if test="fileName != null "> AND t.file_name=#{fileName} </if>
+            <if test="beginTime != null "> AND t.begin_time=#{beginTime} </if>
+            <if test="endTime != null "> AND t.end_time=#{endTime} </if>
+            <if test="recordType != null "> AND t.record_type=#{recordType} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="tSysDbRecordModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+                record_id
+                ,user_id
+                ,file_name
+                ,begin_time
+                ,end_time
+                ,record_type
+
+        FROM
+                t_sys_db_record
+        WHERE
+                 1=1
+                <if test="recordId != null "> AND record_id=#{recordId} </if>
+                <if test="userId != null "> AND user_id=#{userId} </if>
+                <if test="fileName != null "> AND file_name=#{fileName} </if>
+                <if test="beginTime != null "> AND begin_time=#{beginTime} </if>
+                <if test="endTime != null "> AND end_time=#{endTime} </if>
+                <if test="recordType != null "> AND record_type=#{recordType} </if>
+    </select>
+
+
+</mapper> 

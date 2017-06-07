@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+       <h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+	<div class="container-fluid"> 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+			<span class="sr-only">切换导航</span>
+			<span class="icon-bar" style="color:#fff;"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;"><h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4></a>
+	</div>
+	<div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="home_charts.html">首页</a></li>
+			<li><a href="zt_charts_1.html">生产概况</a></li>
+			<li><a href="#">专题展示</a></li>
+			<li><a href="#">价格监测</a></li>
+			<li><a href="zt_charts_1.html">用户信息</a></li>
+			<li><a href="zt_charts_2.html">修改密码</a></li>
+			<li><a href="zt_charts_3.html">退出系统</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+      <li class="menubg_1"><a href="#"><span class="icon-home"></span><br/>
+        首页</a></li>
+      <li class="menubg_2"><a href="#"><span class="icon-flag"></span><br/>
+        生产概况</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-shopping-cart" style="font-size:28px!important;"></span><br/>
+        价格监测</a></li>
+      <li class="menubg_4"><a href="#"><span class="icon-bar-chart" style="font-size:28px!important;"></span><br/>
+        专题展示</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class=" icon-bar-chart "></span>价格同比环比情况
+          <small class="simple_box_title_txt hidden-xs"> 分析各种牲畜价格同比环比变化情况 </small> </h3>
+        </div>
+        <p  class="charts_txt"> 
+        	2016年受生猪养殖持续亏损、环保清理、猪场拆迁等因素影响,我国生猪产能缩减明显。全年看,生猪价格同比大幅增长,养殖利润可观。从全年走势看,1—3月份受需求低迷影响,生猪价格下降明显,养殖户亏损严重。4月份以后,生猪存栏大幅下降,市场供给偏紧,价格止跌回升,生猪养殖扭亏为盈。受需求拉动,2017年春节前生猪价格呈上涨态势,节后高位回落,预计全年呈＂前高后低＂走势。
+        </p><br>
+
+        
+        		<div class="btn-group charts_tools_tab">
+                    <button type="button" class="btn btn-success">仔猪</button>
+                    <button type="button" class="btn btn-default">肉猪</button>
+                    <button type="button" class="btn btn-default">猪肉</button>
+                    <button type="button" class="btn btn-default">牛肉</button>
+                    <button type="button" class="btn btn-default">羊肉</button>
+                    <button type="button" class="btn btn-default">鸡肉</button>
+                </div>
+                
+                
+        
+		<div class="" style="height:450px;">
+        	此处放置图表
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    <div class="charts_memo">
+        <h4 class="charts_memo_title"><span class="icon-file-alt "></span>描述信息</h4>
+        <p>        （一）生猪市场供给状况正逐步好转，四季度可能会大幅改观。生猪价格持续走高，养殖行业利润丰厚，带动了养殖户补栏积极性持续增强，3月份以来生猪生产形势逐步向好发展，生猪存栏呈增加趋势。据农业部定点监测，5月份生猪存栏环比增加0.4%，连续3个月增长；能繁母猪存栏也止跌回稳，生猪产能正在稳步恢复。但也应看到，由于环保、养殖转型和部分中小养殖户退市以及生猪病等因素的影响，目前生猪生产能力的恢复不及预期。从农业部监测数据看，目前生猪和能繁母猪存栏与去年同期相比仍分别低2.9%和3.6%。预计随着今年3月份开始补栏的仔猪在中秋节后批量上市，市场供应偏紧的状况才能得到根本的缓解。
+
+　　<br><br>
+
+（二）饲养成本增加，将对猪价起到一定支撑作用。随着生猪价格持续上涨，带动仔猪、母猪价格大幅走高，年初以来全国仔猪和能繁母猪价格分别累计上涨49%、26%。5月初以来，豆粕、玉米(1565, 2.00, 0.13%)价格也出现明显上涨，并且豆粕价格创出历史新高。仔猪、母猪和饲料原料价格上涨大幅抬高了生猪养殖成本，据测算，按照前期仔猪价格最高位时购买仔猪补栏，未来育肥猪出栏成本已超过8元/斤。
+
+　　<br><br>
+
+ ( 三 )市场预期、猪肉消费和进口肉等因素将对下半年生猪价格走势产生一定影响。分析来看，决定下半年生猪价格走势的因素错综复杂，除生产因素外，还有三个问题值得关注。一是6月中下旬以来，前期一些压栏的大猪集中出栏，市场阶段性供应增加，价格出现明显下降，随着压栏大猪的出清，后期生猪供应偏紧的状况又会显露；还有一些分析认为此次猪价下跌将可能成为趋势。二是进入7月份后，高温酷暑天气将会使肉类市场需求更加清淡，同时超高肉价对终端市场消费也产生一定的抑制作用，会带动生猪价格下降。三是进口猪肉对国内市场的影响。今年1～5月猪肉累计进口56.82万吨，同比增长120.1%；预计全年进口量将会超过100万吨。进口肉大量增加将会使生猪价格下降。
+
+ <br><br>
+
+另外，近期的极端天气给部分地区生猪生产带来一定的影响，也增加了后期价格走势的不确定性。</p>
+        </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 推荐专题
+          <small class="simple_box_title_txt hidden-xs"> 经过精心设计的推荐专题  </small></h3> <a href="#fdsf" class="pull-right">查看更多&gt;</a>
+        </div>
+        <div class="row">
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_1.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                    <a href="#" >
+                        草场分布
+                    </a> 
+                    </div>
+               </div>
+            </div>
+          	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_2.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >生猪存栏量分布</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_3.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >猪肉和玉米价格分析</a> 
+                  </div>
+               </div>
+            </div>
+        	 <div class="col-xs-6 col-md-3">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="style/images/zt_list_ico_4.png"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                      <a href="#" >
+                      生猪出栏数量分布
+                  </a> 
+                  </div>
+               </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+</body>
+</html>

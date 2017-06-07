@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/context  
+                http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+<!--    <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="dataSource" destroy-method="close">
+        <property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.26:1521/wellsys"/>
+        <property name="user" value="zhyy"/>
+        <property name="password" value="zhyy"/>
+        <property name="initialPoolSize" value="30"/>
+        <property name="acquireIncrement" value="10"/>
+        <property name="maxPoolSize" value="100"/>
+        <property name="autoCommitOnClose" value="true"/>
+        <property name="maxIdleTime" value="60"/>
+        <property name="numHelperThreads" value="10"/>
+        <property name="checkoutTimeout" value="20000"/>
+    </bean>-->
+
+    <context:component-scan base-package="com.wellsys.*">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>  
+    </context:component-scan>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+
+    <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="dataSource" destroy-method="close">
+        <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
+        <!-- 
+        <property name="jdbcUrl" value="jdbc:mysql://192.168.1.51:3306/pioneer"/>
+        -->
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.238:1521:zhuisu"/>
+        <property name="user" value="gd"/>
+        <property name="password" value="gd"/>
+        <property name="initialPoolSize" value="30"/>
+        <property name="acquireIncrement" value="10"/>
+        <property name="maxPoolSize" value="100"/>
+        <property name="autoCommitOnClose" value="true"/>
+        <property name="maxIdleTime" value="60"/>
+        <property name="numHelperThreads" value="10"/>
+        <property name="checkoutTimeout" value="30000"/>
+    </bean>
+
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="com.wellsys.pioneer.module.**.model"/>
+        <!-- 
+        <property name="configLocation" value="classpath:/configuration.xml" />
+         -->
+        <property name="plugins">
+            <bean class="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+                <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect"/>
+            </bean>
+        </property>
+<!--
+        <property name="mapperLocations" value="classpath:com/springapp/mvc/module/**/dao/*.xml"/>
+-->
+    </bean>
+
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.wellsys.pioneer.module.**.dao"/>
+
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="sqlSessionTemplateBeanName" value="sqlSession" />
+
+     </bean>
+
+
+
+</beans>

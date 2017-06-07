@@ -1,0 +1,53 @@
+package com.wellsys.common.utils.time;
+
+import org.springframework.util.StringUtils;
+
+import java.beans.PropertyEditorSupport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+/**
+ * Property editor for &lt;code&gt;java.sql.Timestamp&lt;/code&gt;,&lt;br&gt;
+ * supporting a custom &lt;code&gt;java.text.DateFormat&lt;/code&gt;.
+ *
+ * @author &lt;a href="http://www.micmiu.com"&gt;Michael Sun&lt;/a&gt;
+ */
+public class CustomSqlDateEditor extends PropertyEditorSupport {
+
+	private final SimpleDateFormat dateFormat;
+	private final boolean allowEmpty;
+
+	public CustomSqlDateEditor() {
+		this.dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+		this.allowEmpty = true;
+	}
+
+	public CustomSqlDateEditor(SimpleDateFormat dateFormat, boolean allowEmpty) {
+		this.dateFormat = dateFormat;
+		this.allowEmpty = allowEmpty;
+	}
+
+	public CustomSqlDateEditor(SimpleDateFormat dateFormat,
+							   boolean allowEmpty, int exactDateLength) {
+		this.dateFormat = dateFormat;
+		this.allowEmpty = allowEmpty;
+	}
+ 
+	public void setAsText(String text) throws IllegalArgumentException {
+		if ((this.allowEmpty) && (!(StringUtils.hasText(text)))) {
+			setValue(null);
+		} else {
+			try {
+				setValue(new java.sql.Date(this.dateFormat.parse(text).getTime()));
+			} catch (ParseException ex) {
+				throw new IllegalArgumentException("Could not parse date: "
+						+ ex.getMessage(), ex);
+			}
+		}
+	}
+ 
+	public String getAsText() {
+		java.sql.Date value = (java.sql.Date) getValue();
+		return ((value != null) ? this.dateFormat.format(value) : "");
+	}
+}

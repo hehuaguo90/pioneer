@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+       <h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+	<div class="container-fluid"> 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+			<span class="sr-only">切换导航</span>
+			<span class="icon-bar" style="color:#fff;"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;"><h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4></a>
+	</div>
+	<div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="home_charts.html">首页</a></li>
+			<li><a href="zt_charts_1.html">生产概况</a></li>
+			<li><a href="#">专题展示</a></li>
+			<li><a href="#">价格监测</a></li>
+			<li><a href="zt_charts_1.html">用户信息</a></li>
+			<li><a href="zt_charts_2.html">修改密码</a></li>
+			<li><a href="zt_charts_3.html">退出系统</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+      <li class="menubg_1"><a href="#"><span class="icon-home"></span><br/>
+        首页</a></li>
+      <li class="menubg_2"><a href="#"><span class="icon-flag"></span><br/>
+        生产概况</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-shopping-cart" style="font-size:28px!important;"></span><br/>
+        价格监测</a></li>
+      <li class="menubg_4"><a href="#"><span class="icon-bar-chart" style="font-size:28px!important;"></span><br/>
+        专题展示</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+
+    <div class="simple_box row">
+   		<div class="simple_box_title col-md-12" >
+          <h3 class="simple_box_title_name_withico"> <span class="icon-bar-chart"></span>价格专题
+          <small class="simple_box_title_txt hidden-xs"> 对各种畜牧产品的每周报价进行分析 </small> </h3>
+        </div>
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:20px;">
+          <h3 class="simple_box_title_name">每周报价
+          <small class="simple_box_title_txt hidden-xs"> 对各种畜牧产品的每周报价进行分析 </small> </h3>
+        </div>
+       <ul class="charts_tools_tab">
+                    <li class="active"><img src="style/images/jgjc_ico_1.png" width="58" height="58">生猪</li>
+                    <li><img src="style/images/jgjc_ico_2.png" width="58" height="58">家禽</li>
+                    <li><img src="style/images/jgjc_ico_3.png" width="58" height="58">商品羊</li>
+                    <li><img src="style/images/jgjc_ico_4.png" width="58" height="58">家兔</li>
+                    <li><img src="style/images/jgjc_ico_5.png" width="58" height="58">饲料</li>
+        </ul>
+
+        
+        	
+                
+                
+        
+		<div class="row">
+           
+       	  <div class="col-md-8 row" >
+            	<div class="col-md-4 jiagegaikuang">
+                	<h3>近四成<small>生猪全市均价持平</small></h3>
+                    <h4><em>12</em>种<small>生猪全市均价持平</small></h4>
+                    <h4><em>4</em>种<small>生猪全市均价下降</small></h4>
+                    <h4><em>7</em>种<small>生猪全市均价上涨</small></h4>
+                </div>
+                <div class="col-md-8" style="height:300px;">
+                此处为图表<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+                </div>
+                <p  class="col-md-12">说明：2016年35周（08月22月-08月28月）全市周均价</p>
+            </div>
+          <div class="col-md-4" >
+                     <div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                      <!--  <caption>价格列表</caption>-->
+                            <thead>
+                              <tr>
+                                  <th class="hidden-xs">#</th>
+                                <th>品种 </th>
+                                <th>区县</th>
+                                <th>价格</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                  <td class="hidden-xs">1</td>
+                                <td>土杂仔猪</td>
+                                <td>渝中区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">2</td>
+                                <td>洋三元或PIC仔猪</td>
+                                <td>渝中区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">3</td>
+                                <td>土杂肉猪</td>
+                                <td>巴南区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">4</td>
+                                <td>洋三元或PIC肉猪</td>
+                                <td>渝北区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">5</td>
+                                <td>去骨带皮猪肉</td>
+                                <td>南岸区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     </div>
+                    <p  class="col-md-12">说明：2016年08月26日报价</p>
+          </div>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+       <div class="simple_box_title row" style="margin-bottom:20px;">
+          <h3 class="simple_box_title_name">价格走势
+          <small class="simple_box_title_txt hidden-xs"> 展示各种畜牧产品的价格走势 </small> </h3>
+        </div>
+        <div class="row">
+        	<div class="col-md-6 col-xs-12">
+            	<div class="subtitle">
+                	<h4><span>品种对比</span></h4>
+                </div>
+                <div class="row charts_box_1" style="height:285px;">
+                	<div class="col-md-3" >
+                    	<ul class="nav nav-pills nav-stacked">
+                          <li class="active">生猪</li>
+                          <li>家禽产品</li>
+                          <li>商品羊</li>
+                          <li>家兔</li>
+                          <li>饲料产品</li>
+                        </ul>
+                        <a href="#" class="charts_left_select ">详情&gt;</a>
+                    </div>
+                    <div class="col-md-9">
+                    	此处为折线图
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+            	<div class="subtitle">
+                	<h4><span>区域对比</span></h4>
+                </div>
+                 <div class="row charts_box_1">
+                	<div class="col-md-3">
+                    	<ul  class="nav nav-pills nav-stacked">
+                          <li class="active">渝中区</li>
+                          <li>渝北区</li>
+                          <li>九龙坡区</li>
+                          <li>璧山区</li>
+                          <li>铜梁区</li>
+                        </ul>
+                        <a href="#" class="charts_left_select ">详情&gt;</a>
+                    </div>
+                    <div class="col-md-9">
+                    	此处为折线图
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <div class="simple_box row">
+      <div class="col-md-12">
+       <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name">地区行情
+          <small class="simple_box_title_txt hidden-xs"> 按地区分析各种畜牧产品的价格行情 </small> </h3>
+        </div>
+        <div class="row">
+        	<div class="col-md-8 col-xs-12">
+            	<div class="col-md-9">
+                此处为GIS图，与右侧联动
+                </div>
+                <div class="col-md-3 chart_txt_2">
+                	<div class="btn-group">
+                        <button type="button" class="btn btn-success ">生猪</button>
+                        <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">切换下拉菜单</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">生猪</a></li>
+                            <li><a href="#">家禽产品</a></li>
+                            <li><a href="#">商品羊</a></li>
+                            <li><a href="#">家兔</a></li>
+                            <li><a href="#">饲料产品</a></li>
+                        </ul>
+                    </div><br><br>
+
+
+                    <p>全市均价</p>
+                    <h3><em class="blue">6.56</em><small>元/公斤</small></h3>
+                     <p>同比</p>
+                      <h4 class="red"><span class="glyphicon glyphicon-arrow-up">&#160;</span>6.56%&nbsp;&nbsp;&nbsp;<i class="icon-spinner icon-spin" style="font-size:44px!important;color:#0977c4!important;"></i></h4>
+                      <p>环比</p>
+					  <h4 class="green"><span class="glyphicon glyphicon-arrow-down">&#160;</span>6.56%</h4>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+            	<div id="menu1" class="colortable">
+                        <table class="table table-bordered table-striped">
+                      <!--  <caption>价格列表</caption>-->
+                            <thead>
+                              <tr>
+                                  <th class="hidden-xs">排名</th>
+                                <th>地区<span class="icon-caret-down  sort_list_ico"></span></th>
+                                <th>均价</th>
+                                <th>同比<span class="icon-caret-up  sort_list_ico"></span></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                  <td class="hidden-xs">1</td>
+                                <td>土杂仔猪</td>
+                                <td>渝中区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">2</td>
+                                <td>洋三元或PIC仔猪</td>
+                                <td>渝中区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">3</td>
+                                <td>土杂肉猪</td>
+                                <td>巴南区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                <td class="hidden-xs">4</td>
+                                <td>洋三元或PIC肉猪</td>
+                                <td>渝北区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                              <tr>
+                                  <td class="hidden-xs">5</td>
+                                <td>去骨带皮猪肉</td>
+                                <td>南岸区</td>
+                                <td>16.11 元/公斤</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+</body>
+</html>

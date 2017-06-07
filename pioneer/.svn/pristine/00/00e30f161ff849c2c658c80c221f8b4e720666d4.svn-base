@@ -1,0 +1,759 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }" scope="request" />
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>畜牧概览</title>
+	<link href="${contextPath }/res/front/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="${contextPath }/res/front/css/font-awesome.min.css">
+	<link href="${contextPath }/res/front/style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+	<link href="${contextPath }/res/front/style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${contextPath }/res/front/js/jquery.min.js"></script>
+	<script src="${contextPath }/res/front/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${contextPath }/res/chart/chart.js"></script>
+	<script type="text/javascript" src="${ contextPath }/res/lib/echarts3/echarts.js"></script>
+  </head>
+  <script type="text/javascript">
+  function findSeriesDataByKeyDesc(jsonArray,keyArray) {
+		var data = new Array();
+		for ( var key in keyArray) {
+			var subData = new Array();
+			for(var i=jsonArray.length-1;i>=0;i--){
+				if(jsonArray[i][keyArray[key]]=='0'){
+					subData.push('');
+				}else{
+					subData.push(jsonArray[i][keyArray[key]]);
+				}
+			 }
+			data.push(subData);
+		}
+		return data;
+	}
+  
+  function getJgfbData(params){
+		$.ajax({
+		    url : "${contextPath}/chartLeader/getRlzcl.action?_"+new Date().getTime(),
+		    type:'POST',
+		    dataType : 'json',
+		    success : function(datas){
+		    	
+		    	showRlzclChart(datas);
+		    }
+		})
+	}
+
+  
+  function buildText(objName,value,text){
+	  if(value>0){
+		$("#"+objName+"_span").attr("class","glyphicon glyphicon-arrow-up");
+		$("#"+objName).html(value+text);
+  	  }else{
+  		$("#"+objName+"_span").attr("class","glyphicon glyphicon-arrow-down");
+		$("#"+objName).html(value+text);
+  	  }
+  }
+  
+function showRlzclChart(datas) {
+	  	var mapChart = echarts.init(document.getElementById('rlzcl'));
+	  	var zcl = datas['zcl'];
+	  	var tb = datas['tb'];
+	  	buildText('zcl_tb',tb,"%");
+	  	option = {
+	  			 title: {
+	  		        text: zcl,
+	  		        x: 'center',
+	  		        y: 'center',
+	  		        textStyle : {
+	  		            color : '#6fa154',
+	  		            fontFamily : 'impact',
+	  		            fontSize : 26
+	  		        },
+	  		    },
+	  		    tooltip: {
+	  		        trigger: 'item',
+  		        	formatter: function(params,ticket,callback){
+			            var res = params.name; 
+			            var value = params.value;
+			            res = res +"："+ format_number(value);
+			            return res;  
+			        }
+	  		    },
+	  		    color:['#fe8463','#9bca63', '#fad860', '#60c0dd', '#6fa154','#57a3f8'],
+	  		    series: [
+	  		        {
+	  		            type:'pie',
+	  		            radius: ['70%', '90%'],
+	  		            label: {
+	  		                normal: {
+	  		                    show: false
+	  		                },
+	  		                emphasis: {
+	  		                    show: false
+	  		                }
+	  		            },
+	  		            labelLine: {
+	  		                normal: {
+	  		                    show: true
+	  		                }
+	  		            },
+	  		            data:datas['lxcl']
+	  		        }
+	  		    ]
+	  		};
+			mapChart.setOption(option);
+		}
+	
+	function getSzcllData(params){
+		$.ajax({
+		    url : "${contextPath}/chartLeader/getSzcll.action?_"+new Date().getTime(),
+		    type:'POST',
+		    dataType : 'json',
+		    success : function(datas){
+		    	
+		    	showCllChart(datas[0]);
+		    }
+		})
+	}
+
+   function showCllChart(datas) {
+  	var mapChart = echarts.init(document.getElementById('cll'));
+  	var cll = datas.cll;
+  	var cllTb = datas.clltb;
+  	
+  	buildText('cll_tb',cllTb,"%");
+  	option = {
+  		  	grid: {
+		        left: '0',
+		        right: '0',
+		        bottom: '0'
+		    },
+  		    series: [
+  		        {
+  		        	name: '出栏率',
+  		            type: 'gauge',
+  		            radius: '90%',
+  		            silent:true, 
+  		            startAngle: 130,
+  		            endAngle : -130,
+  		          	min:0,
+  	            	max:160,
+  		            data: cll,
+	  		        axisTick: {            
+	  	                show: false
+	  	            },
+  		            axisLine: {            
+  		                show: false,        
+  		                lineStyle: {      
+  		                    color: [[0.5, '#d06262'],[0.75, '#d1d385'],[1, '#6fa154']], 
+  		                    width: 15
+  		                }
+  		            },
+	  		        pointer : {
+	  	                length : '80%',
+	  	                width : 6,
+	  	                color : 'auto'
+	  	            },
+	  		        splitLine: {           // 分隔线
+	  	                show: true,        // 默认显示，属性show控制显示与否
+	  	                length :10,        // 属性length控制线长
+	  	                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+	  	                    color: '#272d37',
+	  	                    width: 1,
+	  	                    type: 'solid'
+	  	                }
+  	            	},
+  		             detail : {
+  		                show : true,
+  		                backgroundColor: 'rgba(0,0,0,0)',
+  		                borderWidth: 0,
+  		                borderColor: '#ccc',
+  		                width: 100,
+  		                height: 40,
+  		                offsetCenter: ['-60%', 0],       
+  		                formatter:'{value}%',
+  		                textStyle: {       
+  		                    color: 'auto',
+  		                    fontSize : 30,
+  		  		            fontFamily : 'impact'
+  		                }
+  		            }
+  		        }
+  		    ]
+  		};
+		mapChart.setOption(option);
+	}
+  
+   function getZlbData(params){
+		$.ajax({
+		    url : "${contextPath}/chartLeader/getZlb.action?_"+new Date().getTime(),
+		    type:'POST',
+		    dataType : 'json',
+		    success : function(datas){
+		    	
+		    	showZlbChart(datas[0]);
+		    }
+		})
+	}
+   
+  function showZlbChart(datas) {
+	  	var mapChart = echarts.init(document.getElementById('zlb'));
+	  	var pzjg = datas.pzjg;
+	  	var jgtb = datas.jgtb;
+	  	var jghb = datas.jghb;
+	  	buildText('zlb_tb',jgtb,"%");
+	  	buildText('zlb_hb',jghb,"%");
+	  	option = {
+	  		  	grid: {
+			        left: '0',
+			        right: '0',
+			        bottom: '0'
+			    },
+	  		    series: [
+	  		        {
+	  		            type: 'gauge',
+	  		            radius: '93%',
+	  		          	min:0,
+	  	            	max:30,
+	  		          	silent:true,
+	  		            data: pzjg,
+		  		        axisTick: {            
+		  	                show: true,
+			  	            splitNumber: 8,     // 每份split细分多少段
+			                length :5,          // 属性length控制线长
+			                lineStyle: {        // 属性lineStyle控制线条样式
+		                      color: '#eee',
+		                      width: 1,
+		                      type: 'solid'
+		                   }
+		  	            },
+	  		            axisLine: {            
+	  		                show: false,        
+	  		                lineStyle: {      
+	  		                    color: [[0.2, '#d06262'],[1, '#6fa154']], 
+	  		                    width: 10
+	  		                }
+	  		            },
+		  		        pointer : {
+		  	                length : '80%',
+		  	                width : 6,
+		  	                color : 'auto'
+		  	            },
+		  		        splitLine: {           // 分隔线
+		  	                show: true,        // 默认显示，属性show控制显示与否
+		  	                length :10,        // 属性length控制线长
+		  	                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+		  	                    color: '#272d37',
+		  	                    width: 1,
+		  	                    type: 'solid'
+		  	                }
+	  	            	},
+	  		             detail : {
+	  		                show : true,
+	  		                backgroundColor: 'rgba(0,0,0,0)',
+	  		                borderWidth: 0,
+	  		                borderColor: '#ccc',
+	  		                width: 100,
+	  		                height: 40,
+	  		                formatter:'{value}',
+	  		                offsetCenter: [0, 60], 
+	  		                textStyle: {       
+	  		                    color: 'auto',
+	  		                    fontSize : 30,
+	  		                  	fontFamily : 'impact'
+	  		                }
+	  		            }
+	  		        }
+	  		    ]
+	  		};
+			mapChart.setOption(option);
+		}
+  
+  function getRljgData(params){
+		$.ajax({
+		    url : "${contextPath}/chartLeader/getRljg.action?_"+new Date().getTime(),
+		    type:'POST',
+		    dataType : 'json',
+		    success : function(datas){
+		    	
+		    	showRljgChart(datas);
+		    }
+		})
+	}
+   
+  function showRljgChart(datas) {
+	  	var mapChart = echarts.init(document.getElementById('rljg'));
+	  	var qgnrData = findSeriesDataByKeyDesc(datas['qgnr'],['pzjg']);
+	  	var qgdpzrData = findSeriesDataByKeyDesc(datas['qgdpzr'],['pzjg']);
+	  	var dgyrData = findSeriesDataByKeyDesc(datas['dgyr'],['pzjg']);
+	  	var bdtjData = findSeriesDataByKeyDesc(datas['bdtj'],['pzjg']);
+	  	var bdmyData = findSeriesDataByKeyDesc(datas['bdmy'],['pzjg']);
+	  	var hrtData = findSeriesDataByKeyDesc(datas['hrt'],['pzjg']);
+    	var week = findSeriesDataByKeyDesc(datas['qgnr'],['tjsdz']);
+    	var title = [
+    	             {name: '猪肉',icon: 'roundRect'},
+    	             {name: '牛肉',icon: 'roundRect'},
+    	             {name: '羊肉',icon: 'roundRect'},
+    	             {name: '本地麻鸭',icon: 'roundRect'},
+    	             {name: '本地土鸡',icon: 'roundRect'},
+    	             {name: '兔肉',icon: 'roundRect'}
+    				]
+    	
+	  	option = {
+	  		    tooltip: {
+	  		        trigger: 'axis',
+	  		      	formatter: function(params,ticket,callback){
+		  		      	var res = params[0].name+" <br/>";
+		  				for(i=0;i<params.length;i++){
+		  					res = res+params[i].seriesName+"："+params[i].data+"元/千克<br/>";
+		  				}
+			            return res;  
+			        },
+			        backgroundColor: '#dadada', 
+	  		        textStyle:{
+	  		        	color:'#000'
+	  		        }
+	  		    },
+	  		    legend: {
+	  		        data:title,
+	  		        itemHeight :3, 
+			    	itemWidth :22,
+	  		        textStyle:{
+	  		        	color:'#70be5e'
+	  		        }
+	  		    },
+	  		    color:['#fe8463','#9bca63', '#fad860', '#60c0dd', '#6fa154','#57a3f8'],
+	  		    grid: {
+	  		        left: '15',
+	  		        right: '35',
+	  		        bottom: '0',
+	  		        top: '30',
+	  		        containLabel: true
+	  		    },
+	  		    xAxis: {
+	  		        type: 'category',
+	  		        boundaryGap: false,
+	  		        axisLine:{
+	  		        	lineStyle:{
+	  		        		color:'#9b9b9b'
+	  		        	}
+	  		        },
+	  		        data: week[0]
+	  		    },
+	  		    yAxis: {
+	  		        type: 'value',
+	  		        splitLine:{
+	  		        	lineStyle : {
+	  		        		color:'#4f4f4f',
+	  		        		type : 'dashed'
+	  		        	}
+	  		        },
+	  		        axisLine:{
+	  		        	lineStyle:{
+	  		        		color:'#9b9b9b'
+	  		        	}
+	  		        }
+	  		    },
+	  		    series: [
+	  		        {
+	  		            name:'猪肉',
+	  		            type:'line',
+	  		          	smooth: true,
+	  		            data:qgdpzrData[0]
+	  		        },
+	  		        {
+	  		            name:'牛肉',
+	  		            type:'line',
+	  		          	smooth: true,
+	  		            data:qgnrData[0]
+	  		        },
+	  		        {
+	  		            name:'羊肉',
+	  		            type:'line',
+	  		            smooth: true,
+	  		            data:dgyrData[0]
+	  		        },
+	  		        {
+	  		            name:'本地麻鸭',
+	  		            type:'line',
+	  		            smooth: true,
+	  		            data:bdmyData[0]
+	  		        },
+	  		        {
+	  		            name:'本地土鸡',
+	  		            type:'line',
+	  		            smooth: true,
+	  		            data:bdtjData[0]
+	  		        },
+	  		        {
+	  		            name:'兔肉',
+	  		            type:'line',
+	  		            smooth: true,
+	  		            data:hrtData[0]
+	  		        }
+	  		    ]
+	  		};
+			mapChart.setOption(option);
+		}
+
+  function getMaxMapData(mydata){
+      var fgs = [];
+		var maxData = 0;
+		if(mydata){
+			for(var i = 0; i < mydata.length; i++){
+				if(maxData<mydata[i].rcl){
+					maxData = Math.floor(mydata[i].rcl);
+				}
+			}
+		}
+		return maxData;
+	}
+  
+var convertData = function (data,geoCoordMap) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].qx_name];
+        if (geoCoord) {
+        	if(!isNaN(data[i].rcl)){
+        		res.push({
+                    name: data[i].qx_name,
+                    value: geoCoord.concat(data[i].rcl)
+                });
+        	} 
+        }
+    }
+    return res;
+};
+
+	function getClfbData(params,name){
+		$.ajax({
+		    url : "${contextPath}/chartLeader/getClfb.action?lb="+params+"&_"+new Date().getTime(),
+		    type:'POST',
+		    dataType : 'json',
+		    success : function(datas){
+		    	
+		    	$.getJSON("${contextPath}/res/chart/qx.json",function(geoCoordMap){  
+					 showClfbChart(datas["lb"],geoCoordMap,name);
+					 buildSpan(datas["qs"]);
+		        }) 
+		    }
+		})
+	}
+	
+	function buildSpan(datas){
+		 $("#rcl").html(format_number(datas[0]["rcl"]));
+		 $("#cls").html(format_number(datas[0]["cls"]));
+		 $("#gmcs").html(format_number(datas[0]["gmcs"]));
+		 $("#cls2").html(format_number(datas[0]["cls2"]));
+		 $("#nrzss").html(format_number(datas[0]["nrzss"]));
+		 $("#jchs").html(format_number(datas[0]["jchs"]));
+		 $("#rzcps").html(format_number(datas[0]["rzcps"]));
+		 $("#czbz").html(format_number(datas[0]["czbz"]));
+		 
+		 var rcl_tb = datas[0]["rcltb"];
+		 var cls_tb = datas[0]["clstb"];
+		 var cls2_tb = datas[0]["cls2tb"];
+		 var gmc_tb = datas[0]["gmctb"];
+		 
+		 if(rcl_tb>0){
+			$("#rcl_span").attr("class","glyphicon glyphicon-arrow-up");
+		 }else{
+			$("#rcl_span").attr("class","glyphicon glyphicon-arrow-down");
+		 }
+		 
+		 if(cls_tb>0){
+			$("#cls_span").attr("class","glyphicon glyphicon-arrow-up");
+		 }else{
+			$("#cls_span").attr("class","glyphicon glyphicon-arrow-down");
+		 }
+		 
+		 if(cls2_tb>0){
+			$("#cls2_span").attr("class","glyphicon glyphicon-arrow-up");
+		 }else{
+			$("#cls2_span").attr("class","glyphicon glyphicon-arrow-down");
+		 }
+		 
+		 if(gmc_tb>0){
+			$("#gmc_span").attr("class","glyphicon glyphicon-arrow-up");
+		 }else{
+			$("#gmc_span").attr("class","glyphicon glyphicon-arrow-down");
+		 }
+	}
+
+	function showTitle(lbID){
+		if(lbID=='6'){
+			$("#title_gmc").html("草原总面积");
+			$("#dw_gmc").html("(万亩)");
+			$("#title_cls").html("可利用面积");
+			$("#dw_cls").html("(万亩)");
+			$("#title_cls2").html("承包面积");
+			$("#dw_cls2").html("(万亩)");
+			
+			$("#title_nrzss").html("保护面积");
+			$("#dw_nrzss").html("(万亩)");
+			
+			$("#title_jchs").html("鼠害面积");
+			$("#dw_nrzss").html("(万亩)");
+			
+			$("#title_rzcps").html("虫害面积");
+			$("#dw_nrzss").html("(万亩)");
+			
+			$("#title_czbz").html("投资金额");
+		}else{
+			$("#title_gmc").html("规模场数");
+			$("#title_cls").html("存栏数");
+			$("#title_cls2").html("出栏数");
+			$("#title_nrzss").html("监测养殖户数");
+			$("#title_jchs").html("纳入追溯数");
+			$("#title_rzcps").html("认证产品数");
+			$("#title_czbz").html("财政补助金额");
+			
+			if(lbID=='4'||lbID=='5'){
+				$("#dw_cls").html("(只)");
+				$("#dw_cls2").html("(只)");
+			}else{
+				$("#dw_cls").html("(头)");
+				$("#dw_cls2").html("(头)");
+			}
+			$("#dw_gmc").html("(户)");
+			$("#dw_nrzss").html("(户)");
+			$("#dw_jchs").html("(户)");
+			$("#dw_rzcps").html("(个)");
+		}
+		
+		//肉产量（奶产量、蛋产量、草产量）
+	}
+	
+  	function showClfbChart(datas,geoCoordMap,name){
+  		$.getJSON('${contextPath}/res/chart/chongqing.json', function (data) {
+		    echarts.registerMap('chongqing', data);
+			var mapChart = echarts.init(document.getElementById('zrclfb'));
+			var maxData = getMaxMapData(datas);
+			var maxRcl = Math.sqrt(maxData);
+			option = {
+					title: {
+				        text: name+'产量分布',
+				        top:'37',
+				        left:'150',
+				        textStyle : {
+		  		            color : '#dadbd9',
+		  		            fontFamily : '微软雅黑',
+		  		            fontSize : 20
+		  		        },
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: function(params,ticket,callback){
+				            var res = params.name; 
+				            var value = params.value;
+				            res = res +"："+ format_number(value[2])+"吨";
+				            return res;  
+				        }
+				    },
+				    grid: {
+				        left: '0',
+				        right: '0',
+				        bottom: '0',
+				        top: '0'
+				    },
+				    geo: {
+				        map: 'chongqing',
+				        label: {
+				            emphasis: {
+				                show: false
+				            }
+				        },
+				        roam: true,
+				        itemStyle: {
+				            normal: {
+				                areaColor: '#323c48',
+				                borderColor: '#111'
+				            },
+				            emphasis: {
+				                areaColor: '#2a333d'
+				            }
+				        }
+				    },
+				    series : [
+				        {
+				            type: 'scatter',
+				            coordinateSystem: 'geo',
+				            data: convertData(datas,geoCoordMap),
+				            symbolSize: function (val) {
+				            	var mval = Math.sqrt(val[2]);
+			                    return (mval*30 / maxRcl);
+				            },
+				            label: {
+				                normal: {
+				                    formatter: '{b}',
+				                    position: 'right',
+				                    show: false
+				                },
+				                emphasis: {
+				                    show: true
+				                }
+				            },
+				            itemStyle: {
+				                normal: {
+				                    color: '#6fa154'
+				                }
+				            }
+				        },
+			            {
+			                name: 'Top 5',
+			                type: 'effectScatter',
+			                coordinateSystem: 'geo',
+			                data: convertData(datas.sort(function (a, b) {
+			                    return b.value - a.value;
+			                }).slice(0, 5),geoCoordMap),
+			                symbolSize: function (val) {
+			                	var mval = Math.sqrt(val[2]);
+			                    return (mval*30 / maxRcl);
+			                },
+			                showEffectOn: 'render',
+			                rippleEffect: {
+			                    brushType: 'stroke'
+			                },
+			                hoverAnimation: true,
+			                label: {
+			                    normal: {
+			                        formatter: '{b}',
+			                        position: 'right',
+			                        show: true
+			                    }
+			                },
+			                itemStyle: {
+			                    normal: {
+			                        color: '#aade6c',
+			                        shadowBlur: 10,
+			                        shadowColor: '#333'
+			                    }
+			                },
+			                zlevel: 1
+			            }
+				    ]
+				};
+			mapChart.setOption(option);
+	    	}
+		);
+  	};
+		       
+    function clfbChange(obj,typeId,name){
+    	$("li[id=clfb_li]").removeClass("active");
+		$(obj).addClass("active");
+		showTitle(typeId);
+		getClfbData(typeId,name);
+    }
+		       
+  	$(document).ready(function() {
+  		getJgfbData("");
+  		getSzcllData("");
+  		getZlbData("");
+  		getRljgData("");
+  		getClfbData("1","生猪");
+	});
+  
+  </script>
+  <body class="bodybg_ldzm">
+<!--页面顶部LOGO及主菜单栏开始-->
+<div class="contentbox">
+	<div class="logobox">
+    	<span >
+       		<img src="${contextPath }/res/front/style/images/logo_ldzm.png" width="45" height="38"> 
+        	重庆市畜牧概览
+        </span>
+    </div>
+    <div class="ldzm_body row" style="margin:0;">
+    	
+    	
+    	
+    	<div class="row ldzm_body_bottom col-md-6"  style="margin:0;">
+      		<ul class="chart_ex">
+                  <li id="clfb_li" onclick="clfbChange(this,'1','生猪');" class="active"><p class="example_1">生猪</p></li>
+                  <li id="clfb_li" onclick="clfbChange(this,'2','奶牛');" ><p class="example_4">奶牛</p></li>
+                  <li id="clfb_li" onclick="clfbChange(this,'4','肉鸡');" ><p class="example_2">肉鸡</p></li>
+                  <li id="clfb_li" onclick="clfbChange(this,'5','蛋鸡');" ><p class="example_5">蛋鸡</p></li>
+                  <li id="clfb_li" onclick="clfbChange(this,'3','羊');" ><p class="example_3">羊</p></li>
+                  <li id="clfb_li" onclick="clfbChange(this,'6','草场');" ><p class="example_6">草场</p></li>
+                </ul>
+        	<div class="col-md-12" >
+            	<!--  <h4>猪肉产量分布</h4>  -->
+                <div id="zrclfb" style="height: 520px; width: 100%; "></div>
+                <div class="col-md-12"   style="position:absolute;top:520px;left:10px;width:100%;">
+            	
+                
+           		
+                <div class="example_table">
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <th>产量<small>(吨)</small></th>
+                        <th><span id="title_cls">存栏数</span><small><span id="dw_cls">(头)</span></small></th>
+                        <th><span id="title_cls2">出栏数</span><small><span id="dw_cls2">(头)</span></small></th> 
+                        <th><span id="title_gmc">规模场数</span><small><span id="dw_gmc">(户)</span></small></th>
+                      </tr>
+                      <tr>
+                      <td id="rcl_td"><span id="rcl_span" >&#160;</span><span id="rcl">${null }</span></td>
+                      <td id="cls_td"><span id="cls_span" >&#160;</span><span id="cls">${null }</span></td>
+                      <td id="cls2_td"><span id="cls2_span">&#160;</span><span id="cls2">${null }</span></td>
+                      <td id="gmc_td"><span id="gmc_span">&#160;</span><span id="gmcs">${null }</span></td>
+                      </tr>
+                     
+                      <tr>
+                        <th><span id="title_nrzss">纳入追溯数</span><small><span id="dw_nrzss">(户)</span></small></th> 
+                        <th><span id="title_jchs">养殖户数</span><small><span id="dw_jchs">(户)</span></small></th> 
+                         <th><span id="title_rzcps">产品认证数</span><small><span id="dw_rzcps">(个)</span></small></th> 
+                        <th><span id="title_czbz">财政补助额</span><small>(万元)</small></th>
+                      </tr>
+                      <tr>
+	                      <td ><span >&#160;</span><span id="nrzss">${null }</span></td>
+	                      <td ><span >&#160;</span><span id="jchs">${null }</span></td>
+	                      <td ><span >&#160;</span><span id="rzcps">${null }</span></td>
+	                      <td ><span >&#160;</span><span id="czbz">${null }</span></td>
+                      </tr>
+                     
+                    </table>
+
+                </div>
+            </div>
+            </div>
+           
+        </div>
+        
+        
+        
+    	<div class="row ldzm_body_up col-md-6 "  style="margin:0;padding-top:30px;">
+        	<div class="col-md-4">
+            	<h4>肉类总产量(吨)</h4>
+				<div id="rlzcl" style="height: 230px; width: 100%; float:left;"></div>
+				<h5 style="text-align:center;">同比：<span id="zcl_tb_span">&#160;</span><span id="zcl_tb">${null }</span></h5>
+            </div>
+            <div class="col-md-4">
+           		<h4>出栏率</h4>
+                <div id="cll" style="height: 230px; width: 100%; float:left;"></div>
+				<h5 style="text-align:center;">同比：<span id="cll_tb_span">&#160;</span><span id="cll_tb">${null }</span></h5>
+            </div>
+            <div class="col-md-4">
+           		<h4>猪粮比</h4>
+                <div id="zlb" style="height: 230px; width: 100%; float:left;"></div>
+				<h5 style="text-align:center;">同比：<span id="zlb_tb_span">&#160;</span><span id="zlb_tb">${null }</span></h5>
+				<h5 style="text-align:center;">环比：<span id="zlb_hb_span">&#160;</span><span id="zlb_hb">${null }</span></h5>
+            </div>
+            <div class="col-md-12" style="margin-top:20px;">
+            	<h4>肉类价格走势</h4>
+                <div id="rljg" style="height: 240px; width: 100%;float:left;"></div>
+            </div>
+            
+             
+        </div>
+        
+        
+        
+        
+      
+        
+        
+    </div>
+</div>
+</body>
+</html>

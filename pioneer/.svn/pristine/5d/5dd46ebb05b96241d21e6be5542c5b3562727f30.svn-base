@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+ 	    	var url = "/pages/module/tCyNftmj/";
+
+
+
+
+	function add() {
+		page.newDataGrid({
+			title : "新增",
+			width : 600,
+			height : 500,
+			url : contextPath + url + "add.jsp"
+		});
+	}
+
+	page.onLoad = function() {
+
+		page.loadDataGrid({
+			setOptions : function(opt) {
+				opt.url = contextPath+"/tCyNftmj/"+"listByPage";
+				opt.method = "get";
+			}
+		});
+
+	};
+
+	page.onRefresh = function() {
+		page.loadDataGrid();
+	};
+
+
+
+    function exportExcel() {// 方式一
+        window.location.href = "${contextPath}/tCyNftmj/export";
+        /*				"id="+ $('#id').textbox('getValue')+
+                "&qkfl="+ $('#qkfl').textbox('getValue')+
+                "&qksb="+ $('#qksb').textbox('getValue')+
+                "&cjsj="+ $('#cjsj').textbox('getValue')+
+                "&sbrid="+ $('#sbrid').textbox('getValue')+
+                "&treeData="+ $('#treeData').textbox('getValue');*/
+    }
+/*    function formatCK(codeFieldCfg,row){
+        if(row.result =="0"){ //抓取失败的行返回 checkbox,成功了的什么都不返回
+            return '<input type="checkbox" class="ck" name="DataGridCheckbox"/>';
+        }
+    }*/
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div id="divIndex" class="easyui-layout" fit="true">
+            <div  data-options="region:'north',border:false" style="height:110px" >
+                <div id="location" >
+						<span></span> &gt; <span>查询</span>
+				</div>
+
+	<div id="toolbar">
+		<a href="javascript:void add();" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true">新增</a>
+	</div>
+                <div region="center" border="false">
+	<table id="datagrid" class="easyui-datagrid" style="min-height: 300px"
+			data-options="fitColumns:true,fit:true,pagination:true,rownumbers:true,sortable:true"
+			toolbar="#toolbar">
+		<thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'xzbm',width:100,align:'left',halign:'center'">行政编码</th>
+                <th data-options="field:'sjxzmc',width:100,align:'left',halign:'center'">省级行政名称</th>
+                <th data-options="field:'djxzmc',width:100,align:'left',halign:'center'">地级行政名称</th>
+                <th data-options="field:'xjxzmc',width:100,align:'left',halign:'center'">县级行政名称</th>
+                <th data-options="field:'xzjb',width:100,align:'left',halign:'center'">行政q级别</th>
+                <th data-options="field:'tbbm',width:100,align:'left',halign:'center'">填报编码</th>
+                <th data-options="field:'tbsj',width:100,align:'left',halign:'center'">填报时间</th>
+                <th data-options="field:'nd',width:100,align:'left',halign:'center'">年度</th>
+                <th data-options="field:'tbr',width:100,align:'left',halign:'center'">填报人</th>
+                <th data-options="field:'nftkzc',width:100,align:'left',halign:'center'">农闲田可种草</th>
+                <th data-options="field:'nftyzc',width:100,align:'left',halign:'center'">农闲田已种草</th>
+                <th data-options="field:'dftkzc',width:100,align:'left',halign:'center'">冬闲田可种草</th>
+                <th data-options="field:'txtyzc',width:100,align:'left',halign:'center'">冬闲田已种草</th>
+                <th data-options="field:'xqxtkzc',width:100,align:'left',halign:'center'">夏秋闲田可种草</th>
+                <th data-options="field:'xqxtyzc',width:100,align:'left',halign:'center'">夏秋闲田已种草</th>
+                <th data-options="field:'gyxdkzc',width:100,align:'left',halign:'center'">果园隙地可种草</th>
+                <th data-options="field:'xyxdyzc',width:100,align:'left',halign:'center'">果园隙地已种草</th>
+                <th data-options="field:'sbdyzc',width:100,align:'left',halign:'center'">四边地可种草</th>
+                <th data-options="field:'sbdkzc',width:100,align:'left',halign:'center'">四边地已种草</th>
+                <th data-options="field:'qtkzc',width:100,align:'left',halign:'center'">其他可种草</th>
+                <th data-options="field:'qtyzc',width:100,align:'left',halign:'center'">其他已种草</th>
+			</tr>
+        </thead>	
+    </table>
+                </div>
+        </div>
+	</jsp:body>
+</t:page>

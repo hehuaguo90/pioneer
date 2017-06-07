@@ -1,0 +1,102 @@
+package  com.tfrd.bdas.module.tSysOrg.model;
+
+import  java.lang.String;
+import java.util.List;
+
+/**
+* 数据实体定义。
+* TABLE CODE:	t_sys_org;
+* TABLE NAME:	
+* TABLE REMARK:	机构信息
+* code tools version V1.0,created on Tue Jan 03 18:53:49 CST 2017
+*/
+
+public class TSysOrgModel implements java.io.Serializable {
+
+    /**
+    *FIELD CODE:    org_id
+    *FIELD NAME:    主键，机构id
+    *FIELD REMARKS: 主键，机构id
+    */
+    private   String   orgId ="";
+    /**
+    *FIELD CODE:    pid
+    *FIELD NAME:    上级id
+    *FIELD REMARKS: 上级id
+    */
+    private   String   pid ="";
+    /**
+    *FIELD CODE:    area_id
+    *FIELD NAME:    外键，所属地区id
+    *FIELD REMARKS: 外键，所属地区id
+    */
+    private   String   areaId ="";
+    /**
+    *FIELD CODE:    org_name
+    *FIELD NAME:    机构名称
+    *FIELD REMARKS: 机构名称
+    */
+    private   String   orgName ="";
+    /**
+    *FIELD CODE:    show_order
+    *FIELD NAME:    显示顺序
+    *FIELD REMARKS: 显示顺序 default=1
+    */
+    private   int   showOrder ;
+    /**
+    *FIELD CODE:    remark
+    *FIELD NAME:    备注
+    *FIELD REMARKS: 备注
+    */
+    private   String   remark ="";
+
+
+    // Constructors
+	/** default constructor */
+	public TSysOrgModel() {
+	}
+
+
+    public String getOrgId(){
+        return this.orgId;
+    }
+    public void setOrgId(String orgId){
+        this.orgId = orgId;
+    }
+
+    public String getPid(){
+        return this.pid;
+    }
+    public void setPid(String pid){
+        this.pid = pid;
+    }
+
+    public String getAreaId(){
+        return this.areaId;
+    }
+    public void setAreaId(String areaId){
+        this.areaId = areaId;
+    }
+
+    public String getOrgName(){
+        return this.orgName;
+    }
+    public void setOrgName(String orgName){
+        this.orgName = orgName;
+    }
+
+    public int getShowOrder(){
+        return this.showOrder;
+    }
+    public void setShowOrder(int showOrder){
+        this.showOrder = showOrder;
+    }
+
+    public String getRemark(){
+        return this.remark;
+    }
+    public void setRemark(String remark){
+        this.remark = remark;
+    }
+
+}

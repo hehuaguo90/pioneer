@@ -1,0 +1,417 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${  contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/spectrum.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/docs.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/toc.js"></script>
+<script type="text/javascript"
+			src="${  contextPath }/res/lib/plugin/colorCheck/prettify.js"></script>
+<link type="text/css" rel="stylesheet"
+			href="${ contextPath }/res/lib/plugin/colorCheck/spectrum.css" />
+<script type="text/javascript">
+	var reData = {};
+	var ids = [];
+	var indexId;//指标编码
+	var groupField = "";
+	function getIndexConfig(indexId) {
+		ids=[];
+		var url = contextPath + "/portAnalyze/getIndexConfig";
+		$.get(url, {
+			indexId : indexId
+		}, function(arr) {
+			if (arr.length > 0) {
+				var zbwd = "";
+				var length = arr.length;
+				//如果返回多条指标信息，表示是复合指标
+				if(length > 1){
+					length = length - 1;//最后一条为复合指标信息，需要去除复合指标
+				}
+				
+				for ( var i = 0; i < length; i++) {
+					var data = arr[i];
+					if (arr.length > 1) {
+						zbwd += "<p class='indexname-p'>" + data.indexCinfg.indexName + "</p>";//添加指标名称
+					}
+					zbwd += data.dimCinfg.html;
+
+					//下拉框的name为维度字段名称，查询指标时 返回字段名和值的名值对
+					ids.push({
+						indexId : data.indexCinfg.indexId,
+						ids : data.dimCinfg.ids
+					});
+				}
+				$("#zbwd").html(zbwd);//指标维度,查询条件
+				$.parser.parse($('#zbwd'));
+				reData.indexConfig = arr[arr.length - 1].indexCinfg;
+				var indexNum = "${param.indexNum}";
+				if (indexNum > 0 && statFreq != reData.indexConfig.statFreqCode) {
+					$.messager.alert('系统信息', '该指标时间周期与第一条指标不一致，请重新选择时间周期相同的指标！', 'error');
+					return;
+				}
+			}
+		});
+	}
+	page.onLoad = function() {
+		var url = contextPath + "/portAnalyze/getIndexTree?isAll=y";
+		var chartType=parseInt("${param.chartType}");
+		$('#indexTree').combotree({
+			url : url,
+			required : true,
+			onClick : function(node) {
+				indexId = node.id;
+				reData.indexName = node.text;
+				reData.indexId = node.id;
+				if (node.sort == "0") {//基础指标
+					$("#showGroup").show();
+					reData.groupFieldShow=1;
+					loadgroupField(indexId);
+				}
+				if (node.type == "index") {
+					if(node.sort != "0"){
+						$("#showGroup").hide();
+						reData.groupFieldShow=0;
+						groupField="";
+					}
+					getIndexConfig(node.id);
+				}
+			}
+		});
+		var indexNum = "${param.indexNum}";
+		if(indexNum>0){
+			//$(".setOnce").hide();
+			var startDate="${param.startDate}";
+			var endDate="${param.endDate}";
+			function formateDate(date){
+				var list= date.split("-");
+				return list[1]+"/"+list[2]+"/"+list[0];
+			}
+			$("#startDate").datebox('setValue',formateDate(startDate));
+	  	    $("#endDate").datebox('setValue',formateDate(endDate));
+		}
+		setColor(defaultColor[indexNum]);
+		setColor("#ff0000","warnColor");
+		setColor("#d5a6bd","warnMinColor");
+	};
+
+	//加载分组字段
+	function loadgroupField(indexId) {
+		var url = contextPath + "/portAnalyze/getGroupField?indexId=" + indexId;
+		$('#groupField').combobox({
+			url : url,
+			valueField : 'id',
+			textField : 'text',
+			value : '-1',
+			onSelect : function(node) {
+				groupField = node.id;
+			}
+		});
+	}
+
+	var defaultColor = [ '#60C0DD', '#F3A43B', '#FAD860', '#9BCA63', '#FE8463',
+			'#27727B', '#E87C25', '#FCCE10', '#B5C334', '#C1232B', '#D7504B',
+			'#C6E579', '#F4E001', '#F0805A', '#26C0C0' ];
+
+	function loadPeriod() {
+		var chartStyle=$("#chartStyle").val();
+		if(chartStyle == "gauge"){
+			reData.warnMinValue=$("#warnMinValue").numberbox("getValue");
+			reData.warnMaxValue=$("#warnMaxValue").numberbox("getValue");
+			if(reData.warnMaxValue &&reData.warnMinValue && Number(reData.warnMinValue) > Number(reData.warnMaxValue)){
+				alert("预警最大值不能小于最小值！");
+				return;
+			}else if((reData.warnMaxValue&&!reData.warnMinValue) || (!reData.warnMaxValue&&reData.warnMinValue)){
+				alert("请同时设置预警最大最小值！");
+				return;
+			}
+		}
+		var params = {};
+	    var startDate = "${param.startDate}";
+	    var endDate = "${param.endDate}";
+		var indexNum = "${param.indexNum}";
+		var statFreq = "${param.statFreq}";
+		params.startDate = startDate;
+		params.endDate = endDate;
+		params.indexs = [];
+		params.groupField = groupField;
+		if (ids.length > 0) {
+			reData.editQparams = [];
+			for ( var k in ids) {
+				//拼接维度条件
+				var fields = [];     
+				var v = ids[k];
+				var _indexId = v.indexId;
+				var _ids = v.ids;
+				if (_ids) {
+					var dimIds = _ids.split(","); //获取到每一个维度 下拉框id
+					var editQparams = new Array();
+					for ( var i = 0; i < dimIds.length; i++) {
+						var id = dimIds[i];
+						var filedName = $("#" + id).attr("comboname");//字段名
+						var value = $("#" + id).combo('getValue');
+						var param = {};
+						param[filedName] = value;
+						fields.push(param);
+						var newParam = {};
+						newParam.filedName = filedName;
+						newParam.value = value;
+						newParam.id = id;
+						newParam.url = $("#" + id).combobox("options").url;
+						editQparams[i] = {};
+						editQparams[i] = newParam;
+					}
+					reData.editQparams.push(editQparams);
+				}
+				params.indexs.push({
+					indexId : _indexId,
+					fields : fields
+				});
+			}
+		}
+		//查询指标数据
+		var url = contextPath + "/portAnalyze/getIndexData";//该url写在项目配置文件中，分析图展现时使用， params 保存到 query_param字段
+ 		var getPeriodFlag=true;
+		$.ajax({
+			url : url,
+			data : {
+				indexId : indexId,
+				params : JSON.stringify(params)
+			},
+			async : false,
+			dataType : "json",
+			type : "get",
+			success : function(data) {
+			if(ObjectIsNull(data)){
+	   				alert("该周期类暂无数据！");
+	   				getPeriodFlag=false;
+	   				return;
+	   			}
+				var xv=data.xvalue;
+				var yv=data.yvalue;
+				var checkPeriodData=[];
+				for(var j=0;j<xv.length;j++){
+					var son={};
+					son.xvalue=xv[j];
+					son.yvalue=yv[j];
+					checkPeriodData.push(son);
+				}
+				$("#checkPeriod").combobox({data:checkPeriodData});
+				reData.chartData = data;
+			}
+		});
+	   if(!getPeriodFlag){
+	   		return;
+	   }
+	   
+		if (!reData.chartData) {
+			$.messager.alert('系统信息', '请选择查询条件！', 'error');
+			return;
+		} else if (ObjectIsNull(reData.chartData) && indexNum == 0) {
+			$.messager.alert('系统信息', '添加的第一条指标必须有数据！', 'error');
+			return;
+		}
+		function ObjectIsNull(obj) {
+			for ( var i in obj) {
+				return false;
+			}
+			return true;
+		}
+		reData.style = params.style;
+		var color = $("#full").val();
+		if (color) {
+			reData.color = color;
+		} else {
+			var addedColors_str = "${param.addedColors}";
+			if (addedColors_str) {
+				var addedColors = JSON.parse(addedColors_str);
+
+				for ( var j = 0; j < addedColors.length; j++) {
+					addedColors[j] = "#" + addedColors[j];
+				}
+				for ( var j = 0; j < defaultColor.length; j++) {
+					if (!existOne(defaultColor[j], addedColors)) {
+						reData.color = defaultColor[j];
+						break;
+					}
+				}
+				function existOne(val, arr) {
+					for ( var i = 0; i < arr.length; i++) {
+						if (val == arr[i]) {
+							return true;
+						}
+					}
+					return false;
+				}
+			} else {
+				reData.color = defaultColor[0];
+			}
+		}
+		var warnMinColor="#d5a6bd";
+		var getWarnMinColor=$("#warnMinColor").val();
+		if(getWarnMinColor){
+			warnMinColor=getWarnMinColor;
+		}
+		reData.warnMinColor=warnMinColor;
+		var warnMaxColor="#ff0000";
+		var getWarnMaxColor=$("#warnColor").val();
+		if(getWarnMaxColor){
+			warnMaxColor=getWarnMaxColor;
+		}
+		reData.warnMaxColor=warnMaxColor;
+		indexNum++;
+		reData.cindexId = "";
+		reData.indexNum = indexNum;
+		params.color = reData.color;
+		reData.chartDataParams = params;
+		reData.clickType = "add";
+		reData.toLog = 0;
+		reData.indexAlias = $("#indexAlias").val();
+		reData.style = chartStyle;
+		reData.chartType="${param.chartType}";
+		reData.theoryMinValue=$("#theoryMinValue").numberbox("getValue");
+		reData.theoryMaxValue=$("#theoryMaxValue").numberbox("getValue");
+		reData.warnMaxValue=$("#warnMaxValue").numberbox("getValue");
+		reData.warnMinValue=$("#warnMinValue").numberbox("getValue");
+	}
+		function ObjectIsNull(obj) {
+			for ( var i in obj) {
+				return false;
+			}
+			return true;
+		}
+	function search(){
+		if(!reData.chartData){
+			loadPeriod();
+		}
+		var checkPeriod={};
+		checkPeriod.name=$("#checkPeriod").combobox("getText");
+		checkPeriod.value=$("#checkPeriod").combobox("getValue");
+		reData.checkPeriod=checkPeriod;
+		page.opener.refresh(reData);
+		page.close();
+	}
+	function formatNum(v){
+		var val=v.toString();
+		var reg=/0$|\.$/;
+		while(reg.test(val)){
+			if(/\.$/.test(val)){
+				val= val.substring(0,val.length-1);
+				break;
+			}else{
+				val= val.substring(0,val.length-1);
+			}
+		}
+		return val;
+	}
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form method="post">
+        <table>
+ <!--           <tr class="setOnce">
+                <th>指标时间:</th>
+                <td>
+                      <input id="startDate" name="startDate" type="text" class="easyui-datebox" editable=false />&nbsp;至&nbsp;
+                      <input id="endDate"   name="endDate"   type="text" class="easyui-datebox" editable=false />
+                </td>
+            </tr>
+            <tr class="setOnce">
+                <th>对数形式:</th>
+                <td>
+					<input  name="toLog"  type="radio" value="0" checked/>否 &nbsp;&nbsp;&nbsp;&nbsp;
+       				<input  name="toLog"  type="radio" value="1" />是
+                </td>
+            </tr> --> 
+            <tr>
+                <th>指标:</th>
+                <td>
+
+                            <input id="indexTree" name="indexTree"
+						type="text" style="width: 163px;" class="easyui-combotree"
+						data-options="validType:'length[1,100]'" />
+
+                </td>
+            </tr>
+            <tr>
+                <th>指标别名:</th>
+                <td>
+
+                            <input id="indexAlias" style="width: 163px;"
+						class="textbox" name="indexAlias" type="text"
+						class="easyui-validatebox textbox" />
+
+                </td>
+            </tr>
+             <tr>
+                <th>查询条件:</th>
+                <td id="searchCondition">
+                            <div id="zbwd" style="display:inline-block;"></div>
+                </td>
+            </tr>
+            <tr id="showGroup" style="display: none;">
+                <th>分组字段:</th>
+                <td>
+                      <input id="groupField" name="groupField"> 
+                      <input id="chartStyle" name="chartStyle" type="hidden" value="gauge"/>
+                </td>
+            </tr>
+            
+            <tr class="warnColorTr">
+                <th>全部范围:</th>
+                <td id="parseWarnValue">
+                          <input id="theoryMinValue" name="theoryMinValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"  size=5  style="width:50px" />&nbsp;&nbsp;到&nbsp;&nbsp;
+                          <input id="theoryMaxValue" name="theoryMaxValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"   size=5   style="width:50px"  />
+
+                </td>
+            </tr>             
+            <tr class="warnColorTr">
+                <th>预警下限值:</th>
+                <td>
+                	<input id="warnMinValue" name="warnMinValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"  size=5  style="width:50px" />
+                          
+					 &nbsp;&nbsp;超出下限值颜色： <div style='text-align:left;display:inline-block;'>
+					  		<input id="warnMinColor" />
+					  </div>
+                </td>
+            </tr>
+            <tr class="warnColorTr">
+                <th>预警上限值:</th>
+                <td>
+                	  <input id="warnMaxValue" name="warnMaxValue" class="easyui-numberbox textbox" type="text" data-options="required:true,min:0,precision:4,formatter:formatNum"   size=5   style="width:50px"  />
+					  &nbsp;&nbsp;超出上限值颜色：<div style='text-align:left;display:inline-block;margin-left: 3px;'>
+					  		<input id="warnColor" />
+					  </div>
+                </td>
+            </tr>
+             <tr>
+                <th>图表颜色:</th>
+                <td>
+
+                          <div style='text-align:left;'>
+						  		<input id="full" />
+						  </div>
+
+                </td>
+            </tr>
+             <tr>
+                <th>选择周期:</th>
+                <td>
+						<input id="checkPeriod" class="easyui-combobox" data-options="valueField: 'yvalue',textField: 'xvalue',editable:false,length:5" panelheight="100" /><a href="javascript:void loadPeriod()" class="easyui-linkbutton">加载周期</a>
+                </td>
+            </tr>
+        </table>
+	</form>
+	<div id="operator">
+		<a href="javascript:void search()" class="easyui-linkbutton">确定</a> 
+	</div>
+	</jsp:body>
+</t:page>

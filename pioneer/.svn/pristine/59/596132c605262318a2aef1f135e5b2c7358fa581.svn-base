@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tProcess/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>外键，表单id:</th>
+					<td><span id="formId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，表单中的数据批次id:</th>
+					<td><span id="batchId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，流程模板编码:</th>
+					<td><span id="ptId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，填报人ID:</th>
+					<td><span id="userId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>外键，填报人地区代码:</th>
+					<td><span id="areaId" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报人地区名称:</th>
+					<td><span id="areaName" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>当前步骤:</th>
+					<td><span id="currentStep" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>状态：0删除，1正常default=1，10归档（字典表）:</th>
+					<td><span id="status" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>是否超时填报:0否default=0, 1是；（字典表）:</th>
+					<td><span id="isOvertime" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报日期:</th>
+					<td><span id="reportDate" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>流程名称:</th>
+					<td><span id="processName" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>创建时间:</th>
+					<td><span id="createTime" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

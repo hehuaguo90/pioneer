@@ -1,0 +1,303 @@
+//加载有权限填报或者审核的form树形结构
+//角色相关脚本
+var checkNode = false;
+var pcheckNode = false
+function loadFromRights(type, userid){
+	//异步获取当前角色已有的权限id
+	$.post(contextPath + '/tFormUserRight/getFormids', { 'userid': userid, 'type': type }, function(data){
+		loadRightTree(type, userid, data);
+	});
+}
+
+function loadRightTree(type, userid, ids){
+	var b = true;
+	$('#ttree').tree({
+		url : contextPath + '/tFormUserRight/getFormTree?userid=' + userid + "&type=" +type,
+		method : 'post',
+		animate : true,
+		lines : true,
+		checkbox : true,
+		cascadeCheck : false,
+		onLoadSuccess : function(node, data) {
+			if(!data || data.length == 0){
+				$("#ttree").html("<p class='no-form'>没有可使用的表单！</p>");
+				$("#treeGroup").html("<p class='no-form'>没有可使用的表单！</p>");
+				$("#treeBar").hide();
+			}else{
+				$("#operator").show();
+				if (ids && b) {
+					var checkNodes = [];
+					b = false;
+					(function(ds) {
+						var rids = ids.split(',');
+						for ( var i = 0; i < ds.length; i++) {
+							var d = ds[i];
+							for ( var j = 0; j < rids.length; j++) {
+								if (d.id == rids[j]) {
+									d.checked = true;
+									checkNodes.push(d.id);
+								}
+							}
+							if (d.children) {
+								arguments.callee(d.children);
+							}
+						}
+					})(data);
+					
+					$('#ttree').tree('loadData', data);
+					for(var i = 0; i < checkNodes.length; i++){
+						checkNode = true;
+						var cnode = $('#ttree').tree('find', checkNodes[i]);
+						checkParent(cnode);
+					}
+					
+					checkNode = false;
+				}
+			}
+		},
+		onCheck : function(node, checked) {
+			//只响应点击的选中，排除自动被选中的事件
+			if (!checkNode) {
+				checkNode = true;
+				if (checked) {
+					checkParent(node);
+					checkChild(node);
+				} else {
+					uncheckChild(node);
+				}
+				checkNode = false;
+			}
+		}
+	});
+}
+
+var isLoad = false;
+//代填报
+function loadFromPrights(userid, type, callback){
+	//填报权限
+	if(type == '0'){
+		//异步获取当前人是否有对企业和区县填报的权限信息，如果有，判断是什么类型的权限，如果有数据返回已获取的数据
+		//{ids:[], rightType:rightType}权限类型：0村，1企业, -1 没有权限
+		$.post(contextPath + '/tFormUserRight/getPformMsg', {'userid': userid}, function(data){
+			if(data.rightType != "-1"){
+				$("#formGroup").remove();
+				$('#ttab').tabs({    
+				   // border:false,  
+				    onSelect : function(title){
+				    	if(!isLoad && (title == "村表单" || title == "企业表单")){
+				    		loadPrightTree(userid, data.ids);
+				    		isLoad = true;
+				    	}
+				    }    
+				});  
+
+				$('#ttab').tabs('add',{    
+				    title:'表单授权',
+				    selected:true,
+				    content:'<div class="tree-bar" id="treeBar">选择表单:</div><ul id="ttree" style="margin-left: 10px"></ul>',    
+				}); 
+				
+				$('#ttab').tabs('add',{    
+				    title:'村表单', 
+				    selected:false,
+				    content:'<div class="tree-bar" id="treeBar">选择表单:</div><ul id="pttree" style="margin-left: 10px"></ul>',    
+				}); 
+				
+				//设置选项卡标题
+				var t = $('#ttab').tabs("getTab", 1);    
+				var title = "村表单";
+				//代填村
+				if(data.rightType == "0"){
+					title = "村表单";
+				}else{
+					title = "企业表单";
+				}
+				
+				$('#ttab').tabs('update', {
+					tab: t,
+					options: {
+						title: title,
+						border: false
+					}
+				});
+				if(callback){
+					callback();
+				}
+			}else{//没有权限，影藏选项卡，只显示表单授权树
+				$("#ttab").remove();
+				if(callback){
+					callback();
+				}
+			}
+		});
+	}else{
+		//$("#treeTab").html("");//remove会报错，原因未知
+		$("#ttab").remove();
+		if(callback){
+			callback();
+		}
+	}
+}
+
+function loadPrightTree(userid, ids){
+	var b = true;
+	$('#pttree').tree({
+		url : contextPath + '/tFormUserRight/getPformTree?userid=' + userid,
+		method : 'post',
+		animate : true,
+		lines : true,
+		checkbox : true,
+		cascadeCheck : false,
+		onLoadSuccess : function(node, data) {
+			if(!data || data.length == 0){
+				$("#pttree").html("<p class='no-form'>没有可使用的表单！</p>");
+				$("#ptreeBar").hide();
+				return;
+			}
+			
+			$("#operator").show();
+			
+			if (ids && b) {
+				var checkNodes = [];
+				b = false;
+				(function(ds) {
+					var rids = ids.split(',');
+					for ( var i = 0; i < ds.length; i++) {
+						var d = ds[i];
+						for ( var j = 0; j < rids.length; j++) {
+							if (d.id == rids[j]) {
+								d.checked = true;
+								checkNodes.push(d.id);
+							}
+						}
+						if (d.children) {
+							arguments.callee(d.children);
+						}
+					}
+				})(data);
+				
+				$('#pttree').tree('loadData', data);
+				for(var i = 0; i < checkNodes.length; i++){
+					pcheckNode = true;
+					var cnode = $('#pttree').tree('find', checkNodes[i]);
+					pcheckParent(cnode);
+				}
+				
+				pcheckNode = false;
+			}
+		},
+		onCheck : function(node, checked) {
+			//只响应点击的选中，排除自动被选中的事件
+			if (!pcheckNode) {
+				pcheckNode = true;
+				if (checked) {
+					pcheckParent(node);
+					pcheckChild(node);
+				} else {
+					puncheckChild(node);
+				}
+				pcheckNode = false;
+			}
+		}
+	});
+}
+
+function checkParent(node) {
+	var pnode = $('#ttree').tree('getParent', node.target);
+	if (pnode) {
+		$('#ttree').tree('check', pnode.target);
+		checkParent(pnode);
+	}
+}
+
+function checkChild(node) {
+	var chs = $('#ttree').tree('getChildren', node.target);
+	if (chs) {
+		for ( var i = 0; i < chs.length; i++) {
+			$('#ttree').tree('check', chs[i].target);
+		}
+	}
+}
+
+function uncheckChild(node) {
+	var chs = $('#ttree').tree('getChildren', node.target);
+	if (chs) {
+		for ( var i = 0; i < chs.length; i++) {
+			$('#ttree').tree('uncheck', chs[i].target);
+		}
+	}
+}
+
+function pcheckParent(node) {
+	var pnode = $('#pttree').tree('getParent', node.target);
+	if (pnode) {
+		$('#pttree').tree('check', pnode.target);
+		checkParent(pnode);
+	}
+}
+
+function pcheckChild(node) {
+	var chs = $('#pttree').tree('getChildren', node.target);
+	if (chs) {
+		for ( var i = 0; i < chs.length; i++) {
+			$('#pttree').tree('check', chs[i].target);
+		}
+	}
+}
+
+function puncheckChild(node) {
+	var chs = $('#pttree').tree('getChildren', node.target);
+	if (chs) {
+		for ( var i = 0; i < chs.length; i++) {
+			$('#pttree').tree('uncheck', chs[i].target);
+		}
+	}
+}
+
+function save() {
+	var nodes = $('#ttree').tree('getChecked');
+	
+	//if (!nodes || nodes.length == 0) {
+	//	$.messager.alert('系统信息', '必须授限', 'warning');
+	//	return;
+	//}
+
+	var nodeIds = "";
+	for ( var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		if(node.type && node.type == "form"){
+			nodeIds += nodes[i].id;
+			if (i < nodes.length - 1) {
+				nodeIds += ",";
+			}
+		}
+	}
+	//console.log("nodes", nodes)
+	//console.log("nodeIds", nodeIds)
+	$("#ids").val(nodeIds);
+	
+	var pnodes = $('#pttree').tree('getChecked');
+	
+	var pnodeIds = "";
+	for ( var i = 0; i < pnodes.length; i++) {
+		var node = pnodes[i];
+		if(node.type && node.type == "form"){
+			pnodeIds += pnodes[i].id;
+			if (i < pnodes.length - 1) {
+				pnodeIds += ",";
+			}
+		}
+	}
+	
+	//console.log("nodes", nodes)
+	//console.log("pnodeIds", pnodeIds)
+	$("#pids").val(pnodeIds);
+
+	//if (nodeIds.length == 0) {
+	//	$.messager.alert('系统信息', '必须授限', 'warning');
+	//	return;
+	//}
+	page.saveForm();
+}
+
+

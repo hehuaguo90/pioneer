@@ -1,0 +1,106 @@
+package com.wellsys.pioneer.module.tSysJxxl.service.impl;
+
+import javax.annotation.Resource;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.wellsys.common.utils.TreeModel;
+import com.wellsys.pioneer.module.tSysJxxl.dao.TSysJxxlDao;
+import com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel;
+import com.wellsys.pioneer.module.tSysJxxl.service.TSysJxxlService;
+
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* 数据服务层接口实现。
+* TABLE CODE:	t_sys_db_record;
+* TABLE NAME:	
+* TABLE REMARK:	数据库操作记录
+* code tools version V1.0,created on Fri Dec 23 14:20:58 CST 2016
+*/
+@Service(value="TSysJxxlServiceImpl")
+@Scope("prototype")
+public class TSysJxxlServiceImpl implements TSysJxxlService{
+    @Autowired
+    private TSysJxxlDao tSysJxxlDao;
+
+    Logger log4j = Logger.getLogger(TSysJxxlServiceImpl.class);
+
+    public List listBean(PageBounds page, Map    <String, Object> params)
+    {
+        return tSysJxxlDao.listBean(page,params);
+    }
+
+    public List listBean(Map<String, Object> params)
+    {
+        return tSysJxxlDao.listBean(params);
+    }
+    public List listMap(PageBounds page, Map<String, Object> params) {
+
+        return tSysJxxlDao.listMap(page,params);
+
+    }
+    public List listMap(Map<String, Object> params) {
+
+        return tSysJxxlDao.listMap(params);
+
+    }
+
+    public int save(TSysJxxlModel o) {
+
+        return tSysJxxlDao.save(o);
+
+    }
+
+    @Transactional("dbTransaction")
+    public int save(List<TSysJxxlModel> list) {
+
+        for (TSysJxxlModel item : list)
+        save(item);
+        return list.size();
+    }
+
+    public Map getBeanMapById(TSysJxxlModel o)
+    {
+        return tSysJxxlDao.getBeanMapById(o);
+    }
+
+    public TSysJxxlModel getBeanById(TSysJxxlModel o) {
+
+
+        return tSysJxxlDao.getBeanById(o);
+
+    }
+
+    public boolean update(TSysJxxlModel o) {
+        tSysJxxlDao.update(o);
+
+        return true;
+    }
+
+    public boolean delete(TSysJxxlModel[] items) {
+        for(int i=0;items!=null&&i
+        <items.length;i++)
+        tSysJxxlDao.delete(items[i]);
+        return true;
+    }
+
+	@Override
+	public List cntNum() {
+		
+		return tSysJxxlDao.cntNum();
+	}
+
+	@Override
+	public List routeStatusNum() {
+		
+		return tSysJxxlDao.routeStatusNum();
+	}
+}

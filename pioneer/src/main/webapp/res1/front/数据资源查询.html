@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link href="style/charts_webstyle.css" rel="stylesheet" type="text/css" />
+<link href="style/charts_bootstrap_ext.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bodybg">
+<!--页面顶部LOGO及主菜单栏开始-->
+
+<nav class="pagetop  hidden-xs" role="navigation">
+  <div class="container-banner container row system-name" style="margin:auto;">
+    <div class="navbar-header col-lg-4 row">
+      <div class="col-lg-2" style="text-align:left;"> <img src="style/images/write_banner_logo.png" width="47" height="40" /> </div>
+      <div class="col-lg-10" style="padding-left:15px;">
+       <h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="btn-group pull-right" style="padding-top:6px;">
+        <button type="button" class="btn btn-success"><span class="icon-user hidden-xs" style="color:#fff!important;"></span>&nbsp;&nbsp;admin</button>
+        <button type="button" class="btn btn-success dropdown-toggle" 
+                    data-toggle="dropdown"> <span class="caret"></span> <span class="sr-only">切换下拉菜单</span> </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">用户信息</a></li>
+          <li><a href="#">密码修改</a></li>
+          <li><a href="#">退出登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--手机用导航条-->
+
+
+<nav class="navbar navbar-default pagetop system-name visible-xs" role="navigation">
+	<div class="container-fluid"> 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#example-navbar-collapse">
+			<span class="sr-only">切换导航</span>
+			<span class="icon-bar" style="color:#fff;"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><img src="style/images/write_banner_logo.png" width="47" height="40" style="float:left;"><h4>重庆市畜牧信息系统<br/><small>数据展现</small></h4></a>
+	</div>
+	<div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li><a href="home_charts.html">首页</a></li>
+			<li><a href="zt_charts_1.html">生产概况</a></li>
+			<li><a href="#">专题展示</a></li>
+			<li><a href="#">价格监测</a></li>
+			<li><a href="zt_charts_1.html">用户信息</a></li>
+			<li><a href="zt_charts_2.html">修改密码</a></li>
+			<li><a href="zt_charts_3.html">退出系统</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+<!--页面顶部LOGO及主菜单栏结束--> 
+
+<!--内容区开始-->
+
+<div class="chart_bodybg_box">
+  <div class="container" style="position:relative;">
+    <ul class="navbar-fixed-top floatmenu hidden-xs">
+      <!--左侧浮动菜单-->
+     <li class="menubg_2"><a href="#"><span class=" icon-hdd "></span><br/>
+        数据资源</a></li>
+      <li class="menubg_3"><a href="#"><span class="icon-folder-open " style="font-size:28px!important;"></span><br/>
+        主题数据</a></li>
+    </ul>
+    <!--页面实际内容区开始-->
+    
+    
+    <div class="simple_box row" style="min-height:750px;">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class=" icon-hdd "></span>数据资源查询
+          <small class="simple_box_title_txt hidden-xs"> 总目录数 <span class="title_num">53,245</span>一级目录数<span class="title_num">35</span>总记录数  <span class="title_num">7,184</span></small> </h3>
+        </div>
+         <div class="row searchbar">
+            	<div class="col-md-1" style="padding:0;">
+                  	<p>目录名称</p>
+                </div>
+                <div class="col-md-2">
+					<input class="form-control" type="text" value=""/>
+                </div>
+                <div class="col-md-1" style="padding:0;">
+                  	<p>内容关键字</p>
+                </div>
+                <div class="col-md-2">
+					<input class="form-control" type="text" value=""/>
+                </div>
+                <div class="col-md-2">
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal1"><span class="icon-search"></span>&nbsp;&nbsp;查询</button>
+                </div>
+                
+        </div>        
+                
+        
+		<div class="row" style="margin-top:10px;">
+        <div class="col-md-2"  style="padding:0;">
+        	 <div class="simple_box_title row" style="margin-bottom:0px;">
+                  <h3 class="simple_box_title_name" >维护单位</h3>
+                  <div class="clear"></div>
+                </div>
+        
+         <div class="bm" style="overflow:auto;">
+                	<a href="#" class="list-group-item noborder">资源提供部门<small class="pull-right">(32,551)</small></a>
+                    <a href="#" class="list-group-item">信息科<small class="pull-right">(32,551)</small></a>
+                    <a href="#" class="list-group-item active">生猪科<small class="pull-right">(51)</small></a>
+                    <a href="#" class="list-group-item">种畜禽科<small class="pull-right">(551)</small></a>
+                    <a href="#" class="list-group-item">其他部门<small class="pull-right">(2,551)</small></a>
+           </div>    
+        
+        </div>
+         <div class="col-md-10" style="padding:0;padding-left:20px;">
+         <div class="simple_box_title row" style="margin-bottom:0px;padding-top:0px;">
+          <h3 class="simple_box_title_name" >当前目录 <small class="simple_box_title_txt ycp hidden-xs"><span>畜牧总站</span> &gt; <span>信息科</span> &gt; <span class="active">价格采集周报</span></small> 
+          </h3>
+          <div class="clear"></div>
+                
+          
+          
+          
+          
+          
+        </div>
+           <div  class="folderlistbox">
+							      <ul id="uzyml" style="margin-bottom:10px;">
+							        
+							         
+							         
+							          
+							             
+							             
+							                <li>
+                                            <div class="link">
+                                            	<a href="#fdsf"><img src="style/images/data_smallico_01.png" width="13" height="13">浏览</a>
+                                            </div>
+							                 <p class="title"><a href="#" onclick="zymltj('14be6204fd704d3ba7743e985f9ffcf2','公用数据')">公用数据</a><img src="style/images/data_smallico_02.png" title="数据目录" width="13" height="13"><img src="style/images/data_smallico_03.png"  title="基础目录"  width="13" height="13"></p>
+							           
+							              <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>记录数：</span>1</p>
+							            <p class="intro">暂无目录说明</p>
+							             
+							          
+							           </li>
+							          
+							           
+							          
+							        
+							         
+							         
+							          
+							             
+							             
+							                <li>
+							                 <p class="title"><a href="#" onclick="zymltj('6b209df3141f4099bc434d146e99caf6','三品一标')">三品一标</a></p>
+							             <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>子目录数：</span>1</p>
+							            <p class="intro">本目录用于存放全区各乡镇财政资金使用情况...</p>
+							             
+							          
+							           </li>
+							          
+							           
+							          
+							        
+							         
+							         
+							          
+							             
+							             
+							                <li>
+							                 <p class="title"><a href="#" onclick="zymltj('6e14ba5965c644ed86e3f1c30fa4524b','财政资金')">财政资金</a></p>
+							            <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>子目录数：</span>1</p>
+							            <p class="intro">本目录用于存放全区各乡镇财政资金使用情况...</p>
+							             
+							          
+							           </li>
+							          
+							           
+							          
+							        
+							         
+							         
+							          
+							             
+							                <li class="nothing">
+							                 <p class="title"><a href="#" >监测数据（农业部）</a></p>
+							                   <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>子目录数：</span>1</p>
+							            <p class="intro">本目录用于存放全区各乡镇财政资金使用情况...</p>
+							             
+							             
+							          
+							           </li>
+							          
+							           
+							          
+							        
+							         
+							         
+							          
+							             
+							             
+							                <li>
+                                             <div class="link">
+                                            	<a href="#fdsf"><img src="style/images/data_smallico_01.png" width="13" height="13">浏览</a>
+                                            </div>
+							                 <p class="title"><a href="#" onclick="zymltj('aa6c9eebb09e4e65b495e1b9a85bc704','种畜禽数据')">种畜禽数据</a><img src="style/images/data_smallico_02.png" title="数据目录" width="13" height="13"></p>
+							             <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>记录数：</span>1</p>
+							            <p class="intro">本目录用于存放全区各乡镇财政资金使用情况...</p>
+							             
+							          
+							           </li>
+							          
+							           
+							          
+							        
+							         
+							         
+							          
+							             
+							             
+							                <li>
+							                 <p class="title"><a href="#" onclick="zymltj('b3f55838194d4ba98c0c3c69aba06513','监测数据（重庆市）')">监测数据（重庆市）</a></p>
+							            <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>子目录数：</span>1</p>
+							            <p class="intro">本目录用于存放全区各乡镇财政资金使用情况...</p>
+							             
+							          
+							           </li>
+							          
+							           
+							          
+							        
+							         
+							         
+							          
+							             
+							             
+							                <li>
+							                 <p class="title"><a href="#" onclick="zymltj('f35695c11b7c42de83e9691532ac2943','统计数据')">统计数据</a></p>
+							              <p><span>目录编码：</span>ctl-11</p>
+							            <p><span>子目录数：</span>1</p>
+							            <p class="intro">本目录用于存放全区各乡镇财政资金使用情况...</p>
+							             
+							          
+							           </li>
+							          
+							           <div class="clear"></div>
+							          
+							        
+							      </ul>
+							      <!--  
+								  <ul style="margin-bottom:10px;">
+								  		<li >
+								  			<p class="title"><a href="#fdsff">目录一</a></p>
+								  			<p><span>子目录：</span>13 个</p>
+								  			<p><span>数据需求单位：</span>275 家</p>
+								  		</li>
+								  		
+								  		
+								  </ul>
+								  -->
+							</div>
+						
+        	</div>
+            		
+                 
+
+                      
+                      
+                        
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+        	
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    
+    <!--页面实际内容区结束--> 
+  </div>
+</div>
+
+<!--内容区结束-->
+<div class="foot">
+  <div class="container">技术支持：重庆同方融达信息科技有限公司</div>
+</div>
+</body>
+</html>

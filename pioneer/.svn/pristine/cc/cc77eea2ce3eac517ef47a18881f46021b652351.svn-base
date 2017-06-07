@@ -1,0 +1,122 @@
+@CHARSET "UTF-8";
+
+@import url(base.css);
+
+html, body {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+#main {
+	width: 100%;
+	height: 100%;
+}
+
+#header {
+	height: 89px;
+}
+
+#footer {
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	overflow: hidden;
+}
+
+#leftSide {
+	width: 210px;
+}
+
+#mainBody .panel-body {
+	overflow: hidden;
+}
+
+#mainTabs {
+	width: 100%;
+	height: 100%;
+}
+
+#userbar {
+	width: 257px;
+	height: 83px;
+	float: right;
+	text-align: center;
+}
+
+#userbar a {
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+#userbar img {
+	vertical-align: middle;
+	margin-bottom: 3px;
+	margin-right: 4px;
+}
+
+#usertool {
+	width: 188px;
+	margin: auto;
+	margin-top: 14px;
+	height: 25px;
+	line-height: 25px;
+}
+
+#userinfo {
+	padding-top: 9px;
+}
+
+#userinfo strong {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#launcher {
+	padding-left: 400px;
+	height: 100%;
+	overflow: hidden;
+}
+
+#launcher li {
+	float: left;
+	height: 67px;
+	width: 72px;
+	padding: 9px 0 0;
+}
+
+#launcher a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	text-align: center;
+}
+
+#launcher img {
+	margin: 0px;
+	border: none;
+}
+
+#launcher span {
+	display: block;
+	height: 16px;
+	line-height: 16px;
+}
+
+#launcher span.paopao {
+	display: none;
+	cursor: default;
+}
+
+.table_subtitle {
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#main > .layout-expand-west{
+	display: none !important;
+}

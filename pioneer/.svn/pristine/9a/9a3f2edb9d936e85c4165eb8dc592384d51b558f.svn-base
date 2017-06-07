@@ -1,0 +1,324 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript">
+$(document).ready(function(){
+	var geoCoordMap = {
+	    "南川区":[107.092534, 29.147478],
+	    "合川区":[106.266956, 29.978844],
+	    "北碚区":[106.410684, 29.807509],
+	    "永川区":[105.933505, 29.361255],
+	    "涪陵区":[107.407588, 29.709183],
+	    "壁山区":[106.23706, 29.591666],
+	    "綦江县":[106.654449, 29.032336],
+	    "丰都县":[107.747938, 29.860644],
+	    "南川区":[107.107482, 29.158581],
+	    "梁平县":[107.818078, 30.678091],
+	    "江津区":[106.266956, 29.290718],
+	    "潼南县":[105.843818, 30.189846],
+	    "忠县":[108.054943, 30.300665],
+	    "武隆县":[107.767485, 29.330023],
+	    "巴南区":[106.546365, 29.40456],
+	    "长寿区":[107.094834, 29.861647]
+	   
+	};
+
+	var data = [
+        {name: "南川区", value: 29},
+	    {name: "合川区", value: 19},
+	    {name: "北碚区", value: 72},
+	    {name: "永川区", value: 22},
+	    {name: "涪陵区", value: 12},
+	    {name: "壁山区", value: 14},
+	    {name: "綦江县", value: 35},
+	    {name: "丰都县", value: 66},
+	    {name: "南川区", value: 18},
+	    {name: "梁平县", value: 28},
+	    {name: "江津区", value: 19},
+	    {name: "潼南县", value: 12},
+	    {name: "忠县", value: 92},
+	    {name: "武隆县", value: 22},
+	    {name: "巴南区", value: 21},
+	    {name: "长寿区", value: 11}
+	   
+	];
+
+	var convertData = function (data) {
+	    var res = [];
+	    for (var i = 0; i < data.length; i++) {
+	        var geoCoord = geoCoordMap[data[i].name];
+	        if (geoCoord) {
+	            res.push({
+	                name: data[i].name,
+	                value: geoCoord.concat(data[i].value)
+	            });
+	        }
+	    }
+	    return res;
+	};
+
+	convertedData = [
+	    convertData(data),
+	    convertData(data.sort(function (a, b) {
+	        return b.value - a.value;
+	    }).slice(0, 15))
+	];
+
+	$.get(contextPath + '/pages/module/chart/chongqing.json', function (geoJson) {
+            alert(geoJson);
+	        // myChart.hideLoading();
+	        echarts.registerMap("chongqing", geoJson);
+	        
+	    	option = {
+	    		    backgroundColor: '#404a59',
+	    		    animation: true,
+	    		    animationDuration: 1000,
+	    		    animationEasing: 'cubicInOut',
+	    		    animationDurationUpdate: 1000,
+	    		    animationEasingUpdate: 'cubicInOut',
+	    		    title: [
+	    		        {
+	    		            text: '本年各区县生猪出栏量情况',
+	    		            //subtext: 'data from PM25.in',
+	    		            //sublink: 'http://www.pm25.in',
+	    		            left: 'center',
+	    		            textStyle: {
+	    		                color: '#fff'
+	    		            }
+	    		        },
+	    		        {
+	    		            id: 'statistic',
+	    		            right: 120,
+	    		            top: 40,
+	    		            width: 100,
+	    		            textStyle: {
+	    		                color: '#fff',
+	    		                fontSize: 16
+	    		            }
+	    		        }
+	    		    ],
+	    		    toolbox: {
+	    		        iconStyle: {
+	    		            normal: {
+	    		                borderColor: '#fff'
+	    		            },
+	    		            emphasis: {
+	    		                borderColor: '#b1e4ff'
+	    		            }
+	    		        }
+	    		    },
+	    		    brush: {
+	    		        outOfBrush: {
+	    		            color: '#abc'
+	    		        },
+	    		        brushStyle: {
+	    		            borderWidth: 2,
+	    		            color: 'rgba(0,0,0,0.2)',
+	    		            borderColor: 'rgba(0,0,0,0.5)',
+	    		        },
+	    		        seriesIndex: [0, 1],
+	    		        throttleType: 'debounce',
+	    		        throttleDelay: 300,
+	    		        geoIndex: 0
+	    		    },
+	    		    geo: {
+	    		        map: 'chongqing',
+	    		        left: '10',
+	    		        right: '35%',
+	    		        center: [106.98561551896913, 29.205000490896193],
+	    		        zoom: 15,
+	    		        label: {
+	    		            emphasis: {
+	    		                show: false
+	    		            }
+	    		        },
+	    		        roam: true,
+	    		        itemStyle: {
+	    		            normal: {
+	    		                areaColor: '#323c48',
+	    		                borderColor: '#111'
+	    		            },
+	    		            emphasis: {
+	    		                areaColor: '#2a333d'
+	    		            }
+	    		        }
+	    		    },
+	    		    tooltip : {
+	    		        trigger: 'item'
+	    		    },
+	    		    grid: {
+	    		        right: 40,
+	    		        top: 100,
+	    		        bottom: 40,
+	    		        width: '30%'
+	    		    },
+	    		    xAxis: {
+	    		        type: 'value',
+	    		        scale: true,
+	    		        position: 'top',
+	    		        boundaryGap: false,
+	    		        splitLine: {show: false},
+	    		        axisLine: {show: false},
+	    		        axisTick: {show: false},
+	    		        axisLabel: {margin: 2, textStyle: {color: '#aaa'}},
+	    		    },
+	    		    yAxis: {
+	    		        type: 'category',
+	    		        name: 'TOP 15',
+	    		        nameGap: 16,
+	    		        axisLine: {show: false, lineStyle: {color: '#ddd'}},
+	    		        axisTick: {show: false, lineStyle: {color: '#ddd'}},
+	    		        axisLabel: {interval: 0, textStyle: {color: '#ddd'}},
+	    		        data: []
+	    		    },
+	    		    series : [
+	    		        {
+	    		            name: '出栏量',
+	    		            type: 'scatter',
+	    		            coordinateSystem: 'geo',
+	    		            data: convertedData[0],
+	    		            symbolSize: function (val) {
+	    		                return Math.max(val[2] / 10, 8);
+	    		            },
+	    		            label: {
+	    		                normal: {
+	    		                    formatter: '{b}',
+	    		                    position: 'right',
+	    		                    show: false
+	    		                },
+	    		                emphasis: {
+	    		                    show: true
+	    		                }
+	    		            },
+	    		            itemStyle: {
+	    		                normal: {
+	    		                    color: '#ddb926'
+	    		                }
+	    		            }
+	    		        },
+	    		        {
+	    		            name: 'TOP 15',
+	    		            type: 'effectScatter',
+	    		            coordinateSystem: 'geo',
+	    		            data: convertedData[1],
+	    		            symbolSize: function (val) {
+	    		                return Math.max(val[2] / 10, 8);
+	    		            },
+	    		            showEffectOn: 'emphasis',
+	    		            rippleEffect: {
+	    		                brushType: 'stroke'
+	    		            },
+	    		            hoverAnimation: true,
+	    		            label: {
+	    		                normal: {
+	    		                    formatter: '{b}',
+	    		                    position: 'right',
+	    		                    show: true
+	    		                }
+	    		            },
+	    		            itemStyle: {
+	    		                normal: {
+	    		                    color: '#f4e925',
+	    		                    shadowBlur: 10,
+	    		                    shadowColor: '#333'
+	    		                }
+	    		            },
+	    		            zlevel: 1
+	    		        },
+	    		        {
+	    		            id: 'bar',
+	    		            zlevel: 2,
+	    		            type: 'bar',
+	    		            symbol: 'none',
+	    		            itemStyle: {
+	    		                normal: {
+	    		                    color: '#ddb926'
+	    		                }
+	    		            },
+	    		            data: []
+	    		        }
+	    		    ]
+	    		};
+	    		
+	    		myChart = echarts.init(document.getElementById('myChart'));
+	    		myChart.on('brushselected', renderBrushed);
+	    		myChart.setOption(option);
+
+	    		setTimeout(function () {
+	    		    myChart.dispatchAction({
+	    		        type: 'brush',
+	    		        areas: [
+	    		            {
+	    		                geoIndex: 0,
+	    		                brushType: 'polygon',
+	    		                coordRange: [[107.092534, 29.147478],[106.266956, 29.978844],[106.410684, 29.807509],[105.933505, 29.361255],[107.407588, 29.709183],[106.23706, 29.591666],[106.654449, 29.032336],[107.747938, 29.860644],[107.107482, 29.158581],[107.818078, 30.678091],[106.266956, 29.290718],[105.843818, 30.189846],[108.054943, 30.300665],[107.767485, 29.330023],[106.546365, 29.40456],[107.094834, 29.861647]]
+	    		            }
+	    		        ]
+	    		    });
+	    		}, 0);
+	 });
+
+});
+
+
+	function renderBrushed(params) {
+	    var mainSeries = params.batch[0].selected[0];
+
+	    var selectedItems = [];
+	    var categoryData = [];
+	    var barData = [];
+	    var maxBar = 30;
+	    var sum = 0;
+	    var count = 0;
+
+	    for (var i = 0; i < mainSeries.dataIndex.length; i++) {
+	        var rawIndex = mainSeries.dataIndex[i];
+	        var dataItem = convertedData[0][rawIndex];
+	        var pmValue = dataItem.value[2];
+
+	        sum += pmValue;
+	        count++;
+
+	        selectedItems.push(dataItem);
+	    }
+
+	    selectedItems.sort(function (a, b) {
+	        return a.value[2] - b.value[2];
+	    });
+
+	    for (var i = 0; i < Math.min(selectedItems.length, maxBar); i++) {
+	        categoryData.push(selectedItems[i].name);
+	        barData.push(selectedItems[i].value[2]);
+	    }
+
+	    this.setOption({
+	        yAxis: {
+	            data: categoryData
+	        },
+	        xAxis: {
+	            axisLabel: {show: !!count}
+	        },
+	        title: {
+	            id: 'statistic',
+	            text: count ? '平均: ' + (sum / count).toFixed(1) + '万头' : ''
+	        },
+	        series: {
+	            id: 'bar',
+	            data: barData
+	        }
+	    });
+	}
+ 	    	
+</script>
+	</jsp:attribute>
+	<jsp:body>
+        <div style="width:1021px; height:537px;" id="myChart">
+        </div>
+	</jsp:body>
+</t:page>

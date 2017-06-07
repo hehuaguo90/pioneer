@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysJxxl.dao.TSysJxxlDao" >
+    <resultMap id="TSysJxxlModelMap" type="com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel" >
+        <id column="id" property="id" />
+        <result column="bh" property="bh" />
+        <result column="mc" property="mc" />
+        <result column="zxsId" property="zxsId" />
+        <result column="areaId" property="areaId" />
+        <result column="status" property="status" />
+    </resultMap>
+
+
+
+    <select id="getBeanById" resultMap="TSysJxxlModelMap" parameterType="com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel" >
+        SELECT
+            id
+            ,bh
+            ,mc
+            ,zxsId
+            ,areaId
+            ,status
+
+        FROM
+            sys_jxxl
+        WHERE
+            1=1
+            AND id=#{id}
+    </select>
+
+    <select id="getBeanMapById" resultType="java.util.HashMap" parameterType="com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel" >
+        SELECT
+            id
+            ,bh
+            ,mc
+            ,zxsId
+            ,areaId
+            ,status
+
+        FROM
+                sys_jxxl t
+        WHERE
+                1=1
+                AND id=#{id}
+
+    </select>
+
+
+
+    <delete id="delete" parameterType="com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel" >
+            DELETE FROM
+                sys_jxxl
+            WHERE
+                1=1
+                AND id=#{id}
+    </delete>
+
+
+    <insert id="save" parameterType="com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel" >
+        INSERT INTO  sys_jxxl (
+            id
+            ,bh
+            ,mc
+            ,zxsId
+            ,areaId
+            ,status
+
+        )
+        VALUES (
+            #{id,jdbcType=VARCHAR }
+            ,#{bh,jdbcType=VARCHAR }
+            ,#{mc,jdbcType=VARCHAR }
+            ,#{zxsId,jdbcType=VARCHAR }
+            ,#{areaId,jdbcType=VARCHAR }
+            ,#{status,jdbcType=VARCHAR }
+        )
+    </insert>
+
+
+    <update id="update" parameterType="com.wellsys.pioneer.module.tSysJxxl.model.TSysJxxlModel" >
+        UPDATE
+                 sys_jxxl
+        SET
+                bh=#{bh}
+                ,mc=#{mc}
+                ,zxsId=#{zxsId}
+                ,areaId=#{areaId}
+                ,status=#{status}
+
+        WHERE
+                1=1
+                AND id=#{id}
+    </update>
+
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+                t.id
+            ,t.xlId
+            ,t.byqsl
+            ,t.zxsId
+            ,t.areaId
+            ,t.status
+        FROM
+                sys_jxxl t
+        WHERE
+                1=1
+            <if test="id != null "> AND t.id=#{id} </if>
+            <if test="xlId != null "> AND t.xlId =#{xlId} </if>
+            <if test="byqsl != null "> AND t.byqsl=#{byqsl} </if>
+            <if test="zxsId != null "> AND t.zxsId=#{zxsId} </if>
+            <if test="areaId != null "> AND t.areaId=#{areaId} </if>
+            <if test="status != null "> AND t.status=#{status} </if>
+    </select>
+
+
+    <select id="listBean" resultMap="TSysJxxlModelMap"  parameterType="java.util.HashMap"   >
+        SELECT
+            id
+            ,bh
+            ,mc
+            ,zxsId
+            ,areaId
+            ,status
+
+        FROM
+                sys_jxxl
+        WHERE
+                 1=1
+            <if test="id != null "> AND t.id=#{id} </if>
+            <if test="xlId != null "> AND t.xlId =#{xlId} </if>
+            <if test="byqsl != null "> AND t.byqsl=#{byqsl} </if>
+            <if test="zxsId != null "> AND t.zxsId=#{zxsId} </if>
+            <if test="areaId != null "> AND t.areaId=#{areaId} </if>
+            <if test="status != null "> AND t.status=#{status} </if>
+    </select>
+      <select id="cntNum" resultType="java.util.HashMap"  parameterType="java.util.HashMap"   >
+      select count(*) cnt from sys_jxxl where id is not null;
+	</select>
+</mapper> 

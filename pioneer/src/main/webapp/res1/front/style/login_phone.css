@@ -1,0 +1,65 @@
+@charset "utf-8";
+* {
+	font-family: "微软雅黑", "Microsoft YaHei ";
+}
+@font-face {
+	font-family: 'impact';   /*字体名称*/
+	src: url('impact_1.ttf');       /*字体源文件*/
+}
+body, html, div, p {
+	padding: 0;
+	margin: 0;
+}
+ul, li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.clear{clear:both;}
+a {
+	/*初始化A的样式，不要下划线*/
+	text-decoration: none!important;
+	color: #343844;
+}
+.bodybg {
+	/*主框架页面上方的背景白云图片*/
+	background-color: #ecf0f5;
+	background-image: url(images/login_bg.jpg);
+	background-repeat: repeat-x;
+	background-position: right top;
+	margin: 0;
+	padding: 0;
+}
+.inputbox{}
+.inputbox .input-group-addon{background-color:#fff;border-right:none;border-color:#e0e0e0;
+height:35px\9\0;}
+.inputbox .ico{color:#aaaaaa;}
+.inputbox .input-group{margin-bottom:15px;}
+.form-control{border-color:#e0e0e0;color:#333;height:3.4em;}
+.form-control {
+    -webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,0);
+    box-shadow: inset 0 0px 0px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-control:focus{border-color:#63a658;outline:0;-webkit-box-shadow:inset 0 0px 0px #63a658,0 0 0px #63a658;box-shadow:inset 0 0px 0px #63a658,0 0 0px #63a658;}
+.logobox{margin:0 8%;margin-top:20%;}
+.login_input{margin:8%;margin-top:4em;}
+.inputsimple{height:40px;
+border-radius:3em;background-color:#f5f5f5;margin-bottom:1.5em;}
+.inputsimple table{height:100%;}
+.loginbg_phone{
+	background-image: url(images/login_phone_bg.png);
+	background-size:100% 600px;
+	
+	}
+.login_input .ico{color:#9fa09f;font-size:20px;margin:0 22px 0 20px;vertical-align:middle;}
+.login_input th{width:18%}
+.login_input td input{height:100%;width:98%;border:none;background-color:transparent;font-size:16px;color:#2b2b2b;}
+.login_input button{width:100%;height:40px;border-radius:4em;background-color:#63be75;border:none;margin-top:5em;}
+.login_input button:hover{
+	background-color: #4DB562;
+}
+.login_input button .btntxt{color:#fff;font-size:16px;vertical-align:middle;}
+.login_input button .ico{font-size:2.5em;vertical-align:middle;margin-left:0;color:#fff;}

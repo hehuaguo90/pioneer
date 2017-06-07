@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wellsys.pioneer.module.tSysSy.dao.TSysSyDao" >
+ 
+ 
+
+
+
+    <select id="listMap" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+        SELECT
+               info
+        FROM
+                sys_sy t
+  
+    </select>
+
+ <select id="listStateSy" resultType="java.util.HashMap"  parameterType="java.util.HashMap"  >
+    SELECT name99,
+       sum(case
+         when exists (select 1
+                 from sys_jxxl b
+                WHERE a.adcode99 = b.areaid
+                  and b.status != 0)  then
+          1
+         else
+          0
+       end) gzsl
+  FROM base_sy a WHERE name99!='双桥区'
+  group by name99 
+  </select>
+	 
+</mapper> 

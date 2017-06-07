@@ -1,0 +1,193 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+		$(document).ready(function(){
+			pageInit();
+		});
+		function pageInit(){
+			$.ajax({
+				url:"${ contextPath }/ChartMain/getDisserts",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					var chartIndex=data.chartIndex;
+					var themeGis=data.themeGis;
+					for(var i in chartIndex){
+						$("#dessertShow").append(newDIV(chartIndex[i].chartName,chartIndex[i].chartId,chartIndex[i].imgUrl.replace(/\"|\[|\]/g,""),1));
+					}
+					for(var i in themeGis){
+						$("#dessertShow").append(newDIV(themeGis[i].gisName,themeGis[i].gisId,themeGis[i].imgUrl.replace(/\"|\[|\]/g,""),2));
+					}
+					function newDIV(name,id,imgUrl,type){
+						var linkedAddr="${contextPath}/pages/chart/theme";
+						if(type==1){
+							linkedAddr+="/chartIndexView.jsp?chartId="+id;
+						}else if(type==2){
+							linkedAddr+="/themeGisView.jsp?gisId="+id;
+						}
+						return "<div class='col-xs-6 col-md-3'><div class='thumbnail'><img class='img-responsive' src='/uploads/"+imgUrl+"'alt='通用的占位符缩略图'/><div class='caption'><a href='"+linkedAddr+"'>"+name+"</a></div></div></div>";
+					}
+				}
+			});
+			$.ajax({
+				url:"${ contextPath }/ChartMain/listMap",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					data=data.data[0];
+					var spans= $("#productData li span[class='valuetxt']");
+					$(spans).eq(0).html(data.szcls);
+					$(spans).eq(1).html(data.szclslj);
+					$(spans).eq(2).html(data.rzcls);
+					$(spans).eq(3).html(data.rzclslj);
+					$(spans).eq(4).html(data.dcscls);
+					$(spans).eq(5).html(data.dcsclslj);
+					$(spans).eq(6).html(data.rlzcl);
+					$(spans).eq(7).html(data.rlzcllj);
+					$(spans).eq(8).html(data.jqchl);
+					$(spans).eq(9).html(data.jqchllj);
+					$(spans).eq(10).html(data.qdcl);
+					$(spans).eq(11).html(data.qdcllj);
+				}
+			});
+		}
+		
+		</script>
+	</jsp:attribute>
+	<jsp:body>
+     <!--页面实际内容区开始-->
+    <div id="myCarousel" class="carousel slide hidden-xs" data-ride="carousel" style="margin:auto;margin-top:16px;"> 
+      <!-- 轮播（Carousel）指标 -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" 
+			class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <!-- 轮播（Carousel）项目 -->
+      <div class="carousel-inner" >
+        <div class="item active"> <a href="home.html"><img src="${ contextPath }/res/front/style/images/ad_1.jpg" alt="宣传图片1"/></a> </div>
+        <div class="item"> <a href="home.html"><img src="${ contextPath }/res/front/style/images/ad_1.jpg" alt="宣传图片2"/></a> </div>
+        <div class="item"> <a href="home.html"><img src="${ contextPath }/res/front/style/images/ad_1.jpg" alt="宣传图片3"/></a> </div>
+      </div>
+      <!-- 轮播（Carousel）导航 --> 
+      <a class="carousel-control left" href="#myCarousel"  data-slide="prev">&lsaquo;</a> <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> </div>
+    <div class="simple_box data_res_list row hidden-xs">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name"> 数据资源
+          <small class="simple_box_title_txt"> 丰富的数据资源 </small> </h3>
+        </div>
+        <div class="col-md-3 col-xs-6 data_ico_1">
+          <button><img src="${ contextPath }/res/front/style/images/data_res_ico_1.png" width="102" height="102"></button>
+          <h4>分析数据</h4>
+          <p>畜牧行业分析数据，包括标准化示范场数据，粪污处理利用数据，草原建设数据，牧草、草种生产数据等</p>
+        </div>
+        <div class="col-md-3 col-xs-6 data_ico_2">
+          <button><img src="${ contextPath }/res/front/style/images/data_res_ico_2.png" width="102" height="102"></button>
+          <h4>监测数据</h4>
+          <p>畜牧行业监测数据，包括产品及饲料集市价格周报、生猪养殖固定监测村生产情况月报、牲畜季报等</p>
+        </div>
+        <div class="col-md-3 col-xs-6 data_ico_3">
+          <button><img src="${ contextPath }/res/front/style/images/data_res_ico_3.png" width="102" height="102"></button>
+          <h4>共享数据</h4>
+          <p>第三方共享数据，包括数据库对接、接口调用等</p>
+        </div>
+        <div class="col-md-3 col-xs-6 data_ico_4">
+          <button><img src="${ contextPath }/res/front/style/images/data_res_ico_4.png" width="102" height="102"/></button>
+          <h4>其它数据</h4>
+          <p>通过其它方式接入的数据</p>
+        </div>
+      </div>
+    </div>
+    <div class="simple_box row">
+      <div class="col-md-6">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name" style="width:180px;"> 存栏、出栏量分析 
+          <small class="simple_box_title_txt hidden-xs"> 分析出栏量和存栏量</small> </h3>
+        </div>
+        <div>
+        <a href="${ contextPath }/pages/chart/theme/clcl.jsp">
+            <img src="${ contextPath }/res/front/style/images/zt_list_ico_4.png" style="height: 335px;width: 412px;" />
+        </a></div>
+      </div>
+      <div class="col-md-6" >
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 生产概况
+          <small class="simple_box_title_txt hidden-xs"> 全市畜牧业生产概况 </small> </h3>
+          <!--  <a href="#fdsf" class="pull-right">查看更多&gt;</a> -->
+        </div>
+        <ul class="row scgk_list_box" id="productData">
+          <li class="col-md-6 col-sm-12">
+            <div class="scgk_list_ico"><img src="${ contextPath }/res/front/style/images/scgk_ico_1.png" class="img-responsive" width="69" height="69"/></div>
+            <div class="scgk_list_txt">
+              <h5 class="title">生猪存栏数量(头)</h5>
+              <p><span class="nametxt">本季数量:</span><span class="valuetxt">11104</span></p>
+              <p><span class="nametxt">累计数量:</span><span class="valuetxt">180013</span></p>
+            </div>
+          </li>
+          <li class="col-md-6 col-sm-12">
+            <div class="scgk_list_ico"><img src="${ contextPath }/res/front/style/images/scgk_ico_2.png" class="img-responsive" width="69" height="69"/></div>
+            <div class="scgk_list_txt">
+              <h5 class="title">肉猪出栏数量(头)</h5>
+              <p><span class="nametxt">季度新增:</span><span class="valuetxt">11104</span></p>
+              <p><span class="nametxt">累计数量:</span><span class="valuetxt">180013</span></p>
+            </div>
+          </li>
+          <li class="col-md-6 col-sm-12">
+            <div class="scgk_list_ico"><img src="${ contextPath }/res/front/style/images/scgk_ico_3.png" class="img-responsive" width="69" height="69"/></div>
+            <div class="scgk_list_txt">
+              <h5 class="title">大牲畜出栏量(头)</h5>
+              <p><span class="nametxt">季度新增:</span><span class="valuetxt">11104</span></p>
+              <p><span class="nametxt">累计数量:</span><span class="valuetxt">180013</span></p>
+            </div>
+          </li>
+          <li class="col-md-6 col-sm-12">
+            <div class="scgk_list_ico"><img src="${ contextPath }/res/front/style/images/scgk_ico_4.png" class="img-responsive" width="69" height="69"/></div>
+            <div class="scgk_list_txt">
+              <h5 class="title">肉类总产量(吨)</h5>
+              <p><span class="nametxt">季度新增:</span><span class="valuetxt">11104</span></p>
+              <p><span class="nametxt">累计数量:</span><span class="valuetxt">180013</span></p>
+            </div>
+          </li>
+          <li class="col-md-6 col-sm-12">
+            <div class="scgk_list_ico"><img src="${ contextPath }/res/front/style/images/scgk_ico_5.png" class="img-responsive" width="69" height="69"/></div>
+            <div class="scgk_list_txt">
+              <h5 class="title">家禽出栏数量(只)</h5>
+              <p><span class="nametxt">季度新增:</span><span class="valuetxt">11104</span></p>
+              <p><span class="nametxt">累计数量:</span><span class="valuetxt">180013</span></p>
+            </div>
+          </li>
+          <li class="col-md-6 col-sm-12">
+            <div class="scgk_list_ico"><img src="${ contextPath }/res/front/style/images/scgk_ico_6.png" class="img-responsive" width="69" height="69"/></div>
+            <div class="scgk_list_txt">
+              <h5 class="title">禽蛋总产量(吨)</h5>
+              <p><span class="nametxt">季度新增:</span><span class="valuetxt">11104</span></p>
+              <p><span class="nametxt">累计数量:</span><span class="valuetxt">180013</span></p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 分析展示
+          <small class="simple_box_title_txt hidden-xs"> 可视化数据分析  </small></h3><!--  <a href="#fdsf" class="pull-right">查看更多&gt;</a> -->
+        </div>
+        <div id="dessertShow" class="row">
+        	
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+        
+	</jsp:body>
+</t:chart>

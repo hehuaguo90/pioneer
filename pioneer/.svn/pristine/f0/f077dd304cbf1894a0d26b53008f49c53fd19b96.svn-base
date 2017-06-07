@@ -1,0 +1,128 @@
+package  com.wellsys.pioneer.module.tSysArea.model;
+
+import  java.lang.String;
+import java.util.List;
+
+/**
+* 数据实体定义。
+* TABLE CODE:	t_sys_area;
+* TABLE NAME:	
+* TABLE REMARK:	地区表
+* code tools version V1.0,created on Fri Dec 02 11:48:33 CST 2016
+*/
+
+public class TSysAreaModel implements java.io.Serializable {
+
+    /**
+    *FIELD CODE:    area_id
+    *FIELD NAME:    主键id
+    *FIELD REMARKS: 主键id
+    */
+    private   String   areaId ="";
+    /**
+    *FIELD CODE:    area_code
+    *FIELD NAME:    代码
+    *FIELD REMARKS: 代码（行政区划或者场/站代码）
+    */
+    private   String   areaCode ="";
+    /**
+    *FIELD CODE:    full_name
+    *FIELD NAME:    名称
+    *FIELD REMARKS: 名称
+    */
+    private   String   fullName ="";
+    /**
+    *FIELD CODE:    short_name
+    *FIELD NAME:    简称
+    *FIELD REMARKS: 简称
+    */
+    private   String   shortName ="";
+    /**
+    *FIELD CODE:    pid
+    *FIELD NAME:    上级id（default=0）
+    *FIELD REMARKS: 上级id（default=0）
+    */
+    private   String   pid ="";
+    /**
+    *FIELD CODE:    stepseq_id
+    *FIELD NAME:    外键，步骤阶段
+    *FIELD REMARKS: 外键，步骤阶段
+    */
+    private   int   stepseqId ;
+    /**
+    *FIELD CODE:    area_level
+    *FIELD NAME:    级别
+    *FIELD REMARKS: 市1，区县2，乡镇3，村4，站/场5（字典表）
+    */
+    private   String   areaLevel ="";
+    /**
+    *FIELD CODE:    show_order
+    *FIELD NAME:    显示顺序（default=1）
+    *FIELD REMARKS: 显示顺序（default=1）
+    */
+    private   int   showOrder ;
+
+
+    // Constructors
+	/** default constructor */
+	public TSysAreaModel() {
+	}
+
+
+    public String getAreaId(){
+        return this.areaId;
+    }
+    public void setAreaId(String areaId){
+        this.areaId = areaId;
+    }
+
+    public String getAreaCode(){
+        return this.areaCode;
+    }
+    public void setAreaCode(String areaCode){
+        this.areaCode = areaCode;
+    }
+
+    public String getFullName(){
+        return this.fullName;
+    }
+    public void setFullName(String fullName){
+        this.fullName = fullName;
+    }
+
+    public String getShortName(){
+        return this.shortName;
+    }
+    public void setShortName(String shortName){
+        this.shortName = shortName;
+    }
+
+    public String getPid(){
+        return this.pid;
+    }
+    public void setPid(String pid){
+        this.pid = pid;
+    }
+
+    public int getStepseqId(){
+        return this.stepseqId;
+    }
+    public void setStepseqId(int stepseqId){
+        this.stepseqId = stepseqId;
+    }
+
+    public String getAreaLevel(){
+        return this.areaLevel;
+    }
+    public void setAreaLevel(String areaLevel){
+        this.areaLevel = areaLevel;
+    }
+
+    public int getShowOrder(){
+        return this.showOrder;
+    }
+    public void setShowOrder(int showOrder){
+        this.showOrder = showOrder;
+    }
+
+}

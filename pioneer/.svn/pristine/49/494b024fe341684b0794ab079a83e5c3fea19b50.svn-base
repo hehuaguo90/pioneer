@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>id:</th>
+					<td><span id="id" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>填报编码:</th>
+					<td><span id="tbbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>农副资源类别:</th>
+					<td><span id="nfzylb" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>产量:</th>
+					<td><span id="cl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>饲用量:</th>
+					<td><span id="syl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>加工饲用量:</th>
+					<td><span id="jgsyl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>备注:</th>
+					<td><span id="bz" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

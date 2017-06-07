@@ -1,0 +1,258 @@
+package com.tfrd.bdas.module.tSysArea.action;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import com.tfrd.common.utils.*;
+import com.tfrd.bdas.module.tSysArea.model.TSysAreaModel;
+import com.tfrd.bdas.module.tSysArea.service.TSysAreaService;
+
+/**
+* 数据访问层接口。
+* TABLE CODE:	t_sys_area;
+* TABLE NAME:	
+* TABLE REMARK:	地区表
+* code tools version V1.0,created on Fri Dec 02 11:48:33 CST 2016
+*/
+
+@Controller
+@RequestMapping("/tSysArea")
+public class TSysAreaAction {
+	@Autowired
+	private TSysAreaService tSysAreaService ;
+//	@Autowired
+//	private LogService logService;
+	@Autowired
+	private  HttpServletRequest request;
+
+	/**
+	 * 新增  （ 地区表）
+	 * @param item 数据内容。
+	 * @param response http response
+	 * @throws IOException 异常信息
+	 * */
+	@RequestMapping("/add")
+	public void addBean( TSysAreaModel  item, HttpServletResponse response) throws IOException{
+		try {
+
+			//添加UUID主键,如果不用UUID,自行修改
+    		item.setAreaId(CreateUUID.createUUID());
+    		//上级地区为空时，设置为0
+    		if ("".equals(item.getPid()) || item.getPid()==null) {
+				item.setPid("0");
+			}
+			tSysAreaService.save(item);
+
+ 			ActionUtil.addLog(request,0, "add","tSysArea" ,true,"");
+
+			JsonUtils.printJSONByObj(response, new MessageModel(1, MessageConfig.getMessage("opt_save_suc")),null);
+		} catch (Exception e) {
+			ActionUtil.addLog(request,0, "add","tSysArea" ,false,e.getMessage());
+
+			JsonUtils.printJSONByObj(response, new MessageModel(3, MessageConfig.getMessage("opt_save_err")),	null);
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 根据id获取需要的数据对象
+	 * @throws IOException 
+	 * */
+	@RequestMapping(value="/getBeanById")
+	public void getBeanById(TSysAreaModel  item,
+			HttpServletResponse response) throws IOException{
+		try {
+		TSysAreaModel  tSysAreaModel = tSysAreaService.getBeanById(item);
+			ActionUtil.addLog(request,0, "getBeanById","tSysArea" ,true,"");
+			JsonUtils.printJSONByObj(response, tSysAreaModel, null);
+		} catch (Exception e) {
+			ActionUtil.addLog(request,0, "getBeanById","tSysArea" ,false,e.getMessage());
+			JsonUtils.printJSONByObj(response, new MessageModel(3, MessageConfig.getMessage("opt_save_err")),	null);
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value="/getBeanMapById/")
+	public void getBeanMapById(TSysAreaModel  item,
+		HttpServletResponse response) throws IOException{
+		try {
+			Map object = tSysAreaService.getBeanMapById(item);
+			ActionUtil.addLog(request,0, "getBeanMapById","tSysArea" ,true,"");
+			JsonUtils.printJSONByObj(response, object, null);
+		} catch (Exception e) {
+			ActionUtil.addLog(request,0, "getBeanMapById","tSysArea" ,false,e.getMessage());
+			JsonUtils.printJSONByObj(response, new MessageModel(3, MessageConfig.getMessage("opt_save_err")),	null);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 修改信息
+	 * @param tSysAreaModel  tSysAreaModel 数据内容。
+	 * @throws IOException 
+	 * */
+	@RequestMapping("/edit")
+	public void update(TSysAreaModel  tSysAreaModel,
+			HttpServletResponse response) throws IOException{
+
+		try {
+			//上级地区为空时，设置为0
+    		if ("".equals(tSysAreaModel.getPid()) || tSysAreaModel.getPid()==null) {
+    			tSysAreaModel.setPid("0");
+			}
+			tSysAreaService.update(tSysAreaModel);
+			ActionUtil.addLog(request,0, "update","tSysArea" ,true,"");
+			
+			JsonUtils.printJSONByObj(response, new MessageModel(1, MessageConfig.getMessage("opt_edit_suc")), null);
+		} catch (Exception e) {
+			ActionUtil.addLog(request,0, "update","tSysArea" ,false,e.getMessage());
+			JsonUtils.printJSONByObj(response, new MessageModel(3, MessageConfig.getMessage("opt_edit_err")), null);
+			e.printStackTrace();
+		}
+		//return "";
+	}
+	/**
+	 * 删除
+	 * @throws IOException 
+	 * */
+	@RequestMapping(value="/delete")
+	public void delete(@RequestParam(value = "data") String data,
+								HttpServletResponse response) throws IOException{
+		try {
+
+			ObjectMapper mapper=new ObjectMapper();
+			TSysAreaModel[] items= mapper.readValue(data, TSysAreaModel[].class);
+
+			tSysAreaService.delete(items);
+
+			ActionUtil.addLog(request,0, "delete","tGzQksb" ,true,"");
+			JsonUtils.printJSONByObj(response, new MessageModel(1, MessageConfig.getMessage("opt_del_suc")), null);
+		} catch (Exception e) {
+			ActionUtil.addLog(request,0, "delete","tSysArea" ,false,e.getMessage());
+			JsonUtils.printJSONByObj(response, new MessageModel(3, MessageConfig.getMessage("opt_del_err")), null);
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 查询列表
+	 * */
+
+	@RequestMapping(value="/listByPage")
+	public void listByPage(Integer page,Integer rows, HttpServletResponse response){
+		try {
+			@SuppressWarnings("unchecked")
+			Map param = ActionUtil.getRequestMap((Map<String, String[]>) request.getParameterMap());
+			PageBounds pageBounds = new PageBounds(page, rows);
+			@SuppressWarnings("unchecked")
+			PageList list = (PageList) tSysAreaService.listMap(pageBounds, param);
+
+			PageModel page2 = new PageModel();
+			page2.setRows(list);
+			page2.setTotal(list.getPaginator().getTotalCount());
+			JsonUtils.printJSONByObj(response, page2, null);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * 查询列表
+	 * */
+	@SuppressWarnings("all")
+	@RequestMapping(value="/listSearchAll")
+	public void listSearchAll(HttpServletResponse response){
+		try {
+			Map param = ActionUtil.getRequestMap((Map<String, String[]>) request.getParameterMap());
+			List list = tSysAreaService.searchListMap(param);
+			JsonUtils.printJSONByObj(response, list, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	* 查询列表
+	* */
+
+	@RequestMapping(value="/listAll")
+	public void listAll(HttpServletResponse response){
+
+	try {
+			@SuppressWarnings("unchecked")
+			Map param = ActionUtil.getRequestMap((Map<String, String[]>) request.getParameterMap());
+			@SuppressWarnings("unchecked")
+			List list =  tSysAreaService.listMap( param);
+
+			JsonUtils.printJSONByObj(response, list, null);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
+
+	//getAreaTree
+	/*
+	 * 地区树，只查询市和区县
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping("/getAreaTree")
+	public void getAreaTree(HttpServletResponse response) throws IOException{
+		Map param = ActionUtil.getRequestMap((Map<String, String[]>) request.getParameterMap());
+		String areaLevel = (String) param.get("areaLevel");
+		JsonUtils.printJson(tSysAreaService.getAreaTree(areaLevel), response);
+	}
+	
+	/**
+	 * 查询全部级别的行政区
+	 * @param response
+	 * @param pid 上级行政区编号
+	 */
+	@RequestMapping("/getAreaTrees")
+	public void getAreaTrees(HttpServletResponse response, String areaLevel, String id){
+		if(!StringUtils.isBlank(id)){
+			areaLevel = null;
+		}
+		JsonUtils.printJson(tSysAreaService.getAreaTrees(areaLevel, id), response);
+	}
+	
+	/**
+	 * 校验code
+	 * */
+	@SuppressWarnings("all")
+	@RequestMapping(value="/checkCode")
+	public void checkCode(HttpServletResponse response){
+		try {
+			boolean result = false;
+			Map param = ActionUtil.getRequestMap((Map<String, String[]>) request.getParameterMap());
+			List list = tSysAreaService.listMap(param);
+			if (list.size()>0) {
+				result=true;
+			}else {
+				result=false;
+			}
+			JsonUtils.printJSONByObj(response, result, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

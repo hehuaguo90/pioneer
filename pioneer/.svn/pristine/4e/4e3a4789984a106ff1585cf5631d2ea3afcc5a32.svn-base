@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<title>重庆市畜牧信息系统</title>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link href="style/login_web.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body >
+<div class="bodybg">
+
+<div class="login_box">
+	<div style="text-align:center;"><img src="style/images/login_logo_2.png" width="390" ></div>
+    <div class="login_inputbox_body">
+		<div class="input_simple row" style="margin-left:0;margin-right:0;">	
+        	<div class="col-md-2" style="padding:0;text-align:center;">
+            	<span class="ico icon-user"></span>
+            </div>
+            <div class="col-md-3" style="padding:0;">
+            	<span class="inputname">用&#160;&#160;&#160;户</span>
+            </div>
+            <div class="col-md-7" style="padding:0;">
+            	<input name="" type="text" placeholder="请输入用户名">
+            </div>
+        </div>	
+        
+      <div class="input_simple row" style="margin-left:0;margin-right:0;">	
+        	<div class="col-md-2" style="padding:0;text-align:center;">
+            	<span class="ico icon-key"></span>
+            </div>
+            <div class="col-md-3" style="padding:0;">
+            	<span class="inputname">密&#160;&#160;&#160;码</span>
+            </div>
+            <div class="col-md-7" style="padding:0;">
+            	<input name="" type="password" placeholder="请输入密码">
+          </div>
+        </div>	
+        
+      <div class="input_simple row" style="margin-left:0;margin-right:0;">	
+        	<div class="col-md-2" style="padding:0;text-align:center;">
+            	<span class="ico  icon-desktop " style="font-size:20px;"></span>
+            </div>
+            <div class="col-md-3" style="padding:0;">
+            	<span class="inputname">验证码</span>
+            </div>
+            <div class="col-md-4" style="padding:0;">
+            	<input name="" type="text" placeholder="请输入验证码">
+            </div>
+            <div class="col-md-3" style="padding:0;">
+       	  <img src="style/images/code_ico.png" width="60" height="20"> </div>
+        </div>	
+
+
+		<button class="login_btn"><span class="icon-signin " style="font-size:24px;vertical-align:middle;"></span>&#160;&#160;&#160;&#160;登录</button>
+        
+    </div>
+    <!--<div class="login_inputbox_body">
+    	<div class="row" style="padding:4px;">
+        	<div class="col-md-7 inputbox" style="padding-right:0;">
+            	<div class="input-group">
+                    <span class="input-group-addon"><span class="icon-user ico" style="font-size:18px;"></span></span>
+                    <input type="text" class="form-control" placeholder="请输入用户名">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" style="padding-right:10px;" ><span class="icon-key ico" style="font-size:17px;"></span></span>
+                    <input type="password" class="form-control" placeholder="请输入密码">
+                    
+                </div>
+              <div class="row">
+                        <div class="col-md-8" >
+                         <div class="input-group">
+                            <span class="input-group-addon" style="padding-right:11px;"><span class="icon-desktop ico" style="font-size:15px;"></span></span>
+                            <input type="text" class="form-control" placeholder="输入验证码">
+                          </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:left;line-height:30px;padding-left:0;">
+                                <img src="style/images/code_ico.png" width="60" height="20"> 
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+            	<div class="row login_btn" >
+                	<div class="col-md-6" style="padding-right:0px;">
+                    	
+                    	<a href="#fdsf">
+                        	<div class="icobox"><span class="icon-signin" style="font-size:36px;"></span></div>
+                        	登录
+                        </a>
+                    </div>
+                    <div class="col-md-6" style="padding-left:0;">
+                    	
+                    	<a href="#fdsfdsf" class="reset">
+                        <div class="icobox"><span class="glyphicon glyphicon-repeat" style="font-size:27px;"></span></div>
+                        	重置
+                        </a>
+                    </div>
+				<div class="clear"></div>
+                    <p class="col-md-12 login_msgbox">建议在IE10.0及以上版本浏览器中观看，以获得最佳效果</p>
+                    <p class="col-md-12 login_errorbox">用户名或密码错误，请重新输入</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+   
+</div>
+
+</div>
+ <div class="versionbox">技术支持：重庆同方融达信息科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;版本号：V1.0<br>
+建议使用IE10.0及以上版本浏览器</div>
+</body>
+</html>

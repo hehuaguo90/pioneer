@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:page>
+	<jsp:attribute name="head">
+<script type="text/javascript"
+			src="${ contextPath }/res/sys/main/page.js"></script>
+<script type="text/javascript">
+	page.onLoad = function() {
+	   page.loadView({
+		 url : contextPath + "/tCyMczzfzlscqk/getBeanMapById/?${pageContext.request.queryString}"
+	   });
+
+	};
+</script>
+</jsp:attribute>
+	<jsp:body>
+	<form >
+		<table>
+
+				<tr>
+					<th>填报编码:</th>
+					<td><span id="tbbm" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>牧草种类:</th>
+					<td><span id="mczl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>牧草类型:</th>
+					<td><span id="mclx" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草种田面积:</th>
+					<td><span id="cztmj" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>单位面积产量:</th>
+					<td><span id="dwmjcl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草场采种量:</th>
+					<td><span id="ccczl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草种生产量:</th>
+					<td><span id="czscl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>草种销售量:</th>
+					<td><span id="czxsl" data-options=""></span></td>
+				</tr>
+				<tr>
+					<th>备注:</th>
+					<td><span id="bz" data-options=""></span></td>
+				</tr>
+
+				
+		</table>
+	</form>
+	
+	</jsp:body>
+</t:page>

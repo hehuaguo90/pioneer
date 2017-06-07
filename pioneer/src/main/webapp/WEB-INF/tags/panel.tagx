@@ -1,0 +1,31 @@
+<jsp:root version="2.0" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<jsp:directive.tag language="java" pageEncoding="UTF-8"
+		body-content="scriptless" />
+	<jsp:directive.attribute name="title" required="true" />
+	<jsp:directive.attribute name="backurl" />
+	<jsp:directive.attribute name="titleID" />
+	<jsp:directive.attribute name="className" />
+	<div class="panelbox ${className}">
+		<div class="paneltitle">
+			<c:if test="${ !empty backurl }">
+				<a href="${ backurl }" class="operation"><img
+					src="${ contextPath }/res/zfjg/img/goback_ico.png" width="16"
+					height="15" /></a>
+			</c:if>
+			<h3 id="${ titleID }" class="titleico_1">
+				${ title }<strong name="sub_${ empty titleID ? 'name' :titleID }">${null}</strong>
+			</h3>
+
+		</div>
+		<div class="panelcontent">
+			<div class="panelcontentbox">
+				<jsp:doBody />
+			</div>
+
+		</div>
+	</div>
+
+</jsp:root>

@@ -1,0 +1,413 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<t:chart>
+	<jsp:attribute name="head">
+		<script type="text/javascript">
+		$(document).ready(function() {
+			getListYears();//加载年份
+			pageInit();//加载底部推荐分析
+			$.get(contextPath + '/res/chart/chongqing.json', function (geoJson) {
+		        // myChart.hideLoading();
+		        echarts.registerMap("chongqing", geoJson);
+		        
+		        var year=$("#years").prev().prev().html().substring(0,4);
+				var	inOut=$("#inOut").prev().prev().html();
+				var type=$("#animalTypes").prev().prev().html();
+		        loadMapData(inOut,type,year);
+			});
+		});
+		function getListYears(){
+			$.ajax({
+				url:"${ contextPath }/ChartMain/listYears",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					data=data.data;
+					var html="";
+					for(var i = 0 ; i < data.length; i++){
+						html+="<li><a href='javascript:void(0)' onclick='queryData(this,1)'>"+data[i].year+"年</a></li>";
+					}
+					$("#years").html(html);
+				}
+			});
+		}
+		function queryData(obj,num){
+			var year=2016,inOut="存栏",type="羊";
+			switch(num){
+				case 1:
+					 year=$(obj).html().substring(0,4);
+					 inOut=$("#inOut").prev().prev().html();
+					 type=$("#animalTypes").prev().prev().html();
+					 $("#years").prev().prev().html(year+"年");
+				break;
+				case 2:
+					 year=$("#years").prev().prev().html().substring(0,4);
+					 inOut=$(obj).html();
+					 $("#inOut").prev().prev().html(inOut);
+					 type=$("#animalTypes").prev().prev().html();
+					 
+				break;
+				case 3:
+					 year=$("#years").prev().prev().html().substring(0,4);
+					 inOut=$("#inOut").prev().prev().html();
+					 type=$(obj).html();
+					 $("#animalTypes").prev().prev().html(type);
+				break;
+				default:
+			}
+			var title=year+"年"+type+inOut+"量";
+			$("#menuTittle p").eq(0).html(title);
+			loadMapData(inOut,type,year);
+		}
+		function loadMapData(inOut,type,year){
+			var animals=["生猪","大牲畜","家禽","羊"];
+			var seasonData=new Array();
+			$.ajax({
+				url:"${ contextPath }/ChartMain/getLivestockSeasonData?year="+year,
+				dataType:"json",
+				async:false,
+				success:function(data){
+					data=data.seasonData;
+					for(var i = 0 ; i < data.length; i++){
+					var areaData={};
+					areaData.name=data[i].shortName;
+					areaData.jc=data[i].shortName;
+					areaData.areaId=data[i].areaId;
+					areaData.ct=2;
+						if(inOut == "存栏"){
+							switch(type){
+								case animals[0]:areaData.value=data[i].szclslj;
+								break;
+								case animals[1]:areaData.value=data[i].dcsclslj;
+								break;
+								case animals[2]:areaData.value=data[i].jqcllj;
+								break;
+								case animals[3]:areaData.value=data[i].ycllj;
+								break;
+								default:
+							}
+						}else if(inOut == "出栏"){
+							switch(type){
+								case animals[0]:areaData.value=data[i].rzclslj;
+								break;
+								case animals[1]:areaData.value=data[i].cshzzdrynlj;
+								break;
+								case animals[2]:areaData.value=data[i].jqchllj;
+								break;
+								case animals[3]:areaData.value=data[i].csdzzdryylj;
+								break;
+								default:
+							}
+						}
+						seasonData[i]=areaData;
+						//areaData.VALUE=data[i].
+					}
+				}
+			});
+			
+			//排序
+			for(var i = 0 ; i < seasonData.length; i++){
+				for(var j = 0 ; j < seasonData.length-i-1; j++){
+					if(seasonData[j].value<seasonData[j+1].value){
+						var middle=seasonData[j+1];
+						seasonData[j+1]=seasonData[j];
+						seasonData[j]=middle;
+					}
+				}
+			}
+			showMapTable(seasonData);
+    		var defaultDistrictValue=[{jc:"万州区",name:"万州区",value:0},{jc:"涪陵区",name:"涪陵区",value:0},{jc:"渝中区",name:"渝中区",value:0},{jc:"大渡口区",name:"大渡口区",value:0},{jc:"江北区",name:"江北区",value:0},{jc:"沙坪坝区",name:"沙坪坝区",value:0},{jc:"九龙坡区",name:"九龙坡区",value:0},{jc:"南岸区",name:"南岸区",value:0},{jc:"北碚区",name:"北碚区",value:0},{jc:"綦江区",name:"綦江区",value:0},{jc:"大足区",name:"大足区",value:0},{jc:"渝北区",name:"渝北区",value:0},{jc:"巴南区",name:"巴南区",value:0},{jc:"黔江区",name:"黔江区",value:0},{jc:"长寿区",name:"长寿区",value:0},{jc:"江津区",name:"江津区",value:0},{jc:"合川区",name:"合川区",value:0},{jc:"永川区",name:"永川区",value:0},{jc:"南川区",name:"南川区",value:0},{jc:"潼南区",name:"潼南区",value:0},{jc:"铜梁区",name:"铜梁区",value:0},{jc:"荣昌区",name:"荣昌区",value:0},{jc:"璧山区",name:"璧山区",value:0},{jc:"梁平县",name:"梁平县",value:0},{jc:"城口县",name:"城口县",value:0},{jc:"丰都县",name:"丰都县",value:0},{jc:"垫江县",name:"垫江县",value:0},{jc:"武隆县",name:"武隆县",value:0},{jc:"忠县",name:"忠县",value:0},{jc:"开县",name:"开县",value:0},{jc:"云阳县",name:"云阳县",value:0},{jc:"奉节县",name:"奉节县",value:0},{jc:"巫山县",name:"巫山县",value:0},{jc:"巫溪县",name:"巫溪县",value:0},{jc:"石柱县",name:"石柱县",value:0},{jc:"秀山县",name:"秀山县",value:0},{jc:"酉阳县",name:"酉阳县",value:0},{jc:"彭水县",name:"彭水县",value:0}];
+    		for(var i= 0; i< defaultDistrictValue.length; i++){
+    			if(!checkIsExistKeyVal(seasonData,defaultDistrictValue[i].jc)){
+    				seasonData.push(defaultDistrictValue[i]);
+    			}
+    		}
+    		showMapChart(seasonData);//seasonData JSON.parse(data.toLowerCase())
+    		function checkIsExistKeyVal(array,val){
+    			
+    			for(var i= 0; i< array.length; i++){
+	    			if(array[i].jc == val){
+	    				return true;
+	    			}
+    			}
+    			return false;
+    		}
+		}
+		
+		//拼装table数据
+		function showMapTable(data){
+			var html = "";
+			var sumValue=0;
+			for(var i = 0; i < data.length; i++){
+				if(!isNaN(data[i].value)){
+					sumValue+=data[i].value;
+				}
+			}
+			for(var i = 0; i < data.length; i++){
+				var percentage=((data[i].value/sumValue).toFixed(2))*100;
+				percentage=percentage.toString();
+				var decimal=percentage.substring(percentage.indexOf("."));
+				var numValue=data[i].value;
+				
+				if(decimal.length>2){
+					percentage=percentage.substring(0,percentage.indexOf(".")+2);
+				}
+				if(!percentage|| percentage == "N"){
+					percentage=0;
+				}
+				if(!numValue ){
+					numValue=0;
+				}
+				html+="<tr id='"+data[i].areaId+"'><td class='hidden-xs'>"+(i+1)+"</td><td>"+data[i].jc+"</td><td>"+numValue+"</td><td>"+percentage+"%</td></tr>";
+			}
+			$("#qxs").html(html);
+		}
+		function getMaxMapData(data){
+			var maxNum=0;
+			for(var i =0; i< data.length; i++){
+				if(maxNum < data[i].value){
+					maxNum = data[i].value;
+				}
+			}
+			return maxNum;
+		};
+		function showMapChart(mydata){
+			var maxData = getMaxMapData(mydata);
+			
+			var mapChart = echarts.init(document.getElementById('mapChart'));
+			
+			option = {
+					/*
+			    title: {
+			    	text: tt,
+			        x:'center',
+			        textStyle: {
+			            fontSize: 16,
+			            //fontWeight: 'normal',
+			            //color: '#333',
+			        }  
+			    },
+			    */
+			    tooltip : {
+			        trigger: 'item',
+			        formatter: '{b}<br/>{c} '//
+			    },
+			    /*
+			    toolbox: {
+			        show : true,
+			        orient : 'vertical',
+			        x: 'right',
+			        y: 'center',
+			        feature : {
+			            mark : {show: true},
+			            dataView : {show: true, readOnly: false},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },*/
+			    dataRange: {
+			        min: 0,
+			        max: maxData,
+			        text:['高','底'],
+			        realtime: false,
+			        calculable : true,
+			        color: ['orangered','yellow','lightskyblue']
+			    },
+			    series : [
+			        {
+			            name: '社会法人征信覆盖情况',
+			            type: 'map',
+			            mapType: 'chongqing',
+			            roam: true,
+			            itemStyle:{
+			                normal:{label:{show:true}},//是否显示地区名称
+			                emphasis:{label:{show:true}}
+			            },
+			            data:mydata
+			        }
+			    ]
+			};
+			mapChart.setOption(option);
+			
+			//点击事件
+			mapChart.on('click', function(param){
+				var qxmc = param.data.areaId;
+				if(!qxmc){
+					return;
+				}
+				selectArea(qxmc);
+			});
+		}
+		
+		//选中点击的区县
+		function selectArea(qxmc){
+			var container = $("#qxspan");
+			var scrollTo = $("#" + qxmc);
+			container.animate({
+				scrollTop:scrollTo.offset().top - container.offset().top + container.scrollTop()
+			}, 1000);
+			
+			$("#qxs tr").removeClass("tractive");
+			scrollTo.addClass("tractive");
+		}
+		function pageInit(){
+			$.ajax({
+				url:"${ contextPath }/ChartMain/getDisserts",
+				dataType:"json",
+				async:false,
+				success:function(data){
+					var chartIndex=data.chartIndex;
+					var themeGis=data.themeGis;
+					var m;
+					if(chartIndex.length>1 && themeGis.length>1){
+						m=2;
+						for(var i=0;i<m;i++){
+						$("#dessertShow").append(newDIV(chartIndex[i].chartName,chartIndex[i].chartId,chartIndex[i].imgUrl.replace(/\"|\[|\]/g,""),1));
+						}
+						for(var i=0;i<m;i++){
+							$("#dessertShow").append(newDIV(themeGis[i].gisName,themeGis[i].gisId,themeGis[i].imgUrl.replace(/\"|\[|\]/g,""),2));
+						}
+					}else{
+						for(var i=0;i<chartIndex.length;i++){
+							$("#dessertShow").append(newDIV(chartIndex[i].chartName,chartIndex[i].chartId,chartIndex[i].imgUrl.replace(/\"|\[|\]/g,""),1));
+						}
+						for(var i=0;i<themeGis.length;i++){
+							$("#dessertShow").append(newDIV(themeGis[i].gisName,themeGis[i].gisId,themeGis[i].imgUrl.replace(/\"|\[|\]/g,""),2));
+						}
+					}
+					function newDIV(name,id,imgUrl,type){
+						var linkedAddr="${contextPath}/pages/chart/theme";
+						if(type==1){
+							linkedAddr+="/chartIndexView.jsp?chartId="+id;
+						}else if(type==2){
+							linkedAddr+="/themeGisView.jsp?gisId="+id;
+						}
+						return "<div class='col-xs-6 col-md-3'><div class='thumbnail'><img class='img-responsive' src='/uploads/"+imgUrl+"'alt='通用的占位符缩略图'/><div class='caption'><a href='"+linkedAddr+"'>"+name+"</a></div></div></div>";
+					}
+				}
+			});
+		} 
+		</script>
+	<style>
+	</style>	
+	</jsp:attribute>
+	<jsp:body>
+    <!--页面实际内容区开始-->
+    <<div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row" style="margin-bottom:30px;">
+          <h3 class="simple_box_title_name_withico"> <span class="icon-globe"></span>存栏、出栏量分析
+          <small class="simple_box_title_txt hidden-xs"> 分析全市各区县存栏量和出栏量构分析</small> </h3>
+        </div>
+        <p class="charts_txt"> 
+        	2014年我市27个区县政府将畜牧业纳入特色效益农业主导产业，其中有16个区县是山羊等草食牲畜产业，有力地促进了畜牧业快速发展，主要畜产品优势产区逐步形成。合川、荣昌的生猪，丰都、云阳的肉牛，开县、巫溪的山羊，秀山、城口的土鸡，彭水、南川的蜂，铜梁、梁平的水禽以及长寿的蛋鸡等特色畜牧业发展迅速并且已达相应水平，产业聚集效益明显，为农民就业和保供做出了积极贡献。
+        </p><br>
+        		  
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success ">2016年</button>
+                    <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul id="years" class="dropdown-menu" role="menu">
+                        
+                    </ul>
+                </div>
+        		<div class="btn-group">
+                    <button type="button" class="btn btn-success ">存栏</button>
+                    <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul id="inOut" class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)" onclick="queryData(this,2)">存栏</a></li>
+                        <li><a href="javascript:void(0)" onclick="queryData(this,2)">出栏</a></li>
+                    </ul>
+                </div>
+                 <!-- 用于存栏
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success ">肉猪</button>
+                    <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)">肉猪</a></li>
+                        <li><a href="javascript:void(0)">肉牛</a></li>
+                        <li><a href="javascript:void(0)">肉羊</a></li>
+                        <li><a href="javascript:void(0)">家禽</a></li>
+                        <li><a href="javascript:void(0)">其他</a></li>
+                    </ul>
+                </div>
+                 -->
+                <!-- 用于出栏-->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success ">生猪</button>
+                    <button type="button" class="btn btn-success  dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">切换下拉菜单</span>
+                    </button>
+                    <ul id="animalTypes" class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0)" onclick="queryData(this,3)">生猪</a></li>
+                        <li><a href="javascript:void(0)" onclick="queryData(this,3)">大牲畜</a></li>
+                        <li><a href="javascript:void(0)" onclick="queryData(this,3)">羊</a></li>
+                        <li><a href="javascript:void(0)" onclick="queryData(this,3)">家禽</a></li>
+                      <!-- <li><a href="javascript:void(0)">其他</a></li>  --> 
+                    </ul>
+                </div>
+        
+		<div class="row">
+        	<div class="col-md-8" >
+            	<div id="mapChart" style="height: 651px;"></div>
+            </div>
+            <div id="menuTittle" class="col-md-4" style="padding-top:10px;">
+                     
+                          <p>2016年生猪存栏量 </p>
+                          <div class="colortable">
+                        <table class="table table-bordered table-striped" style="margin-bottom:0px;">
+                            <thead >
+                              <tr>
+                                <th class="hidden-xs" style="width: 57px;">排名</th>
+                                <th style="width: 125px;">区县 </th>
+                                <th style="width: 84px;">数量 </th>
+                                <th>占比</th>
+                              </tr>
+                            </thead>
+                          </table>
+                           </div>
+                           <div id="qxspan" class="colortable" style="height: 500px;overflow:auto">
+                            <table class="table table-bordered table-striped" >
+                           
+                            <tbody id="qxs" >
+                            </tbody>
+                          </table>
+                           
+                           </div>
+                       
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="charts_memo">
+        <h4 class="charts_memo_title"><span class="icon-file-alt "></span>描述信息</h4>
+        <p> 据统计，2014年重庆市生猪出栏2150.8万头、存栏1483.7万头，同比增长2.2%、-1.23%；牛出栏64.2万头、存栏140.6万头，同比增长8.9%、2.93%；羊出栏249.8万只、存栏209.5万只，同比增长9.88%、13.15%；禽出栏23601.3万只、存栏1800万只，同比增长11.3%、7.2%。肉类总产量达213.9万吨，禽蛋总产量达43.2万吨，奶类总产量5.6万吨，同比分别增长2.94%、5.16%、-16.32%。除奶牛下降外主要畜禽生产持续增长，有效保障了主要畜产品的市场供给。今年一季度，据部分区县实地调研并结合动物疫病春防数据，较去年同期存栏能繁母猪下降了20%、生猪下降了10%左右，从行业统计分析，生猪价格经过长期低迷后开始小幅回升；而牛羊在长时间价格上扬拉动和政策的大力扶持，市场供给充足有余，价格开始小幅回落。</p>
+        </div>
+        <div class="simple_box row">
+      <div class="col-md-12">
+        <div class="simple_box_title row">
+          <h3 class="simple_box_title_name"> 推荐分析
+          <small class="simple_box_title_txt hidden-xs"> 经过精心设计的推荐分析  </small></h3><!--   <a href="#fdsf" class="pull-right">查看更多&gt;</a>-->
+        </div>
+        <div id="dessertShow" class="row">
+        </div>
+      </div>
+    </div>
+    
+    <!--页面实际内容区结束--> 
+        
+	</jsp:body>
+</t:chart>
